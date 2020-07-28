@@ -1,0 +1,430 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Customer's Standing Order details",
+    "version" : "v1.0.0",
+    "title" : "PartyCustomerStandingOrder"
+  },
+  "host" : "api.server.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/party/customers/{customerId}/standingOrders" : {
+      "get" : {
+        "operationId" : "getStandingOrders",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "customerId",
+          "in" : "path",
+          "description" : "Identifier of the customer",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "accountId",
+          "in" : "query",
+          "description" : "",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "orderingCustomerId",
+          "in" : "query",
+          "description" : "",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "StandingOrdersResponse",
+            "schema" : {
+              "$ref" : "#/definitions/StandingOrdersResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "QueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records per page"
+        },
+        "page_start" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The record from which the response should be displayed"
+        },
+        "total_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records present"
+        },
+        "page_token" : {
+          "type" : "string",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request"
+        }
+      }
+    },
+    "StandingOrdersResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/StandingOrdersResponseBody"
+        }
+      },
+      "description" : "StandingOrdersResponse"
+    },
+    "StandingOrdersResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "displayNames" : {
+            "type" : "array",
+            "description" : "Name used for display or enrichment purposes",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "displayName" : {
+                  "type" : "string",
+                  "description" : "Name used for display or enrichment purposes",
+                  "maxLength" : 35
+                }
+              }
+            }
+          },
+          "accountWithBanks" : {
+            "type" : "array",
+            "description" : "Identifies the bank where the beneficiary maintains his account",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "accountWithBank" : {
+                  "type" : "string",
+                  "description" : "Identifies the bank where the beneficiary maintains his account",
+                  "maxLength" : 35
+                }
+              }
+            }
+          },
+          "standingOrderId" : {
+            "type" : "string",
+            "description" : "The unique standing order identifier",
+            "maxLength" : 35
+          },
+          "orderType" : {
+            "type" : "string",
+            "description" : "Identifies the type of the order. Possible values are Single, Ifdone, Revol, oco. Single order - only one order item may be input. If done order -  If one order gets executed, the other order is also executed immediately. Revolving order -  based on the condition specified, it will wait for both the deals to be executed simultaneously. OCO -If one order gets executed, then the other order gets cancelled.",
+            "maxLength" : 5
+          },
+          "paymentMethod" : {
+            "type" : "string",
+            "description" : "Method chosen to make the payment",
+            "maxLength" : 4
+          },
+          "currencyId" : {
+            "type" : "string",
+            "description" : "Identifier of the currency. This is the 3-letter ISO 4217 code of the currency.",
+            "maxLength" : 3
+          },
+          "amount" : {
+            "type" : "number",
+            "description" : "This is the payment amount"
+          },
+          "frequency" : {
+            "type" : "string",
+            "description" : "Specifies the frequency in which the payment application(periodic payments) execute the payment instruction.",
+            "maxLength" : 50
+          },
+          "counterPartyAccountId" : {
+            "type" : "string",
+            "description" : "The identifier of the counter party's account",
+            "maxLength" : 35
+          },
+          "beneficiaryId" : {
+            "type" : "string",
+            "description" : "Indicates the Id of beneficiary when beneficiary details are stored",
+            "maxLength" : 17
+          },
+          "percentageOverCurrentBalance" : {
+            "type" : "string",
+            "description" : "This is used to specify a percentage value, which would be applied on the accounts excess amount(Accounts cleared balance - CURRENT.AMOUNT) to arrive at ",
+            "maxLength" : 6
+          },
+          "payTo" : {
+            "type" : "string",
+            "description" : "This field holds the reason for change in IB.STATUS field."
+          },
+          "currentFrequencyDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "Indicates the date based on current frequency"
+          },
+          "currentFrequency" : {
+            "type" : "string",
+            "description" : "Indicates the current frequency of the standing order",
+            "maxLength" : 35
+          },
+          "startDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "Contains the date on which the transaction or payment gets initiated."
+          },
+          "currentEndDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "Identifies the current end date of the standing order for the currency, amount and frequency specified. When the bank has received from the customer clear instructions which stipulate that the standing order must  only be executed during a determined period of time.  This is the date of the last execution of the standing order or when the customer has requested the bank to pay a certain amount during a determined period of time and then another amount starting from that date. In this case, this field specifies the end date of the first standing order amount.  After that date the second amount will then be executed."
+          },
+          "futureNotice" : {
+            "type" : "string",
+            "description" : "Flag to indicate that the standing order should execute until future notice, i.e. until an end date is provided.",
+            "maxLength" : 10
+          },
+          "creditAccountId" : {
+            "type" : "string",
+            "description" : "Credit account identifier of the payment or transaction"
+          },
+          "creditAccountName" : {
+            "type" : "string",
+            "description" : "Account name details of the creditor"
+          },
+          "bankSortCode" : {
+            "type" : "string",
+            "description" : "The sort code or the national clearing code of the beneficiary bank. "
+          },
+          "stoStartDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "STO initiation start date"
+          },
+          "beneficiaryBIC" : {
+            "type" : "string",
+            "description" : "BIC (Bank Identifier Code) of the beneficiary customer ",
+            "maxLength" : 11
+          },
+          "beneficiaryIBAN" : {
+            "type" : "string",
+            "description" : "International Bank Account Number (IBAN) of the beneficiary account, required only for International transfers/payments outside the Bank. For example: GB98 MIDL07009312345678, FR7630006000011234567890189",
+            "maxLength" : 35
+          },
+          "beneficiaryOurCharges" : {
+            "type" : "string",
+            "description" : "Indicates the bearer of the charges. For example: BEN( All transaction charges are to be borne by the beneficiary customer.), OUR (All transaction charges are to be borne by the ordering customer.), SHA (Transaction charges on the Sender's side are to be borne by the ordering customer, transaction charges on the Receiver's side are to be borne by the beneficiary customer.)",
+            "maxLength" : 3
+          },
+          "paymentOrderProductName" : {
+            "type" : "string",
+            "description" : "Indicates the name of payment order product ",
+            "maxLength" : 10
+          },
+          "beneficiaryCountryId" : {
+            "type" : "string",
+            "description" : "Country of the beneficiary account number. For example: US, IN, EU",
+            "maxLength" : 2
+          },
+          "versionNumber" : {
+            "type" : "string",
+            "description" : "Current number of the record",
+            "maxLength" : 6
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessQueryErrorResponseBody"
+        }
+      },
+      "description" : "BusinessQueryErrorResponse"
+    },
+    "BusinessQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message for bad requests"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemQueryErrorResponseBody"
+        }
+      },
+      "description" : "SystemQueryErrorResponse"
+    },
+    "SystemQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message caused by server"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    }
+  }
+}

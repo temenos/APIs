@@ -1,0 +1,1339 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Creates a Commercial Loan",
+    "version" : "v1.0.0",
+    "title" : "createCommercialLoan"
+  },
+  "host" : "api.server.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/holdings/loans/commercialLoans" : {
+      "post" : {
+        "operationId" : "createCommercialLoan",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/CommercialLoan"
+          }
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "createCommercialLoanResponse",
+            "schema" : {
+              "$ref" : "#/definitions/CommercialLoanResponse"
+            }
+          },
+          "default" : {
+            "description" : "ArrangementErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ArrangementErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessArrangementErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessArrangementErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemArrangementErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemArrangementErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "PayloadHeader" : {
+      "properties" : {
+        "override" : {
+          "type" : "object",
+          "properties" : {
+            "overrideDetails" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "id" : {
+                    "type" : "string",
+                    "description" : "The identifier of the override"
+                  },
+                  "description" : {
+                    "type" : "string",
+                    "description" : "The actual override message"
+                  },
+                  "responseCode" : {
+                    "type" : "string",
+                    "description" : "The user input to accept/reject the override."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            }
+          }
+        }
+      }
+    },
+    "CommercialLoan" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/CommercialLoanBody"
+        }
+      },
+      "description" : "CommercialLoan"
+    },
+    "CommercialLoanBody" : {
+      "type" : "object",
+      "properties" : {
+        "partyIds" : {
+          "type" : "array",
+          "description" : "It is an unique identifier of a customer or party",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "partyId" : {
+                "type" : "string",
+                "description" : "It is an unique identifier of a customer or party",
+                "maxLength" : 45
+              }
+            }
+          }
+        },
+        "partyRoles" : {
+          "type" : "array",
+          "description" : "Indicates the role of a customer or party, Eg: Benefial Owner, Nominee etc",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "partyRole" : {
+                "type" : "string",
+                "description" : "Indicates the role of a customer or party, Eg: Benefial Owner, Nominee etc",
+                "maxLength" : 45
+              }
+            }
+          }
+        },
+        "agentCustomerIds" : {
+          "type" : "array",
+          "description" : "It is a unique identifier of an agent",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "agentCustomerId" : {
+                "type" : "string",
+                "description" : "It is a unique identifier of an agent",
+                "maxLength" : 45
+              }
+            }
+          }
+        },
+        "agentArrangementIds" : {
+          "type" : "array",
+          "description" : "Indicates the unique reference of an agent account",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "agentArrangementId" : {
+                "type" : "string",
+                "description" : "Indicates the unique reference of an agent account",
+                "maxLength" : 45
+              }
+            }
+          }
+        },
+        "agentRoles" : {
+          "type" : "array",
+          "description" : "Indicates the role of a agent",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "agentRole" : {
+                "type" : "string",
+                "description" : "Indicates the role of a agent",
+                "maxLength" : 45
+              }
+            }
+          }
+        },
+        "arrangmentId" : {
+          "type" : "string",
+          "description" : "It is the unique identifier of an arrangement account",
+          "maxLength" : 45
+        },
+        "productId" : {
+          "type" : "string",
+          "description" : "Contains the unique identifier of the product, e.g. the product id of the arrangement account.",
+          "maxLength" : 45
+        },
+        "activityId" : {
+          "type" : "string",
+          "description" : "Id of the activity, e.g. ACCOUNTS-CAPITALISE-ACCHARGE*CARDISSUEFEE",
+          "maxLength" : 45
+        },
+        "currency" : {
+          "type" : "string",
+          "description" : "Indicates the type of currency to which the account belongs",
+          "maxLength" : 45
+        },
+        "productVariation" : {
+          "type" : "string",
+          "description" : "It defines the type of a customer based on criteria defined by Bank, Eg: Gold Customer, Mobile Banking Customer",
+          "maxLength" : 45
+        },
+        "pricingSelection" : {
+          "type" : "string",
+          "description" : "If the account has an associated pricing arrangement, the way the pricing is applied is indicated from standard set of values - automatic, manual or No Pricing.",
+          "maxLength" : 45
+        },
+        "pricingPlan" : {
+          "type" : "string",
+          "description" : "Indicates the Pricing Plan of an account, it gives preferential interest rate/charge schedule based on customer segment",
+          "maxLength" : 45
+        },
+        "rewardsArrangementId" : {
+          "type" : "string",
+          "description" : "Indicates the Rewards account id assigned to a financial account(Loans,Deposits)",
+          "maxLength" : 45
+        },
+        "tradeDate" : {
+          "type" : "string",
+          "description" : "Standard date field which records trade date of the account",
+          "maxLength" : 45
+        },
+        "arrangementEffectiveDate" : {
+          "type" : "string",
+          "description" : "It is a date on/upon which an account is considered to take effect",
+          "maxLength" : 45
+        },
+        "reason" : {
+          "type" : "string",
+          "description" : "Indicates the reason for performing an activity",
+          "maxLength" : 45
+        },
+        "commitment" : {
+          "type" : "object",
+          "properties" : {
+            "amount" : {
+              "type" : "string",
+              "description" : "This is the payment amount",
+              "maxLength" : 6
+            },
+            "changeAmount" : {
+              "type" : "string",
+              "description" : "Indicates the amount by which the original commitment amount increased or decreased.",
+              "maxLength" : 12
+            },
+            "term" : {
+              "type" : "string",
+              "description" : "Indicates the term for which the contract is booked",
+              "maxLength" : 4
+            },
+            "revolving" : {
+              "type" : "string",
+              "description" : "Indicates if commitment is revolving or non revolving in nature",
+              "maxLength" : 9,
+              "enum" : [ "NO", "PAYMENT", "PREPAYMENT" ]
+            },
+            "updateLimit" : {
+              "type" : "string",
+              "description" : "Flag to indicate whether the commitment amount used for an account should be updated and shown on the LIMIT table",
+              "maxLength" : 16,
+              "enum" : [ "YES", "NO" ]
+            }
+          }
+        }
+      }
+    },
+    "ArrangementHeader" : {
+      "properties" : {
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "aaaId" : {
+          "type" : "string",
+          "description" : "The Identifier of the aa record created"
+        },
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "CommercialLoanResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ArrangementHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/CommercialLoanResponseBody"
+        }
+      },
+      "description" : "CommercialLoanResponse"
+    },
+    "CommercialLoanResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "arrangementActivity" : {
+          "type" : "object",
+          "properties" : {
+            "partyIds" : {
+              "type" : "array",
+              "description" : "It is an unique identifier of a customer or party",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "partyId" : {
+                    "type" : "string",
+                    "description" : "It is an unique identifier of a customer or party",
+                    "maxLength" : 45
+                  }
+                }
+              }
+            },
+            "partyRoles" : {
+              "type" : "array",
+              "description" : "Indicates the role of a customer or party, Eg: Benefial Owner, Nominee etc",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "partyRole" : {
+                    "type" : "string",
+                    "description" : "Indicates the role of a customer or party, Eg: Benefial Owner, Nominee etc",
+                    "maxLength" : 45
+                  }
+                }
+              }
+            },
+            "agentCustomerIds" : {
+              "type" : "array",
+              "description" : "It is a unique identifier of an agent",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "agentCustomerId" : {
+                    "type" : "string",
+                    "description" : "It is a unique identifier of an agent",
+                    "maxLength" : 45
+                  }
+                }
+              }
+            },
+            "agentArrangementIds" : {
+              "type" : "array",
+              "description" : "Indicates the unique reference of an agent account",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "agentArrangementId" : {
+                    "type" : "string",
+                    "description" : "Indicates the unique reference of an agent account",
+                    "maxLength" : 45
+                  }
+                }
+              }
+            },
+            "agentRoles" : {
+              "type" : "array",
+              "description" : "Indicates the role of a agent",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "agentRole" : {
+                    "type" : "string",
+                    "description" : "Indicates the role of a agent",
+                    "maxLength" : 45
+                  }
+                }
+              }
+            },
+            "arrangmentId" : {
+              "type" : "string",
+              "description" : "It is the unique identifier of an arrangement account",
+              "maxLength" : 45
+            },
+            "productId" : {
+              "type" : "string",
+              "description" : "Contains the unique identifier of the product, e.g. the product id of the arrangement account.",
+              "maxLength" : 45
+            },
+            "activityId" : {
+              "type" : "string",
+              "description" : "Id of the activity, e.g. ACCOUNTS-CAPITALISE-ACCHARGE*CARDISSUEFEE",
+              "maxLength" : 45
+            },
+            "currency" : {
+              "type" : "string",
+              "description" : "Indicates the type of currency to which the account belongs",
+              "maxLength" : 45
+            },
+            "productVariation" : {
+              "type" : "string",
+              "description" : "It defines the type of a customer based on criteria defined by Bank, Eg: Gold Customer, Mobile Banking Customer",
+              "maxLength" : 45
+            },
+            "pricingSelection" : {
+              "type" : "string",
+              "description" : "If the account has an associated pricing arrangement, the way the pricing is applied is indicated from standard set of values - automatic, manual or No Pricing.",
+              "maxLength" : 45
+            },
+            "pricingPlan" : {
+              "type" : "string",
+              "description" : "Indicates the Pricing Plan of an account, it gives preferential interest rate/charge schedule based on customer segment",
+              "maxLength" : 45
+            },
+            "rewardsArrangementId" : {
+              "type" : "string",
+              "description" : "Indicates the Rewards account id assigned to a financial account(Loans,Deposits)",
+              "maxLength" : 45
+            },
+            "tradeDate" : {
+              "type" : "string",
+              "description" : "Standard date field which records trade date of the account",
+              "maxLength" : 45
+            },
+            "arrangementEffectiveDate" : {
+              "type" : "string",
+              "description" : "It is a date on/upon which an account is considered to take effect",
+              "maxLength" : 45
+            },
+            "reason" : {
+              "type" : "string",
+              "description" : "Indicates the reason for performing an activity",
+              "maxLength" : 45
+            }
+          }
+        },
+        "activities" : {
+          "type" : "object",
+          "properties" : {
+            "{activityName}" : {
+              "type" : "object",
+              "properties" : {
+                "activity" : {
+                  "type" : "string"
+                },
+                "transactionStatus" : {
+                  "type" : "string",
+                  "description" : "The status of the transaction"
+                },
+                "id" : {
+                  "type" : "string",
+                  "description" : "The Identifier of the record created"
+                }
+              }
+            }
+          }
+        },
+        "properties" : {
+          "type" : "object",
+          "properties" : {
+            "account" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "activityCharges" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "messaging" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "arrangementRules" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "balanceMaintenance" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "ageingfee" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "disbursementfee" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "maintenancefee" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "newarrfee" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "payofffee" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "prindecreasefee" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "chargeoff" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "renewal" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "customer" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "principalint" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "penaltyint" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "limit" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "officers" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "overdue" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "prRepayment" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "prPrincipalDecrease" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "prPayoff" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "prCurrentBalances" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "poWithdrawal" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "schedule" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "prefpricing" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "commitment" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string",
+                      "description" : "The status of the transaction"
+                    },
+                    "audit" : {
+                      "type" : "object",
+                      "properties" : {
+                        "T24_time" : {
+                          "type" : "integer",
+                          "format" : "int32",
+                          "description" : "Time taken to parse the response by IRIS"
+                        },
+                        "requestParse_time" : {
+                          "type" : "integer",
+                          "format" : "int32"
+                        },
+                        "responseParse_time" : {
+                          "type" : "integer",
+                          "format" : "int32"
+                        }
+                      }
+                    },
+                    "id" : {
+                      "type" : "string",
+                      "description" : "The Identifier of the record created"
+                    },
+                    "status" : {
+                      "type" : "string",
+                      "description" : "The status of the record"
+                    }
+                  }
+                },
+                "body" : {
+                  "type" : "object",
+                  "properties" : {
+                    "amount" : {
+                      "type" : "string",
+                      "description" : "This is the payment amount",
+                      "maxLength" : 6
+                    },
+                    "changeAmount" : {
+                      "type" : "string",
+                      "description" : "Indicates the amount by which the original commitment amount increased or decreased.",
+                      "maxLength" : 12
+                    },
+                    "term" : {
+                      "type" : "string",
+                      "description" : "Indicates the term for which the contract is booked",
+                      "maxLength" : 4
+                    },
+                    "revolving" : {
+                      "type" : "string",
+                      "description" : "Indicates if commitment is revolving or non revolving in nature",
+                      "maxLength" : 9,
+                      "enum" : [ "NO", "PAYMENT", "PREPAYMENT" ]
+                    },
+                    "updateLimit" : {
+                      "type" : "string",
+                      "description" : "Flag to indicate whether the commitment amount used for an account should be updated and shown on the LIMIT table",
+                      "maxLength" : 16,
+                      "enum" : [ "YES", "NO" ]
+                    }
+                  }
+                }
+              }
+            },
+            "payoff" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "settlement" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "accreporting" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "alerts" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "closure" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "overrideBody" : {
+      "properties" : {
+        "overrideDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "string",
+                "description" : "The identifier of the override"
+              },
+              "description" : {
+                "type" : "string",
+                "description" : "The actual override message"
+              },
+              "options" : {
+                "type" : "array",
+                "description" : "The usable options for the override",
+                "items" : {
+                  "type" : "string"
+                }
+              },
+              "type" : {
+                "type" : "string",
+                "description" : "The type of the override"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ArrangementErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ArrangementHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/ArrangementErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "ArrangementErrorResponse"
+    },
+    "ArrangementErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message "
+              },
+              "property" : {
+                "type" : "string",
+                "description" : "The corresponding property"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessArrangementErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ArrangementHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessArrangementErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "BusinessArrangementErrorResponse"
+    },
+    "BusinessArrangementErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message for bad requests"
+              },
+              "property" : {
+                "type" : "string",
+                "description" : "The corresponding property"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemArrangementErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ArrangementHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemArrangementErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "SystemArrangementErrorResponse"
+    },
+    "SystemArrangementErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message caused by server"
+              },
+              "property" : {
+                "type" : "string",
+                "description" : "The corresponding property"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    }
+  }
+}

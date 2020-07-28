@@ -1,0 +1,1121 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Updating cancellation of Import LCs",
+    "version" : "v1.0.0",
+    "title" : "updateImportLCCancellation"
+  },
+  "host" : "api.server.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/holdings/letterOfCredits/{letterOfCreditId}/imports/cancellations" : {
+      "put" : {
+        "operationId" : "updateImportLCCancellation",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "letterOfCreditId",
+          "in" : "path",
+          "description" : "Identifier of the Letter Of Credit",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/ImportLCCancellation"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "ImportLCCancellationResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ImportLCCancellationResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "PayloadHeader" : {
+      "properties" : {
+        "override" : {
+          "type" : "object",
+          "properties" : {
+            "overrideDetails" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "id" : {
+                    "type" : "string",
+                    "description" : "The identifier of the override"
+                  },
+                  "description" : {
+                    "type" : "string",
+                    "description" : "The actual override message"
+                  },
+                  "responseCode" : {
+                    "type" : "string",
+                    "description" : "The user input to accept/reject the override."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            }
+          }
+        }
+      }
+    },
+    "ImportLCCancellation" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ImportLCCancellationBody"
+        }
+      },
+      "description" : "ImportLCCancellation"
+    },
+    "ImportLCCancellationBody" : {
+      "type" : "object",
+      "required" : [ "advisingBankReference", "cancellationRequest", "sendAmendmentAdvice" ],
+      "properties" : {
+        "limitReferences" : {
+          "type" : "array",
+          "description" : "Identifies the credit limit reference for the underlying account.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "limitReference" : {
+                "type" : "string",
+                "description" : "Identifies the credit limit reference for the underlying account.",
+                "maxLength" : 25
+              }
+            }
+          }
+        },
+        "beneficiaries" : {
+          "type" : "array",
+          "description" : "Identifies the Beneficiary name and address of the Standing Order",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "beneficiary" : {
+                "type" : "string",
+                "description" : "Identifies the Beneficiary name and address of the Standing Order",
+                "maxLength" : 25
+              }
+            }
+          }
+        },
+        "charges" : {
+          "type" : "array",
+          "description" : "The charges or fees for this transaction",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "chargeCode" : {
+                "type" : "string",
+                "description" : "Indicates the charge code to which the charges are identified and calculated and to be debited to the customer account. For example: C(Credit less Charges The Credit less Charges), D(Debit plus Charge The Debit plus Charge) , W(Waive).",
+                "maxLength" : 25
+              },
+              "partyCharged" : {
+                "type" : "string",
+                "description" : "Code to determine the identity of the party from whom the related charge is to be taken. Allowed values: -B(eneficiary) - O(pener) - T(hird Party).",
+                "maxLength" : 25
+              },
+              "chargeDebitAccount" : {
+                "type" : "string",
+                "description" : "The account number of the account where charges will be debited to.",
+                "maxLength" : 25
+              },
+              "chargeCurrency" : {
+                "type" : "string",
+                "description" : "Indicates the currency code of the charge account from where the fee is deducted",
+                "maxLength" : 25
+              },
+              "ChargeExchangeRate" : {
+                "type" : "string",
+                "description" : "Indicates the exchange rate to be used between the charge debit account and the charge currency is different.",
+                "maxLength" : 25
+              },
+              "chargeAmount" : {
+                "type" : "string",
+                "description" : "Retrieves the Charge Amount after redeem",
+                "maxLength" : 25
+              },
+              "amortiseCharges" : {
+                "type" : "string",
+                "description" : "Define if charges are to be amortised over the life of the LC. Y or N  input",
+                "maxLength" : 25
+              },
+              "chargeStatus" : {
+                "type" : "string",
+                "description" : "Indicates the codes to identify the different status of the charge. If the charge has been taken, claimed, or to be deferred or waived. The codes that are used to identify various states of the charge are: null, 2, 3, 4, 5, 15. ",
+                "maxLength" : 25
+              },
+              "taxCurrency" : {
+                "type" : "string",
+                "description" : "Contains the currency that tax is to be levied in. Example USD, GBP etc.",
+                "maxLength" : 25
+              },
+              "taxAmount" : {
+                "type" : "string",
+                "description" : "Total amount of taxes applicable on all commission or charges calculated for the transaction/payment.",
+                "maxLength" : 25
+              }
+            }
+          }
+        },
+        "commissions" : {
+          "type" : "array",
+          "description" : "The bank fees or commission charged for the transaction",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "commissionCode" : {
+                "type" : "string",
+                "description" : "These field control the allocation of Periodic commission where the field COMM.CODE is the trigger for periodic commission and the field CSN.CODE is a system maintained field and hold the commission amount relating to the period band",
+                "maxLength" : 25
+              },
+              "uptoAmount" : {
+                "type" : "string",
+                "description" : "This is a system maintained field containing the amount on which the commission rate is applied to arrive at the commission amount.",
+                "maxLength" : 25
+              },
+              "commissionRate" : {
+                "type" : "string",
+                "description" : "The commission by percentage. Allowed only for manual commission. Calculated commission amount can be overwritten manually.",
+                "maxLength" : 25
+              },
+              "commissionAmount" : {
+                "type" : "string",
+                "description" : "Amount of commission charged for the payment created with respect to the commission type used.",
+                "maxLength" : 25
+              }
+            }
+          }
+        },
+        "lcNumber" : {
+          "type" : "string",
+          "description" : "Identifies the Advising banks LCs number (or reference of the L/C from legacy system) or it can be used for the bank to use a unique Letter of Credit number rather than the system generated ID",
+          "maxLength" : 25
+        },
+        "sendAmendmentAdvice" : {
+          "type" : "string",
+          "description" : "Decides if an amendment is external or internal . Valid input is YES, indicating that an amendment is external and that a message is to be communicated to other parties of the Letter of Credit. Otherwise, NO indicates an internal amendment hence no message output.",
+          "maxLength" : 25
+        },
+        "lcType" : {
+          "type" : "string",
+          "description" : "Indicates the type of LC, whether this is an Import/Export, Confirmed/Unconfirmed/Revolving/Transferrable/Back to Back LC/documentary collection/Clean collection etc.",
+          "maxLength" : 25
+        },
+        "advisingBankReference" : {
+          "type" : "string",
+          "description" : "Advising Bank reference number for use on messages and advices under the LC contract",
+          "maxLength" : 25
+        },
+        "applicantCustomer" : {
+          "type" : "string",
+          "description" : "Indicates the applicant ID on whose behalf the Letter of Credit is issued.",
+          "maxLength" : 25
+        },
+        "advisingBank" : {
+          "type" : "string",
+          "description" : "Identifies the advising bank under the Letter of Credit, through whom the Letter of Credit is to be advised to the second advising bank or beneficiary",
+          "maxLength" : 25
+        },
+        "issueDate" : {
+          "type" : "string",
+          "description" : "The date the item was issued.",
+          "maxLength" : 25
+        },
+        "newLcCurrency" : {
+          "type" : "string",
+          "description" : "Denote the currency of the Letter of Credit",
+          "maxLength" : 25
+        },
+        "newLcAmount" : {
+          "type" : "string",
+          "description" : "This field indicates the new amount of the Letter of Credit that will always be expressed in the currency of Letter of Credit.",
+          "maxLength" : 25
+        },
+        "creditTolerance" : {
+          "type" : "string",
+          "description" : "Under a Letter of Credit the amount can be specified plus or minus a tolerance expressed as a percentage which will always impact the LC liability for the greater amount including the plus tolerance as defined in this field.",
+          "maxLength" : 25
+        },
+        "debitTolerance" : {
+          "type" : "string",
+          "description" : "Under a Letter of Credit, the amount can be specified with a tolerance, which will impact the LC liability for the greater amount. The amount in this field specifies a negative tolerance expressed as a percentage of the LC amount. It can impact the final drawing amount but not the live LC amount.",
+          "maxLength" : 25
+        },
+        "purposeOfMessage" : {
+          "type" : "string",
+          "description" : "Indicates the purpose of MT707 amendment message, whether its the issuance of amendment message or advise of amendment message to the second advising bank or advise and confirmation of amendment message to the second advising bank. Permitted Codes are: ACNF - Advice and confirmation of the credit amendment ADVI - Advice of the credit amendment ISSU - Issuance of the credit amendment",
+          "maxLength" : 25,
+          "enum" : [ "Purpose of Message" ]
+        },
+        "cancellationRequest" : {
+          "type" : "string",
+          "description" : "Indicates that the documentary credit is requested to be cancelled. Valid input in this field is CANCEL.",
+          "maxLength" : 25
+        },
+        "additionalAmountCovered" : {
+          "type" : "string",
+          "description" : "Specifies any additional amounts available under the Letter of Credit, such as insurance, freight, interest, etc.",
+          "maxLength" : 25
+        },
+        "fullyUtilised" : {
+          "type" : "string",
+          "description" : "This field indicate whether this LC is fully utilised YES - fully utilised  NO - not fully utilised This field will default to NO. It may be set to YES in the following circumstances: - During an amendment to the LC - If a drawing is set to fully utilise - If the total of all drawings exceeds the LC amount.",
+          "maxLength" : 25
+        },
+        "newLCExpiryDate" : {
+          "type" : "string",
+          "description" : "New Expiry date for presentation under the Letter of Credit",
+          "maxLength" : 25
+        },
+        "newLCExpiryPlace" : {
+          "type" : "string",
+          "description" : "New Expiry place for presentation under the documentary credit.",
+          "maxLength" : 25
+        },
+        "liabilityReversalDate" : {
+          "type" : "string",
+          "description" : "Date on which the contingent entries and the limits raised on the LC will be reversed.",
+          "maxLength" : 25
+        },
+        "latestShipmentDate" : {
+          "type" : "string",
+          "description" : "Latest date for loading on board/dispatch/taking in charge for goods shipped under the LC.",
+          "maxLength" : 25
+        },
+        "narrative" : {
+          "type" : "string",
+          "description" : "The additional text printed on descriptive statements in addition to the standard narrative and/or reference",
+          "maxLength" : 25,
+          "enum" : [ "Free format field - any narration can be given" ]
+        },
+        "bankToBank" : {
+          "type" : "string",
+          "description" : "Field to specify the additional information for the Receiver i.e. between banks handling the Letter of Credit",
+          "maxLength" : 25,
+          "enum" : [ "Information to Receiver Bnk -Free format field" ]
+        },
+        "draftPrint" : {
+          "type" : "string",
+          "description" : "This field indicate whether a draft print of the Letter of Credit / Documentary Collection document created is to be produced on deal input (i.e. before the authorization stage) Y' or 'N'. Default from LC.PARAMETERS file.",
+          "maxLength" : 25
+        },
+        "amendStatus" : {
+          "type" : "string",
+          "description" : "System updated field at the time of Amendment decision under the Letter of Credit using Operation 'D'. This field indicates the current status of the amendment whether amendment is pending, approved or rejected.",
+          "maxLength" : 25
+        },
+        "chargeFrom" : {
+          "type" : "string",
+          "description" : "Code to identify from whom the bank is to claim its charges. Allowed values: - O(pener) - B(eneficiary) - T(hird Party)",
+          "maxLength" : 25
+        },
+        "chargeDefaultAccount" : {
+          "type" : "string",
+          "description" : "This field identifies the default charge account under which all present and future charges under the letter of credit will be debited to. This eliminates the need to specify the charge account for every charge",
+          "maxLength" : 25
+        },
+        "waiveCharge" : {
+          "type" : "string",
+          "description" : "Indicates if the charges are to be waived for the instruction",
+          "maxLength" : 25
+        },
+        "commissionCode" : {
+          "type" : "string",
+          "description" : "These field control the allocation of Periodic commission where the field COMM.CODE is the trigger for periodic commission and the field CSN.CODE is a system maintained field and hold the commission amount relating to the period band",
+          "maxLength" : 25
+        },
+        "waiveCommission" : {
+          "type" : "string",
+          "description" : "This field indicates whether any default charges under Letters of Credit are to be waived. Values are Yes, Null If yes is selected, then the subject commission will not be collected.",
+          "maxLength" : 25
+        },
+        "commissionPartyCharge" : {
+          "type" : "string",
+          "description" : "Indicates if the commission is claimed from opener or beneficiary Options - O(Opener) or B(Beneficiary) Allowed only when commission is claimed.",
+          "maxLength" : 25
+        },
+        "commissionStartDate" : {
+          "type" : "string",
+          "description" : "Indicates the Start date for calculation of the Letter of Credit commission",
+          "maxLength" : 25
+        },
+        "commissionFrequency" : {
+          "type" : "string",
+          "description" : "Indicates the frequency at which the commission is to be collected or claimed. Only monthly frequency allowed (M01, M02, etc.",
+          "maxLength" : 25
+        },
+        "commissionRate" : {
+          "type" : "string",
+          "description" : "The commission by percentage. Allowed only for manual commission. Calculated commission amount can be overwritten manually.",
+          "maxLength" : 25
+        },
+        "accrualParam" : {
+          "type" : "string",
+          "description" : "Indicates if the value date or maturity date or both need to be considered for commission calculation.",
+          "maxLength" : 25
+        },
+        "commissionAmount" : {
+          "type" : "number",
+          "description" : "Amount of commission charged for the payment created with respect to the commission type used."
+        },
+        "fixedCommissionAmount" : {
+          "type" : "string",
+          "description" : "Indicates the fixed commission amount for each commission schedule. Amount expressed in the currency of the contract.",
+          "maxLength" : 25
+        },
+        "commissionAccount" : {
+          "type" : "string",
+          "description" : "Indicates the Account from which the commission amount is to be collected.",
+          "maxLength" : 25
+        },
+        "commissionExchangeRate" : {
+          "type" : "string",
+          "description" : "Indicates the Exchange rate to be applied between commission(contract) currency and commission account currency.",
+          "maxLength" : 25
+        },
+        "commissionClaimed" : {
+          "type" : "string",
+          "description" : "Indicates if the commission is to be collected from the customer's account or claimed. Yes To be claimed Null To be collected from customers account",
+          "maxLength" : 25
+        },
+        "backForwardKey" : {
+          "type" : "string",
+          "description" : "Identifies on which day the scheduled frequency date is to be cycled, when the scheduled date is not a working day. C - Calendar P - Previous working day N - Next working day.",
+          "maxLength" : 25
+        },
+        "returnCommission" : {
+          "type" : "string",
+          "description" : "Determines whether the excess commission amount calculated on account of principal decrease is to be returned to the customer or not. YES or No. Value gets defaulted from LC.PARAMETERS which can be amended by the user.",
+          "maxLength" : 25
+        },
+        "uptoDays" : {
+          "type" : "string",
+          "description" : "This is a system maintained field containing the number of days for which the commission is calculated for the associated period band.",
+          "maxLength" : 25
+        },
+        "marginRequired" : {
+          "type" : "string",
+          "description" : "Decision field enabling a cash margin to be blocked for the LC contract. Yes or No, default is No",
+          "maxLength" : 25
+        },
+        "releaseProvision" : {
+          "type" : "string",
+          "description" : "Flag to enable the online release of the cash margin. Allowed values: - YES - null (default)",
+          "maxLength" : 25
+        },
+        "marginCalculationBase" : {
+          "type" : "string",
+          "description" : "This field determines if the margin to be calculated based on the LC base amount or the total liability amount including tolerance etc.",
+          "maxLength" : 25
+        },
+        "marginPercent" : {
+          "type" : "string",
+          "description" : "Field to state the percentage of provision to be taken",
+          "maxLength" : 25
+        },
+        "marginDebitAccount" : {
+          "type" : "string",
+          "description" : "Field to state the account from which the provision amount is to be debited",
+          "maxLength" : 25
+        },
+        "marginAmount" : {
+          "type" : "number",
+          "description" : "Actual amount of provision that is debited for the transaction"
+        },
+        "marginCreditAccount" : {
+          "type" : "string",
+          "description" : "Indicates the account where the provision taken under a credit needs to be credited.",
+          "maxLength" : 25
+        },
+        "marginOutstanding" : {
+          "type" : "string",
+          "description" : "This is a system maintained field Indicating the provision amount outstanding for the LC contract.",
+          "maxLength" : 25
+        }
+      }
+    },
+    "ScreenHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "ImportLCCancellationResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ImportLCCancellationResponseBody"
+        }
+      },
+      "description" : "ImportLCCancellationResponse"
+    },
+    "ImportLCCancellationResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "limitReferences" : {
+          "type" : "array",
+          "description" : "Identifies the credit limit reference for the underlying account.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "limitReference" : {
+                "type" : "string",
+                "description" : "Identifies the credit limit reference for the underlying account.",
+                "maxLength" : 25
+              }
+            }
+          }
+        },
+        "beneficiaries" : {
+          "type" : "array",
+          "description" : "Identifies the Beneficiary name and address of the Standing Order",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "beneficiary" : {
+                "type" : "string",
+                "description" : "Identifies the Beneficiary name and address of the Standing Order",
+                "maxLength" : 25
+              }
+            }
+          }
+        },
+        "charges" : {
+          "type" : "array",
+          "description" : "The charges or fees for this transaction",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "chargeCode" : {
+                "type" : "string",
+                "description" : "Indicates the charge code to which the charges are identified and calculated and to be debited to the customer account. For example: C(Credit less Charges The Credit less Charges), D(Debit plus Charge The Debit plus Charge) , W(Waive).",
+                "maxLength" : 25
+              },
+              "partyCharged" : {
+                "type" : "string",
+                "description" : "Code to determine the identity of the party from whom the related charge is to be taken. Allowed values: -B(eneficiary) - O(pener) - T(hird Party).",
+                "maxLength" : 25
+              },
+              "chargeDebitAccount" : {
+                "type" : "string",
+                "description" : "The account number of the account where charges will be debited to.",
+                "maxLength" : 25
+              },
+              "chargeCurrency" : {
+                "type" : "string",
+                "description" : "Indicates the currency code of the charge account from where the fee is deducted",
+                "maxLength" : 25
+              },
+              "ChargeExchangeRate" : {
+                "type" : "string",
+                "description" : "Indicates the exchange rate to be used between the charge debit account and the charge currency is different.",
+                "maxLength" : 25
+              },
+              "chargeAmount" : {
+                "type" : "string",
+                "description" : "Retrieves the Charge Amount after redeem",
+                "maxLength" : 25
+              },
+              "amortiseCharges" : {
+                "type" : "string",
+                "description" : "Define if charges are to be amortised over the life of the LC. Y or N  input",
+                "maxLength" : 25
+              },
+              "chargeStatus" : {
+                "type" : "string",
+                "description" : "Indicates the codes to identify the different status of the charge. If the charge has been taken, claimed, or to be deferred or waived. The codes that are used to identify various states of the charge are: null, 2, 3, 4, 5, 15. ",
+                "maxLength" : 25
+              },
+              "taxCurrency" : {
+                "type" : "string",
+                "description" : "Contains the currency that tax is to be levied in. Example USD, GBP etc.",
+                "maxLength" : 25
+              },
+              "taxAmount" : {
+                "type" : "string",
+                "description" : "Total amount of taxes applicable on all commission or charges calculated for the transaction/payment.",
+                "maxLength" : 25
+              }
+            }
+          }
+        },
+        "commissions" : {
+          "type" : "array",
+          "description" : "The bank fees or commission charged for the transaction",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "commissionCode" : {
+                "type" : "string",
+                "description" : "These field control the allocation of Periodic commission where the field COMM.CODE is the trigger for periodic commission and the field CSN.CODE is a system maintained field and hold the commission amount relating to the period band",
+                "maxLength" : 25
+              },
+              "uptoAmount" : {
+                "type" : "string",
+                "description" : "This is a system maintained field containing the amount on which the commission rate is applied to arrive at the commission amount.",
+                "maxLength" : 25
+              },
+              "commissionRate" : {
+                "type" : "string",
+                "description" : "The commission by percentage. Allowed only for manual commission. Calculated commission amount can be overwritten manually.",
+                "maxLength" : 25
+              },
+              "commissionAmount" : {
+                "type" : "string",
+                "description" : "Amount of commission charged for the payment created with respect to the commission type used.",
+                "maxLength" : 25
+              }
+            }
+          }
+        },
+        "lcNumber" : {
+          "type" : "string",
+          "description" : "Identifies the Advising banks LCs number (or reference of the L/C from legacy system) or it can be used for the bank to use a unique Letter of Credit number rather than the system generated ID",
+          "maxLength" : 25
+        },
+        "sendAmendmentAdvice" : {
+          "type" : "string",
+          "description" : "Decides if an amendment is external or internal . Valid input is YES, indicating that an amendment is external and that a message is to be communicated to other parties of the Letter of Credit. Otherwise, NO indicates an internal amendment hence no message output.",
+          "maxLength" : 25
+        },
+        "lcType" : {
+          "type" : "string",
+          "description" : "Indicates the type of LC, whether this is an Import/Export, Confirmed/Unconfirmed/Revolving/Transferrable/Back to Back LC/documentary collection/Clean collection etc.",
+          "maxLength" : 25
+        },
+        "advisingBankReference" : {
+          "type" : "string",
+          "description" : "Advising Bank reference number for use on messages and advices under the LC contract",
+          "maxLength" : 25
+        },
+        "applicantCustomer" : {
+          "type" : "string",
+          "description" : "Indicates the applicant ID on whose behalf the Letter of Credit is issued.",
+          "maxLength" : 25
+        },
+        "advisingBank" : {
+          "type" : "string",
+          "description" : "Identifies the advising bank under the Letter of Credit, through whom the Letter of Credit is to be advised to the second advising bank or beneficiary",
+          "maxLength" : 25
+        },
+        "issueDate" : {
+          "type" : "string",
+          "description" : "The date the item was issued.",
+          "maxLength" : 25
+        },
+        "newLcCurrency" : {
+          "type" : "string",
+          "description" : "Denote the currency of the Letter of Credit",
+          "maxLength" : 25
+        },
+        "newLcAmount" : {
+          "type" : "string",
+          "description" : "This field indicates the new amount of the Letter of Credit that will always be expressed in the currency of Letter of Credit.",
+          "maxLength" : 25
+        },
+        "creditTolerance" : {
+          "type" : "string",
+          "description" : "Under a Letter of Credit the amount can be specified plus or minus a tolerance expressed as a percentage which will always impact the LC liability for the greater amount including the plus tolerance as defined in this field.",
+          "maxLength" : 25
+        },
+        "debitTolerance" : {
+          "type" : "string",
+          "description" : "Under a Letter of Credit, the amount can be specified with a tolerance, which will impact the LC liability for the greater amount. The amount in this field specifies a negative tolerance expressed as a percentage of the LC amount. It can impact the final drawing amount but not the live LC amount.",
+          "maxLength" : 25
+        },
+        "purposeOfMessage" : {
+          "type" : "string",
+          "description" : "Indicates the purpose of MT707 amendment message, whether its the issuance of amendment message or advise of amendment message to the second advising bank or advise and confirmation of amendment message to the second advising bank. Permitted Codes are: ACNF - Advice and confirmation of the credit amendment ADVI - Advice of the credit amendment ISSU - Issuance of the credit amendment",
+          "maxLength" : 25,
+          "enum" : [ "Purpose of Message" ]
+        },
+        "cancellationRequest" : {
+          "type" : "string",
+          "description" : "Indicates that the documentary credit is requested to be cancelled. Valid input in this field is CANCEL.",
+          "maxLength" : 25
+        },
+        "additionalAmountCovered" : {
+          "type" : "string",
+          "description" : "Specifies any additional amounts available under the Letter of Credit, such as insurance, freight, interest, etc.",
+          "maxLength" : 25
+        },
+        "fullyUtilised" : {
+          "type" : "string",
+          "description" : "This field indicate whether this LC is fully utilised YES - fully utilised  NO - not fully utilised This field will default to NO. It may be set to YES in the following circumstances: - During an amendment to the LC - If a drawing is set to fully utilise - If the total of all drawings exceeds the LC amount.",
+          "maxLength" : 25
+        },
+        "newLCExpiryDate" : {
+          "type" : "string",
+          "description" : "New Expiry date for presentation under the Letter of Credit",
+          "maxLength" : 25
+        },
+        "newLCExpiryPlace" : {
+          "type" : "string",
+          "description" : "New Expiry place for presentation under the documentary credit.",
+          "maxLength" : 25
+        },
+        "liabilityReversalDate" : {
+          "type" : "string",
+          "description" : "Date on which the contingent entries and the limits raised on the LC will be reversed.",
+          "maxLength" : 25
+        },
+        "latestShipmentDate" : {
+          "type" : "string",
+          "description" : "Latest date for loading on board/dispatch/taking in charge for goods shipped under the LC.",
+          "maxLength" : 25
+        },
+        "narrative" : {
+          "type" : "string",
+          "description" : "The additional text printed on descriptive statements in addition to the standard narrative and/or reference",
+          "maxLength" : 25,
+          "enum" : [ "Free format field - any narration can be given" ]
+        },
+        "bankToBank" : {
+          "type" : "string",
+          "description" : "Field to specify the additional information for the Receiver i.e. between banks handling the Letter of Credit",
+          "maxLength" : 25,
+          "enum" : [ "Information to Receiver Bnk -Free format field" ]
+        },
+        "draftPrint" : {
+          "type" : "string",
+          "description" : "This field indicate whether a draft print of the Letter of Credit / Documentary Collection document created is to be produced on deal input (i.e. before the authorization stage) Y' or 'N'. Default from LC.PARAMETERS file.",
+          "maxLength" : 25
+        },
+        "amendStatus" : {
+          "type" : "string",
+          "description" : "System updated field at the time of Amendment decision under the Letter of Credit using Operation 'D'. This field indicates the current status of the amendment whether amendment is pending, approved or rejected.",
+          "maxLength" : 25
+        },
+        "chargeFrom" : {
+          "type" : "string",
+          "description" : "Code to identify from whom the bank is to claim its charges. Allowed values: - O(pener) - B(eneficiary) - T(hird Party)",
+          "maxLength" : 25
+        },
+        "chargeDefaultAccount" : {
+          "type" : "string",
+          "description" : "This field identifies the default charge account under which all present and future charges under the letter of credit will be debited to. This eliminates the need to specify the charge account for every charge",
+          "maxLength" : 25
+        },
+        "waiveCharge" : {
+          "type" : "string",
+          "description" : "Indicates if the charges are to be waived for the instruction",
+          "maxLength" : 25
+        },
+        "commissionCode" : {
+          "type" : "string",
+          "description" : "These field control the allocation of Periodic commission where the field COMM.CODE is the trigger for periodic commission and the field CSN.CODE is a system maintained field and hold the commission amount relating to the period band",
+          "maxLength" : 25
+        },
+        "waiveCommission" : {
+          "type" : "string",
+          "description" : "This field indicates whether any default charges under Letters of Credit are to be waived. Values are Yes, Null If yes is selected, then the subject commission will not be collected.",
+          "maxLength" : 25
+        },
+        "commissionPartyCharge" : {
+          "type" : "string",
+          "description" : "Indicates if the commission is claimed from opener or beneficiary Options - O(Opener) or B(Beneficiary) Allowed only when commission is claimed.",
+          "maxLength" : 25
+        },
+        "commissionStartDate" : {
+          "type" : "string",
+          "description" : "Indicates the Start date for calculation of the Letter of Credit commission",
+          "maxLength" : 25
+        },
+        "commissionFrequency" : {
+          "type" : "string",
+          "description" : "Indicates the frequency at which the commission is to be collected or claimed. Only monthly frequency allowed (M01, M02, etc.",
+          "maxLength" : 25
+        },
+        "commissionRate" : {
+          "type" : "string",
+          "description" : "The commission by percentage. Allowed only for manual commission. Calculated commission amount can be overwritten manually.",
+          "maxLength" : 25
+        },
+        "accrualParam" : {
+          "type" : "string",
+          "description" : "Indicates if the value date or maturity date or both need to be considered for commission calculation.",
+          "maxLength" : 25
+        },
+        "commissionAmount" : {
+          "type" : "number",
+          "description" : "Amount of commission charged for the payment created with respect to the commission type used."
+        },
+        "fixedCommissionAmount" : {
+          "type" : "string",
+          "description" : "Indicates the fixed commission amount for each commission schedule. Amount expressed in the currency of the contract.",
+          "maxLength" : 25
+        },
+        "commissionAccount" : {
+          "type" : "string",
+          "description" : "Indicates the Account from which the commission amount is to be collected.",
+          "maxLength" : 25
+        },
+        "commissionExchangeRate" : {
+          "type" : "string",
+          "description" : "Indicates the Exchange rate to be applied between commission(contract) currency and commission account currency.",
+          "maxLength" : 25
+        },
+        "commissionClaimed" : {
+          "type" : "string",
+          "description" : "Indicates if the commission is to be collected from the customer's account or claimed. Yes To be claimed Null To be collected from customers account",
+          "maxLength" : 25
+        },
+        "backForwardKey" : {
+          "type" : "string",
+          "description" : "Identifies on which day the scheduled frequency date is to be cycled, when the scheduled date is not a working day. C - Calendar P - Previous working day N - Next working day.",
+          "maxLength" : 25
+        },
+        "returnCommission" : {
+          "type" : "string",
+          "description" : "Determines whether the excess commission amount calculated on account of principal decrease is to be returned to the customer or not. YES or No. Value gets defaulted from LC.PARAMETERS which can be amended by the user.",
+          "maxLength" : 25
+        },
+        "uptoDays" : {
+          "type" : "string",
+          "description" : "This is a system maintained field containing the number of days for which the commission is calculated for the associated period band.",
+          "maxLength" : 25
+        },
+        "marginRequired" : {
+          "type" : "string",
+          "description" : "Decision field enabling a cash margin to be blocked for the LC contract. Yes or No, default is No",
+          "maxLength" : 25
+        },
+        "releaseProvision" : {
+          "type" : "string",
+          "description" : "Flag to enable the online release of the cash margin. Allowed values: - YES - null (default)",
+          "maxLength" : 25
+        },
+        "marginCalculationBase" : {
+          "type" : "string",
+          "description" : "This field determines if the margin to be calculated based on the LC base amount or the total liability amount including tolerance etc.",
+          "maxLength" : 25
+        },
+        "marginPercent" : {
+          "type" : "string",
+          "description" : "Field to state the percentage of provision to be taken",
+          "maxLength" : 25
+        },
+        "marginDebitAccount" : {
+          "type" : "string",
+          "description" : "Field to state the account from which the provision amount is to be debited",
+          "maxLength" : 25
+        },
+        "marginAmount" : {
+          "type" : "number",
+          "description" : "Actual amount of provision that is debited for the transaction"
+        },
+        "marginCreditAccount" : {
+          "type" : "string",
+          "description" : "Indicates the account where the provision taken under a credit needs to be credited.",
+          "maxLength" : 25
+        },
+        "marginOutstanding" : {
+          "type" : "string",
+          "description" : "This is a system maintained field Indicating the provision amount outstanding for the LC contract.",
+          "maxLength" : 25
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "overrideBody" : {
+      "properties" : {
+        "overrideDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "string",
+                "description" : "The identifier of the override"
+              },
+              "description" : {
+                "type" : "string",
+                "description" : "The actual override message"
+              },
+              "options" : {
+                "type" : "array",
+                "description" : "The usable options for the override",
+                "items" : {
+                  "type" : "string"
+                }
+              },
+              "type" : {
+                "type" : "string",
+                "description" : "The type of the override"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/ScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "ScreenErrorResponse"
+    },
+    "ScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message "
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "BusinessScreenErrorResponse"
+    },
+    "BusinessScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message for bad requests"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "SystemScreenErrorResponse"
+    },
+    "SystemScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message caused by server"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    }
+  }
+}

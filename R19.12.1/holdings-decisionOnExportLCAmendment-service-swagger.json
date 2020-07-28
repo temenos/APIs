@@ -1,0 +1,906 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Update decision on export Lc amendments",
+    "version" : "v1.0.0",
+    "title" : "updateDecisionOnExportLCAmendment"
+  },
+  "host" : "api.server.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/holdings/letterOfCredits/{letterOfCreditId}/exports/decisions" : {
+      "put" : {
+        "operationId" : "updateDecisionOnExportLCAmendment",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "letterOfCreditId",
+          "in" : "path",
+          "description" : "Identifier of the Letter Of Credit",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/DecisionOnExportLCAmendment"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "DecisionOnExportLCAmendmentResponse",
+            "schema" : {
+              "$ref" : "#/definitions/DecisionOnExportLCAmendmentResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "PayloadHeader" : {
+      "properties" : {
+        "override" : {
+          "type" : "object",
+          "properties" : {
+            "overrideDetails" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "id" : {
+                    "type" : "string",
+                    "description" : "The identifier of the override"
+                  },
+                  "description" : {
+                    "type" : "string",
+                    "description" : "The actual override message"
+                  },
+                  "responseCode" : {
+                    "type" : "string",
+                    "description" : "The user input to accept/reject the override."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            }
+          }
+        }
+      }
+    },
+    "DecisionOnExportLCAmendment" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/DecisionOnExportLCAmendmentBody"
+        }
+      },
+      "description" : "DecisionOnExportLCAmendment"
+    },
+    "DecisionOnExportLCAmendmentBody" : {
+      "type" : "object",
+      "properties" : {
+        "beneficiaries" : {
+          "type" : "array",
+          "description" : "Identifies the Beneficiary name and address of the Standing Order",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "beneficiary" : {
+                "type" : "string",
+                "description" : "Identifies the Beneficiary name and address of the Standing Order",
+                "maxLength" : 25
+              }
+            }
+          }
+        },
+        "shipmentPeriods" : {
+          "type" : "array",
+          "description" : "Indicates the period of time which the goods are to be loaded on board/dispatched/taken in charge.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "shipmentPeriod" : {
+                "type" : "string",
+                "description" : "Indicates the period of time which the goods are to be loaded on board/dispatched/taken in charge.",
+                "maxLength" : 25
+              }
+            }
+          }
+        },
+        "internalAmendmentDetails" : {
+          "type" : "array",
+          "description" : "This is a free text field for updating the internal amendment details",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "internalAmendmentDetail" : {
+                "type" : "string",
+                "description" : "This is a free text field for updating the internal amendment details",
+                "maxLength" : 25
+              }
+            }
+          }
+        },
+        "charges" : {
+          "type" : "array",
+          "description" : "The charges or fees for this transaction",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "chargeCode" : {
+                "type" : "string",
+                "description" : "Indicates the charge code to which the charges are identified and calculated and to be debited to the customer account. For example: C(Credit less Charges The Credit less Charges), D(Debit plus Charge The Debit plus Charge) , W(Waive).",
+                "maxLength" : 25
+              },
+              "partyCharged" : {
+                "type" : "string",
+                "description" : "Code to determine the identity of the party from whom the related charge is to be taken. Allowed values: -B(eneficiary) - O(pener) - T(hird Party).",
+                "maxLength" : 25
+              },
+              "chargeDebitAccount" : {
+                "type" : "string",
+                "description" : "The account number of the account where charges will be debited to.",
+                "maxLength" : 25
+              },
+              "chargeCurrency" : {
+                "type" : "string",
+                "description" : "Indicates the currency code of the charge account from where the fee is deducted",
+                "maxLength" : 25
+              },
+              "ChargeExchangeRate" : {
+                "type" : "string",
+                "description" : "Indicates the exchange rate to be used between the charge debit account and the charge currency is different.",
+                "maxLength" : 25
+              },
+              "chargeAmount" : {
+                "type" : "string",
+                "description" : "Retrieves the Charge Amount after redeem",
+                "maxLength" : 25
+              },
+              "amortiseCharges" : {
+                "type" : "string",
+                "description" : "Define if charges are to be amortised over the life of the LC. Y or N  input",
+                "maxLength" : 25
+              },
+              "chargeStatus" : {
+                "type" : "string",
+                "description" : "Indicates the codes to identify the different status of the charge. If the charge has been taken, claimed, or to be deferred or waived. The codes that are used to identify various states of the charge are: null, 2, 3, 4, 5, 15. ",
+                "maxLength" : 25
+              },
+              "taxCurrency" : {
+                "type" : "string",
+                "description" : "Contains the currency that tax is to be levied in. Example USD, GBP etc.",
+                "maxLength" : 25
+              },
+              "taxAmount" : {
+                "type" : "string",
+                "description" : "Total amount of taxes applicable on all commission or charges calculated for the transaction/payment.",
+                "maxLength" : 25
+              }
+            }
+          }
+        },
+        "amendmentNumber" : {
+          "type" : "string",
+          "description" : "Indicates the amendment number under the Letter of Credit.",
+          "maxLength" : 25
+        },
+        "lcType" : {
+          "type" : "string",
+          "description" : "Indicates the type of LC, whether this is an Import/Export, Confirmed/Unconfirmed/Revolving/Transferrable/Back to Back LC/documentary collection/Clean collection etc.",
+          "maxLength" : 25
+        },
+        "amendStatus" : {
+          "type" : "string",
+          "description" : "System updated field at the time of Amendment decision under the Letter of Credit using Operation 'D'. This field indicates the current status of the amendment whether amendment is pending, approved or rejected.",
+          "maxLength" : 25
+        },
+        "applicantCustomer" : {
+          "type" : "string",
+          "description" : "Indicates the applicant ID on whose behalf the Letter of Credit is issued.",
+          "maxLength" : 25
+        },
+        "lcNumber" : {
+          "type" : "string",
+          "description" : "Identifies the Advising banks LCs number (or reference of the L/C from legacy system) or it can be used for the bank to use a unique Letter of Credit number rather than the system generated ID",
+          "maxLength" : 25
+        },
+        "sendAmendmentAdvice" : {
+          "type" : "string",
+          "description" : "Decides if an amendment is external or internal . Valid input is YES, indicating that an amendment is external and that a message is to be communicated to other parties of the Letter of Credit. Otherwise, NO indicates an internal amendment hence no message output.",
+          "maxLength" : 25
+        },
+        "issuingBankReference" : {
+          "type" : "string",
+          "description" : "Issuing Bank/Advising Bank/Customer reference number for use on messages and advices under the LC contract. For Export LCs this is the Issuing Bank's reference. For Import LCs this is the Advising Bank's reference",
+          "maxLength" : 25
+        },
+        "issueDate" : {
+          "type" : "string",
+          "description" : "The date the item was issued.",
+          "maxLength" : 25
+        },
+        "issuingBankId" : {
+          "type" : "string",
+          "description" : "Identifies the Issuing bank ID under the LC, who issues the LC under when a bank is advising the Letter of Credit",
+          "maxLength" : 25
+        },
+        "lcCurrency" : {
+          "type" : "string",
+          "description" : "Denote the currency of the Letter of Credit.",
+          "maxLength" : 25
+        },
+        "lcAmount" : {
+          "type" : "string",
+          "description" : "This field indicates the amount of the Letter of Credit that will always be expressed in the currency of Letter of Credit.",
+          "maxLength" : 25
+        },
+        "creditTolerance" : {
+          "type" : "string",
+          "description" : "Under a Letter of Credit the amount can be specified plus or minus a tolerance expressed as a percentage which will always impact the LC liability for the greater amount including the plus tolerance as defined in this field.",
+          "maxLength" : 25
+        },
+        "debitTolerance" : {
+          "type" : "string",
+          "description" : "Under a Letter of Credit, the amount can be specified with a tolerance, which will impact the LC liability for the greater amount. The amount in this field specifies a negative tolerance expressed as a percentage of the LC amount. It can impact the final drawing amount but not the live LC amount.",
+          "maxLength" : 25
+        },
+        "purposeOfMessage" : {
+          "type" : "string",
+          "description" : "Indicates the purpose of MT707 amendment message, whether its the issuance of amendment message or advise of amendment message to the second advising bank or advise and confirmation of amendment message to the second advising bank. Permitted Codes are: ACNF - Advice and confirmation of the credit amendment ADVI - Advice of the credit amendment ISSU - Issuance of the credit amendment",
+          "maxLength" : 25
+        },
+        "cancellationRequest" : {
+          "type" : "string",
+          "description" : "Indicates that the documentary credit is requested to be cancelled. Valid input in this field is CANCEL.",
+          "maxLength" : 25
+        },
+        "additionalAmountCovered" : {
+          "type" : "string",
+          "description" : "Specifies any additional amounts available under the Letter of Credit, such as insurance, freight, interest, etc.",
+          "maxLength" : 25
+        },
+        "newLCExpiryDate" : {
+          "type" : "string",
+          "description" : "New Expiry date for presentation under the Letter of Credit",
+          "maxLength" : 25
+        },
+        "expiryPlace" : {
+          "type" : "string",
+          "description" : "Expiry place for presentation under the documentary credit.",
+          "maxLength" : 25
+        },
+        "liabilityReversalDate" : {
+          "type" : "string",
+          "description" : "Date on which the contingent entries and the limits raised on the LC will be reversed.",
+          "maxLength" : 25
+        },
+        "limitReference" : {
+          "type" : "string",
+          "description" : "Identifies the credit limit reference for the underlying account.",
+          "maxLength" : 25
+        },
+        "placeOfTakingInCharge" : {
+          "type" : "string",
+          "description" : "Indicates the place of taking in charge(in case of multimodal transport document), the place of receipt(in case of a road, rail or inland waterway transport document or a courier expedited delivery service document), the place of dispatch or the place of shipment to be indicated on the transport document",
+          "maxLength" : 25
+        },
+        "portOfLoading" : {
+          "type" : "string",
+          "description" : "Indicates the place of dispatch or taking in charge of the goods or loading on board for shipments made under the LC.",
+          "maxLength" : 25
+        },
+        "portOfDischarge" : {
+          "type" : "string",
+          "description" : "Indicates the port of discharge or the airport of destination of the shipment under the LC.",
+          "maxLength" : 25
+        },
+        "finalDestination" : {
+          "type" : "string",
+          "description" : "Indicates the final destination or place of delivery of the shipment under the LC.",
+          "maxLength" : 25
+        },
+        "latestShipmentDate" : {
+          "type" : "string",
+          "description" : "Latest date for loading on board/dispatch/taking in charge for goods shipped under the LC.",
+          "maxLength" : 25
+        },
+        "chargeFrom" : {
+          "type" : "string",
+          "description" : "Code to identify from whom the bank is to claim its charges. Allowed values: - O(pener) - B(eneficiary) - T(hird Party)",
+          "maxLength" : 25
+        },
+        "chargeDefaultAccount" : {
+          "type" : "string",
+          "description" : "This field identifies the default charge account under which all present and future charges under the letter of credit will be debited to. This eliminates the need to specify the charge account for every charge",
+          "maxLength" : 25
+        },
+        "waiveCharge" : {
+          "type" : "string",
+          "description" : "Indicates if the charges are to be waived for the instruction",
+          "maxLength" : 25
+        }
+      }
+    },
+    "ScreenHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "DecisionOnExportLCAmendmentResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/DecisionOnExportLCAmendmentResponseBody"
+        }
+      },
+      "description" : "DecisionOnExportLCAmendmentResponse"
+    },
+    "DecisionOnExportLCAmendmentResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "beneficiaries" : {
+          "type" : "array",
+          "description" : "Identifies the Beneficiary name and address of the Standing Order",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "beneficiary" : {
+                "type" : "string",
+                "description" : "Identifies the Beneficiary name and address of the Standing Order",
+                "maxLength" : 25
+              }
+            }
+          }
+        },
+        "shipmentPeriods" : {
+          "type" : "array",
+          "description" : "Indicates the period of time which the goods are to be loaded on board/dispatched/taken in charge.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "shipmentPeriod" : {
+                "type" : "string",
+                "description" : "Indicates the period of time which the goods are to be loaded on board/dispatched/taken in charge.",
+                "maxLength" : 25
+              }
+            }
+          }
+        },
+        "bankToBanks" : {
+          "type" : "array",
+          "description" : "Field to specify the additional information for the Receiver i.e. between banks handling the Letter of Credit",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "bankToBank" : {
+                "type" : "string",
+                "description" : "Field to specify the additional information for the Receiver i.e. between banks handling the Letter of Credit",
+                "maxLength" : 25
+              }
+            }
+          }
+        },
+        "internalAmendmentDetails" : {
+          "type" : "array",
+          "description" : "This is a free text field for updating the internal amendment details",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "internalAmendmentDetail" : {
+                "type" : "string",
+                "description" : "This is a free text field for updating the internal amendment details",
+                "maxLength" : 25
+              }
+            }
+          }
+        },
+        "senderReceiversInfoMT730" : {
+          "type" : "array",
+          "description" : "This field holds the additional information for the Receiver (Tag 72Z), while receiving/generating MT730 message.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "senderReceiverInfoMT730" : {
+                "type" : "string",
+                "description" : "This field holds the additional information for the Receiver (Tag 72Z), while receiving/generating MT730 message.",
+                "maxLength" : 25
+              }
+            }
+          }
+        },
+        "charges" : {
+          "type" : "array",
+          "description" : "The charges or fees for this transaction",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "chargeCode" : {
+                "type" : "string",
+                "description" : "Indicates the charge code to which the charges are identified and calculated and to be debited to the customer account. For example: C(Credit less Charges The Credit less Charges), D(Debit plus Charge The Debit plus Charge) , W(Waive).",
+                "maxLength" : 25
+              },
+              "partyCharged" : {
+                "type" : "string",
+                "description" : "Code to determine the identity of the party from whom the related charge is to be taken. Allowed values: -B(eneficiary) - O(pener) - T(hird Party).",
+                "maxLength" : 25
+              },
+              "chargeDebitAccount" : {
+                "type" : "string",
+                "description" : "The account number of the account where charges will be debited to.",
+                "maxLength" : 25
+              },
+              "chargeCurrency" : {
+                "type" : "string",
+                "description" : "Indicates the currency code of the charge account from where the fee is deducted",
+                "maxLength" : 25
+              },
+              "ChargeExchangeRate" : {
+                "type" : "string",
+                "description" : "Indicates the exchange rate to be used between the charge debit account and the charge currency is different.",
+                "maxLength" : 25
+              },
+              "chargeAmount" : {
+                "type" : "string",
+                "description" : "Retrieves the Charge Amount after redeem",
+                "maxLength" : 25
+              },
+              "amortiseCharges" : {
+                "type" : "string",
+                "description" : "Define if charges are to be amortised over the life of the LC. Y or N  input",
+                "maxLength" : 25
+              },
+              "chargeStatus" : {
+                "type" : "string",
+                "description" : "Indicates the codes to identify the different status of the charge. If the charge has been taken, claimed, or to be deferred or waived. The codes that are used to identify various states of the charge are: null, 2, 3, 4, 5, 15. ",
+                "maxLength" : 25
+              },
+              "taxCurrency" : {
+                "type" : "string",
+                "description" : "Contains the currency that tax is to be levied in. Example USD, GBP etc.",
+                "maxLength" : 25
+              },
+              "taxAmount" : {
+                "type" : "string",
+                "description" : "Total amount of taxes applicable on all commission or charges calculated for the transaction/payment.",
+                "maxLength" : 25
+              }
+            }
+          }
+        },
+        "amendmentNumber" : {
+          "type" : "string",
+          "description" : "Indicates the amendment number under the Letter of Credit.",
+          "maxLength" : 25
+        },
+        "lcType" : {
+          "type" : "string",
+          "description" : "Indicates the type of LC, whether this is an Import/Export, Confirmed/Unconfirmed/Revolving/Transferrable/Back to Back LC/documentary collection/Clean collection etc.",
+          "maxLength" : 25
+        },
+        "amendStatus" : {
+          "type" : "string",
+          "description" : "System updated field at the time of Amendment decision under the Letter of Credit using Operation 'D'. This field indicates the current status of the amendment whether amendment is pending, approved or rejected.",
+          "maxLength" : 25
+        },
+        "applicantCustomer" : {
+          "type" : "string",
+          "description" : "Indicates the applicant ID on whose behalf the Letter of Credit is issued.",
+          "maxLength" : 25
+        },
+        "lcNumber" : {
+          "type" : "string",
+          "description" : "Identifies the Advising banks LCs number (or reference of the L/C from legacy system) or it can be used for the bank to use a unique Letter of Credit number rather than the system generated ID",
+          "maxLength" : 25
+        },
+        "sendAmendmentAdvice" : {
+          "type" : "string",
+          "description" : "Decides if an amendment is external or internal . Valid input is YES, indicating that an amendment is external and that a message is to be communicated to other parties of the Letter of Credit. Otherwise, NO indicates an internal amendment hence no message output.",
+          "maxLength" : 25
+        },
+        "issuingBankReference" : {
+          "type" : "string",
+          "description" : "Issuing Bank/Advising Bank/Customer reference number for use on messages and advices under the LC contract. For Export LCs this is the Issuing Bank's reference. For Import LCs this is the Advising Bank's reference",
+          "maxLength" : 25
+        },
+        "issueDate" : {
+          "type" : "string",
+          "description" : "The date the item was issued.",
+          "maxLength" : 25
+        },
+        "issuingBankId" : {
+          "type" : "string",
+          "description" : "Identifies the Issuing bank ID under the LC, who issues the LC under when a bank is advising the Letter of Credit",
+          "maxLength" : 25
+        },
+        "lcCurrency" : {
+          "type" : "string",
+          "description" : "Denote the currency of the Letter of Credit.",
+          "maxLength" : 25
+        },
+        "lcAmount" : {
+          "type" : "string",
+          "description" : "This field indicates the amount of the Letter of Credit that will always be expressed in the currency of Letter of Credit.",
+          "maxLength" : 25
+        },
+        "creditTolerance" : {
+          "type" : "string",
+          "description" : "Under a Letter of Credit the amount can be specified plus or minus a tolerance expressed as a percentage which will always impact the LC liability for the greater amount including the plus tolerance as defined in this field.",
+          "maxLength" : 25
+        },
+        "debitTolerance" : {
+          "type" : "string",
+          "description" : "Under a Letter of Credit, the amount can be specified with a tolerance, which will impact the LC liability for the greater amount. The amount in this field specifies a negative tolerance expressed as a percentage of the LC amount. It can impact the final drawing amount but not the live LC amount.",
+          "maxLength" : 25
+        },
+        "purposeOfMessage" : {
+          "type" : "string",
+          "description" : "Indicates the purpose of MT707 amendment message, whether its the issuance of amendment message or advise of amendment message to the second advising bank or advise and confirmation of amendment message to the second advising bank. Permitted Codes are: ACNF - Advice and confirmation of the credit amendment ADVI - Advice of the credit amendment ISSU - Issuance of the credit amendment",
+          "maxLength" : 25
+        },
+        "cancellationRequest" : {
+          "type" : "string",
+          "description" : "Indicates that the documentary credit is requested to be cancelled. Valid input in this field is CANCEL.",
+          "maxLength" : 25
+        },
+        "additionalAmountCovered" : {
+          "type" : "string",
+          "description" : "Specifies any additional amounts available under the Letter of Credit, such as insurance, freight, interest, etc.",
+          "maxLength" : 25
+        },
+        "newLCExpiryDate" : {
+          "type" : "string",
+          "description" : "New Expiry date for presentation under the Letter of Credit",
+          "maxLength" : 25
+        },
+        "expiryPlace" : {
+          "type" : "string",
+          "description" : "Expiry place for presentation under the documentary credit.",
+          "maxLength" : 25
+        },
+        "liabilityReversalDate" : {
+          "type" : "string",
+          "description" : "Date on which the contingent entries and the limits raised on the LC will be reversed.",
+          "maxLength" : 25
+        },
+        "limitReference" : {
+          "type" : "string",
+          "description" : "Identifies the credit limit reference for the underlying account.",
+          "maxLength" : 25
+        },
+        "placeOfTakingInCharge" : {
+          "type" : "string",
+          "description" : "Indicates the place of taking in charge(in case of multimodal transport document), the place of receipt(in case of a road, rail or inland waterway transport document or a courier expedited delivery service document), the place of dispatch or the place of shipment to be indicated on the transport document",
+          "maxLength" : 25
+        },
+        "portOfLoading" : {
+          "type" : "string",
+          "description" : "Indicates the place of dispatch or taking in charge of the goods or loading on board for shipments made under the LC.",
+          "maxLength" : 25
+        },
+        "portOfDischarge" : {
+          "type" : "string",
+          "description" : "Indicates the port of discharge or the airport of destination of the shipment under the LC.",
+          "maxLength" : 25
+        },
+        "finalDestination" : {
+          "type" : "string",
+          "description" : "Indicates the final destination or place of delivery of the shipment under the LC.",
+          "maxLength" : 25
+        },
+        "latestShipmentDate" : {
+          "type" : "string",
+          "description" : "Latest date for loading on board/dispatch/taking in charge for goods shipped under the LC.",
+          "maxLength" : 25
+        },
+        "chargeFrom" : {
+          "type" : "string",
+          "description" : "Code to identify from whom the bank is to claim its charges. Allowed values: - O(pener) - B(eneficiary) - T(hird Party)",
+          "maxLength" : 25
+        },
+        "chargeDefaultAccount" : {
+          "type" : "string",
+          "description" : "This field identifies the default charge account under which all present and future charges under the letter of credit will be debited to. This eliminates the need to specify the charge account for every charge",
+          "maxLength" : 25
+        },
+        "waiveCharge" : {
+          "type" : "string",
+          "description" : "Indicates if the charges are to be waived for the instruction",
+          "maxLength" : 25
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "overrideBody" : {
+      "properties" : {
+        "overrideDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "string",
+                "description" : "The identifier of the override"
+              },
+              "description" : {
+                "type" : "string",
+                "description" : "The actual override message"
+              },
+              "options" : {
+                "type" : "array",
+                "description" : "The usable options for the override",
+                "items" : {
+                  "type" : "string"
+                }
+              },
+              "type" : {
+                "type" : "string",
+                "description" : "The type of the override"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/ScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "ScreenErrorResponse"
+    },
+    "ScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message "
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "BusinessScreenErrorResponse"
+    },
+    "BusinessScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message for bad requests"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "SystemScreenErrorResponse"
+    },
+    "SystemScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message caused by server"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    }
+  }
+}

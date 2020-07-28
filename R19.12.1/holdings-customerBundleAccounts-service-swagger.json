@@ -1,0 +1,386 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "To List Child and Parent accounts details",
+    "version" : "v1.0.0",
+    "title" : "getCustomerBundleAccounts"
+  },
+  "host" : "api.server.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/holdings/cashManagement/customers/{customerId}/accounts" : {
+      "get" : {
+        "operationId" : "getCustomerBundleAccounts",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "customerId",
+          "in" : "path",
+          "description" : "Identifier of the customer",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "companyCode",
+          "in" : "query",
+          "description" : "",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "CustomerBundleAccountsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/CustomerBundleAccountsResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "QueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records per page"
+        },
+        "page_start" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The record from which the response should be displayed"
+        },
+        "total_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records present"
+        },
+        "page_token" : {
+          "type" : "string",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request"
+        }
+      }
+    },
+    "CustomerBundleAccountsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/CustomerBundleAccountsResponseBody"
+        }
+      },
+      "description" : "CustomerBundleAccountsResponse"
+    },
+    "CustomerBundleAccountsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "arrangementId" : {
+            "type" : "string",
+            "description" : "Indicates an unique identifier of an account"
+          },
+          "effectiveDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "The date on which the principal movement is effected"
+          },
+          "customerId" : {
+            "type" : "number",
+            "description" : "Identifier of the customer"
+          },
+          "customerName" : {
+            "type" : "string",
+            "description" : "Name of the customer"
+          },
+          "productId" : {
+            "type" : "string",
+            "description" : "Contains the unique identifier of the product, e.g. the product id of the arrangement account.",
+            "maxLength" : 30
+          },
+          "productName" : {
+            "type" : "string",
+            "description" : "Product name of the bank for this account, proprietary definition.",
+            "maxLength" : 30
+          },
+          "companyName" : {
+            "type" : "string",
+            "description" : "The company in which payment is processed",
+            "maxLength" : 11
+          },
+          "countryId" : {
+            "type" : "number",
+            "description" : "ISO country code of the financial institution. "
+          },
+          "companyCode" : {
+            "type" : "string",
+            "description" : "Identifies the Unique Code/Id by which the details of the company can be accessed",
+            "maxLength" : 11
+          },
+          "status" : {
+            "type" : "string",
+            "description" : "Status identifier of the account. The values are 'DELETED' if the account is closed, 'BLOCKED' is there are any posting restrictions & 'ENABLED' for active accounts.",
+            "maxLength" : 15
+          },
+          "modifiedDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "Date on which the Bundle has been modified."
+          },
+          "structureName" : {
+            "type" : "string",
+            "description" : "Unique Name of the Balance Netting structure."
+          },
+          "recipientCurrency" : {
+            "type" : "string",
+            "description" : "The account used for payment received. Currencies of the recipient."
+          },
+          "blockId" : {
+            "type" : "string",
+            "description" : "Balance Netting unique ID"
+          },
+          "isBlocked" : {
+            "type" : "boolean",
+            "description" : "Balance Netting is blocked or Not"
+          },
+          "blockAuthoriser" : {
+            "type" : "string",
+            "description" : "Blocked by "
+          },
+          "blockedDateTime" : {
+            "type" : "string",
+            "description" : "Date on which the account has been blocked."
+          },
+          "blockCode" : {
+            "type" : "string",
+            "description" : "Unique code used to block the accounts"
+          },
+          "displayName" : {
+            "type" : "string",
+            "description" : "Name used for display or enrichment purposes"
+          },
+          "blockStartDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "Start date of the Blocked account"
+          },
+          "blockEndDate" : {
+            "type" : "string",
+            "description" : "End date of the Blocked account"
+          },
+          "title" : {
+            "type" : "string",
+            "description" : "Main menu title or header which the user wants to display on the screen when requesting the display of this main menu. This field can be expanded to allow the user to enter the description of the main menu in various languages."
+          },
+          "poolEventDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "Denotes the restructure date if the account is linked to the balance netting pool."
+          },
+          "poolEvent" : {
+            "type" : "string",
+            "description" : "Denotes the restructure event for the account linked to the Balance Netting pool.",
+            "maxLength" : 35
+          },
+          "goLiveDate" : {
+            "type" : "string",
+            "description" : "Denotes the date on which the Account is expected to go live in cash pool structure. Input is prohibited when bundle is in Draft status Input is allowed for NEW.OFFER accounts only for setting live date for link type SET.LIVE.DATE Input is mandatory for any restructure activity on Live accounts. Restructure activity on preliminary accounts will be effective current dated."
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessQueryErrorResponseBody"
+        }
+      },
+      "description" : "BusinessQueryErrorResponse"
+    },
+    "BusinessQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message for bad requests"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemQueryErrorResponseBody"
+        }
+      },
+      "description" : "SystemQueryErrorResponse"
+    },
+    "SystemQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message caused by server"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    }
+  }
+}

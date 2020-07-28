@@ -1,0 +1,395 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Retrieves position information for a legal entities own book portfolios",
+    "version" : "v1.0.0",
+    "title" : "Holdings Instruments APIs"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/holdings/instruments/{instrumentId}/positions" : {
+      "get" : {
+        "operationId" : "getInstrumentPositions",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "instrumentId",
+          "in" : "path",
+          "description" : "The identifier of the instrument",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "portfolioId",
+          "in" : "query",
+          "description" : "",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "depository",
+          "in" : "query",
+          "description" : "",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "subAccount",
+          "in" : "query",
+          "description" : "",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "InstrumentPositionsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/InstrumentPositionsResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "InstrumentPositionsResponseQueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records per page"
+        },
+        "page_start" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The record from which the response should be displayed"
+        },
+        "total_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records present"
+        },
+        "page_token" : {
+          "type" : "string",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request"
+        },
+        "data" : {
+          "type" : "object",
+          "properties" : {
+            "instrumentId" : {
+              "type" : "string",
+              "description" : "The identifier of the instrument",
+              "maxLength" : 12
+            },
+            "instrumentName" : {
+              "type" : "string",
+              "description" : "The name that is displayed for the instrument, taken from the Security Master",
+              "maxLength" : 35
+            },
+            "ISIN" : {
+              "type" : "string",
+              "description" : "The International Securities Identification Number of the instrument",
+              "maxLength" : 12
+            },
+            "priceCurrency" : {
+              "type" : "string",
+              "description" : "The currency of the Price",
+              "maxLength" : 12
+            },
+            "marketPrice" : {
+              "type" : "string",
+              "description" : "Current Market Price of the Security",
+              "maxLength" : 16
+            }
+          }
+        }
+      }
+    },
+    "InstrumentPositionsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/InstrumentPositionsResponseQueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/InstrumentPositionsResponseBody"
+        }
+      },
+      "description" : "InstrumentPositionsResponse"
+    },
+    "InstrumentPositionsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "transactionId" : {
+            "type" : "string",
+            "description" : "Unique transaction identifier for retrieving the details of the transaction. For example: FT0102030333 etc.",
+            "maxLength" : 120
+          },
+          "portfolioId" : {
+            "type" : "string",
+            "description" : "Id of the portfolio or security account",
+            "maxLength" : 14
+          },
+          "portfolioName" : {
+            "type" : "string",
+            "description" : "The name that is displayed for the portfolio",
+            "maxLength" : 35
+          },
+          "depository" : {
+            "type" : "string",
+            "description" : "The custodian where securities are held",
+            "maxLength" : 10
+          },
+          "depositoryName" : {
+            "type" : "string",
+            "description" : "The name that is displayed for the depository",
+            "maxLength" : 35
+          },
+          "subAccount" : {
+            "type" : "string",
+            "description" : "The sub-account that the security position is held in.",
+            "maxLength" : 35
+          },
+          "position" : {
+            "type" : "string",
+            "description" : "The final quantity of securities held"
+          },
+          "openOrderPosition" : {
+            "type" : "string",
+            "description" : "The number of securities related to the security position",
+            "maxLength" : 18
+          },
+          "unsettledCredits" : {
+            "type" : "string",
+            "description" : "The nominal of securities relating to this position that remains unreceived.",
+            "maxLength" : 18
+          },
+          "unsettledDebits" : {
+            "type" : "string",
+            "description" : "The nominal of securities relating to this position that remains undelivered."
+          },
+          "blockedQuantity" : {
+            "type" : "string",
+            "description" : "The nominal quantity on a securities instrument that prevents it from being traded when the blocked quantity is exceeded."
+          },
+          "instrumentCurrency" : {
+            "type" : "string",
+            "description" : "",
+            "maxLength" : 3
+          },
+          "valueInInstrumentCurrency" : {
+            "type" : "number",
+            "description" : "The amount converted to the currency of the instrument"
+          },
+          "referenceCurrency" : {
+            "type" : "string",
+            "description" : "The reference currency"
+          },
+          "valueInReferenceCurrency" : {
+            "type" : "string",
+            "description" : "The amount converted to the required reference currency"
+          },
+          "unrealizedMarkToMarket" : {
+            "type" : "number",
+            "description" : "The amount of unrealised profit and loss calculated as a result of mark to market revaluation"
+          },
+          "unrealizedMarkToMarketNet" : {
+            "type" : "string",
+            "description" : "The net mark to market gain or loss considering unrealised profits and losses"
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessQueryErrorResponseBody"
+        }
+      },
+      "description" : "BusinessQueryErrorResponse"
+    },
+    "BusinessQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message for bad requests"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemQueryErrorResponseBody"
+        }
+      },
+      "description" : "SystemQueryErrorResponse"
+    },
+    "SystemQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message caused by server"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    }
+  }
+}

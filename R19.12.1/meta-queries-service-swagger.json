@@ -1,0 +1,914 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Allows the creation, viewing and management of query definitions",
+    "version" : "v1.0.0",
+    "title" : "Meta APIs about Queries"
+  },
+  "host" : "api.server.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/meta/queries" : {
+      "get" : {
+        "operationId" : "getQueries",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "QueriesResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueriesResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/meta/queries/{queryId}" : {
+      "get" : {
+        "operationId" : "getQuery",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "queryId",
+          "in" : "path",
+          "description" : "The query identifier",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "QueryResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          }
+        }
+      },
+      "post" : {
+        "operationId" : "createQuery",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "queryId",
+          "in" : "path",
+          "description" : "The query identifier",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Query"
+          }
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "QueryResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "QueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records per page"
+        },
+        "page_start" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The record from which the response should be displayed"
+        },
+        "total_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records present"
+        },
+        "page_token" : {
+          "type" : "string",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request"
+        }
+      }
+    },
+    "QueriesResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/QueriesResponseBody"
+        }
+      },
+      "description" : "QueriesResponse"
+    },
+    "QueriesResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "queryId" : {
+            "type" : "string",
+            "description" : "The query identifier",
+            "maxLength" : 50
+          },
+          "displayName" : {
+            "type" : "string",
+            "description" : "Name used for display or enrichment purposes",
+            "maxLength" : 50
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessQueryErrorResponseBody"
+        }
+      },
+      "description" : "BusinessQueryErrorResponse"
+    },
+    "BusinessQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message for bad requests"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemQueryErrorResponseBody"
+        }
+      },
+      "description" : "SystemQueryErrorResponse"
+    },
+    "SystemQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message caused by server"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    },
+    "ScreenHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "QueryResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/QueryResponseBody"
+        }
+      },
+      "description" : "QueryResponse"
+    },
+    "QueryResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "columns" : {
+          "type" : "array",
+          "description" : "Identifies the required operation to be executed for a Trade Finance contract. Input of valid codes as: O for opening of LC, P for Pre-advise of LC, A for Amend LC, C for Collect Charges, D for Decision on Amendments, T for Tracer, IO for LC through Internet Banking Operation and M for Ancillary Message (MT759)",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "columnNumber" : {
+                "type" : "string",
+                "description" : ""
+              },
+              "lengthMask" : {
+                "type" : "string",
+                "description" : ""
+              },
+              "dataType" : {
+                "type" : "string",
+                "description" : ""
+              },
+              "singleMulti" : {
+                "type" : "string",
+                "description" : ""
+              },
+              "label" : {
+                "type" : "string",
+                "description" : ""
+              },
+              "comments" : {
+                "type" : "string",
+                "description" : "Comments added by the User"
+              },
+              "displayBreak" : {
+                "type" : "string",
+                "description" : ""
+              },
+              "section" : {
+                "type" : "string",
+                "description" : ""
+              },
+              "format" : {
+                "type" : "string",
+                "description" : ""
+              },
+              "operations" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "operation" : {
+                      "type" : "string",
+                      "description" : "Identifies the required operation to be executed for a Trade Finance contract. Input of valid codes as: O for opening of LC, P for Pre-advise of LC, A for Amend LC, C for Collect Charges, D for Decision on Amendments, T for Tracer, IO for LC through Internet Banking Operation and M for Ancillary Message (MT759)"
+                    }
+                  }
+                }
+              },
+              "conversions" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "conversion" : {
+                      "type" : "string",
+                      "description" : ""
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "selections" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "selectionLabel" : {
+                "type" : "string",
+                "description" : ""
+              },
+              "selectionField" : {
+                "type" : "string",
+                "description" : ""
+              },
+              "selectionOperand" : {
+                "type" : "string",
+                "description" : ""
+              },
+              "required" : {
+                "type" : "string",
+                "description" : ""
+              }
+            }
+          }
+        },
+        "fixedSelections" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fixedSelection" : {
+                "type" : "string",
+                "description" : ""
+              }
+            }
+          }
+        },
+        "fixedSorts" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fixedSort" : {
+                "type" : "string",
+                "description" : ""
+              }
+            }
+          }
+        },
+        "pageSize" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "table" : {
+          "type" : "string",
+          "description" : "Application in the feeder queue for which the restructuring done."
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Contains the description of purpose of the payment."
+        }
+      }
+    },
+    "overrideBody" : {
+      "properties" : {
+        "overrideDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "string",
+                "description" : "The identifier of the override"
+              },
+              "description" : {
+                "type" : "string",
+                "description" : "The actual override message"
+              },
+              "options" : {
+                "type" : "array",
+                "description" : "The usable options for the override",
+                "items" : {
+                  "type" : "string"
+                }
+              },
+              "type" : {
+                "type" : "string",
+                "description" : "The type of the override"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/ScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "ScreenErrorResponse"
+    },
+    "ScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message "
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "BusinessScreenErrorResponse"
+    },
+    "BusinessScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message for bad requests"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "SystemScreenErrorResponse"
+    },
+    "SystemScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message caused by server"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    },
+    "PayloadHeader" : {
+      "properties" : {
+        "override" : {
+          "type" : "object",
+          "properties" : {
+            "overrideDetails" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "id" : {
+                    "type" : "string",
+                    "description" : "The identifier of the override"
+                  },
+                  "description" : {
+                    "type" : "string",
+                    "description" : "The actual override message"
+                  },
+                  "responseCode" : {
+                    "type" : "string",
+                    "description" : "The user input to accept/reject the override."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            }
+          }
+        }
+      }
+    },
+    "Query" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/QueryBody"
+        }
+      },
+      "description" : "Query"
+    },
+    "QueryBody" : {
+      "type" : "object",
+      "properties" : {
+        "columns" : {
+          "type" : "array",
+          "description" : "Identifies the required operation to be executed for a Trade Finance contract. Input of valid codes as: O for opening of LC, P for Pre-advise of LC, A for Amend LC, C for Collect Charges, D for Decision on Amendments, T for Tracer, IO for LC through Internet Banking Operation and M for Ancillary Message (MT759)",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "columnNumber" : {
+                "type" : "string",
+                "description" : ""
+              },
+              "lengthMask" : {
+                "type" : "string",
+                "description" : ""
+              },
+              "dataType" : {
+                "type" : "string",
+                "description" : ""
+              },
+              "singleMulti" : {
+                "type" : "string",
+                "description" : ""
+              },
+              "label" : {
+                "type" : "string",
+                "description" : ""
+              },
+              "comments" : {
+                "type" : "string",
+                "description" : "Comments added by the User"
+              },
+              "displayBreak" : {
+                "type" : "string",
+                "description" : ""
+              },
+              "section" : {
+                "type" : "string",
+                "description" : ""
+              },
+              "format" : {
+                "type" : "string",
+                "description" : ""
+              },
+              "operations" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "operation" : {
+                      "type" : "string",
+                      "description" : "Identifies the required operation to be executed for a Trade Finance contract. Input of valid codes as: O for opening of LC, P for Pre-advise of LC, A for Amend LC, C for Collect Charges, D for Decision on Amendments, T for Tracer, IO for LC through Internet Banking Operation and M for Ancillary Message (MT759)"
+                    }
+                  }
+                }
+              },
+              "conversions" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "conversion" : {
+                      "type" : "string",
+                      "description" : ""
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "selections" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "selectionLabel" : {
+                "type" : "string",
+                "description" : ""
+              },
+              "selectionField" : {
+                "type" : "string",
+                "description" : ""
+              },
+              "selectionOperand" : {
+                "type" : "string",
+                "description" : ""
+              },
+              "required" : {
+                "type" : "string",
+                "description" : ""
+              }
+            }
+          }
+        },
+        "fixedSelections" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fixedSelection" : {
+                "type" : "string",
+                "description" : ""
+              }
+            }
+          }
+        },
+        "fixedSorts" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fixedSort" : {
+                "type" : "string",
+                "description" : ""
+              }
+            }
+          }
+        },
+        "pageSize" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "table" : {
+          "type" : "string",
+          "description" : "Application in the feeder queue for which the restructuring done."
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Contains the description of purpose of the payment."
+        }
+      }
+    }
+  }
+}

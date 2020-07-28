@@ -1,0 +1,620 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "To block Currency Summary Accounts",
+    "version" : "v1.0.0",
+    "title" : "Block Currency Summary Accounts"
+  },
+  "host" : "api.server.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/order/cashManagement/bundles/accounts/currencySummaryAccounts/transactionStops" : {
+      "post" : {
+        "description" : "Block on CS Accounts",
+        "operationId" : "createBlockOnCurrencySummaryAccounts",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/BlockOnCurrencySummaryAccounts"
+          }
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "createBlockOnCurrencySummaryAccountsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BlockOnCurrencySummaryAccountsResponse"
+            }
+          },
+          "default" : {
+            "description" : "ArrangementErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ArrangementErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessArrangementErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessArrangementErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemArrangementErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemArrangementErrorResponse"
+            }
+          }
+        }
+      },
+      "put" : {
+        "description" : "Edit / Amend Blocked CS  accounts",
+        "operationId" : "updateBlockOnCurrencySummaryAccounts",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/BlockOnCurrencySummaryAccounts"
+          }
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "updateBlockOnCurrencySummaryAccountsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BlockOnCurrencySummaryAccountsResponse"
+            }
+          },
+          "default" : {
+            "description" : "ArrangementErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ArrangementErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessArrangementErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessArrangementErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemArrangementErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemArrangementErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "PayloadHeader" : {
+      "properties" : {
+        "override" : {
+          "type" : "object",
+          "properties" : {
+            "overrideDetails" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "id" : {
+                    "type" : "string",
+                    "description" : "The identifier of the override"
+                  },
+                  "description" : {
+                    "type" : "string",
+                    "description" : "The actual override message"
+                  },
+                  "responseCode" : {
+                    "type" : "string",
+                    "description" : "The user input to accept/reject the override."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            }
+          }
+        }
+      }
+    },
+    "BlockOnCurrencySummaryAccounts" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/BlockOnCurrencySummaryAccountsBody"
+        }
+      },
+      "description" : "BlockOnCurrencySummaryAccounts"
+    },
+    "BlockOnCurrencySummaryAccountsBody" : {
+      "type" : "object",
+      "properties" : {
+        "partyIds" : {
+          "type" : "array",
+          "description" : "It is an unique identifier of a customer or party",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "partyId" : {
+                "type" : "string",
+                "description" : "It is an unique identifier of a customer or party",
+                "maxLength" : 45
+              }
+            }
+          }
+        },
+        "arrangmentId" : {
+          "type" : "string",
+          "description" : "It is the unique identifier of an arrangement account",
+          "maxLength" : 45
+        },
+        "arrangementEffectiveDate" : {
+          "type" : "string",
+          "description" : "It is a date on/upon which an account is considered to take effect",
+          "maxLength" : 45
+        },
+        "productId" : {
+          "type" : "string",
+          "description" : "Contains the unique identifier of the product, e.g. the product id of the arrangement account.",
+          "maxLength" : 45
+        },
+        "activityId" : {
+          "type" : "string",
+          "description" : "Id of the activity, e.g. ACCOUNTS-CAPITALISE-ACCHARGE*CARDISSUEFEE",
+          "maxLength" : 45
+        },
+        "summary" : {
+          "type" : "object",
+          "properties" : {
+            "restriction" : {
+              "type" : "string",
+              "description" : "",
+              "maxLength" : 11
+            },
+            "blockingCode" : {
+              "type" : "string",
+              "description" : "Used to specify the blocking reason in terms of identifiable code.",
+              "maxLength" : 20
+            },
+            "blockingReason" : {
+              "type" : "string",
+              "description" : "",
+              "maxLength" : 25
+            },
+            "startDate" : {
+              "type" : "string",
+              "format" : "date",
+              "description" : "Contains the date on which the transaction or payment gets initiated."
+            },
+            "expiryDate" : {
+              "type" : "string",
+              "format" : "date",
+              "description" : "The date an agreement such as an arrangement, product, credit facility or limit is due to expire"
+            }
+          }
+        }
+      }
+    },
+    "ArrangementHeader" : {
+      "properties" : {
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "aaaId" : {
+          "type" : "string",
+          "description" : "The Identifier of the aa record created"
+        },
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "BlockOnCurrencySummaryAccountsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ArrangementHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/BlockOnCurrencySummaryAccountsResponseBody"
+        }
+      },
+      "description" : "BlockOnCurrencySummaryAccountsResponse"
+    },
+    "BlockOnCurrencySummaryAccountsResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "arrangementActivity" : {
+          "type" : "object",
+          "properties" : {
+            "partyIds" : {
+              "type" : "array",
+              "description" : "It is an unique identifier of a customer or party",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "partyId" : {
+                    "type" : "string",
+                    "description" : "It is an unique identifier of a customer or party",
+                    "maxLength" : 45
+                  }
+                }
+              }
+            },
+            "arrangmentId" : {
+              "type" : "string",
+              "description" : "It is the unique identifier of an arrangement account",
+              "maxLength" : 45
+            },
+            "arrangementEffectiveDate" : {
+              "type" : "string",
+              "description" : "It is a date on/upon which an account is considered to take effect",
+              "maxLength" : 45
+            },
+            "productId" : {
+              "type" : "string",
+              "description" : "Contains the unique identifier of the product, e.g. the product id of the arrangement account.",
+              "maxLength" : 45
+            },
+            "activityId" : {
+              "type" : "string",
+              "description" : "Id of the activity, e.g. ACCOUNTS-CAPITALISE-ACCHARGE*CARDISSUEFEE",
+              "maxLength" : 45
+            }
+          }
+        },
+        "activities" : {
+          "type" : "object",
+          "properties" : {
+            "{activityName}" : {
+              "type" : "object",
+              "properties" : {
+                "activity" : {
+                  "type" : "string"
+                },
+                "transactionStatus" : {
+                  "type" : "string",
+                  "description" : "The status of the transaction"
+                },
+                "id" : {
+                  "type" : "string",
+                  "description" : "The Identifier of the record created"
+                }
+              }
+            }
+          }
+        },
+        "properties" : {
+          "type" : "object",
+          "properties" : {
+            "summary" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string",
+                      "description" : "The status of the transaction"
+                    },
+                    "audit" : {
+                      "type" : "object",
+                      "properties" : {
+                        "T24_time" : {
+                          "type" : "integer",
+                          "format" : "int32",
+                          "description" : "Time taken to parse the response by IRIS"
+                        },
+                        "requestParse_time" : {
+                          "type" : "integer",
+                          "format" : "int32"
+                        },
+                        "responseParse_time" : {
+                          "type" : "integer",
+                          "format" : "int32"
+                        }
+                      }
+                    },
+                    "id" : {
+                      "type" : "string",
+                      "description" : "The Identifier of the record created"
+                    },
+                    "status" : {
+                      "type" : "string",
+                      "description" : "The status of the record"
+                    }
+                  }
+                },
+                "body" : {
+                  "type" : "object",
+                  "properties" : {
+                    "restriction" : {
+                      "type" : "string",
+                      "description" : "",
+                      "maxLength" : 11
+                    },
+                    "blockingCode" : {
+                      "type" : "string",
+                      "description" : "Used to specify the blocking reason in terms of identifiable code.",
+                      "maxLength" : 20
+                    },
+                    "blockingReason" : {
+                      "type" : "string",
+                      "description" : "",
+                      "maxLength" : 25
+                    },
+                    "startDate" : {
+                      "type" : "string",
+                      "format" : "date",
+                      "description" : "Contains the date on which the transaction or payment gets initiated."
+                    },
+                    "expiryDate" : {
+                      "type" : "string",
+                      "format" : "date",
+                      "description" : "The date an agreement such as an arrangement, product, credit facility or limit is due to expire"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "overrideBody" : {
+      "properties" : {
+        "overrideDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "string",
+                "description" : "The identifier of the override"
+              },
+              "description" : {
+                "type" : "string",
+                "description" : "The actual override message"
+              },
+              "options" : {
+                "type" : "array",
+                "description" : "The usable options for the override",
+                "items" : {
+                  "type" : "string"
+                }
+              },
+              "type" : {
+                "type" : "string",
+                "description" : "The type of the override"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ArrangementErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ArrangementHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/ArrangementErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "ArrangementErrorResponse"
+    },
+    "ArrangementErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message "
+              },
+              "property" : {
+                "type" : "string",
+                "description" : "The corresponding property"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessArrangementErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ArrangementHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessArrangementErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "BusinessArrangementErrorResponse"
+    },
+    "BusinessArrangementErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message for bad requests"
+              },
+              "property" : {
+                "type" : "string",
+                "description" : "The corresponding property"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemArrangementErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ArrangementHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemArrangementErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "SystemArrangementErrorResponse"
+    },
+    "SystemArrangementErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message caused by server"
+              },
+              "property" : {
+                "type" : "string",
+                "description" : "The corresponding property"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    }
+  }
+}

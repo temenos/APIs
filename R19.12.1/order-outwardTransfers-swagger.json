@@ -1,0 +1,858 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Create/Update/View Outward Funds Transfer",
+    "version" : "v1.0.0",
+    "title" : "Outward Transfer"
+  },
+  "host" : "api.server.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/order/transfers/outwards" : {
+      "post" : {
+        "operationId" : "createOutwardTransfer",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/OutwardTransfer"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OutwardTransferResponse",
+            "schema" : {
+              "$ref" : "#/definitions/OutwardTransferResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/transfers/outwards/{fundsTransferId}" : {
+      "put" : {
+        "operationId" : "updateOutwardTransfer",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "fundsTransferId",
+          "in" : "path",
+          "description" : "Identifier of the Funds Transfer",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/OutwardTransfer"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OutwardTransferResponse",
+            "schema" : {
+              "$ref" : "#/definitions/OutwardTransferResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/transfers/outwards/{debitAccountId}/{creditAccountId}" : {
+      "get" : {
+        "operationId" : "getOutwardTransfers",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "debitAccountId",
+          "in" : "path",
+          "description" : "Indicates the debit account number of the payment or transaction.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "creditAccountId",
+          "in" : "path",
+          "description" : "Credit account identifier of the payment or transaction",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OutwardTransfersResponse",
+            "schema" : {
+              "$ref" : "#/definitions/OutwardTransfersResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "PayloadHeader" : {
+      "properties" : {
+        "override" : {
+          "type" : "object",
+          "properties" : {
+            "overrideDetails" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "id" : {
+                    "type" : "string",
+                    "description" : "The identifier of the override"
+                  },
+                  "description" : {
+                    "type" : "string",
+                    "description" : "The actual override message"
+                  },
+                  "responseCode" : {
+                    "type" : "string",
+                    "description" : "The user input to accept/reject the override."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            }
+          }
+        }
+      }
+    },
+    "OutwardTransfer" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/OutwardTransferBody"
+        }
+      },
+      "description" : "OutwardTransfer"
+    },
+    "OutwardTransferBody" : {
+      "type" : "object",
+      "required" : [ "beneficiaryCustomerId", "creditAccountId", "creditAmount", "creditCurrencyId", "debitAccountId", "transactionType" ],
+      "properties" : {
+        "transactionType" : {
+          "type" : "string",
+          "description" : "Identifies the transaction type applicable to the transaction being processed, i.e. outward or inward payment. For example: ACPX, OTPX etc.",
+          "maxLength" : 45
+        },
+        "debitAccountId" : {
+          "type" : "string",
+          "description" : "Indicates the debit account number of the payment or transaction.",
+          "maxLength" : 45
+        },
+        "debitCurrency" : {
+          "type" : "string",
+          "description" : "Currency of the debit account. For example: USD, EUR etc.",
+          "maxLength" : 45
+        },
+        "debitAmount" : {
+          "type" : "number",
+          "description" : "Amount to be debited in a payment transaction"
+        },
+        "debitValueDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Date on which the amount will be debited for settlement"
+        },
+        "creditAccountId" : {
+          "type" : "string",
+          "description" : "Credit account identifier of the payment or transaction",
+          "maxLength" : 45
+        },
+        "creditCurrencyId" : {
+          "type" : "string",
+          "description" : "Specifies the credit currency. For example: USD, EUR etc.",
+          "maxLength" : 45
+        },
+        "creditAmount" : {
+          "type" : "number",
+          "description" : "Amount to be credited in a payment transaction"
+        },
+        "creditValueDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Reference quoted by the credit account for a payment"
+        },
+        "beneficiaryCustomerId" : {
+          "type" : "string",
+          "description" : "Identifies the Customer who is to be the ultimate receiver of the funds transferred by the sending bank when this Beneficiary is not a bank.",
+          "maxLength" : 45
+        },
+        "beneficiaryBank" : {
+          "type" : "string",
+          "description" : "Bank for the beneficiary",
+          "maxLength" : 45
+        },
+        "beneficiaryName" : {
+          "type" : "string",
+          "description" : "Short title or short name of the beneficiary account account",
+          "maxLength" : 45
+        }
+      }
+    },
+    "ScreenHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "OutwardTransferResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/OutwardTransferResponseBody"
+        }
+      },
+      "description" : "OutwardTransferResponse"
+    },
+    "OutwardTransferResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "transactionType" : {
+          "type" : "string",
+          "description" : "Identifies the transaction type applicable to the transaction being processed, i.e. outward or inward payment. For example: ACPX, OTPX etc.",
+          "maxLength" : 45
+        },
+        "debitAccountId" : {
+          "type" : "string",
+          "description" : "Indicates the debit account number of the payment or transaction.",
+          "maxLength" : 45
+        },
+        "debitCurrency" : {
+          "type" : "string",
+          "description" : "Currency of the debit account. For example: USD, EUR etc.",
+          "maxLength" : 45
+        },
+        "debitAmount" : {
+          "type" : "number",
+          "description" : "Amount to be debited in a payment transaction"
+        },
+        "debitValueDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Date on which the amount will be debited for settlement"
+        },
+        "creditAccountId" : {
+          "type" : "string",
+          "description" : "Credit account identifier of the payment or transaction",
+          "maxLength" : 45
+        },
+        "creditCurrencyId" : {
+          "type" : "string",
+          "description" : "Specifies the credit currency. For example: USD, EUR etc.",
+          "maxLength" : 45
+        },
+        "creditAmount" : {
+          "type" : "number",
+          "description" : "Amount to be credited in a payment transaction"
+        },
+        "creditValueDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Reference quoted by the credit account for a payment"
+        },
+        "beneficiaryCustomerId" : {
+          "type" : "string",
+          "description" : "Identifies the Customer who is to be the ultimate receiver of the funds transferred by the sending bank when this Beneficiary is not a bank.",
+          "maxLength" : 45
+        },
+        "beneficiaryBank" : {
+          "type" : "string",
+          "description" : "Bank for the beneficiary",
+          "maxLength" : 45
+        },
+        "beneficiaryName" : {
+          "type" : "string",
+          "description" : "Short title or short name of the beneficiary account account",
+          "maxLength" : 45
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "overrideBody" : {
+      "properties" : {
+        "overrideDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "string",
+                "description" : "The identifier of the override"
+              },
+              "description" : {
+                "type" : "string",
+                "description" : "The actual override message"
+              },
+              "options" : {
+                "type" : "array",
+                "description" : "The usable options for the override",
+                "items" : {
+                  "type" : "string"
+                }
+              },
+              "type" : {
+                "type" : "string",
+                "description" : "The type of the override"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/ScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "ScreenErrorResponse"
+    },
+    "ScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message "
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "BusinessScreenErrorResponse"
+    },
+    "BusinessScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message for bad requests"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "SystemScreenErrorResponse"
+    },
+    "SystemScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message caused by server"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    },
+    "QueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records per page"
+        },
+        "page_start" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The record from which the response should be displayed"
+        },
+        "total_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records present"
+        },
+        "page_token" : {
+          "type" : "string",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request"
+        }
+      }
+    },
+    "OutwardTransfersResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/OutwardTransfersResponseBody"
+        }
+      },
+      "description" : "OutwardTransfersResponse"
+    },
+    "OutwardTransfersResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "fundsTransferId" : {
+            "type" : "string",
+            "description" : "Identifier of the Funds Transfer",
+            "maxLength" : 25
+          },
+          "transactionType" : {
+            "type" : "string",
+            "description" : "Identifies the transaction type applicable to the transaction being processed, i.e. outward or inward payment. For example: ACPX, OTPX etc.",
+            "maxLength" : 4
+          },
+          "debitAccountId" : {
+            "type" : "string",
+            "description" : "Indicates the debit account number of the payment or transaction.",
+            "maxLength" : 36
+          },
+          "debitCurrency" : {
+            "type" : "string",
+            "description" : "Currency of the debit account. For example: USD, EUR etc.",
+            "maxLength" : 3
+          },
+          "debitAmount" : {
+            "type" : "number",
+            "description" : "Amount to be debited in a payment transaction"
+          },
+          "debitValueDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "Date on which the amount will be debited for settlement"
+          },
+          "creditAccountId" : {
+            "type" : "string",
+            "description" : "Credit account identifier of the payment or transaction",
+            "maxLength" : 36
+          },
+          "creditCurrencyId" : {
+            "type" : "string",
+            "description" : "Specifies the credit currency. For example: USD, EUR etc.",
+            "maxLength" : 3
+          },
+          "creditAmount" : {
+            "type" : "number",
+            "description" : "Amount to be credited in a payment transaction"
+          },
+          "creditValueDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "Reference quoted by the credit account for a payment"
+          },
+          "beneficiaryCustomerId" : {
+            "type" : "string",
+            "description" : "Identifies the Customer who is to be the ultimate receiver of the funds transferred by the sending bank when this Beneficiary is not a bank.",
+            "maxLength" : 35
+          },
+          "beneficiaryBank" : {
+            "type" : "string",
+            "description" : "Bank for the beneficiary",
+            "maxLength" : 35
+          },
+          "beneficiaryName" : {
+            "type" : "string",
+            "description" : "Short title or short name of the beneficiary account account",
+            "maxLength" : 33
+          }
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessQueryErrorResponseBody"
+        }
+      },
+      "description" : "BusinessQueryErrorResponse"
+    },
+    "BusinessQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message for bad requests"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemQueryErrorResponseBody"
+        }
+      },
+      "description" : "SystemQueryErrorResponse"
+    },
+    "SystemQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message caused by server"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    }
+  }
+}
