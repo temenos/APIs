@@ -1,0 +1,847 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Delivery preferences for customer or customer account.",
+    "version" : "v1.0.0",
+    "title" : "Party Customer Delivery Preferences"
+  },
+  "host" : "api.server.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/party/customers/{deliveryPreferenceId}/customerDeliveryPreferences" : {
+      "post" : {
+        "summary" : "Creates delivery preferences with respect to customer or customer account.",
+        "description" : "Creates delivery preferences with respect to customer or customer account.",
+        "operationId" : "createDeliveryPreference",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "deliveryPreferenceId",
+          "in" : "path",
+          "description" : "Delivery preference identifier.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/DeliveryPreference"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "description" : "Username and password to authenticate the API against core-banking.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "DeliveryPreferenceResponse",
+            "schema" : {
+              "$ref" : "#/definitions/DeliveryPreferenceResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Updates delivery preferences with respect to customer or customer account.",
+        "description" : "Updates delivery preferences with respect to customer or customer account.",
+        "operationId" : "updateDeliveryPreference",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "deliveryPreferenceId",
+          "in" : "path",
+          "description" : "Delivery preference identifier.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/DeliveryPreference"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "description" : "Username and password to authenticate the API against core-banking.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "DeliveryPreferenceResponse",
+            "schema" : {
+              "$ref" : "#/definitions/DeliveryPreferenceResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "PayloadHeader" : {
+      "properties" : {
+        "override" : {
+          "type" : "object",
+          "properties" : {
+            "overrideDetails" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "id" : {
+                    "type" : "string",
+                    "description" : "The identifier of the override"
+                  },
+                  "description" : {
+                    "type" : "string",
+                    "description" : "The actual override message"
+                  },
+                  "responseCode" : {
+                    "type" : "string",
+                    "description" : "The user input to accept/reject the override."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            }
+          }
+        }
+      }
+    },
+    "DeliveryPreference" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/DeliveryPreferenceBody"
+        }
+      },
+      "description" : "DeliveryPreference"
+    },
+    "DeliveryPreferenceBody" : {
+      "type" : "object",
+      "properties" : {
+        "messageGroup" : {
+          "type" : "array",
+          "description" : "Message group name that provides details of all Messages to be triggered.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "messageGroupId" : {
+                "type" : "string",
+                "description" : "The Message group name that provides details of Messages to be triggered",
+                "minLength" : 0,
+                "maxLength" : 35
+              },
+              "messageGroupDetail" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "role" : {
+                      "type" : "string",
+                      "description" : "Role of the customer.",
+                      "minLength" : 0,
+                      "maxLength" : 35
+                    },
+                    "carrier" : {
+                      "type" : "string",
+                      "description" : "Carrier to be used for sending messages",
+                      "minLength" : 0,
+                      "maxLength" : 25
+                    },
+                    "required" : {
+                      "type" : "string",
+                      "description" : "Option to specify if the delivery message should be triggered for the carrier. Possible values - Yes or No.",
+                      "minLength" : 0,
+                      "maxLength" : 25
+                    },
+                    "carrierPosition" : {
+                      "type" : "string",
+                      "description" : "The Version of Delivery address pertaining the to Carrier to which the message group or other messages should be sent. Possible Options - Yes or No",
+                      "minLength" : 0,
+                      "maxLength" : 25
+                    },
+                    "format" : {
+                      "type" : "string",
+                      "description" : "The delivery format version to be used. It should always be '1' if the formatting module is SWIFT",
+                      "minLength" : 0,
+                      "maxLength" : 6
+                    },
+                    "copies" : {
+                      "type" : "string",
+                      "description" : "The number of copies required of a message group or other messages. The default value is '1'",
+                      "minLength" : 0,
+                      "maxLength" : 6
+                    },
+                    "language" : {
+                      "type" : "string",
+                      "description" : "The language that the contents of the field are displayed in.",
+                      "minLength" : 0,
+                      "maxLength" : 8
+                    },
+                    "holdOutput" : {
+                      "type" : "string",
+                      "description" : "Defines whether or not the output delivery for message group or other messages is to be held. Possible values - Yes/No",
+                      "minLength" : 0,
+                      "maxLength" : 10
+                    },
+                    "holdMailStartDate" : {
+                      "type" : "string",
+                      "description" : "The Hold Mail Start Date for message group or other messages if Hold Output is set to Yes",
+                      "minLength" : 0,
+                      "maxLength" : 17
+                    },
+                    "holdMailEndDate" : {
+                      "type" : "string",
+                      "description" : "The Hold Mail End Date for message group or other messages if Hold Output is set to Yes",
+                      "minLength" : 0,
+                      "maxLength" : 15
+                    },
+                    "holdMailOption" : {
+                      "type" : "string",
+                      "description" : "The Hold Options Available when Hold Output is set to Y pertaining to message group or other messages. Possible Values - HELD, DELETED, CLEAR and SEND.",
+                      "minLength" : 0,
+                      "maxLength" : 14
+                    },
+                    "startDate" : {
+                      "type" : "string",
+                      "description" : "The Start date for receiving specific message group or other messages to an address.",
+                      "minLength" : 0,
+                      "maxLength" : 11
+                    },
+                    "endDate" : {
+                      "type" : "string",
+                      "description" : "Indicates the date till which the transaction history requested. If 20120101 is the start date and 20120201 is the end date, all transactions that are booked between January 1 to February 1 2012 are returned",
+                      "minLength" : 0,
+                      "maxLength" : 11
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "otherMessagesDetail" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "role" : {
+                "type" : "string",
+                "description" : "Role of the customer.",
+                "minLength" : 0,
+                "maxLength" : 35
+              },
+              "carrier" : {
+                "type" : "string",
+                "description" : "Carrier to be used for sending messages",
+                "minLength" : 0,
+                "maxLength" : 10
+              },
+              "required" : {
+                "type" : "string",
+                "description" : "Option to specify if the delivery message should be triggered for the carrier. Possible values - Yes or No.",
+                "minLength" : 0,
+                "maxLength" : 35
+              },
+              "carrierPosition" : {
+                "type" : "string",
+                "description" : "The Version of Delivery address pertaining the to Carrier to which the message group or other messages should be sent. Possible Options - Yes or No",
+                "minLength" : 0,
+                "maxLength" : 15
+              },
+              "format" : {
+                "type" : "string",
+                "description" : "The delivery format version to be used. It should always be '1' if the formatting module is SWIFT",
+                "minLength" : 0,
+                "maxLength" : 6
+              },
+              "copies" : {
+                "type" : "string",
+                "description" : "The number of copies required of a message group or other messages. The default value is '1'",
+                "minLength" : 0,
+                "maxLength" : 6
+              },
+              "language" : {
+                "type" : "string",
+                "description" : "The language that the contents of the field are displayed in.",
+                "minLength" : 0,
+                "maxLength" : 8
+              },
+              "holdOutput" : {
+                "type" : "string",
+                "description" : "Defines whether or not the output delivery for message group or other messages is to be held. Possible values - Yes/No",
+                "minLength" : 0,
+                "maxLength" : 35
+              },
+              "holdMailStartDate" : {
+                "type" : "string",
+                "description" : "The Hold Mail Start Date for message group or other messages if Hold Output is set to Yes",
+                "minLength" : 0,
+                "maxLength" : 17
+              },
+              "holdMailEndDate" : {
+                "type" : "string",
+                "description" : "The Hold Mail End Date for message group or other messages if Hold Output is set to Yes",
+                "minLength" : 0,
+                "maxLength" : 15
+              },
+              "holdMailOption" : {
+                "type" : "string",
+                "description" : "The Hold Options Available when Hold Output is set to Y pertaining to message group or other messages. Possible Values - HELD, DELETED, CLEAR and SEND.",
+                "minLength" : 0,
+                "maxLength" : 35
+              },
+              "startDate" : {
+                "type" : "string",
+                "description" : "The Start date for receiving specific message group or other messages to an address.",
+                "minLength" : 0,
+                "maxLength" : 11
+              },
+              "endDate" : {
+                "type" : "string",
+                "description" : "Indicates the date till which the transaction history requested. If 20120101 is the start date and 20120201 is the end date, all transactions that are booked between January 1 to February 1 2012 are returned",
+                "minLength" : 0,
+                "maxLength" : 11
+              }
+            }
+          }
+        },
+        "applyOtherMessages" : {
+          "type" : "string",
+          "description" : "Identifies the customer preferences for any message group or other messages for which specific preferences have not been defined.",
+          "minLength" : 0,
+          "maxLength" : 35
+        }
+      }
+    },
+    "ScreenHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "uniqueIdentifier" : {
+          "type" : "string",
+          "description" : "The unique identifier/Message Reference of the record created."
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "DeliveryPreferenceResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/DeliveryPreferenceResponseBody"
+        }
+      },
+      "description" : "DeliveryPreferenceResponse"
+    },
+    "DeliveryPreferenceResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "messageGroup" : {
+          "type" : "array",
+          "description" : "Message group name that provides details of all Messages to be triggered.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "messageGroupId" : {
+                "type" : "string",
+                "description" : "The Message group name that provides details of Messages to be triggered",
+                "minLength" : 0,
+                "maxLength" : 35
+              },
+              "messageGroupDetail" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "role" : {
+                      "type" : "string",
+                      "description" : "Role of the customer.",
+                      "minLength" : 0,
+                      "maxLength" : 35
+                    },
+                    "carrier" : {
+                      "type" : "string",
+                      "description" : "Carrier to be used for sending messages",
+                      "minLength" : 0,
+                      "maxLength" : 25
+                    },
+                    "required" : {
+                      "type" : "string",
+                      "description" : "Option to specify if the delivery message should be triggered for the carrier. Possible values - Yes or No.",
+                      "minLength" : 0,
+                      "maxLength" : 25
+                    },
+                    "carrierPosition" : {
+                      "type" : "string",
+                      "description" : "The Version of Delivery address pertaining the to Carrier to which the message group or other messages should be sent. Possible Options - Yes or No",
+                      "minLength" : 0,
+                      "maxLength" : 25
+                    },
+                    "format" : {
+                      "type" : "string",
+                      "description" : "The delivery format version to be used. It should always be '1' if the formatting module is SWIFT",
+                      "minLength" : 0,
+                      "maxLength" : 6
+                    },
+                    "copies" : {
+                      "type" : "string",
+                      "description" : "The number of copies required of a message group or other messages. The default value is '1'",
+                      "minLength" : 0,
+                      "maxLength" : 6
+                    },
+                    "language" : {
+                      "type" : "string",
+                      "description" : "The language that the contents of the field are displayed in.",
+                      "minLength" : 0,
+                      "maxLength" : 8
+                    },
+                    "holdOutput" : {
+                      "type" : "string",
+                      "description" : "Defines whether or not the output delivery for message group or other messages is to be held. Possible values - Yes/No",
+                      "minLength" : 0,
+                      "maxLength" : 10
+                    },
+                    "holdMailStartDate" : {
+                      "type" : "string",
+                      "description" : "The Hold Mail Start Date for message group or other messages if Hold Output is set to Yes",
+                      "minLength" : 0,
+                      "maxLength" : 17
+                    },
+                    "holdMailEndDate" : {
+                      "type" : "string",
+                      "description" : "The Hold Mail End Date for message group or other messages if Hold Output is set to Yes",
+                      "minLength" : 0,
+                      "maxLength" : 15
+                    },
+                    "holdMailOption" : {
+                      "type" : "string",
+                      "description" : "The Hold Options Available when Hold Output is set to Y pertaining to message group or other messages. Possible Values - HELD, DELETED, CLEAR and SEND.",
+                      "minLength" : 0,
+                      "maxLength" : 14
+                    },
+                    "startDate" : {
+                      "type" : "string",
+                      "description" : "The Start date for receiving specific message group or other messages to an address.",
+                      "minLength" : 0,
+                      "maxLength" : 11
+                    },
+                    "endDate" : {
+                      "type" : "string",
+                      "description" : "Indicates the date till which the transaction history requested. If 20120101 is the start date and 20120201 is the end date, all transactions that are booked between January 1 to February 1 2012 are returned",
+                      "minLength" : 0,
+                      "maxLength" : 11
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "otherMessagesDetail" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "role" : {
+                "type" : "string",
+                "description" : "Role of the customer.",
+                "minLength" : 0,
+                "maxLength" : 35
+              },
+              "carrier" : {
+                "type" : "string",
+                "description" : "Carrier to be used for sending messages",
+                "minLength" : 0,
+                "maxLength" : 10
+              },
+              "required" : {
+                "type" : "string",
+                "description" : "Option to specify if the delivery message should be triggered for the carrier. Possible values - Yes or No.",
+                "minLength" : 0,
+                "maxLength" : 35
+              },
+              "carrierPosition" : {
+                "type" : "string",
+                "description" : "The Version of Delivery address pertaining the to Carrier to which the message group or other messages should be sent. Possible Options - Yes or No",
+                "minLength" : 0,
+                "maxLength" : 15
+              },
+              "format" : {
+                "type" : "string",
+                "description" : "The delivery format version to be used. It should always be '1' if the formatting module is SWIFT",
+                "minLength" : 0,
+                "maxLength" : 6
+              },
+              "copies" : {
+                "type" : "string",
+                "description" : "The number of copies required of a message group or other messages. The default value is '1'",
+                "minLength" : 0,
+                "maxLength" : 6
+              },
+              "language" : {
+                "type" : "string",
+                "description" : "The language that the contents of the field are displayed in.",
+                "minLength" : 0,
+                "maxLength" : 8
+              },
+              "holdOutput" : {
+                "type" : "string",
+                "description" : "Defines whether or not the output delivery for message group or other messages is to be held. Possible values - Yes/No",
+                "minLength" : 0,
+                "maxLength" : 35
+              },
+              "holdMailStartDate" : {
+                "type" : "string",
+                "description" : "The Hold Mail Start Date for message group or other messages if Hold Output is set to Yes",
+                "minLength" : 0,
+                "maxLength" : 17
+              },
+              "holdMailEndDate" : {
+                "type" : "string",
+                "description" : "The Hold Mail End Date for message group or other messages if Hold Output is set to Yes",
+                "minLength" : 0,
+                "maxLength" : 15
+              },
+              "holdMailOption" : {
+                "type" : "string",
+                "description" : "The Hold Options Available when Hold Output is set to Y pertaining to message group or other messages. Possible Values - HELD, DELETED, CLEAR and SEND.",
+                "minLength" : 0,
+                "maxLength" : 35
+              },
+              "startDate" : {
+                "type" : "string",
+                "description" : "The Start date for receiving specific message group or other messages to an address.",
+                "minLength" : 0,
+                "maxLength" : 11
+              },
+              "endDate" : {
+                "type" : "string",
+                "description" : "Indicates the date till which the transaction history requested. If 20120101 is the start date and 20120201 is the end date, all transactions that are booked between January 1 to February 1 2012 are returned",
+                "minLength" : 0,
+                "maxLength" : 11
+              }
+            }
+          }
+        },
+        "applyOtherMessages" : {
+          "type" : "string",
+          "description" : "Identifies the customer preferences for any message group or other messages for which specific preferences have not been defined.",
+          "minLength" : 0,
+          "maxLength" : 35
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "uniqueIdentifier" : {
+          "type" : "string",
+          "description" : "The unique identifier/Message Reference of the record created."
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "overrideBody" : {
+      "properties" : {
+        "overrideDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "string",
+                "description" : "The identifier of the override"
+              },
+              "description" : {
+                "type" : "string",
+                "description" : "The actual override message"
+              },
+              "options" : {
+                "type" : "array",
+                "description" : "The usable options for the override",
+                "items" : {
+                  "type" : "string"
+                }
+              },
+              "type" : {
+                "type" : "string",
+                "description" : "The type of the override"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/ScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "ScreenErrorResponse"
+    },
+    "ScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "Specifies the record ID of parent message. "
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "BusinessScreenErrorResponse"
+    },
+    "BusinessScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "Specifies the record ID of parent message. for bad requests"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "SystemScreenErrorResponse"
+    },
+    "SystemScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "Specifies the record ID of parent message. caused by server"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    }
+  }
+}

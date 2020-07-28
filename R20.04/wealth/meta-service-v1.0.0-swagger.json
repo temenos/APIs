@@ -1,0 +1,808 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "TAP api server , Metadict / Dataset browsing service",
+    "version": "1.0.0",
+    "title": "Meta Enterprise API"
+  },
+  "basePath" : "/triplea/api/v1.0.0/meta",
+  "schemes": [],
+  "paths": {
+    "/entities/{entitySqlName}": {
+      "get": {
+        "tags": [
+          "Entities"
+        ],
+        "summary": "Get attributes of specific Entity",
+        "operationId": "getEntityBySqlName",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "entitySqlName",
+            "in": "path",
+            "type": "string",
+            "required": true,
+            "description": "Individual Entity Name"
+          },
+          {
+            "name": "sqlNameStartsWith",
+            "in": "query",
+            "type": "string",
+            "required": false,
+            "description": "sql name of attribute starts with"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/EntityAttribute"
+              }
+            }
+          },
+          "404": {
+            "description": "Entity not found"
+          },
+          "default": {
+            "description": "error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/entities": {
+      "get": {
+        "tags": [
+          "Entities"
+        ],
+        "summary": "retrieve Entities from Meta dictionary",
+        "operationId": "getEntities",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "sqlNameStartsWith",
+            "in": "query",
+            "type": "string",
+            "required": false,
+            "description": "Entity Name starts with"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Entity"
+              }
+            }
+          },
+          "default": {
+            "description": "error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/specialServices": {
+      "get": {
+        "tags": [
+          "Special Services"
+        ],
+        "summary": "retrieve Sepcial Services",
+        "operationId": "getSpecialServices",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "nameStartsWith",
+            "in": "query",
+            "type": "string",
+            "required": false,
+            "description": "Service Name starts with"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "type": "string",
+            "enum": [
+              "UpdateFields",
+              "AutomaticDataUpdate",
+              "Advisory",
+              "OrderSession",
+              "InitiateOrder"
+            ],
+            "required": false,
+            "description": "Service Type"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/SpecialServiceDefinition"
+              }
+            }
+          },
+          "default": {
+            "description": "error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/functions": {
+      "get": {
+        "tags": [
+          "Entities"
+        ],
+        "summary": "Retrieve all  dict functions.",
+        "operationId": "getDictFunctions",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Function"
+              }
+            }
+          },
+          "default": {
+            "description": "error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/datasets": {
+      "get": {
+        "tags": [
+          "Dataset"
+        ],
+        "summary": "List of dataset defined in the system",
+        "description": "List of dataset defined in the system",
+        "operationId": "getDatasets",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "nameStartsWith",
+            "in": "query",
+            "type": "string",
+            "required": false,
+            "description": "Dataset Name starts with"
+          },
+          {
+            "name": "baseEntitySqlNameStartsWith",
+            "in": "query",
+            "type": "string",
+            "required": false,
+            "description": "base entity Dataset  starts with"
+          },
+          {
+            "name": "searchFlag",
+            "in": "query",
+            "type": "boolean",
+            "required": false,
+            "description": "get datatsets with search flag eq (true / false)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/DatasetList"
+              }
+            }
+          },
+          "default": {
+            "description": "error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create / Update Datasets",
+        "description": "Create / Update Datasets",
+        "tags": [
+          "Dataset"
+        ],
+        "operationId": "createDatasets",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "description": "payload of datasets",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "dataSets": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Dataset"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "bad request",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/datasets/{name}": {
+      "get": {
+        "tags": [
+          "Dataset"
+        ],
+        "description": "get attributes of specitic dataset",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "type": "string",
+            "required": true,
+            "description": "name of dataset"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Dataset"
+              }
+            }
+          },
+          "404": {
+            "description": "Entity not found"
+          },
+          "default": {
+            "description": "error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Dataset"
+        ],
+        "description": "delete a dataset",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "type": "string",
+            "required": true,
+            "description": "name of dataset"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Entity not found"
+          },
+          "default": {
+            "description": "error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/formats/{formatCode}": {
+      "get": {
+        "tags": [
+          "Formats"
+        ],
+        "summary": "Load Format with the given code",
+        "operationId": "getFormatByCode",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "formatCode",
+            "in": "path",
+            "type": "string",
+            "required": true,
+            "description": "Individual format load."
+          },
+          {
+            "name": "codeStartsWith",
+            "in": "query",
+            "type": "string",
+            "required": false,
+            "description": "Business identifier of the format used to search an TAP entity for the format load."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/FormatsElementResponse"
+            }
+          },
+          "404": {
+            "description": "Entity not found"
+          },
+          "default": {
+            "description": "error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/formats": {
+      "get": {
+        "tags": [
+          "Formats"
+        ],
+        "summary": "Describes all the Formats in the TA core.",
+        "operationId": "fetchFormats",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "codeStartsWith",
+            "in": "query",
+            "type": "string",
+            "required": false,
+            "description": "format code starts with."
+          },
+          {
+            "name": "parentFunctionProcName",
+            "in": "query",
+            "type": "string",
+            "required": false,
+            "description": "parent function proc name"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Formats"
+            }
+          },
+          "404": {
+            "description": "Entity not found"
+          },
+          "default": {
+            "description": "error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/apidocs": {
+      "get": {
+        "tags": [
+          "Open Api documentations"
+        ],
+        "summary": "Get all services",
+        "operationId": "getApiDocs",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ApiDocsResponses"
+              }
+            }
+          },
+          "default": {
+            "description": "error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/apidocs/{swaggerFile}": {
+      "get": {
+        "tags": [
+          "Open Api documentations"
+        ],
+        "summary": "Get swagger file",
+        "operationId": "getApiDoc",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "swaggerFile",
+            "in": "path",
+            "type": "string",
+            "required": true,
+            "description": "Individual name of swagger file to load."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "string",
+              "description": "swagger file"
+            }
+          },
+          "default": {
+            "description": "error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Entity": {
+      "type": "object",
+      "description": "Describes all the physical and logical entities in the data model.",
+      "properties": {
+        "sqlName": {
+          "type": "string",
+          "description": "Physical name of the entity. It is also used in the Script Language."
+        },
+        "name": {
+          "type": "string",
+          "description": "Descriptive name of the entity."
+        },
+        "natureE": {
+          "type": "string",
+          "description": "Nature of the Entity.",
+          "enum": [
+            "None",
+            "Standard",
+            "Packaging",
+            "Custom DS",
+            "Custom",
+            "Search Data",
+            "Questionnaires Table",
+            "Report Format",
+            "Model Bank"
+          ]
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "EntityAttribute": {
+      "type": "object",
+      "description": "Describes entity is physical and logical entities in the data model.",
+      "properties": {
+        "sqlName": {
+          "type": "string",
+          "description": "Physical name of the attribute."
+        },
+        "progN": {
+          "type": "integer",
+          "description": "Order of the attribute within the entity. Used only for programming purposes by C programs."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the attribute. This name is always in English"
+        },
+        "primaryKey": {
+          "type": "boolean",
+          "description": "Specifies if the attribute is a primary key (or part of one)."
+        },
+        "businessKey": {
+          "type": "boolean",
+          "description": "Specifies if the attribute is part of the 'identifier' as seen by the user."
+        },
+        "usedInSearchPattern": {
+          "type": "boolean",
+          "description": "Specifies if the attribute is proposed or not as a search criterion when the user wants to perform a 'Full Search'."
+        },
+        "logical": {
+          "type": "boolean",
+          "description": "Specifies if the occurrence is a logical attribute, i.e. an attribute that has no physical existence but which is logically associated with the entity."
+        },
+        "dataType": {
+          "type": "string",
+          "description": "sqlname of dict_datatype"
+        },
+        "refEntitySqlName": {
+          "type": "string",
+          "description": "Referential Integrity dicy id"
+        }
+      }
+    },
+    "Function": {
+      "type": "object",
+      "description": "Triple'A Functions, descibes in table dict_function",
+      "properties": {
+        "procName": {
+          "type": "string",
+          "description": "Technical name of a function.Only used by the 'C' program."
+        },
+        "name": {
+          "type": "string",
+          "description": "Descriptive name of the entity."
+        },
+        "dictId": {
+          "type": "string",
+          "description": "Unique identifier of the entity."
+        }
+      }
+    },
+    "DatasetList": {
+      "type": "object",
+      "description": "Dataset object List",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "name of dataset"
+        },
+        "baseEntitySqlName": {
+          "type": "string",
+          "description": "sqlname of base entity for dataset"
+        },
+        "description": {
+          "type": "string",
+          "description": "description of dataset"
+        }
+      }
+    },
+    "Dataset": {
+      "type": "object",
+      "description": "Dataset object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "name of dataset"
+        },
+        "baseEntitySqlName": {
+          "type": "string",
+          "description": "sqlname of base entity for dataset"
+        },
+        "description": {
+          "type": "string",
+          "description": "description of dataset"
+        },
+        "searchFlag": {
+          "type": "boolean",
+          "description": "if true, the dataset is specialized for the search"
+        },
+        "attributes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DatasetAttribute"
+          }
+        }
+      }
+    },
+    "DatasetAttribute": {
+      "type": "object",
+      "description": "attribute of dataset",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "name of dataset"
+        },
+        "description": {
+          "type": "string",
+          "description": "description"
+        },
+        "path": {
+          "type": "string",
+          "description": "sql path of attribue , ex currency_id.code"
+        },
+        "refEntitySqlname": {
+          "type": "string",
+          "description": "sql name of entity when the path is a foreign key , ex: for path=currency_id.code, the value will be currency"
+        },
+        "permittedValues": {
+          "type": "boolean",
+          "description": "if true, the permitted values are calculated"
+        },
+        "permittedValueFields": {
+          "type": "array",
+          "description": "list of foreign keys we want to have in permitted values , required if permittedValues = true. Ignore if the field if an enumeration.",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "Formats": {
+      "type": "object",
+      "description": "Allows the user to define for each financial function the data to display and how to display them.",
+      "properties": {
+        "id": {
+          "type": "number",
+          "description": "primary key"
+        },
+        "code": {
+          "type": "string",
+          "description": "Technical name of a format."
+        },
+        "name": {
+          "type": "string",
+          "description": "Descriptive name of the format"
+        },
+        "denom": {
+          "type": "string",
+          "description": "Long name of an occurrence."
+        },
+        "functionProcName": {
+          "type": "string",
+          "description": "Reference to the function associated to the format"
+        },
+        "parentFunctionProcName": {
+          "type": "string",
+          "description": "parent function of functionProcName"
+        },
+        "entityDictSqlName": {
+          "type": "string",
+          "description": "Reference to the entity associated to the format"
+        }
+      }
+    },
+    "FormatsElementResponse": {
+      "type": "object",
+      "description": "Format Elements",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Short name of an occurrence."
+        },
+        "denom": {
+          "type": "string",
+          "description": "denomination of the format.This long name is used as the 'column' title or the prompt associated to the format element when displayed on screen."
+        },
+        "rank": {
+          "type": "integer",
+          "description": "It is not permitted to have two format elements with the same 'rank' in the same format. This is due to the the fact that, when a format is used to extract data for a report generator, this data set is stored into a Database table according to the order of its 'rank'."
+        },
+        "dataType": {
+          "type": "integer",
+          "description": "Datatype of the format element. The resulting script has to return the same datatype!"
+        }
+      }
+    },
+    "SpecialServiceDefinition": {
+      "type": "object",
+      "description": "Describes a special service",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "name of service"
+        },
+        "inputEntityName": {
+          "type": "string",
+          "description": "entity sqlname of input service"
+        },
+        "outputEntityName": {
+          "type": "string",
+          "description": "entity sqlname of input service"
+        },
+        "inputCollection": {
+          "type": "boolean",
+          "description": "if true, the service takes a collection in input"
+        },
+        "outputCollection": {
+          "type": "boolean",
+          "description": "if true , the service returns a collection"
+        },
+        "type": {
+          "type": "string",
+          "description": "type of service",
+          "enum": [
+            "UpdateFields",
+            "AutomaticDataUpdate",
+            "Advisory",
+            "OrderSession",
+            "IntiateOrder"
+          ]
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "ErrorResponse": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "level": {
+          "type": "string",
+          "enum": [
+            "ERR",
+            "WARN",
+            "INFO"
+          ]
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "ApiDocsResponses": {
+      "type": "object",
+      "description": "List of swagger files",
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": "swagger file name"
+        },
+        "title": {
+          "type": "string",
+          "description": "title of service"
+        },
+        "url": {
+          "type": "string",
+          "description": "url of swagger file"
+        }
+      }
+    }
+  }
+}

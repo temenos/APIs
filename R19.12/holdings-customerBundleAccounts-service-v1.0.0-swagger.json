@@ -1,0 +1,388 @@
+{
+    "swagger": "2.0",
+    "info":
+    {
+        "description": "To List Child and Parent accounts details",
+        "version": "v1.0.0",
+        "title": "getCustomerBundleAccounts"
+    },
+    "host": "api.server.com",
+    "basePath": "/api/v1.0.0/",
+    "schemes": ["http", "https"],
+    "security": [
+    {
+        "basicAuth": []
+    }],
+    "paths":
+    {
+        "/holdings/cashManagement/customers/{customerId}/accounts":
+        {
+            "get":
+            {
+                "description" : "To List Child and Parent accounts details",
+                "operationId": "getCustomerBundleAccounts",
+                "produces": ["application/json"],
+                "parameters": [
+                {
+                    "name": "customerId",
+                    "in": "path",
+                    "description": "The identifier of the customer",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "name": "companyCode",
+                    "in": "query",
+                    "description": "Company code in audit details",
+                    "required": false,
+                    "type": "string"
+                },
+                {
+                    "name": "page_size",
+                    "in": "query",
+                    "description": "The total number of records per page",
+                    "required": false,
+                    "type": "integer",
+                    "format": "int32"
+                },
+                {
+                    "name": "page_start",
+                    "in": "query",
+                    "description": "The record from which the response should be displayed",
+                    "required": false,
+                    "type": "integer",
+                    "format": "int32"
+                },
+                {
+                    "name": "page_token",
+                    "in": "query",
+                    "description": "Unique id expected to get as part of response from t24 on every enquiry request.",
+                    "required": false,
+                    "type": "string"
+                },
+                {
+                    "name": "credentials",
+                    "in": "header",
+                    "required": false,
+                    "type": "string"
+                },
+                {
+                    "name": "companyId",
+                    "in": "header",
+                    "required": false,
+                    "type": "string"
+                }],
+                "responses":
+                {
+                    "200":
+                    {
+                        "description": "CustomerBundleAccountsResponse",
+                        "schema":
+                        {
+                            "$ref": "#/definitions/CustomerBundleAccountsResponse"
+                        }
+                    },
+                    "default":
+                    {
+                        "description": "QueryErrorResponse",
+                        "schema":
+                        {
+                            "$ref": "#/definitions/QueryErrorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "securityDefinitions":
+    {
+        "basicAuth":
+        {
+            "type": "basic"
+        }
+    },
+    "definitions":
+    {
+        "QueryHeader":
+        {
+            "properties":
+            {
+                "audit":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "T24_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to response by T24"
+                        },
+                        "versionNumber":
+                        {
+                            "type": "string",
+                            "description": "The CURR.NO. of the record"
+                        },
+                        "parse_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to parse the response by IRIS"
+                        }
+                    }
+                },
+                "page_size":
+                {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "The total number of records per page"
+                },
+                "page_start":
+                {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "The record from which the response should be displayed"
+                },
+                "total_size":
+                {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "The total number of records present"
+                },
+                "page_token":
+                {
+                    "type": "string",
+                    "description": "Unique id expected to get as part of response from t24 on every enquiry request"
+                }
+            }
+        },
+        "CustomerBundleAccountsResponse":
+        {
+            "properties":
+            {
+                "header":
+                {
+                    "$ref": "#/definitions/QueryHeader"
+                },
+                "body":
+                {
+                    "$ref": "#/definitions/CustomerBundleAccountsResponseBody"
+                }
+            },
+            "description": "CustomerBundleAccountsResponse"
+        },
+        "CustomerBundleAccountsResponseBody":
+        {
+            "type": "array",
+            "items":
+            {
+                "type": "object",
+                "properties":
+                {
+                    "arrangementId":
+                    {
+                        "type": "string",
+                        "description": "The identifier of the arrangement"
+                    },
+                    "effectiveDate":
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "The date on which the principal movement is effected"
+                    },
+                    "customerId":
+                    {
+                        "type": "number",
+                        "description": "The identifier of the customer"
+                    },
+                    "customerName":
+                    {
+                        "type": "string",
+                        "description": "Name of the customer"
+                    },
+                    "productId":
+                    {
+                        "type": "string",
+                        "description": "Id of the product.",
+                        "maxLength": 30
+                    },
+                    "productName":
+                    {
+                        "type": "string",
+                        "description": "Name of the product, which is also its Id.",
+                        "maxLength": 30
+                    },
+                    "companyName":
+                    {
+                        "type": "string",
+                        "description": "The company in which payment is processed",
+                        "maxLength": 11
+                    },
+                    "countryId":
+                    {
+                        "type": "number",
+                        "description": "ISO country code of the financial institution. "
+                    },
+                    "companyCode":
+                    {
+                        "type": "string",
+                        "description": "Company code in audit details",
+                        "maxLength": 11
+                    },
+                    "status":
+                    {
+                        "type": "string",
+                        "description": "The status identifier",
+                        "maxLength": 15
+                    },
+                    "modifiedDate":
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": ""
+                    },
+                    "structureName":
+                    {
+                        "type": "string",
+                        "description": ""
+                    },
+                    "recipientCurrency":
+                    {
+                        "type": "string",
+                        "description": ""
+                    },
+                    "blockId":
+                    {
+                        "type": "string",
+                        "description": ""
+                    },
+                    "isBlocked":
+                    {
+                        "type": "boolean",
+                        "description": ""
+                    },
+                    "blockAuthoriser":
+                    {
+                        "type": "string",
+                        "description": ""
+                    },
+                    "blockedDateTime":
+                    {
+                        "type": "string",
+                        "description": ""
+                    },
+                    "blockCode":
+                    {
+                        "type": "string",
+                        "description": ""
+                    },
+                    "displayName":
+                    {
+                        "type": "string",
+                        "description": "Name used for display or enrichment purposes"
+                    },
+                    "blockStartDate":
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": ""
+                    },
+                    "blockEndDate":
+                    {
+                        "type": "string",
+                        "description": ""
+                    },
+                    "title":
+                    {
+                        "type": "string",
+                        "description": "Main menu title or header which the user wants to display on the screen when requesting the display of this main menu. This field can be expanded to allow the user to enter the description of the main menu in various languages."
+                    },
+                    "poolEventDate":
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": ""
+                    },
+                    "poolEvent":
+                    {
+                        "type": "string",
+                        "description": "",
+                        "maxLength": 35
+                    },
+                    "goLiveDate":
+                    {
+                        "type": "string",
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "ErrorHeader":
+        {
+            "properties":
+            {
+                "audit":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "T24_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to response by T24"
+                        },
+                        "versionNumber":
+                        {
+                            "type": "string",
+                            "description": "The CURR.NO. of the record"
+                        },
+                        "parse_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to parse the response by IRIS"
+                        }
+                    }
+                }
+            }
+        },
+        "QueryErrorResponse":
+        {
+            "properties":
+            {
+                "header":
+                {
+                    "$ref": "#/definitions/ErrorHeader"
+                },
+                "error":
+                {
+                    "$ref": "#/definitions/QueryErrorResponseBody"
+                }
+            },
+            "description": "QueryErrorResponse"
+        },
+        "QueryErrorResponseBody":
+        {
+            "type": "object",
+            "properties":
+            {
+                "code":
+                {
+                    "type": "string",
+                    "description": "The identifier of the error message"
+                },
+                "message":
+                {
+                    "type": "string",
+                    "description": "The actual t24 error message"
+                },
+                "type":
+                {
+                    "type": "string",
+                    "description": "The identifier of error type"
+                }
+            }
+        }
+    }
+}

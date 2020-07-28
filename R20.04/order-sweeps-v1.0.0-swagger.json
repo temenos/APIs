@@ -1,0 +1,498 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Create/View/Update/Delete Retail Sweep",
+    "version" : "v1.0.0",
+    "title" : "Order Sweeps"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/order/sweeps" : {
+      "post" : {
+        "operationId" : "createSweepTransaction",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/orderSweepTransaction"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "SweepTransactionResponse",
+            "schema" : {
+              "$ref" : "#/definitions/orderSweepTransactionResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/sweeps/{sweepId}" : {
+      "get" : {
+        "operationId" : "getSweepTransaction",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "sweepId",
+          "in" : "path",
+          "description" : "Identifier of the Retail account sweep",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "SweepTransactionResponse",
+            "schema" : {
+              "$ref" : "#/definitions/orderSweepTransactionResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      },
+      "put" : {
+        "operationId" : "updateSweepTransaction",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "sweepId",
+          "in" : "path",
+          "description" : "Identifier of the Retail account sweep",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/orderSweepTransaction"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "SweepTransactionResponse",
+            "schema" : {
+              "$ref" : "#/definitions/orderSweepTransactionResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      },
+      "delete" : {
+        "operationId" : "deleteSweepTransaction",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "sweepId",
+          "in" : "path",
+          "description" : "Identifier of the Retail account sweep",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "SweepTransactionResponse",
+            "schema" : {
+              "$ref" : "#/definitions/orderSweepTransactionResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "PayloadHeader" : {
+      "properties" : {
+        "override" : {
+          "type" : "object",
+          "properties" : {
+            "overrideDetails" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "id" : {
+                    "type" : "string",
+                    "description" : "The identifier of the override"
+                  },
+                  "description" : {
+                    "type" : "string",
+                    "description" : "The actual override message"
+                  },
+                  "responseCode" : {
+                    "type" : "string",
+                    "description" : "The user input to accept/reject the override."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            }
+          }
+        }
+      }
+    },
+    "orderSweepTransaction" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/orderSweepTransactionBody"
+        }
+      },
+      "description" : "orderSweepTransaction"
+    },
+    "orderSweepTransactionBody" : {
+      "type" : "object",
+      "properties" : {
+        "creditAccountSweeps" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "creditAccount" : {
+                "type" : "string",
+                "description" : "Account Number to which the outstanding balance is to be transferred"
+              },
+              "balanceType" : {
+                "type" : "string",
+                "description" : "Type of balance (e.g. current balance, credit interest accrued, deferred commission, etc.) as defined in the institution's accounting schemas."
+              },
+              "creditCurrency" : {
+                "type" : "string"
+              },
+              "minimumBalance" : {
+                "type" : "string",
+                "description" : "The minimum account balance required"
+              },
+              "maximumBalance" : {
+                "type" : "string",
+                "description" : "The maximum account balance allowed"
+              }
+            }
+          }
+        },
+        "debitAccountSweeps" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "debitAccount" : {
+                "type" : "string"
+              },
+              "balanceType" : {
+                "type" : "string",
+                "description" : "Type of balance (e.g. current balance, credit interest accrued, deferred commission, etc.) as defined in the institution's accounting schemas."
+              },
+              "debitCurrency" : {
+                "type" : "string",
+                "description" : "Indicates the currency of debit account"
+              }
+            }
+          }
+        },
+        "sweepType" : {
+          "type" : "string",
+          "description" : "Sweep types defined to the user"
+        },
+        "displayName" : {
+          "type" : "string",
+          "description" : "Name used for display or enrichment purposes"
+        },
+        "frequency" : {
+          "type" : "string",
+          "description" : "Identifies the frequency of instruction execution. It specifies the next execution date and frequency i.e. daily, weekly, fortnightly, monthly, yearly or fortnightly. "
+        },
+        "nextRunDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Specifies bank date on which the job is to be next run"
+        }
+      }
+    },
+    "ScreenHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "parse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "orderSweepTransactionResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/orderSweepTransactionResponseBody"
+        }
+      },
+      "description" : "orderSweepTransactionResponse"
+    },
+    "orderSweepTransactionResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "creditAccountSweeps" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "creditAccount" : {
+                "type" : "string",
+                "description" : "Account Number to which the outstanding balance is to be transferred"
+              },
+              "balanceType" : {
+                "type" : "string",
+                "description" : "Type of balance (e.g. current balance, credit interest accrued, deferred commission, etc.) as defined in the institution's accounting schemas."
+              },
+              "creditCurrency" : {
+                "type" : "string"
+              },
+              "minimumBalance" : {
+                "type" : "string",
+                "description" : "The minimum account balance required"
+              },
+              "maximumBalance" : {
+                "type" : "string",
+                "description" : "The maximum account balance allowed"
+              }
+            }
+          }
+        },
+        "debitAccountSweeps" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "debitAccount" : {
+                "type" : "string"
+              },
+              "balanceType" : {
+                "type" : "string",
+                "description" : "Type of balance (e.g. current balance, credit interest accrued, deferred commission, etc.) as defined in the institution's accounting schemas."
+              },
+              "debitCurrency" : {
+                "type" : "string",
+                "description" : "Indicates the currency of debit account"
+              }
+            }
+          }
+        },
+        "sweepType" : {
+          "type" : "string",
+          "description" : "Sweep types defined to the user"
+        },
+        "displayName" : {
+          "type" : "string",
+          "description" : "Name used for display or enrichment purposes"
+        },
+        "frequency" : {
+          "type" : "string",
+          "description" : "Identifies the frequency of instruction execution. It specifies the next execution date and frequency i.e. daily, weekly, fortnightly, monthly, yearly or fortnightly. "
+        },
+        "nextRunDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Specifies bank date on which the job is to be next run"
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "parse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "overrideBody" : {
+      "properties" : {
+        "overrideDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "string",
+                "description" : "The identifier of the override"
+              },
+              "description" : {
+                "type" : "string",
+                "description" : "The actual override message"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/ScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "ScreenErrorResponse"
+    },
+    "ScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type"
+        }
+      }
+    }
+  }
+}

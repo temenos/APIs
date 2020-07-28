@@ -1,0 +1,453 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Allows to view the security trade details",
+    "version" : "v1.0.0",
+    "title" : "Holdings Security Trades APIs"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/holdings/securityTrades/{securityTradeId}" : {
+      "get" : {
+        "summary" : "Allows to view the security trade details",
+        "description" : "Allows to view the security trade details along with the delivery message information",
+        "operationId" : "getSecurityTrades",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "securityTradeId",
+          "in" : "path",
+          "description" : "Identifier of the Security Trade",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "customerId",
+          "in" : "query",
+          "description" : "Identifier of the customer",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "instrumentId",
+          "in" : "query",
+          "description" : "The identifier of the instrument",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "depositoryId",
+          "in" : "query",
+          "description" : "Id of the securities depository.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "SecurityTradesResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SecurityTradesResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "QueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records per page"
+        },
+        "page_start" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The record from which the response should be displayed"
+        },
+        "total_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records present"
+        },
+        "page_token" : {
+          "type" : "string",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request"
+        }
+      }
+    },
+    "SecurityTradesResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/SecurityTradesResponseBody"
+        }
+      },
+      "description" : "SecurityTradesResponse"
+    },
+    "SecurityTradesResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "customerDetails" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "customerId" : {
+                  "type" : "string",
+                  "description" : "Identifier of the customer",
+                  "maxLength" : 10
+                },
+                "customerName" : {
+                  "type" : "string",
+                  "description" : "Name of the customer"
+                },
+                "netAmount" : {
+                  "type" : "string",
+                  "description" : "Holds the total amount"
+                },
+                "interestAmount" : {
+                  "type" : "string",
+                  "description" : "The accrued Interest due or accrued."
+                },
+                "commission" : {
+                  "type" : "string",
+                  "description" : "The bank fees or commission charged for the transaction"
+                },
+                "taxAmount" : {
+                  "type" : "string",
+                  "description" : "Total amount of taxes applicable on all commission or charges calculated for the transaction/payment."
+                },
+                "foreignFee" : {
+                  "type" : "string",
+                  "description" : "This field Records the Foreign Fee amount charged to the Customer for the trade."
+                },
+                "miscellaneousFee" : {
+                  "type" : "string",
+                  "description" : "The amount of miscellaneous fees charged to the Customer for the trade"
+                },
+                "EBVFee" : {
+                  "type" : "string",
+                  "description" : "This field Records the amount of EBV Fees charged to the Customer for the trade."
+                },
+                "grossAmount" : {
+                  "type" : "string",
+                  "description" : "Contains the gross amount"
+                },
+                "grossInterestAccrued" : {
+                  "type" : "string",
+                  "description" : "Contains the sum of gross amount and interest accrued"
+                },
+                "nominalDetails" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object",
+                    "properties" : {
+                      "quantity" : {
+                        "type" : "number",
+                        "description" : "The nominal quantity",
+                        "maximum" : 18
+                      },
+                      "price" : {
+                        "type" : "string",
+                        "description" : "The Price at which the nominal amount of the Security is to be valued for the transaction."
+                      }
+                    }
+                  }
+                },
+                "deliveryDetails" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object",
+                    "properties" : {
+                      "deliveryKey" : {
+                        "type" : "string",
+                        "description" : "Delivery instruction reference",
+                        "maxLength" : 30
+                      },
+                      "dateTime" : {
+                        "type" : "string",
+                        "description" : "Contains the date and time separated by '-'"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "brokerDetails" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "deliveryDetails" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object",
+                    "properties" : {
+                      "deliveryKey" : {
+                        "type" : "string",
+                        "description" : "Delivery instruction reference",
+                        "maxLength" : 30
+                      },
+                      "messageType" : {
+                        "type" : "string",
+                        "description" : "Defines the type of swift messages that are sent or received for a transaction"
+                      },
+                      "dateTime" : {
+                        "type" : "string",
+                        "description" : "Contains the date and time separated by '-'"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "matchCodeDetails" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "matchCode" : {
+                  "type" : "string",
+                  "description" : "Defines the status of settlement instruction for the incoming MT548 swift message. Sample values are 1. MTCH/MACH 2. IPRC/PACK"
+                },
+                "matchCodeDescription" : {
+                  "type" : "string",
+                  "description" : "Contains the description of the status of settlement Instruction.  Sample values are 1. Matched 2. Acknowledged/Accepted"
+                }
+              }
+            }
+          },
+          "securityTradeId" : {
+            "type" : "string",
+            "description" : "Identifier of the Security Trade"
+          },
+          "tradeDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "Standard date field which records trade date of the account"
+          },
+          "valueDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "Indicates the value date on which the underlying accounting entry is to be given value (for interest purposes)"
+          },
+          "depositoryDeliveryKey" : {
+            "type" : "string",
+            "description" : "Contains the swift message reference for the MT540-543",
+            "maxLength" : 30
+          },
+          "dateTime" : {
+            "type" : "string",
+            "description" : "Contains the date and time separated by '-'"
+          },
+          "depositoryConfirmationKey" : {
+            "type" : "string",
+            "description" : "Contains the incoming MT544-547 Swift message reference"
+          },
+          "depositoryConfirmationTime" : {
+            "type" : "string",
+            "description" : "Contains the date and time of receipt of depository confirmation swift MT544-547"
+          },
+          "settlementStatusKey" : {
+            "type" : "string",
+            "description" : "Contains the swift message MT548 reference of the status of settlement Instruction sent"
+          },
+          "settlementStatusTime" : {
+            "type" : "string",
+            "description" : "Contains the date and time of receipt of swift message MT548 (Status of Settlement Instruction)"
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessQueryErrorResponseBody"
+        }
+      },
+      "description" : "BusinessQueryErrorResponse"
+    },
+    "BusinessQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message for bad requests"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemQueryErrorResponseBody"
+        }
+      },
+      "description" : "SystemQueryErrorResponse"
+    },
+    "SystemQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message caused by server"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    }
+  }
+}

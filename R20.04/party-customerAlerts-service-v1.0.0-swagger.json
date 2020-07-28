@@ -1,0 +1,352 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Retrieves the information about the customer alerts..",
+    "version" : "v1.0.0",
+    "title" : "Party Customer Alerts APIs"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/party/customers/{customerId}/alertRequests" : {
+      "get" : {
+        "summary" : "Retrieves the alert subcription details for specific customer",
+        "description" : "Retrieves alert requests details",
+        "operationId" : "getAlertRequests",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "customerId",
+          "in" : "path",
+          "description" : "Identifier of the customer",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "contractReference",
+          "in" : "query",
+          "description" : "Contains the contract reference",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "subscribe",
+          "in" : "query",
+          "description" : "Enables an alert service",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "alertRequestId",
+          "in" : "query",
+          "description" : "The unique identifier of the alert request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "AlertRequestsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/AlertRequestsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "QueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records per page"
+        },
+        "page_start" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The record from which the response should be displayed"
+        },
+        "total_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records present"
+        },
+        "page_token" : {
+          "type" : "string",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request"
+        }
+      }
+    },
+    "AlertRequestsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/AlertRequestsResponseBody"
+        }
+      },
+      "description" : "AlertRequestsResponse"
+    },
+    "AlertRequestsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "fields" : {
+            "type" : "array",
+            "description" : "Input is the valid field name for the metrics evaluation of alerts",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "fieldDisplayName" : {
+                  "type" : "string",
+                  "description" : "Contains the name of the display for enrichment purposes",
+                  "maxLength" : 50
+                },
+                "operand" : {
+                  "type" : "string",
+                  "description" : "This field along with fieldName and value, defines the conditions for the alert to be triggered.",
+                  "maxLength" : 35
+                },
+                "value" : {
+                  "type" : "string",
+                  "description" : "The value of the field on which the Alert criteria is based",
+                  "maxLength" : 35
+                }
+              }
+            }
+          },
+          "alertRequestId" : {
+            "type" : "string",
+            "description" : "The unique identifier of the alert request.",
+            "maxLength" : 35
+          },
+          "contractReference" : {
+            "type" : "string",
+            "description" : "Contains the contract reference",
+            "maxLength" : 35
+          },
+          "displayName" : {
+            "type" : "string",
+            "description" : "Contains the name used for display or enrichment purposes",
+            "maxLength" : 35
+          },
+          "eventId" : {
+            "type" : "string",
+            "description" : "Event identifier",
+            "maxLength" : 35
+          },
+          "messageGroupId" : {
+            "type" : "string",
+            "description" : "Contains the starting message id of the conversation",
+            "maxLength" : 35
+          },
+          "accountId" : {
+            "type" : "string",
+            "description" : "Identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId. Accepts both IBAN & BBAN"
+          },
+          "versionNumber" : {
+            "type" : "string",
+            "description" : "Current number of the record",
+            "maxLength" : 4
+          },
+          "productDescription" : {
+            "type" : "string",
+            "description" : "Indicates the description of the Product"
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessQueryErrorResponseBody"
+        }
+      },
+      "description" : "BusinessQueryErrorResponse"
+    },
+    "BusinessQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message for bad requests"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemQueryErrorResponseBody"
+        }
+      },
+      "description" : "SystemQueryErrorResponse"
+    },
+    "SystemQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message caused by server"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,495 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Allows creation or update of funds diversion parameter",
+    "version" : "v1.0.0",
+    "title" : "Management of funds diversion"
+  },
+  "host" : "api.server.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/holdings/accounts/{parameterId}/fundsDiversion" : {
+      "post" : {
+        "summary" : "Creates funds diversion parameter",
+        "description" : "Allows creation of record in Funds Diversion Param application. The record can be created for a company that would decide the behavior of booking funds against any account in the company that has the Auto Pay Account Setup.",
+        "operationId" : "createFundsDiversion",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "parameterId",
+          "in" : "path",
+          "description" : "Identifies the record key of a Parameter table,that acts as a key to access the information specific to them. This holds system or a company as its value.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/FundsDiversion"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "FundsDiversionResponse",
+            "schema" : {
+              "$ref" : "#/definitions/FundsDiversionResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Updates funds diversion parameter",
+        "description" : "Allows update of record in Funds Diversion Param application. The record can be updated for a company that would decide the behavior of booking funds against any account in the company that has the Auto Pay Account Setup.",
+        "operationId" : "updateFundsDiversion",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "parameterId",
+          "in" : "path",
+          "description" : "Identifies the record key of a Parameter table,that acts as a key to access the information specific to them. This holds system or a company as its value.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/FundsDiversion"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "FundsDiversionResponse",
+            "schema" : {
+              "$ref" : "#/definitions/FundsDiversionResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "PayloadHeader" : {
+      "properties" : {
+        "override" : {
+          "type" : "object",
+          "properties" : {
+            "overrideDetails" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "id" : {
+                    "type" : "string",
+                    "description" : "The identifier of the override"
+                  },
+                  "description" : {
+                    "type" : "string",
+                    "description" : "The actual override message"
+                  },
+                  "responseCode" : {
+                    "type" : "string",
+                    "description" : "The user input to accept/reject the override."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            }
+          }
+        }
+      }
+    },
+    "FundsDiversion" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/FundsDiversionBody"
+        }
+      },
+      "description" : "FundsDiversion"
+    },
+    "FundsDiversionBody" : {
+      "type" : "object",
+      "properties" : {
+        "transactionCodes" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "transactionCode" : {
+                "type" : "number",
+                "description" : "Identifies the system internal transaction code applicable to the transaction."
+              }
+            }
+          }
+        },
+        "defaultFundsDiversion" : {
+          "type" : "string",
+          "description" : "Specifies the behavior of diversion of funds to be followed by the Accounting System. Allowed values are YES - to divert the funds to  the diversion account of the original account , NO - diversion of funds do not take place.",
+          "maxLength" : 35
+        }
+      }
+    },
+    "ScreenHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "FundsDiversionResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/FundsDiversionResponseBody"
+        }
+      },
+      "description" : "FundsDiversionResponse"
+    },
+    "FundsDiversionResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "transactionCodes" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "transactionCode" : {
+                "type" : "number",
+                "description" : "Identifies the system internal transaction code applicable to the transaction."
+              }
+            }
+          }
+        },
+        "defaultFundsDiversion" : {
+          "type" : "string",
+          "description" : "Specifies the behavior of diversion of funds to be followed by the Accounting System. Allowed values are YES - to divert the funds to  the diversion account of the original account , NO - diversion of funds do not take place.",
+          "maxLength" : 35
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "overrideBody" : {
+      "properties" : {
+        "overrideDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "string",
+                "description" : "The identifier of the override"
+              },
+              "description" : {
+                "type" : "string",
+                "description" : "The actual override message"
+              },
+              "options" : {
+                "type" : "array",
+                "description" : "The usable options for the override",
+                "items" : {
+                  "type" : "string"
+                }
+              },
+              "type" : {
+                "type" : "string",
+                "description" : "The type of the override"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/ScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "ScreenErrorResponse"
+    },
+    "ScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message "
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "BusinessScreenErrorResponse"
+    },
+    "BusinessScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message for bad requests"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "SystemScreenErrorResponse"
+    },
+    "SystemScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message caused by server"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,2500 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "APIs updates and retrieves information on cash transactions performed by a customer ",
+    "version" : "v1.0.0",
+    "title" : "Service APIs for Currency Transaction Reporting"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/order/us/payment/escrows" : {
+      "post" : {
+        "summary" : "Initiates an Escrow payment transaction",
+        "description" : "Escrow Payment",
+        "operationId" : "createEscrowAdhocDeposit",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/EscrowAdhocDeposit"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "EscrowAdhocDepositResponse",
+            "schema" : {
+              "$ref" : "#/definitions/EscrowAdhocDepositResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/us/accounts/{accountId}/reservedFunds" : {
+      "post" : {
+        "summary" : "Create a hold transaction to lock the funds in an account",
+        "description" : "Create account Hold",
+        "operationId" : "createAccountBalanceHold",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "accountId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/AccountBalanceHold"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "AccountBalanceHoldResponse",
+            "schema" : {
+              "$ref" : "#/definitions/AccountBalanceHoldResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/us/accounts/{holdId}/reservedFunds" : {
+      "get" : {
+        "summary" : "Retrieves information the amount locked, lock type and the validity for a hold transaction",
+        "description" : "Retrieve hold funds detail",
+        "operationId" : "getAccountBalanceHold",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "holdId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "AccountBalanceHoldResponse",
+            "schema" : {
+              "$ref" : "#/definitions/AccountBalanceHoldResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/us/payment/holds/{holdId}" : {
+      "put" : {
+        "summary" : "Update amount or validity date of an existing hold",
+        "description" : "Update existing hold",
+        "operationId" : "updateAccountBalanceHold",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "holdId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/AccountBalanceHold"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "AccountBalanceHoldResponse",
+            "schema" : {
+              "$ref" : "#/definitions/AccountBalanceHoldResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/us/payment/accounts/{accountId}/holdSummary" : {
+      "get" : {
+        "summary" : "Retrieves details of all holds placed on an account",
+        "description" : "Get hold summary",
+        "operationId" : "getAccountHoldDetails",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "accountId",
+          "in" : "path",
+          "description" : "Identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId. Accepts both IBAN & BBAN",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "holdTypeId",
+          "in" : "query",
+          "description" : "Purpose or the type of hold placed on the account  The available list of hold types can be retrieved through getHoldTypes",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "AccountHoldDetailsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/AccountHoldDetailsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/us/payment/transactionStops" : {
+      "post" : {
+        "summary" : "createTransactionStop",
+        "description" : "createTransactionStop",
+        "operationId" : "createTransactionStop",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/TransactionStop"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "TransactionStopResponse",
+            "schema" : {
+              "$ref" : "#/definitions/TransactionStopResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/us/payment/transactionStops/{stopInstructionId}" : {
+      "delete" : {
+        "summary" : "deleteTransactionStop",
+        "description" : "deleteTransactionStop",
+        "operationId" : "deleteTransactionStop",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "stopInstructionId",
+          "in" : "path",
+          "description" : "ID of stop instruction",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/TransactionStopDelete"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "TransactionStopResponse",
+            "schema" : {
+              "$ref" : "#/definitions/TransactionStopResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/us/payment/wireTransfers" : {
+      "post" : {
+        "summary" : "Creates a Fedwire CTR payment",
+        "description" : "Posts a CTR wire transaction",
+        "operationId" : "createFedwire-CTR",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Fedwire-CTR"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Fedwire-CTRResponse",
+            "schema" : {
+              "$ref" : "#/definitions/Fedwire-CTRResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "PayloadHeader" : {
+      "properties" : {
+        "override" : {
+          "type" : "object",
+          "properties" : {
+            "overrideDetails" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "id" : {
+                    "type" : "string",
+                    "description" : "The identifier of the override"
+                  },
+                  "description" : {
+                    "type" : "string",
+                    "description" : "The actual override message"
+                  },
+                  "responseCode" : {
+                    "type" : "string",
+                    "description" : "The user input to accept/reject the override."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            }
+          }
+        }
+      }
+    },
+    "EscrowAdhocDeposit" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/EscrowAdhocDepositBody"
+        }
+      },
+      "description" : "EscrowAdhocDeposit"
+    },
+    "EscrowAdhocDepositBody" : {
+      "type" : "object",
+      "properties" : {
+        "overrides" : {
+          "type" : "array",
+          "description" : "The override message is captured  that was generated at the time of commitment of the transaction to the database.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "override" : {
+                "type" : "string",
+                "description" : "The override message is captured  that was generated at the time of commitment of the transaction to the database.",
+                "minLength" : 0,
+                "maxLength" : 8
+              }
+            }
+          }
+        },
+        "creditAccountId" : {
+          "type" : "string",
+          "description" : "Credit account identifier of the payment or transaction",
+          "minLength" : 0,
+          "maxLength" : 15,
+          "enum" : [ "@ref:product-accountOperationalDate-service-v1.0.0" ]
+        },
+        "creditValueDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Reference quoted by the credit account for a payment"
+        },
+        "creditCurrencyId" : {
+          "type" : "string",
+          "description" : "Specifies the credit currency. For example: USD, EUR etc.",
+          "minLength" : 0,
+          "maxLength" : 23
+        },
+        "creditAmount" : {
+          "type" : "number",
+          "description" : "Amount to be credited in a payment transaction",
+          "minimum" : 0,
+          "maximum" : 12
+        },
+        "debitAccountId" : {
+          "type" : "string",
+          "description" : "Indicates the debit account number of the payment or transaction.",
+          "minLength" : 0,
+          "maxLength" : 14,
+          "enum" : [ "@ref:product-accountOperationalDate-service-v1.0.0" ]
+        },
+        "debitValueDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Date on which the amount will be debited for settlement"
+        },
+        "debitCurrencyId" : {
+          "type" : "string",
+          "description" : "The currency of the debit side in payment transaction. ",
+          "minLength" : 0,
+          "maxLength" : 22
+        },
+        "debitAmount" : {
+          "type" : "number",
+          "description" : "Amount to be debited in a payment transaction",
+          "minimum" : 0,
+          "maximum" : 11
+        },
+        "treasuryRate" : {
+          "type" : "number",
+          "description" : "The Treasury rate for the conversion between payment currency and the ordering currency",
+          "minimum" : 0,
+          "maximum" : 12
+        },
+        "processingDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "The date when payment instruction is processed in system."
+        },
+        "customerRate" : {
+          "type" : "number",
+          "description" : "The exchange rate that is actually applied for currency conversion in case of transactions involving FX conversion. ",
+          "minimum" : 0,
+          "maximum" : 12
+        },
+        "customerSpread" : {
+          "type" : "number",
+          "description" : "The spread that is applied to the published internal exchange rates to derive the final exchange rate or the customer rate for the transaction",
+          "minimum" : 0,
+          "maximum" : 14
+        },
+        "recordStatus" : {
+          "type" : "string",
+          "description" : "General status of the record. Possible values: - null - authorised - IHLD - input, on hold - INAU - input, not authorised - INA2 - input, authorised, pending second authorisation - INAO - input, not authorised with blocking overrides - RNAU - reversed, not authorised - RNAO - reversed, not authorised with blocking overrides",
+          "minLength" : 0,
+          "maxLength" : 12
+        },
+        "currNo" : {
+          "type" : "number",
+          "description" : "Current Number which indicates how many times the record is modified.",
+          "minimum" : 0,
+          "maximum" : 6
+        },
+        "inputter" : {
+          "type" : "string",
+          "description" : "The user identifier who input the transaction",
+          "minLength" : 0,
+          "maxLength" : 8
+        },
+        "dateTime" : {
+          "type" : "number",
+          "description" : "Contains the date and time separated by '-'",
+          "minimum" : 0,
+          "maximum" : 8
+        },
+        "authoriser" : {
+          "type" : "string",
+          "description" : "This indicates the user who authorized the transaction.",
+          "minLength" : 0,
+          "maxLength" : 10
+        },
+        "companyId" : {
+          "type" : "string",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "minLength" : 0,
+          "maxLength" : 9,
+          "enum" : [ "@ref:reference-companies-service-v1.0.0" ]
+        },
+        "deptCode" : {
+          "type" : "string",
+          "description" : "The department code where the transaction was authorized.",
+          "minLength" : 0,
+          "maxLength" : 10,
+          "enum" : [ "@ref:reference-accountOfficers-service-v1.0.0" ]
+        },
+        "auditorCode" : {
+          "type" : "string",
+          "description" : "Reference to the auditor code.",
+          "minLength" : 0,
+          "maxLength" : 11
+        },
+        "auditTimeDate" : {
+          "type" : "number",
+          "description" : "Reference to the audit date and time.",
+          "minimum" : 0,
+          "maximum" : 13
+        }
+      }
+    },
+    "ScreenHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "uniqueIdentifier" : {
+          "type" : "string",
+          "description" : "The unique identifier/Message Reference of the record created."
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "EscrowAdhocDepositResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/EscrowAdhocDepositResponseBody"
+        }
+      },
+      "description" : "EscrowAdhocDepositResponse"
+    },
+    "EscrowAdhocDepositResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "overrides" : {
+          "type" : "array",
+          "description" : "The override message is captured  that was generated at the time of commitment of the transaction to the database.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "override" : {
+                "type" : "string",
+                "description" : "The override message is captured  that was generated at the time of commitment of the transaction to the database.",
+                "minLength" : 0,
+                "maxLength" : 8
+              }
+            }
+          }
+        },
+        "creditAccountId" : {
+          "type" : "string",
+          "description" : "Credit account identifier of the payment or transaction",
+          "minLength" : 0,
+          "maxLength" : 15,
+          "enum" : [ "@ref:product-accountOperationalDate-service-v1.0.0" ]
+        },
+        "creditValueDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Reference quoted by the credit account for a payment"
+        },
+        "creditCurrencyId" : {
+          "type" : "string",
+          "description" : "Specifies the credit currency. For example: USD, EUR etc.",
+          "minLength" : 0,
+          "maxLength" : 23
+        },
+        "creditAmount" : {
+          "type" : "number",
+          "description" : "Amount to be credited in a payment transaction",
+          "minimum" : 0,
+          "maximum" : 12
+        },
+        "debitAccountId" : {
+          "type" : "string",
+          "description" : "Indicates the debit account number of the payment or transaction.",
+          "minLength" : 0,
+          "maxLength" : 14,
+          "enum" : [ "@ref:product-accountOperationalDate-service-v1.0.0" ]
+        },
+        "debitValueDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Date on which the amount will be debited for settlement"
+        },
+        "debitCurrencyId" : {
+          "type" : "string",
+          "description" : "The currency of the debit side in payment transaction. ",
+          "minLength" : 0,
+          "maxLength" : 22
+        },
+        "debitAmount" : {
+          "type" : "number",
+          "description" : "Amount to be debited in a payment transaction",
+          "minimum" : 0,
+          "maximum" : 11
+        },
+        "treasuryRate" : {
+          "type" : "number",
+          "description" : "The Treasury rate for the conversion between payment currency and the ordering currency",
+          "minimum" : 0,
+          "maximum" : 12
+        },
+        "processingDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "The date when payment instruction is processed in system."
+        },
+        "customerRate" : {
+          "type" : "number",
+          "description" : "The exchange rate that is actually applied for currency conversion in case of transactions involving FX conversion. ",
+          "minimum" : 0,
+          "maximum" : 12
+        },
+        "customerSpread" : {
+          "type" : "number",
+          "description" : "The spread that is applied to the published internal exchange rates to derive the final exchange rate or the customer rate for the transaction",
+          "minimum" : 0,
+          "maximum" : 14
+        },
+        "recordStatus" : {
+          "type" : "string",
+          "description" : "General status of the record. Possible values: - null - authorised - IHLD - input, on hold - INAU - input, not authorised - INA2 - input, authorised, pending second authorisation - INAO - input, not authorised with blocking overrides - RNAU - reversed, not authorised - RNAO - reversed, not authorised with blocking overrides",
+          "minLength" : 0,
+          "maxLength" : 12
+        },
+        "currNo" : {
+          "type" : "number",
+          "description" : "Current Number which indicates how many times the record is modified.",
+          "minimum" : 0,
+          "maximum" : 6
+        },
+        "inputter" : {
+          "type" : "string",
+          "description" : "The user identifier who input the transaction",
+          "minLength" : 0,
+          "maxLength" : 8
+        },
+        "dateTime" : {
+          "type" : "number",
+          "description" : "Contains the date and time separated by '-'",
+          "minimum" : 0,
+          "maximum" : 8
+        },
+        "authoriser" : {
+          "type" : "string",
+          "description" : "This indicates the user who authorized the transaction.",
+          "minLength" : 0,
+          "maxLength" : 10
+        },
+        "companyId" : {
+          "type" : "string",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "minLength" : 0,
+          "maxLength" : 9,
+          "enum" : [ "@ref:reference-companies-service-v1.0.0" ]
+        },
+        "deptCode" : {
+          "type" : "string",
+          "description" : "The department code where the transaction was authorized.",
+          "minLength" : 0,
+          "maxLength" : 10,
+          "enum" : [ "@ref:reference-accountOfficers-service-v1.0.0" ]
+        },
+        "auditorCode" : {
+          "type" : "string",
+          "description" : "Reference to the auditor code.",
+          "minLength" : 0,
+          "maxLength" : 11
+        },
+        "auditTimeDate" : {
+          "type" : "number",
+          "description" : "Reference to the audit date and time.",
+          "minimum" : 0,
+          "maximum" : 13
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "uniqueIdentifier" : {
+          "type" : "string",
+          "description" : "The unique identifier/Message Reference of the record created."
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "overrideBody" : {
+      "properties" : {
+        "overrideDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "string",
+                "description" : "The identifier of the override"
+              },
+              "description" : {
+                "type" : "string",
+                "description" : "The actual override message"
+              },
+              "options" : {
+                "type" : "array",
+                "description" : "The usable options for the override",
+                "items" : {
+                  "type" : "string"
+                }
+              },
+              "type" : {
+                "type" : "string",
+                "description" : "The type of the override"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/ScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "ScreenErrorResponse"
+    },
+    "ScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message "
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "BusinessScreenErrorResponse"
+    },
+    "BusinessScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message for bad requests"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "SystemScreenErrorResponse"
+    },
+    "SystemScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message caused by server"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    },
+    "AccountBalanceHold" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/AccountBalanceHoldBody"
+        }
+      },
+      "description" : "AccountBalanceHold"
+    },
+    "AccountBalanceHoldBody" : {
+      "type" : "object",
+      "properties" : {
+        "overrides" : {
+          "type" : "array",
+          "description" : "The override message is captured  that was generated at the time of commitment of the transaction to the database.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "override" : {
+                "type" : "string",
+                "description" : "The override message is captured  that was generated at the time of commitment of the transaction to the database.",
+                "minLength" : 0,
+                "maxLength" : 8
+              }
+            }
+          }
+        },
+        "holdTypeId" : {
+          "type" : "string",
+          "description" : "Purpose or the type of hold placed on the account  The available list of hold types can be retrieved through getHoldTypes",
+          "minLength" : 0,
+          "maxLength" : 10
+        },
+        "accountId" : {
+          "type" : "string",
+          "description" : "Identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId. Accepts both IBAN & BBAN",
+          "minLength" : 0,
+          "maxLength" : 9,
+          "enum" : [ "@ref:product-accountOperationalDate-service-v1.0.0" ]
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Contains the description of purpose of the payment.",
+          "minLength" : 0,
+          "maxLength" : 11
+        },
+        "fromDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Indicates the business date from when the balance reservation event is active."
+        },
+        "toDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Indicates the business date until when the balance reservation event is active."
+        },
+        "lockedAmount" : {
+          "type" : "number",
+          "description" : "Shows reserved amount for the underlying account for a given balance reservation event.",
+          "minimum" : 0,
+          "maximum" : 12
+        },
+        "blockPriorityId" : {
+          "type" : "string",
+          "description" : "When there are multiple holds or locks placed on an account, it holds the priority of releasing the holds for a payment, while performing retry process in an account",
+          "minLength" : 0,
+          "maxLength" : 15
+        },
+        "recordStatus" : {
+          "type" : "string",
+          "description" : "General status of the record. Possible values: - null - authorised - IHLD - input, on hold - INAU - input, not authorised - INA2 - input, authorised, pending second authorisation - INAO - input, not authorised with blocking overrides - RNAU - reversed, not authorised - RNAO - reversed, not authorised with blocking overrides",
+          "minLength" : 0,
+          "maxLength" : 12
+        },
+        "currNo" : {
+          "type" : "number",
+          "description" : "Current Number which indicates how many times the record is modified.",
+          "minimum" : 0,
+          "maximum" : 6
+        },
+        "inputter" : {
+          "type" : "string",
+          "description" : "The user identifier who input the transaction",
+          "minLength" : 0,
+          "maxLength" : 8
+        },
+        "dateTime" : {
+          "type" : "number",
+          "description" : "Contains the date and time separated by '-'",
+          "minimum" : 0,
+          "maximum" : 8
+        },
+        "authoriser" : {
+          "type" : "string",
+          "description" : "This indicates the user who authorized the transaction.",
+          "minLength" : 0,
+          "maxLength" : 10
+        },
+        "companyId" : {
+          "type" : "string",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "minLength" : 0,
+          "maxLength" : 9,
+          "enum" : [ "@ref:reference-companies-service-v1.0.0" ]
+        },
+        "deptCode" : {
+          "type" : "string",
+          "description" : "The department code where the transaction was authorized.",
+          "minLength" : 0,
+          "maxLength" : 10,
+          "enum" : [ "@ref:reference-accountOfficers-service-v1.0.0" ]
+        },
+        "auditorCode" : {
+          "type" : "string",
+          "description" : "Reference to the auditor code.",
+          "minLength" : 0,
+          "maxLength" : 11
+        },
+        "auditTimeDate" : {
+          "type" : "number",
+          "description" : "Reference to the audit date and time.",
+          "minimum" : 0,
+          "maximum" : 13
+        }
+      }
+    },
+    "AccountBalanceHoldResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/AccountBalanceHoldResponseBody"
+        }
+      },
+      "description" : "AccountBalanceHoldResponse"
+    },
+    "AccountBalanceHoldResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "overrides" : {
+          "type" : "array",
+          "description" : "The override message is captured  that was generated at the time of commitment of the transaction to the database.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "override" : {
+                "type" : "string",
+                "description" : "The override message is captured  that was generated at the time of commitment of the transaction to the database.",
+                "minLength" : 0,
+                "maxLength" : 8
+              }
+            }
+          }
+        },
+        "holdTypeId" : {
+          "type" : "string",
+          "description" : "Purpose or the type of hold placed on the account  The available list of hold types can be retrieved through getHoldTypes",
+          "minLength" : 0,
+          "maxLength" : 10
+        },
+        "accountId" : {
+          "type" : "string",
+          "description" : "Identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId. Accepts both IBAN & BBAN",
+          "minLength" : 0,
+          "maxLength" : 9,
+          "enum" : [ "@ref:product-accountOperationalDate-service-v1.0.0" ]
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Contains the description of purpose of the payment.",
+          "minLength" : 0,
+          "maxLength" : 11
+        },
+        "fromDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Indicates the business date from when the balance reservation event is active."
+        },
+        "toDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Indicates the business date until when the balance reservation event is active."
+        },
+        "lockedAmount" : {
+          "type" : "number",
+          "description" : "Shows reserved amount for the underlying account for a given balance reservation event.",
+          "minimum" : 0,
+          "maximum" : 12
+        },
+        "blockPriorityId" : {
+          "type" : "string",
+          "description" : "When there are multiple holds or locks placed on an account, it holds the priority of releasing the holds for a payment, while performing retry process in an account",
+          "minLength" : 0,
+          "maxLength" : 15
+        },
+        "recordStatus" : {
+          "type" : "string",
+          "description" : "General status of the record. Possible values: - null - authorised - IHLD - input, on hold - INAU - input, not authorised - INA2 - input, authorised, pending second authorisation - INAO - input, not authorised with blocking overrides - RNAU - reversed, not authorised - RNAO - reversed, not authorised with blocking overrides",
+          "minLength" : 0,
+          "maxLength" : 12
+        },
+        "currNo" : {
+          "type" : "number",
+          "description" : "Current Number which indicates how many times the record is modified.",
+          "minimum" : 0,
+          "maximum" : 6
+        },
+        "inputter" : {
+          "type" : "string",
+          "description" : "The user identifier who input the transaction",
+          "minLength" : 0,
+          "maxLength" : 8
+        },
+        "dateTime" : {
+          "type" : "number",
+          "description" : "Contains the date and time separated by '-'",
+          "minimum" : 0,
+          "maximum" : 8
+        },
+        "authoriser" : {
+          "type" : "string",
+          "description" : "This indicates the user who authorized the transaction.",
+          "minLength" : 0,
+          "maxLength" : 10
+        },
+        "companyId" : {
+          "type" : "string",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "minLength" : 0,
+          "maxLength" : 9,
+          "enum" : [ "@ref:reference-companies-service-v1.0.0" ]
+        },
+        "deptCode" : {
+          "type" : "string",
+          "description" : "The department code where the transaction was authorized.",
+          "minLength" : 0,
+          "maxLength" : 10,
+          "enum" : [ "@ref:reference-accountOfficers-service-v1.0.0" ]
+        },
+        "auditorCode" : {
+          "type" : "string",
+          "description" : "Reference to the auditor code.",
+          "minLength" : 0,
+          "maxLength" : 11
+        },
+        "auditTimeDate" : {
+          "type" : "number",
+          "description" : "Reference to the audit date and time.",
+          "minimum" : 0,
+          "maximum" : 13
+        }
+      }
+    },
+    "QueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records per page"
+        },
+        "page_start" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The record from which the response should be displayed"
+        },
+        "total_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records present"
+        },
+        "page_token" : {
+          "type" : "string",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request"
+        }
+      }
+    },
+    "AccountHoldDetailsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/AccountHoldDetailsResponseBody"
+        }
+      },
+      "description" : "AccountHoldDetailsResponse"
+    },
+    "AccountHoldDetailsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "holdTypeId" : {
+            "type" : "string",
+            "description" : "Purpose or the type of hold placed on the account  The available list of hold types can be retrieved through getHoldTypes",
+            "maxLength" : 35
+          },
+          "accountId" : {
+            "type" : "string",
+            "description" : "Identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId. Accepts both IBAN & BBAN",
+            "maxLength" : 16
+          },
+          "description" : {
+            "type" : "string",
+            "description" : "Contains the description of purpose of the payment.",
+            "maxLength" : 35
+          },
+          "fromDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "Indicates the business date from when the balance reservation event is active."
+          },
+          "toDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "Indicates the business date until when the balance reservation event is active."
+          },
+          "lockedAmount" : {
+            "type" : "number",
+            "description" : "Shows reserved amount for the underlying account for a given balance reservation event.",
+            "maximum" : 19
+          },
+          "blockPriorityId" : {
+            "type" : "string",
+            "description" : "When there are multiple holds or locks placed on an account, it holds the priority of releasing the holds for a payment, while performing retry process in an account",
+            "maxLength" : 6
+          }
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessQueryErrorResponseBody"
+        }
+      },
+      "description" : "BusinessQueryErrorResponse"
+    },
+    "BusinessQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message for bad requests"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemQueryErrorResponseBody"
+        }
+      },
+      "description" : "SystemQueryErrorResponse"
+    },
+    "SystemQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message caused by server"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    },
+    "TransactionStop" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/TransactionStopBody"
+        }
+      },
+      "description" : "TransactionStop"
+    },
+    "TransactionStopBody" : {
+      "type" : "object",
+      "properties" : {
+        "stopCondition" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "attributeName" : {
+                "type" : "string",
+                "description" : "Attribute name for  transaction stop",
+                "minLength" : 0,
+                "maxLength" : 13,
+                "enum" : [ "AMOUNT", "CHECKNUMBER", "CREDITORID", "CREDITORNAME" ]
+              },
+              "operand" : {
+                "type" : "string",
+                "description" : "This field along with fieldName and value, defines the conditions for the alert to be triggered.",
+                "minLength" : 0,
+                "maxLength" : 7,
+                "enum" : [ "EQ", "NE", "LE", "LT", "GE", "GT", "RG", "CT", "NC" ]
+              },
+              "values" : {
+                "type" : "string",
+                "description" : "The value of the field on which the Alert criteria is based",
+                "minLength" : 0,
+                "maxLength" : 6
+              }
+            }
+          }
+        },
+        "accountId" : {
+          "type" : "string",
+          "description" : "Identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId. Accepts both IBAN & BBAN",
+          "minLength" : 0,
+          "maxLength" : 9,
+          "enum" : [ "@ref:product-accountOperationalDate-service-v1.0.0" ]
+        },
+        "stopTypeId" : {
+          "type" : "string",
+          "description" : "Indicates the reason why a Payment Stop is requested for e.g. Cheque lost, funds not available etc. ",
+          "minLength" : 0,
+          "maxLength" : 10
+        },
+        "transactionChannel" : {
+          "type" : "string",
+          "description" : "The channel through which the transaction has been placed",
+          "minLength" : 0,
+          "maxLength" : 18
+        },
+        "stopInstructionChannel" : {
+          "type" : "string",
+          "description" : "Stop instruction channel for  transaction stop",
+          "minLength" : 0,
+          "maxLength" : 22,
+          "enum" : [ "BANK", "BATCHFEED", "BRANCH", "LETTER", "MAIL", "ONLINE", "PHONE" ]
+        },
+        "stopReason" : {
+          "type" : "string",
+          "description" : "Stop reason for  transaction stop",
+          "minLength" : 0,
+          "maxLength" : 10,
+          "enum" : [ "CHKDES", "CHKLOST", "CHKSTO", "CIFD", "CUSPROT", "TERM" ]
+        },
+        "checkIssueDate" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 14
+        },
+        "replacementCheck" : {
+          "type" : "string",
+          "description" : "Captures the check number to be used replacing the original one provided at the time of capturing the stop instruction",
+          "minLength" : 0,
+          "maxLength" : 16
+        },
+        "replacementCheckIssueDate" : {
+          "type" : "string",
+          "description" : "Captues the check issue date of the replacement check",
+          "minLength" : 0,
+          "maxLength" : 25
+        },
+        "expiryDate" : {
+          "type" : "string",
+          "description" : "The date an agreement such as an arrangement, product, credit facility or limit is due to expire",
+          "minLength" : 0,
+          "maxLength" : 10
+        },
+        "waiveCharge" : {
+          "type" : "string",
+          "description" : "Indicates if the charges are to be waived for the instruction",
+          "minLength" : 0,
+          "maxLength" : 11
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status identifier of the account. The values are 'DELETED' if the account is closed, 'BLOCKED' is there are any posting restrictions & 'ENABLED' for active accounts.",
+          "minLength" : 0,
+          "maxLength" : 6,
+          "enum" : [ "ACTIVE", "CANCELLED", "EXPIRED" ]
+        },
+        "suppressNotice" : {
+          "type" : "string",
+          "description" : "Indicates if a customers or accounts advice or notice that usually gets generated based on certain events should be generated. eg, creation of a new stop transaction notice to an account holder when he places a transaction stop request, confirming the details of the stop request.",
+          "minLength" : 0,
+          "maxLength" : 14
+        },
+        "cancelInstruction" : {
+          "type" : "string",
+          "description" : "Will allow the user to cancel an active Transaction Stop Instruction and this will move the Status of the instruction to Cancelled",
+          "minLength" : 0,
+          "maxLength" : 17,
+          "enum" : [ "YES", "NO" ]
+        },
+        "override" : {
+          "type" : "string",
+          "description" : "The override message is captured  that was generated at the time of commitment of the transaction to the database.",
+          "minLength" : 0,
+          "maxLength" : 8
+        },
+        "recordStatus" : {
+          "type" : "string",
+          "description" : "General status of the record. Possible values: - null - authorised - IHLD - input, on hold - INAU - input, not authorised - INA2 - input, authorised, pending second authorisation - INAO - input, not authorised with blocking overrides - RNAU - reversed, not authorised - RNAO - reversed, not authorised with blocking overrides",
+          "minLength" : 0,
+          "maxLength" : 12
+        },
+        "currNo" : {
+          "type" : "string",
+          "description" : "Current Number which indicates how many times the record is modified.",
+          "minLength" : 0,
+          "maxLength" : 6
+        },
+        "inputter" : {
+          "type" : "string",
+          "description" : "The user identifier who input the transaction",
+          "minLength" : 0,
+          "maxLength" : 8
+        },
+        "dateTime" : {
+          "type" : "string",
+          "description" : "Contains the date and time separated by '-'",
+          "minLength" : 0,
+          "maxLength" : 8
+        },
+        "authoriser" : {
+          "type" : "string",
+          "description" : "This indicates the user who authorized the transaction.",
+          "minLength" : 0,
+          "maxLength" : 10
+        },
+        "companyId" : {
+          "type" : "string",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "minLength" : 0,
+          "maxLength" : 9,
+          "enum" : [ "@ref:reference-companies-service-v1.0.0" ]
+        },
+        "deptCode" : {
+          "type" : "string",
+          "description" : "The department code where the transaction was authorized.",
+          "minLength" : 0,
+          "maxLength" : 10,
+          "enum" : [ "@ref:reference-accountOfficers-service-v1.0.0" ]
+        },
+        "auditorCode" : {
+          "type" : "string",
+          "description" : "Reference to the auditor code.",
+          "minLength" : 0,
+          "maxLength" : 11
+        },
+        "auditTimeDate" : {
+          "type" : "string",
+          "description" : "Reference to the audit date and time.",
+          "minLength" : 0,
+          "maxLength" : 13
+        }
+      }
+    },
+    "TransactionStopResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/TransactionStopResponseBody"
+        }
+      },
+      "description" : "TransactionStopResponse"
+    },
+    "TransactionStopResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "stopCondition" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "attributeName" : {
+                "type" : "string",
+                "description" : "Attribute name for  transaction stop",
+                "minLength" : 0,
+                "maxLength" : 13,
+                "enum" : [ "AMOUNT", "CHECKNUMBER", "CREDITORID", "CREDITORNAME" ]
+              },
+              "operand" : {
+                "type" : "string",
+                "description" : "This field along with fieldName and value, defines the conditions for the alert to be triggered.",
+                "minLength" : 0,
+                "maxLength" : 7,
+                "enum" : [ "EQ", "NE", "LE", "LT", "GE", "GT", "RG", "CT", "NC" ]
+              },
+              "values" : {
+                "type" : "string",
+                "description" : "The value of the field on which the Alert criteria is based",
+                "minLength" : 0,
+                "maxLength" : 6
+              }
+            }
+          }
+        },
+        "accountId" : {
+          "type" : "string",
+          "description" : "Identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId. Accepts both IBAN & BBAN",
+          "minLength" : 0,
+          "maxLength" : 9,
+          "enum" : [ "@ref:product-accountOperationalDate-service-v1.0.0" ]
+        },
+        "stopTypeId" : {
+          "type" : "string",
+          "description" : "Indicates the reason why a Payment Stop is requested for e.g. Cheque lost, funds not available etc. ",
+          "minLength" : 0,
+          "maxLength" : 10
+        },
+        "transactionChannel" : {
+          "type" : "string",
+          "description" : "The channel through which the transaction has been placed",
+          "minLength" : 0,
+          "maxLength" : 18
+        },
+        "stopInstructionChannel" : {
+          "type" : "string",
+          "description" : "Stop instruction channel for  transaction stop",
+          "minLength" : 0,
+          "maxLength" : 22,
+          "enum" : [ "BANK", "BATCHFEED", "BRANCH", "LETTER", "MAIL", "ONLINE", "PHONE" ]
+        },
+        "stopReason" : {
+          "type" : "string",
+          "description" : "Stop reason for  transaction stop",
+          "minLength" : 0,
+          "maxLength" : 10,
+          "enum" : [ "CHKDES", "CHKLOST", "CHKSTO", "CIFD", "CUSPROT", "TERM" ]
+        },
+        "checkIssueDate" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 14
+        },
+        "replacementCheck" : {
+          "type" : "string",
+          "description" : "Captures the check number to be used replacing the original one provided at the time of capturing the stop instruction",
+          "minLength" : 0,
+          "maxLength" : 16
+        },
+        "replacementCheckIssueDate" : {
+          "type" : "string",
+          "description" : "Captues the check issue date of the replacement check",
+          "minLength" : 0,
+          "maxLength" : 25
+        },
+        "expiryDate" : {
+          "type" : "string",
+          "description" : "The date an agreement such as an arrangement, product, credit facility or limit is due to expire",
+          "minLength" : 0,
+          "maxLength" : 10
+        },
+        "waiveCharge" : {
+          "type" : "string",
+          "description" : "Indicates if the charges are to be waived for the instruction",
+          "minLength" : 0,
+          "maxLength" : 11
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status identifier of the account. The values are 'DELETED' if the account is closed, 'BLOCKED' is there are any posting restrictions & 'ENABLED' for active accounts.",
+          "minLength" : 0,
+          "maxLength" : 6,
+          "enum" : [ "ACTIVE", "CANCELLED", "EXPIRED" ]
+        },
+        "suppressNotice" : {
+          "type" : "string",
+          "description" : "Indicates if a customers or accounts advice or notice that usually gets generated based on certain events should be generated. eg, creation of a new stop transaction notice to an account holder when he places a transaction stop request, confirming the details of the stop request.",
+          "minLength" : 0,
+          "maxLength" : 14
+        },
+        "cancelInstruction" : {
+          "type" : "string",
+          "description" : "Will allow the user to cancel an active Transaction Stop Instruction and this will move the Status of the instruction to Cancelled",
+          "minLength" : 0,
+          "maxLength" : 17,
+          "enum" : [ "YES", "NO" ]
+        },
+        "override" : {
+          "type" : "string",
+          "description" : "The override message is captured  that was generated at the time of commitment of the transaction to the database.",
+          "minLength" : 0,
+          "maxLength" : 8
+        },
+        "recordStatus" : {
+          "type" : "string",
+          "description" : "General status of the record. Possible values: - null - authorised - IHLD - input, on hold - INAU - input, not authorised - INA2 - input, authorised, pending second authorisation - INAO - input, not authorised with blocking overrides - RNAU - reversed, not authorised - RNAO - reversed, not authorised with blocking overrides",
+          "minLength" : 0,
+          "maxLength" : 12
+        },
+        "currNo" : {
+          "type" : "string",
+          "description" : "Current Number which indicates how many times the record is modified.",
+          "minLength" : 0,
+          "maxLength" : 6
+        },
+        "inputter" : {
+          "type" : "string",
+          "description" : "The user identifier who input the transaction",
+          "minLength" : 0,
+          "maxLength" : 8
+        },
+        "dateTime" : {
+          "type" : "string",
+          "description" : "Contains the date and time separated by '-'",
+          "minLength" : 0,
+          "maxLength" : 8
+        },
+        "authoriser" : {
+          "type" : "string",
+          "description" : "This indicates the user who authorized the transaction.",
+          "minLength" : 0,
+          "maxLength" : 10
+        },
+        "companyId" : {
+          "type" : "string",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "minLength" : 0,
+          "maxLength" : 9,
+          "enum" : [ "@ref:reference-companies-service-v1.0.0" ]
+        },
+        "deptCode" : {
+          "type" : "string",
+          "description" : "The department code where the transaction was authorized.",
+          "minLength" : 0,
+          "maxLength" : 10,
+          "enum" : [ "@ref:reference-accountOfficers-service-v1.0.0" ]
+        },
+        "auditorCode" : {
+          "type" : "string",
+          "description" : "Reference to the auditor code.",
+          "minLength" : 0,
+          "maxLength" : 11
+        },
+        "auditTimeDate" : {
+          "type" : "string",
+          "description" : "Reference to the audit date and time.",
+          "minLength" : 0,
+          "maxLength" : 13
+        }
+      }
+    },
+    "TransactionStopDelete" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        }
+      },
+      "description" : "TransactionStopDelete"
+    },
+    "Fedwire-CTR" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/Fedwire-CTRBody"
+        }
+      },
+      "description" : "Fedwire-CTR"
+    },
+    "Fedwire-CTRBody" : {
+      "type" : "object",
+      "required" : [ "orderingCustomerAddress", "orderingCustomerId", "paymentPriority" ],
+      "properties" : {
+        "beneficiaryFiNameAddressLines" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "beneficiaryInstituteAddress" : {
+                "type" : "string",
+                "description" : "Address of the routing or Intermediary Financial Institute. Information will be used in wire messages",
+                "minLength" : 0,
+                "maxLength" : 28
+              }
+            }
+          }
+        },
+        "beneficiaryAddress" : {
+          "type" : "array",
+          "description" : "The address of the Beneficiary if the customer number of the Beneficiary is not known",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "beneficiaryAddressLine1" : {
+                "type" : "string",
+                "description" : "Address of the beneficiary or credit account.",
+                "minLength" : 0,
+                "maxLength" : 23
+              }
+            }
+          }
+        },
+        "intermediaryFiNameAddressLines" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "intermediaryFiNameAddressLine" : {
+                "type" : "string",
+                "description" : "Intermediary Financial Institution Name and address",
+                "minLength" : 0,
+                "maxLength" : 29
+              }
+            }
+          }
+        },
+        "OriginatorToBeneficiaryLines" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "originatorToBeneficiaryInformation" : {
+                "type" : "string",
+                "description" : "Information from originator to the beneficiary regarding the payment",
+                "minLength" : 0,
+                "maxLength" : 34
+              }
+            }
+          }
+        },
+        "receiverFiAndIntermediaryFiLines" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "receiverFiAndIntermediaryFiInfo" : {
+                "type" : "string",
+                "description" : "Specifies the additional information between the Receiver and intermediary financial institution",
+                "minLength" : 0,
+                "maxLength" : 31
+              }
+            }
+          }
+        },
+        "adviceInformation" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "wireAdviceCode" : {
+                "type" : "string",
+                "description" : "Supplementary information can be passed in advices between Financial Institutions indicating the name of the originating party, beneficiary, beneficiary account number etc. The advice code indicates the type of advice information shared in the advice.",
+                "minLength" : 0,
+                "maxLength" : 21
+              }
+            }
+          }
+        },
+        "InformationLines" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "wireAdviceInformation" : {
+                "type" : "string",
+                "description" : "Supplementary information passed in wire transfers",
+                "minLength" : 0,
+                "maxLength" : 21
+              }
+            }
+          }
+        },
+        "overrides" : {
+          "type" : "array",
+          "description" : "The override message is captured  that was generated at the time of commitment of the transaction to the database.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "override" : {
+                "type" : "string",
+                "description" : "The override message is captured  that was generated at the time of commitment of the transaction to the database.",
+                "minLength" : 0,
+                "maxLength" : 8
+              }
+            }
+          }
+        },
+        "paymentPriority" : {
+          "type" : "string",
+          "description" : "Indicates the payment priority using a service code. Allowed values can be retreived using getEbLookups for virtualTableName PAYMENT.SERVICE.LEVEL.CODE.",
+          "minLength" : 1,
+          "maxLength" : 18
+        },
+        "orderingCustomerId" : {
+          "type" : "string",
+          "description" : "Indicates the customer id for the ordering customer",
+          "minLength" : 1,
+          "maxLength" : 18
+        },
+        "orderingCustomerAddress" : {
+          "type" : "string",
+          "description" : "Debit account customer address details",
+          "minLength" : 1,
+          "maxLength" : 23
+        },
+        "debitAccountId" : {
+          "type" : "string",
+          "description" : "Indicates the debit account number of the payment or transaction.",
+          "minLength" : 0,
+          "maxLength" : 14
+        },
+        "schedulePaymentAmount" : {
+          "type" : "number",
+          "minimum" : 0,
+          "maximum" : 21
+        },
+        "debitValueDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Date on which the amount will be debited for settlement"
+        },
+        "chargeBearer" : {
+          "type" : "string",
+          "description" : "Bearer of the charges of the order. For example: BEN(All transaction charges are to be borne by the beneficiary customer.), OUR(All transaction charges are to be borne by the ordering customer.), SHA(Transaction charges on the Sender's side are to be borne by the ordering customer, transaction charges on the Receiver's side are to be borne by the beneficiary customer.)",
+          "minLength" : 0,
+          "maxLength" : 12
+        },
+        "accountWithBankBIC" : {
+          "type" : "string",
+          "description" : "This is the BIC code of the institution where beneficiary holds an account",
+          "minLength" : 0,
+          "maxLength" : 20
+        },
+        "beneficiaryInstituteRoutingNo" : {
+          "type" : "string",
+          "description" : "Routing number of DDA number of the Financial institution where the beneficiary account exists",
+          "minLength" : 0,
+          "maxLength" : 29
+        },
+        "beneficiaryId" : {
+          "type" : "string",
+          "description" : "Indicates the Id of beneficiary when beneficiary details are stored",
+          "minLength" : 0,
+          "maxLength" : 13
+        },
+        "beneficiaryName" : {
+          "type" : "string",
+          "description" : "Short title or short name of the beneficiary account account",
+          "minLength" : 0,
+          "maxLength" : 15
+        },
+        "beneficiaryBIC" : {
+          "type" : "string",
+          "description" : "BIC (Bank Identifier Code) of the beneficiary customer ",
+          "minLength" : 0,
+          "maxLength" : 18
+        },
+        "beneficiaryAccountId" : {
+          "type" : "string",
+          "description" : "Unique account identifier of the beneficiary account number.",
+          "minLength" : 0,
+          "maxLength" : 20
+        },
+        "intermediaryFiBicCode" : {
+          "type" : "string",
+          "description" : "BIC code of Intermediary Financial institution",
+          "minLength" : 0,
+          "maxLength" : 21
+        },
+        "intermediaryFiRoutingNo" : {
+          "type" : "string",
+          "description" : "Routing number of Intermediary Financial institution",
+          "minLength" : 0,
+          "maxLength" : 23
+        },
+        "instructionIdReference" : {
+          "type" : "string",
+          "description" : "Indicates the SEPA purpose of the SEPA Payment us : Captures the type of identification for the originator, like Swift, chips participant, passport number, etc,. Required information for DRW type wire transfer",
+          "minLength" : 0,
+          "maxLength" : 25
+        },
+        "systemId" : {
+          "type" : "string",
+          "description" : "The system application identifier from which the entry was generated us : Transaction Reference in Payment system.",
+          "minLength" : 0,
+          "maxLength" : 8
+        },
+        "paymentStatus" : {
+          "type" : "string",
+          "description" : "Describes the current status of the payment order in the payment system",
+          "minLength" : 0,
+          "maxLength" : 13
+        },
+        "recordStatus" : {
+          "type" : "string",
+          "description" : "General status of the record. Possible values: - null - authorised - IHLD - input, on hold - INAU - input, not authorised - INA2 - input, authorised, pending second authorisation - INAO - input, not authorised with blocking overrides - RNAU - reversed, not authorised - RNAO - reversed, not authorised with blocking overrides",
+          "minLength" : 0,
+          "maxLength" : 12
+        },
+        "currNo" : {
+          "type" : "number",
+          "description" : "Current Number which indicates how many times the record is modified.",
+          "minimum" : 0,
+          "maximum" : 6
+        },
+        "inputter" : {
+          "type" : "string",
+          "description" : "The user identifier who input the transaction",
+          "minLength" : 0,
+          "maxLength" : 8
+        },
+        "dateTime" : {
+          "type" : "number",
+          "description" : "Contains the date and time separated by '-'",
+          "minimum" : 0,
+          "maximum" : 8
+        },
+        "authoriser" : {
+          "type" : "string",
+          "description" : "This indicates the user who authorized the transaction.",
+          "minLength" : 0,
+          "maxLength" : 10
+        },
+        "companyId" : {
+          "type" : "string",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "minLength" : 0,
+          "maxLength" : 9,
+          "enum" : [ "@ref:reference-companies-service-v1.0.0" ]
+        },
+        "deptCode" : {
+          "type" : "string",
+          "description" : "The department code where the transaction was authorized.",
+          "minLength" : 0,
+          "maxLength" : 10,
+          "enum" : [ "@ref:reference-accountOfficers-service-v1.0.0" ]
+        },
+        "auditorCode" : {
+          "type" : "string",
+          "description" : "Reference to the auditor code.",
+          "minLength" : 0,
+          "maxLength" : 11
+        },
+        "auditTimeDate" : {
+          "type" : "number",
+          "description" : "Reference to the audit date and time.",
+          "minimum" : 0,
+          "maximum" : 13
+        }
+      }
+    },
+    "Fedwire-CTRResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/Fedwire-CTRResponseBody"
+        }
+      },
+      "description" : "Fedwire-CTRResponse"
+    },
+    "Fedwire-CTRResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "beneficiaryFiNameAddressLines" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "beneficiaryInstituteAddress" : {
+                "type" : "string",
+                "description" : "Address of the routing or Intermediary Financial Institute. Information will be used in wire messages",
+                "minLength" : 0,
+                "maxLength" : 28
+              }
+            }
+          }
+        },
+        "beneficiaryAddress" : {
+          "type" : "array",
+          "description" : "The address of the Beneficiary if the customer number of the Beneficiary is not known",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "beneficiaryAddressLine1" : {
+                "type" : "string",
+                "description" : "Address of the beneficiary or credit account.",
+                "minLength" : 0,
+                "maxLength" : 23
+              }
+            }
+          }
+        },
+        "intermediaryFiNameAddressLines" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "intermediaryFiNameAddressLine" : {
+                "type" : "string",
+                "description" : "Intermediary Financial Institution Name and address",
+                "minLength" : 0,
+                "maxLength" : 29
+              }
+            }
+          }
+        },
+        "OriginatorToBeneficiaryLines" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "originatorToBeneficiaryInformation" : {
+                "type" : "string",
+                "description" : "Information from originator to the beneficiary regarding the payment",
+                "minLength" : 0,
+                "maxLength" : 34
+              }
+            }
+          }
+        },
+        "receiverFiAndIntermediaryFiLines" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "receiverFiAndIntermediaryFiInfo" : {
+                "type" : "string",
+                "description" : "Specifies the additional information between the Receiver and intermediary financial institution",
+                "minLength" : 0,
+                "maxLength" : 31
+              }
+            }
+          }
+        },
+        "adviceInformation" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "wireAdviceCode" : {
+                "type" : "string",
+                "description" : "Supplementary information can be passed in advices between Financial Institutions indicating the name of the originating party, beneficiary, beneficiary account number etc. The advice code indicates the type of advice information shared in the advice.",
+                "minLength" : 0,
+                "maxLength" : 21
+              }
+            }
+          }
+        },
+        "InformationLines" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "wireAdviceInformation" : {
+                "type" : "string",
+                "description" : "Supplementary information passed in wire transfers",
+                "minLength" : 0,
+                "maxLength" : 21
+              }
+            }
+          }
+        },
+        "overrides" : {
+          "type" : "array",
+          "description" : "The override message is captured  that was generated at the time of commitment of the transaction to the database.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "override" : {
+                "type" : "string",
+                "description" : "The override message is captured  that was generated at the time of commitment of the transaction to the database.",
+                "minLength" : 0,
+                "maxLength" : 8
+              }
+            }
+          }
+        },
+        "customerOrBankTransfer" : {
+          "type" : "string",
+          "description" : "Indicates if the payment was initiated by Custome or the financial institution",
+          "minLength" : 0,
+          "maxLength" : 22
+        },
+        "paymentPriority" : {
+          "type" : "string",
+          "description" : "Indicates the payment priority using a service code. Allowed values can be retreived using getEbLookups for virtualTableName PAYMENT.SERVICE.LEVEL.CODE.",
+          "minLength" : 1,
+          "maxLength" : 18
+        },
+        "orderingCustomerId" : {
+          "type" : "string",
+          "description" : "Indicates the customer id for the ordering customer",
+          "minLength" : 1,
+          "maxLength" : 18
+        },
+        "orderingCustomerAddress" : {
+          "type" : "string",
+          "description" : "Debit account customer address details",
+          "minLength" : 1,
+          "maxLength" : 23
+        },
+        "debitAccountId" : {
+          "type" : "string",
+          "description" : "Indicates the debit account number of the payment or transaction.",
+          "minLength" : 0,
+          "maxLength" : 14
+        },
+        "schedulePaymentAmount" : {
+          "type" : "number",
+          "minimum" : 0,
+          "maximum" : 21
+        },
+        "debitValueDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Date on which the amount will be debited for settlement"
+        },
+        "chargeBearer" : {
+          "type" : "string",
+          "description" : "Bearer of the charges of the order. For example: BEN(All transaction charges are to be borne by the beneficiary customer.), OUR(All transaction charges are to be borne by the ordering customer.), SHA(Transaction charges on the Sender's side are to be borne by the ordering customer, transaction charges on the Receiver's side are to be borne by the beneficiary customer.)",
+          "minLength" : 0,
+          "maxLength" : 12
+        },
+        "accountWithBankBIC" : {
+          "type" : "string",
+          "description" : "This is the BIC code of the institution where beneficiary holds an account",
+          "minLength" : 0,
+          "maxLength" : 20
+        },
+        "beneficiaryInstituteRoutingNo" : {
+          "type" : "string",
+          "description" : "Routing number of DDA number of the Financial institution where the beneficiary account exists",
+          "minLength" : 0,
+          "maxLength" : 29
+        },
+        "beneficiaryId" : {
+          "type" : "string",
+          "description" : "Indicates the Id of beneficiary when beneficiary details are stored",
+          "minLength" : 0,
+          "maxLength" : 13
+        },
+        "beneficiaryName" : {
+          "type" : "string",
+          "description" : "Short title or short name of the beneficiary account account",
+          "minLength" : 0,
+          "maxLength" : 15
+        },
+        "beneficiaryBIC" : {
+          "type" : "string",
+          "description" : "BIC (Bank Identifier Code) of the beneficiary customer ",
+          "minLength" : 0,
+          "maxLength" : 18
+        },
+        "beneficiaryAccountId" : {
+          "type" : "string",
+          "description" : "Unique account identifier of the beneficiary account number.",
+          "minLength" : 0,
+          "maxLength" : 20
+        },
+        "intermediaryFiBicCode" : {
+          "type" : "string",
+          "description" : "BIC code of Intermediary Financial institution",
+          "minLength" : 0,
+          "maxLength" : 21
+        },
+        "intermediaryFiRoutingNo" : {
+          "type" : "string",
+          "description" : "Routing number of Intermediary Financial institution",
+          "minLength" : 0,
+          "maxLength" : 23
+        },
+        "instructionIdReference" : {
+          "type" : "string",
+          "description" : "Indicates the SEPA purpose of the SEPA Payment us : Captures the type of identification for the originator, like Swift, chips participant, passport number, etc,. Required information for DRW type wire transfer",
+          "minLength" : 0,
+          "maxLength" : 25
+        },
+        "systemId" : {
+          "type" : "string",
+          "description" : "The system application identifier from which the entry was generated us : Transaction Reference in Payment system.",
+          "minLength" : 0,
+          "maxLength" : 8
+        },
+        "paymentStatus" : {
+          "type" : "string",
+          "description" : "Describes the current status of the payment order in the payment system",
+          "minLength" : 0,
+          "maxLength" : 13
+        },
+        "recordStatus" : {
+          "type" : "string",
+          "description" : "General status of the record. Possible values: - null - authorised - IHLD - input, on hold - INAU - input, not authorised - INA2 - input, authorised, pending second authorisation - INAO - input, not authorised with blocking overrides - RNAU - reversed, not authorised - RNAO - reversed, not authorised with blocking overrides",
+          "minLength" : 0,
+          "maxLength" : 12
+        },
+        "currNo" : {
+          "type" : "number",
+          "description" : "Current Number which indicates how many times the record is modified.",
+          "minimum" : 0,
+          "maximum" : 6
+        },
+        "inputter" : {
+          "type" : "string",
+          "description" : "The user identifier who input the transaction",
+          "minLength" : 0,
+          "maxLength" : 8
+        },
+        "dateTime" : {
+          "type" : "number",
+          "description" : "Contains the date and time separated by '-'",
+          "minimum" : 0,
+          "maximum" : 8
+        },
+        "authoriser" : {
+          "type" : "string",
+          "description" : "This indicates the user who authorized the transaction.",
+          "minLength" : 0,
+          "maxLength" : 10
+        },
+        "companyId" : {
+          "type" : "string",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "minLength" : 0,
+          "maxLength" : 9,
+          "enum" : [ "@ref:reference-companies-service-v1.0.0" ]
+        },
+        "deptCode" : {
+          "type" : "string",
+          "description" : "The department code where the transaction was authorized.",
+          "minLength" : 0,
+          "maxLength" : 10,
+          "enum" : [ "@ref:reference-accountOfficers-service-v1.0.0" ]
+        },
+        "auditorCode" : {
+          "type" : "string",
+          "description" : "Reference to the auditor code.",
+          "minLength" : 0,
+          "maxLength" : 11
+        },
+        "auditTimeDate" : {
+          "type" : "number",
+          "description" : "Reference to the audit date and time.",
+          "minimum" : 0,
+          "maximum" : 13
+        }
+      }
+    }
+  }
+}

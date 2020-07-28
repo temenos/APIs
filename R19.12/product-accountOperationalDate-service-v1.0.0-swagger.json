@@ -1,0 +1,1000 @@
+{
+    "swagger": "2.0",
+    "info":
+    {
+        "description": "Set Go-Live date for Summary / Currency Summary / Transaction Accounts",
+        "version": "v1.0.0",
+        "title": "Account Operational Date API"
+    },
+    "host": "api.server.com",
+    "basePath": "/api/v1.0.0/",
+    "schemes": ["http", "https"],
+    "security": [
+    {
+        "basicAuth": []
+    }],
+    "paths":
+    {
+        "/product/cashManagement/bundles/accounts/goLiveDates":
+        {
+            "post":
+            {
+                "description": "Set Go-Live date for Summary / Currency Summary / Transaction Accounts",
+                "operationId": "updateAccountOperationalDate",
+                "produces": ["application/json"],
+                "parameters": [
+                {
+                    "name": "validate_only",
+                    "in": "query",
+                    "description": "The identifier to indicate if it is set to only validate or not.",
+                    "required": false,
+                    "type": "boolean"
+                },
+                {
+                    "in": "body",
+                    "name": "payload",
+                    "required": true,
+                    "schema":
+                    {
+                        "$ref": "#/definitions/AccountOperationalDate"
+                    }
+                },
+                {
+                    "name": "credentials",
+                    "in": "header",
+                    "required": false,
+                    "type": "string"
+                },
+                {
+                    "name": "companyId",
+                    "in": "header",
+                    "required": false,
+                    "type": "string"
+                }],
+                "responses":
+                {
+                    "200":
+                    {
+                        "description": "updateAccountOperationalDateResponse",
+                        "schema":
+                        {
+                            "$ref": "#/definitions/AccountOperationalDateResponse"
+                        }
+                    },
+                    "default":
+                    {
+                        "description": "ArrangementErrorResponse",
+                        "schema":
+                        {
+                            "$ref": "#/definitions/ArrangementErrorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "securityDefinitions":
+    {
+        "basicAuth":
+        {
+            "type": "basic"
+        }
+    },
+    "definitions":
+    {
+        "PayloadHeader":
+        {
+            "properties":
+            {
+                "override":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "overrideDetails":
+                        {
+                            "type": "array",
+                            "items":
+                            {
+                                "type": "object",
+                                "properties":
+                                {
+                                    "id":
+                                    {
+                                        "type": "string",
+                                        "description": "The identifier of the override"
+                                    },
+                                    "description":
+                                    {
+                                        "type": "string",
+                                        "description": "The actual override message"
+                                    },
+                                    "responseCode":
+                                    {
+                                        "type": "string",
+                                        "description": "The user input to accept/reject the override."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "audit":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "versionNumber":
+                        {
+                            "type": "string",
+                            "description": "The CURR.NO. of the record"
+                        }
+                    }
+                }
+            }
+        },
+        "AccountOperationalDate":
+        {
+            "properties":
+            {
+                "header":
+                {
+                    "$ref": "#/definitions/PayloadHeader"
+                },
+                "body":
+                {
+                    "$ref": "#/definitions/AccountOperationalDateBody"
+                }
+            },
+            "description": "AccountOperationalDate"
+        },
+        "AccountOperationalDateBody":
+        {
+            "type": "object",
+            "properties":
+            {
+                "partyIds":
+                {
+                    "type": "array",
+                    "description": "Allows capturing of customers or person entities to be part of the relationship. If partyType is selected as Customer, then the system will allow only customer Ids to be captured into this field. If partyType is selected as Person or Entity, then system will allow only personEntity Ids to be captured into this field.",
+                    "items":
+                    {
+                        "type": "object",
+                        "properties":
+                        {
+                            "partyId":
+                            {
+                                "type": "string",
+                                "description": "Allows capturing of customers or person entities to be part of the relationship. If partyType is selected as Customer, then the system will allow only customer Ids to be captured into this field. If partyType is selected as Person or Entity, then system will allow only personEntity Ids to be captured into this field."
+                            }
+                        }
+                    }
+                },
+                "arrangmentId":
+                {
+                    "type": "string",
+                    "description": ""
+                },
+                "arrangementEffectiveDate":
+                {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Date from which the arrangement is effective"
+                },
+                "productId":
+                {
+                    "type": "string",
+                    "description": "Id of the product."
+                },
+                "activityId":
+                {
+                    "type": "string",
+                    "description": "Id of the activity, e.g. ACCOUNTS-CAPITALISE-ACCHARGE*CARDISSUEFEE"
+                },
+                "bundlehierarchy":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "aliases":
+                        {
+                            "type": "array",
+                            "items":
+                            {
+                                "type": "object",
+                                "properties":
+                                {
+                                    "alias":
+                                    {
+                                        "type": "string",
+                                        "description": ""
+                                    }
+                                }
+                            }
+                        },
+                        "accounts":
+                        {
+                            "type": "array",
+                            "description": "Account Identifier in the transaction/deal",
+                            "items":
+                            {
+                                "type": "object",
+                                "properties":
+                                {
+                                    "account":
+                                    {
+                                        "type": "string",
+                                        "description": "Account Identifier in the transaction/deal"
+                                    }
+                                }
+                            }
+                        },
+                        "customers":
+                        {
+                            "type": "array",
+                            "description": "The customer number",
+                            "items":
+                            {
+                                "type": "object",
+                                "properties":
+                                {
+                                    "customer":
+                                    {
+                                        "type": "string",
+                                        "description": "The customer number"
+                                    }
+                                }
+                            }
+                        },
+                        "companies":
+                        {
+                            "type": "array",
+                            "description": "The company code",
+                            "items":
+                            {
+                                "type": "object",
+                                "properties":
+                                {
+                                    "company":
+                                    {
+                                        "type": "string",
+                                        "description": "The company code"
+                                    }
+                                }
+                            }
+                        },
+                        "currencies":
+                        {
+                            "type": "array",
+                            "description": "Identifies the underlying currency used for the transaction.",
+                            "items":
+                            {
+                                "type": "object",
+                                "properties":
+                                {
+                                    "currency":
+                                    {
+                                        "type": "string",
+                                        "description": "Identifies the underlying currency used for the transaction."
+                                    }
+                                }
+                            }
+                        },
+                        "products":
+                        {
+                            "type": "array",
+                            "description": "The product for which the pricing plan is applicable",
+                            "items":
+                            {
+                                "type": "object",
+                                "properties":
+                                {
+                                    "product":
+                                    {
+                                        "type": "string",
+                                        "description": "The product for which the pricing plan is applicable"
+                                    }
+                                }
+                            }
+                        },
+                        "names":
+                        {
+                            "type": "array",
+                            "items":
+                            {
+                                "type": "object",
+                                "properties":
+                                {
+                                    "name":
+                                    {
+                                        "type": "string",
+                                        "description": ""
+                                    }
+                                }
+                            }
+                        },
+                        "alternateReferences":
+                        {
+                            "type": "array",
+                            "items":
+                            {
+                                "type": "object",
+                                "properties":
+                                {
+                                    "alternateReference":
+                                    {
+                                        "type": "string",
+                                        "description": ""
+                                    }
+                                }
+                            }
+                        },
+                        "parents":
+                        {
+                            "type": "array",
+                            "description": "This Field is to determine whether the order is a parent order, Allowed value is YES",
+                            "items":
+                            {
+                                "type": "object",
+                                "properties":
+                                {
+                                    "parent":
+                                    {
+                                        "type": "string",
+                                        "description": "This Field is to determine whether the order is a parent order, Allowed value is YES"
+                                    }
+                                }
+                            }
+                        },
+                        "levels":
+                        {
+                            "type": "array",
+                            "items":
+                            {
+                                "type": "object",
+                                "properties":
+                                {
+                                    "level":
+                                    {
+                                        "type": "string",
+                                        "description": ""
+                                    }
+                                }
+                            }
+                        },
+                        "goLiveDates":
+                        {
+                            "type": "array",
+                            "items":
+                            {
+                                "type": "object",
+                                "properties":
+                                {
+                                    "goLiveDate":
+                                    {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": ""
+                                    }
+                                }
+                            }
+                        },
+                        "linkTypes":
+                        {
+                            "type": "array",
+                            "items":
+                            {
+                                "type": "object",
+                                "properties":
+                                {
+                                    "linkType":
+                                    {
+                                        "type": "string",
+                                        "description": ""
+                                    }
+                                }
+                            }
+                        },
+                        "keepBalances":
+                        {
+                            "type": "array",
+                            "items":
+                            {
+                                "type": "object",
+                                "properties":
+                                {
+                                    "keepBalance":
+                                    {
+                                        "type": "string",
+                                        "description": ""
+                                    }
+                                }
+                            }
+                        },
+                        "newMasters":
+                        {
+                            "type": "array",
+                            "items":
+                            {
+                                "type": "object",
+                                "properties":
+                                {
+                                    "newMaster":
+                                    {
+                                        "type": "string",
+                                        "description": ""
+                                    }
+                                }
+                            }
+                        },
+                        "cancelRestructures":
+                        {
+                            "type": "array",
+                            "items":
+                            {
+                                "type": "object",
+                                "properties":
+                                {
+                                    "cancelRestructure":
+                                    {
+                                        "type": "string",
+                                        "description": ""
+                                    }
+                                }
+                            }
+                        },
+                        "integrityCheckDay":
+                        {
+                            "type": "string",
+                            "description": "",
+                            "enum": ["integrityCheckDay"]
+                        }
+                    }
+                }
+            }
+        },
+        "ArrangementHeader":
+        {
+            "properties":
+            {
+                "transactionStatus":
+                {
+                    "type": "string",
+                    "description": "The status of the transaction"
+                },
+                "aaaId":
+                {
+                    "type": "string",
+                    "description": "The Identifier of the aa record created"
+                },
+                "id":
+                {
+                    "type": "string",
+                    "description": "The Identifier of the record created"
+                },
+                "status":
+                {
+                    "type": "string",
+                    "description": "The status of the record"
+                },
+                "audit":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "T24_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to response by T24"
+                        },
+                        "versionNumber":
+                        {
+                            "type": "string",
+                            "description": "The CURR.NO. of the record"
+                        },
+                        "parse_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to parse the response by IRIS"
+                        }
+                    }
+                }
+            }
+        },
+        "AccountOperationalDateResponse":
+        {
+            "properties":
+            {
+                "header":
+                {
+                    "$ref": "#/definitions/ArrangementHeader"
+                },
+                "body":
+                {
+                    "$ref": "#/definitions/AccountOperationalDateResponseBody"
+                }
+            },
+            "description": "AccountOperationalDateResponse"
+        },
+        "AccountOperationalDateResponseBody":
+        {
+            "type": "object",
+            "properties":
+            {
+                "arrangementActivity":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "partyIds":
+                        {
+                            "type": "array",
+                            "description": "Allows capturing of customers or person entities to be part of the relationship. If partyType is selected as Customer, then the system will allow only customer Ids to be captured into this field. If partyType is selected as Person or Entity, then system will allow only personEntity Ids to be captured into this field.",
+                            "items":
+                            {
+                                "type": "object",
+                                "properties":
+                                {
+                                    "partyId":
+                                    {
+                                        "type": "string",
+                                        "description": "Allows capturing of customers or person entities to be part of the relationship. If partyType is selected as Customer, then the system will allow only customer Ids to be captured into this field. If partyType is selected as Person or Entity, then system will allow only personEntity Ids to be captured into this field."
+                                    }
+                                }
+                            }
+                        },
+                        "arrangmentId":
+                        {
+                            "type": "string",
+                            "description": ""
+                        },
+                        "arrangementEffectiveDate":
+                        {
+                            "type": "string",
+                            "format": "date",
+                            "description": "Date from which the arrangement is effective"
+                        },
+                        "productId":
+                        {
+                            "type": "string",
+                            "description": "Id of the product."
+                        },
+                        "activityId":
+                        {
+                            "type": "string",
+                            "description": "Id of the activity, e.g. ACCOUNTS-CAPITALISE-ACCHARGE*CARDISSUEFEE"
+                        }
+                    }
+                },
+                "activities":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "{activityName}":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "activity":
+                                {
+                                    "type": "string"
+                                },
+                                "transactionStatus":
+                                {
+                                    "type": "string",
+                                    "description": "The status of the transaction"
+                                },
+                                "id":
+                                {
+                                    "type": "string",
+                                    "description": "The Identifier of the record created"
+                                }
+                            }
+                        }
+                    }
+                },
+                "properties":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "bundlehierarchy":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "header":
+                                {
+                                    "type": "object",
+                                    "properties":
+                                    {
+                                        "transactionStatus":
+                                        {
+                                            "type": "string",
+                                            "description": "The status of the transaction"
+                                        },
+                                        "audit":
+                                        {
+                                            "type": "object",
+                                            "properties":
+                                            {
+                                                "parseTime":
+                                                {
+                                                    "type": "integer",
+                                                    "format": "int32",
+                                                    "description": "Time taken to parse the response by IRIS"
+                                                }
+                                            }
+                                        },
+                                        "id":
+                                        {
+                                            "type": "string",
+                                            "description": "The Identifier of the record created"
+                                        },
+                                        "status":
+                                        {
+                                            "type": "string",
+                                            "description": "The status of the record"
+                                        }
+                                    }
+                                },
+                                "body":
+                                {
+                                    "type": "object",
+                                    "properties":
+                                    {
+                                        "aliases":
+                                        {
+                                            "type": "array",
+                                            "items":
+                                            {
+                                                "type": "object",
+                                                "properties":
+                                                {
+                                                    "alias":
+                                                    {
+                                                        "type": "string",
+                                                        "description": ""
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "accounts":
+                                        {
+                                            "type": "array",
+                                            "description": "Account Identifier in the transaction/deal",
+                                            "items":
+                                            {
+                                                "type": "object",
+                                                "properties":
+                                                {
+                                                    "account":
+                                                    {
+                                                        "type": "string",
+                                                        "description": "Account Identifier in the transaction/deal"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "customers":
+                                        {
+                                            "type": "array",
+                                            "description": "The customer number",
+                                            "items":
+                                            {
+                                                "type": "object",
+                                                "properties":
+                                                {
+                                                    "customer":
+                                                    {
+                                                        "type": "string",
+                                                        "description": "The customer number"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "companies":
+                                        {
+                                            "type": "array",
+                                            "description": "The company code",
+                                            "items":
+                                            {
+                                                "type": "object",
+                                                "properties":
+                                                {
+                                                    "company":
+                                                    {
+                                                        "type": "string",
+                                                        "description": "The company code"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "currencies":
+                                        {
+                                            "type": "array",
+                                            "description": "Identifies the underlying currency used for the transaction.",
+                                            "items":
+                                            {
+                                                "type": "object",
+                                                "properties":
+                                                {
+                                                    "currency":
+                                                    {
+                                                        "type": "string",
+                                                        "description": "Identifies the underlying currency used for the transaction."
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "products":
+                                        {
+                                            "type": "array",
+                                            "description": "The product for which the pricing plan is applicable",
+                                            "items":
+                                            {
+                                                "type": "object",
+                                                "properties":
+                                                {
+                                                    "product":
+                                                    {
+                                                        "type": "string",
+                                                        "description": "The product for which the pricing plan is applicable"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "names":
+                                        {
+                                            "type": "array",
+                                            "items":
+                                            {
+                                                "type": "object",
+                                                "properties":
+                                                {
+                                                    "name":
+                                                    {
+                                                        "type": "string",
+                                                        "description": ""
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "alternateReferences":
+                                        {
+                                            "type": "array",
+                                            "items":
+                                            {
+                                                "type": "object",
+                                                "properties":
+                                                {
+                                                    "alternateReference":
+                                                    {
+                                                        "type": "string",
+                                                        "description": ""
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "parents":
+                                        {
+                                            "type": "array",
+                                            "description": "This Field is to determine whether the order is a parent order, Allowed value is YES",
+                                            "items":
+                                            {
+                                                "type": "object",
+                                                "properties":
+                                                {
+                                                    "parent":
+                                                    {
+                                                        "type": "string",
+                                                        "description": "This Field is to determine whether the order is a parent order, Allowed value is YES"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "levels":
+                                        {
+                                            "type": "array",
+                                            "items":
+                                            {
+                                                "type": "object",
+                                                "properties":
+                                                {
+                                                    "level":
+                                                    {
+                                                        "type": "string",
+                                                        "description": ""
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "goLiveDates":
+                                        {
+                                            "type": "array",
+                                            "items":
+                                            {
+                                                "type": "object",
+                                                "properties":
+                                                {
+                                                    "goLiveDate":
+                                                    {
+                                                        "type": "string",
+                                                        "format": "date",
+                                                        "description": ""
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "linkTypes":
+                                        {
+                                            "type": "array",
+                                            "items":
+                                            {
+                                                "type": "object",
+                                                "properties":
+                                                {
+                                                    "linkType":
+                                                    {
+                                                        "type": "string",
+                                                        "description": ""
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "keepBalances":
+                                        {
+                                            "type": "array",
+                                            "items":
+                                            {
+                                                "type": "object",
+                                                "properties":
+                                                {
+                                                    "keepBalance":
+                                                    {
+                                                        "type": "string",
+                                                        "description": ""
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "newMasters":
+                                        {
+                                            "type": "array",
+                                            "items":
+                                            {
+                                                "type": "object",
+                                                "properties":
+                                                {
+                                                    "newMaster":
+                                                    {
+                                                        "type": "string",
+                                                        "description": ""
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "cancelRestructures":
+                                        {
+                                            "type": "array",
+                                            "items":
+                                            {
+                                                "type": "object",
+                                                "properties":
+                                                {
+                                                    "cancelRestructure":
+                                                    {
+                                                        "type": "string",
+                                                        "description": ""
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "integrityCheckDay":
+                                        {
+                                            "type": "string",
+                                            "description": "",
+                                            "enum": ["integrityCheckDay"]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "overrideBody":
+        {
+            "properties":
+            {
+                "overrideDetails":
+                {
+                    "type": "array",
+                    "items":
+                    {
+                        "type": "object",
+                        "properties":
+                        {
+                            "id":
+                            {
+                                "type": "string",
+                                "description": "The identifier of the override"
+                            },
+                            "description":
+                            {
+                                "type": "string",
+                                "description": "The actual override message"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "ArrangementErrorResponse":
+        {
+            "properties":
+            {
+                "header":
+                {
+                    "$ref": "#/definitions/ArrangementHeader"
+                },
+                "error":
+                {
+                    "$ref": "#/definitions/ArrangementErrorResponseBody"
+                },
+                "override":
+                {
+                    "$ref": "#/definitions/overrideBody"
+                }
+            },
+            "description": "ArrangementErrorResponse"
+        },
+        "ArrangementErrorResponseBody":
+        {
+            "type": "object",
+            "properties":
+            {
+                "errorDetails":
+                {
+                    "type": "array",
+                    "items":
+                    {
+                        "type": "object",
+                        "properties":
+                        {
+                            "fieldName":
+                            {
+                                "type": "string",
+                                "description": "The name of the field"
+                            },
+                            "code":
+                            {
+                                "type": "string",
+                                "description": "The identifier of the error message"
+                            },
+                            "message":
+                            {
+                                "type": "string",
+                                "description": "The actual t24 error message"
+                            },
+                            "property":
+                            {
+                                "type": "string",
+                                "description": "The corresponding property"
+                            }
+                        }
+                    }
+                },
+                "type":
+                {
+                    "type": "string",
+                    "description": "The identifier of error type"
+                }
+            }
+        }
+    }
+}

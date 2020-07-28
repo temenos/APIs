@@ -1,0 +1,1119 @@
+{
+    "swagger": "2.0",
+    "info":
+    {
+        "description": "External amendment to LCs",
+        "version": "v1.0.0",
+        "title": "updateLC"
+    },
+    "host": "api.server.com",
+    "basePath": "/api/v1.0.0/",
+    "schemes": ["http", "https"],
+    "security": [
+    {
+        "basicAuth": []
+    }],
+    "paths":
+    {
+        "/holdings/letterOfCredits/{letterOfCreditId}":
+        {
+            "put":
+            {
+                "operationId": "updateLC",
+                "produces": ["application/json"],
+                "description": "External amendment of the Letter of Credit",
+                "parameters": [
+                {
+                    "name": "letterOfCreditId",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "in": "body",
+                    "name": "payload",
+                    "description": "body Payload",
+                    "required": true,
+                    "schema":
+                    {
+                        "$ref": "#/definitions/updateLC"
+                    }
+                },
+                {
+                    "name": "validate_only",
+                    "in": "query",
+                    "description": "The identifier to indicate if it is set to only validate or not.",
+                    "required": false,
+                    "type": "boolean"
+                },
+                {
+                    "name": "credentials",
+                    "in": "query",
+                    "required": false,
+                    "type": "string"
+                },
+                {
+                    "name": "companyId",
+                    "in": "query",
+                    "required": false,
+                    "type": "string"
+                }],
+                "responses":
+                {
+                    "200":
+                    {
+                        "description": "updateLCResponse",
+                        "schema":
+                        {
+                            "$ref": "#/definitions/updateLCResponse"
+                        }
+                    },
+                    "default":
+                    {
+                        "description": "updateLCErrorResponse",
+                        "schema":
+                        {
+                            "$ref": "#/definitions/updateLCErrorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "securityDefinitions":
+    {
+        "basicAuth":
+        {
+            "type": "basic"
+        }
+    },
+    "definitions":
+    {
+        "PayloadHeader":
+        {
+            "properties":
+            {
+                "override":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "overrideDetails":
+                        {
+                            "type": "array",
+                            "items":
+                            {
+                                "type": "object",
+                                "properties":
+                                {
+                                    "id":
+                                    {
+                                        "type": "string",
+                                        "description": "The identifier of the override"
+                                    },
+                                    "description":
+                                    {
+                                        "type": "string",
+                                        "description": "The actual override message"
+                                    },
+                                    "responseCode":
+                                    {
+                                        "type": "string",
+                                        "description": "The user input to accept/reject the override."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "audit":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "versionNumber":
+                        {
+                            "type": "string",
+                            "description": "The CURR.NO. of the record"
+                        }
+                    }
+                }
+            }
+        },
+        "updateLC":
+        {
+            "properties":
+            {
+                "header":
+                {
+                    "$ref": "#/definitions/PayloadHeader"
+                },
+                "body":
+                {
+                    "$ref": "#/definitions/updateLCBody"
+                }
+            },
+            "description": "updateLC"
+        },
+        "updateLCBody":
+        {
+            "type": "object",
+            "properties":
+            {
+                "additionalAmountsCovered":
+                {
+                    "type": "array",
+                    "description": " Specifies any additional amounts available to the beneficiary under the Documentary Credit, such as insurance, freight, interest, etc.",
+                    "items":
+                    {
+                        "type": "object",
+                        "properties":
+                        {
+                            "additionalAmountCovered":
+                            {
+                                "type": "string",
+                                "description": " Specifies any additional amounts available to the beneficiary under the Documentary Credit, such as insurance, freight, interest, etc."
+                            }
+                        }
+                    }
+                },
+                "beneficiaries":
+                {
+                    "type": "array",
+                    "description": "",
+                    "items":
+                    {
+                        "type": "object",
+                        "properties":
+                        {
+                            "beneficiary":
+                            {
+                                "type": "string",
+                                "description": ""
+                            }
+                        }
+                    }
+                },
+                "shipmentPeriods":
+                {
+                    "type": "array",
+                    "description": "Indicates the period of time which the goods are to be loaded on board/dispatched/taken in charge.",
+                    "items":
+                    {
+                        "type": "object",
+                        "properties":
+                        {
+                            "shipmentPeriod":
+                            {
+                                "type": "string",
+                                "description": "Indicates the period of time which the goods are to be loaded on board/dispatched/taken in charge."
+                            }
+                        }
+                    }
+                },
+                "narrativeCharges":
+                {
+                    "type": "array",
+                    "description": "Field to specify the details of the charges to be borne by the beneficiary",
+                    "items":
+                    {
+                        "type": "object",
+                        "properties":
+                        {
+                            "narrativeCharge":
+                            {
+                                "type": "string",
+                                "description": "Field to specify the details of the charges to be borne by the beneficiary"
+                            }
+                        }
+                    }
+                },
+                "charges":
+                {
+                    "type": "array",
+                    "description": "",
+                    "items":
+                    {
+                        "type": "object",
+                        "properties":
+                        {
+                            "chargeCode":
+                            {
+                                "type": "string",
+                                "description": ""
+                            },
+                            "partyCharged":
+                            {
+                                "type": "string",
+                                "description": ""
+                            },
+                            "chargeDebitAccount":
+                            {
+                                "type": "string",
+                                "description": ""
+                            },
+                            "chargeCurrency":
+                            {
+                                "type": "string",
+                                "description": "Holds the currency code of the charge account from where the fee is deducted"
+                            },
+                            "chargeExchangeRate":
+                            {
+                                "type": "string",
+                                "description": ""
+                            },
+                            "chargeAmount":
+                            {
+                                "type": "string",
+                                "description": "Holds the charge amount equivalent in charge account currency"
+                            },
+                            "amortiseCharge":
+                            {
+                                "type": "string",
+                                "description": ""
+                            },
+                            "chargeStatus":
+                            {
+                                "type": "string",
+                                "description": ""
+                            },
+                            "taxCurrency":
+                            {
+                                "type": "string",
+                                "description": ""
+                            },
+                            "taxAmount":
+                            {
+                                "type": "string",
+                                "description": "The tax amount"
+                            }
+                        }
+                    }
+                },
+                "reimNarratives":
+                {
+                    "type": "array",
+                    "items":
+                    {
+                        "type": "object",
+                        "properties":
+                        {
+                            "reimNarrative":
+                            {
+                                "type": "string",
+                                "description": ""
+                            }
+                        }
+                    }
+                },
+                "lcNumber":
+                {
+                    "type": "string",
+                    "description": "Identifies the banks LCs number (or reference of the L/C from legacy system)"
+                },
+                "advisingBankReference":
+                {
+                    "type": "string",
+                    "description": "Advising Bank reference number for use on messages and advices under the LC contract."
+                },
+                "issueDate":
+                {
+                    "type": "string",
+                    "description": "The date the item was issued."
+                },
+                "amendmentDate":
+                {
+                    "type": "string",
+                    "description": "Date of the last external amendment, on which the issuing bank considers the documentary credit as being amended."
+                },
+                "lcType":
+                {
+                    "type": "string",
+                    "description": "Indicates the type of LC, whether this is an Import/Export, Confirmed/Unconfirmed/Revolving/Transferrable/Back to Back LC/documentary collection/Clean collection etc."
+                },
+                "applicant":
+                {
+                    "type": "string",
+                    "description": "Indicates the  applicant on whose behalf the Letter of Credit is issued"
+                },
+                "advisingBank":
+                {
+                    "type": "string",
+                    "description": "Identifies the advising bank under the LC, through whom Letter of Credit to be advised to second advising bank or beneficiary"
+                },
+                "newLcCurrency":
+                {
+                    "type": "string",
+                    "description": "Denote the currency of the Letter of Credit"
+                },
+                "newLcAmount":
+                {
+                    "type": "string",
+                    "description": "This field indicates the new amount of the Letter of Credit that will always be expressed in the currency of Letter of Credit."
+                },
+                "creditTolerance":
+                {
+                    "type": "string",
+                    "description": "This field defines the tolerance percentage to be added to the letter of credit amount to calculate the full liability amount or maximum amount that can be drawn."
+                },
+                "debitTolerance":
+                {
+                    "type": "string",
+                    "description": "This field defines the negative tolerance percentage under the letter of credit, to calculate the minimum amount that can be presented under the LC."
+                },
+                "purposeOfMessage":
+                {
+                    "type": "string",
+                    "description": "Indicates the purpose of MT707 amendment message, whether its the isssuance of amendment message or advise of amendment message to the second advising bank or advise and confirmation of amendment message to the second advising bank."
+                },
+                "cancellationRequest":
+                {
+                    "type": "string",
+                    "description": "Indicates that the documentary credit is requested to be cancelled. Valid input in this field is CANCEL."
+                },
+                "daysAndPeriodForPresentation":
+                {
+                    "type": "string",
+                    "description": "Secifies the number of calendar days after the date of shipment within which the documents must be presented for payment, acceptance or negotiation. "
+                },
+                "latestShipmentDate":
+                {
+                    "type": "string",
+                    "description": "Latest date for loading on board/dispatch/taking in charge for goods shipped under the LC."
+                },
+                "newLCExpiryDate":
+                {
+                    "type": "string",
+                    "description": "New Expiry date for presentation under the documentary credit."
+                },
+                "newLCExpiryPlace":
+                {
+                    "type": "string",
+                    "description": "New Expiry place for presentation under the documentary credit."
+                },
+                "liabilityReversalDate":
+                {
+                    "type": "string",
+                    "description": "Date on which the contigent entries and the limits raised on the LC will be reversed."
+                },
+                "limitReference":
+                {
+                    "type": "string",
+                    "description": "Identifies the type of limit applicable to the Account"
+                },
+                "beneficiaryId":
+                {
+                    "type": "string",
+                    "description": "The identifier of the beneficiary"
+                },
+                "autoExpiry":
+                {
+                    "type": "string",
+                    "description": "Decision field to determine whether the contingent entries are to be reversed after the deal expiry date or not"
+                },
+                "placeOfTakingInCharge":
+                {
+                    "type": "string",
+                    "description": "Indicates the place of taking in charge(in case of multimodal transport document), the place of receipt(in case of a road, rail or inland waterway transport document or a courier expedited delivery service document), the place of dispatch or the place of shipment to be indicated on the transport document"
+                },
+                "portOfLoading":
+                {
+                    "type": "string",
+                    "description": "Indicates the place of dispatch or taking in charge of the goods or loading on board for shipments made under the LC."
+                },
+                "portOfDischarge":
+                {
+                    "type": "string",
+                    "description": "Indicates the port of discharge or the airport of destination of the shipment under the LC."
+                },
+                "finalDestination":
+                {
+                    "type": "string",
+                    "description": "Indicates the final destination or place of delivery of the shipment under the LC."
+                },
+                "reimbursingBank":
+                {
+                    "type": "string",
+                    "description": "Identifies the reimbursing bank ID under the LC, through whom reimbursement will be made to the paying/negotiating bank for a letter of credit. (Reimbursing bank should be a valid customer with customer ID)"
+                },
+                "reimbursingBankAndAddress":
+                {
+                    "type": "string",
+                    "description": "Identifies the Name & Address of the reimbursing bank under the LC. If the third party reimbursing bank is not one of the banks customers (i.e. not on the customer list), then this field allows the input of a name and address of the reimbursing bank."
+                },
+                "applicableRuleCodesMT740":
+                {
+                    "type": "string",
+                    "description": ""
+                },
+                "chargeFrom":
+                {
+                    "type": "string",
+                    "description": ""
+                },
+                "chargeBaseAmount":
+                {
+                    "type": "string",
+                    "description": ""
+                },
+                "chargeDefaultAccount":
+                {
+                    "type": "string",
+                    "description": ""
+                },
+                "waiveCharge":
+                {
+                    "type": "string",
+                    "description": "Defines whether charges are to be collected or waived"
+                },
+                "marginRequired":
+                {
+                    "type": "string",
+                    "description": "Decision field if margin to be blocked for the LC contract or not."
+                },
+                "marginCalculationBase":
+                {
+                    "type": "string",
+                    "description": "This field determines if the margin to be calculated based on the LC amount or the total liability amount."
+                },
+                "marginPercent":
+                {
+                    "type": "string",
+                    "description": "Field to state the percentage of provision to be taken"
+                },
+                "marginDebitAccount":
+                {
+                    "type": "string",
+                    "description": "Field to state the account from which the provision amount is to be debited"
+                },
+                "marginAmount":
+                {
+                    "type": "number",
+                    "description": "Actual amount of provision that is debited for the transaction"
+                },
+                "marginExchangeRate":
+                {
+                    "type": "string",
+                    "description": "This Field determines the exchange rate to be used between the provision debit account and the provision credit account, when the currencies differ"
+                },
+                "limitWithProvision":
+                {
+                    "type": "string",
+                    "description": "This field determines if the margin calculated to be debited after considering the limits booked under the LC contract"
+                },
+                "docyCreditNumber":
+                {
+                    "type": "string",
+                    "description": ""
+                },
+                "reimbursingBankReference":
+                {
+                    "type": "string",
+                    "description": ""
+                },
+                "dateOfOriginalAuthorisation":
+                {
+                    "type": "string",
+                    "description": ""
+                },
+                "newDocyCreditAmount":
+                {
+                    "type": "number",
+                    "description": ""
+                },
+                "senderToReceiverInfo":
+                {
+                    "type": "string",
+                    "description": ""
+                }
+            }
+        },
+        "ScreenHeader":
+        {
+            "properties":
+            {
+                "id":
+                {
+                    "type": "string",
+                    "description": "The Identifier of the record created"
+                },
+                "status":
+                {
+                    "type": "string",
+                    "description": "The status of the record"
+                },
+                "transactionStatus":
+                {
+                    "type": "string",
+                    "description": "The status of the transaction"
+                },
+                "audit":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "T24_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to response by T24"
+                        },
+                        "versionNumber":
+                        {
+                            "type": "string",
+                            "description": "The CURR.NO. of the record"
+                        },
+                        "parse_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to parse the response by IRIS"
+                        }
+                    }
+                }
+            }
+        },
+        "updateLCResponse":
+        {
+            "properties":
+            {
+                "header":
+                {
+                    "$ref": "#/definitions/ScreenHeader"
+                },
+                "body":
+                {
+                    "$ref": "#/definitions/updateLCResponseBody"
+                }
+            },
+            "description": "updateLCResponse"
+        },
+        "updateLCResponseBody":
+        {
+            "type": "object",
+            "properties":
+            {
+                "additionalAmountsCovered":
+                {
+                    "type": "array",
+                    "description": " Specifies any additional amounts available to the beneficiary under the Documentary Credit, such as insurance, freight, interest, etc.",
+                    "items":
+                    {
+                        "type": "object",
+                        "properties":
+                        {
+                            "additionalAmountCovered":
+                            {
+                                "type": "string",
+                                "description": " Specifies any additional amounts available to the beneficiary under the Documentary Credit, such as insurance, freight, interest, etc."
+                            }
+                        }
+                    }
+                },
+                "beneficiaries":
+                {
+                    "type": "array",
+                    "description": "",
+                    "items":
+                    {
+                        "type": "object",
+                        "properties":
+                        {
+                            "beneficiary":
+                            {
+                                "type": "string",
+                                "description": ""
+                            }
+                        }
+                    }
+                },
+                "shipmentPeriods":
+                {
+                    "type": "array",
+                    "description": "Indicates the period of time which the goods are to be loaded on board/dispatched/taken in charge.",
+                    "items":
+                    {
+                        "type": "object",
+                        "properties":
+                        {
+                            "shipmentPeriod":
+                            {
+                                "type": "string",
+                                "description": "Indicates the period of time which the goods are to be loaded on board/dispatched/taken in charge."
+                            }
+                        }
+                    }
+                },
+                "narrativeCharges":
+                {
+                    "type": "array",
+                    "description": "Field to specify the details of the charges to be borne by the beneficiary",
+                    "items":
+                    {
+                        "type": "object",
+                        "properties":
+                        {
+                            "narrativeCharge":
+                            {
+                                "type": "string",
+                                "description": "Field to specify the details of the charges to be borne by the beneficiary"
+                            }
+                        }
+                    }
+                },
+                "charges":
+                {
+                    "type": "array",
+                    "description": "",
+                    "items":
+                    {
+                        "type": "object",
+                        "properties":
+                        {
+                            "chargeCode":
+                            {
+                                "type": "string",
+                                "description": ""
+                            },
+                            "partyCharged":
+                            {
+                                "type": "string",
+                                "description": ""
+                            },
+                            "chargeDebitAccount":
+                            {
+                                "type": "string",
+                                "description": ""
+                            },
+                            "chargeCurrency":
+                            {
+                                "type": "string",
+                                "description": "Holds the currency code of the charge account from where the fee is deducted"
+                            },
+                            "chargeExchangeRate":
+                            {
+                                "type": "string",
+                                "description": ""
+                            },
+                            "chargeAmount":
+                            {
+                                "type": "string",
+                                "description": "Holds the charge amount equivalent in charge account currency"
+                            },
+                            "amortiseCharge":
+                            {
+                                "type": "string",
+                                "description": ""
+                            },
+                            "chargeStatus":
+                            {
+                                "type": "string",
+                                "description": ""
+                            },
+                            "taxCurrency":
+                            {
+                                "type": "string",
+                                "description": ""
+                            },
+                            "taxAmount":
+                            {
+                                "type": "string",
+                                "description": "The tax amount"
+                            }
+                        }
+                    }
+                },
+                "reimNarratives":
+                {
+                    "type": "array",
+                    "items":
+                    {
+                        "type": "object",
+                        "properties":
+                        {
+                            "reimNarrative":
+                            {
+                                "type": "string",
+                                "description": ""
+                            }
+                        }
+                    }
+                },
+                "operation":
+                {
+                    "type": "string",
+                    "description": "Identifies the required operation to be executed for a Trade Finance contract. Input of valid codes as: O for opening of LC, P for Pre-advise of LC, A for Amend LC, C for Collect Charges, D for Decision on Amendments, T for Tracer, IO for LC through Internet Banking Operation and M for Ancillary Message (MT759)"
+                },
+                "sendAmendmentAdvice":
+                {
+                    "type": "string",
+                    "description": "Decides if amendment is external or internal amendment. Valid input is YES, indicating that Amendment is external, amendment message to be communicated to other parties of the LC contract via  delivery messages. If NO, its an internal amendment and amendment message not required to be communicated to the other parties of the LC."
+                },
+                "lcNumber":
+                {
+                    "type": "string",
+                    "description": "Identifies the banks LCs number (or reference of the L/C from legacy system)"
+                },
+                "advisingBankReference":
+                {
+                    "type": "string",
+                    "description": "Advising Bank reference number for use on messages and advices under the LC contract."
+                },
+                "issueDate":
+                {
+                    "type": "string",
+                    "description": "The date the item was issued."
+                },
+                "amendmentDate":
+                {
+                    "type": "string",
+                    "description": "Date of the last external amendment, on which the issuing bank considers the documentary credit as being amended."
+                },
+                "lcType":
+                {
+                    "type": "string",
+                    "description": "Indicates the type of LC, whether this is an Import/Export, Confirmed/Unconfirmed/Revolving/Transferrable/Back to Back LC/documentary collection/Clean collection etc."
+                },
+                "applicant":
+                {
+                    "type": "string",
+                    "description": "Indicates the  applicant on whose behalf the Letter of Credit is issued"
+                },
+                "advisingBank":
+                {
+                    "type": "string",
+                    "description": "Identifies the advising bank under the LC, through whom Letter of Credit to be advised to second advising bank or beneficiary"
+                },
+                "newLcCurrency":
+                {
+                    "type": "string",
+                    "description": "Denote the currency of the Letter of Credit"
+                },
+                "newLcAmount":
+                {
+                    "type": "string",
+                    "description": "This field indicates the new amount of the Letter of Credit that will always be expressed in the currency of Letter of Credit."
+                },
+                "creditTolerance":
+                {
+                    "type": "string",
+                    "description": "This field defines the tolerance percentage to be added to the letter of credit amount to calculate the full liability amount or maximum amount that can be drawn."
+                },
+                "debitTolerance":
+                {
+                    "type": "string",
+                    "description": "This field defines the negative tolerance percentage under the letter of credit, to calculate the minimum amount that can be presented under the LC."
+                },
+                "purposeOfMessage":
+                {
+                    "type": "string",
+                    "description": "Indicates the purpose of MT707 amendment message, whether its the isssuance of amendment message or advise of amendment message to the second advising bank or advise and confirmation of amendment message to the second advising bank."
+                },
+                "cancellationRequest":
+                {
+                    "type": "string",
+                    "description": "Indicates that the documentary credit is requested to be cancelled. Valid input in this field is CANCEL."
+                },
+                "daysAndPeriodForPresentation":
+                {
+                    "type": "string",
+                    "description": "Secifies the number of calendar days after the date of shipment within which the documents must be presented for payment, acceptance or negotiation. "
+                },
+                "latestShipmentDate":
+                {
+                    "type": "string",
+                    "description": "Latest date for loading on board/dispatch/taking in charge for goods shipped under the LC."
+                },
+                "newLCExpiryDate":
+                {
+                    "type": "string",
+                    "description": "New Expiry date for presentation under the documentary credit."
+                },
+                "newLCExpiryPlace":
+                {
+                    "type": "string",
+                    "description": "New Expiry place for presentation under the documentary credit."
+                },
+                "liabilityReversalDate":
+                {
+                    "type": "string",
+                    "description": "Date on which the contigent entries and the limits raised on the LC will be reversed."
+                },
+                "limitReference":
+                {
+                    "type": "string",
+                    "description": "Identifies the type of limit applicable to the Account"
+                },
+                "beneficiaryId":
+                {
+                    "type": "string",
+                    "description": "The identifier of the beneficiary"
+                },
+                "autoExpiry":
+                {
+                    "type": "string",
+                    "description": "Decision field to determine whether the contingent entries are to be reversed after the deal expiry date or not"
+                },
+                "placeOfTakingInCharge":
+                {
+                    "type": "string",
+                    "description": "Indicates the place of taking in charge(in case of multimodal transport document), the place of receipt(in case of a road, rail or inland waterway transport document or a courier expedited delivery service document), the place of dispatch or the place of shipment to be indicated on the transport document"
+                },
+                "portOfLoading":
+                {
+                    "type": "string",
+                    "description": "Indicates the place of dispatch or taking in charge of the goods or loading on board for shipments made under the LC."
+                },
+                "portOfDischarge":
+                {
+                    "type": "string",
+                    "description": "Indicates the port of discharge or the airport of destination of the shipment under the LC."
+                },
+                "finalDestination":
+                {
+                    "type": "string",
+                    "description": "Indicates the final destination or place of delivery of the shipment under the LC."
+                },
+                "reimbursingBank":
+                {
+                    "type": "string",
+                    "description": "Identifies the reimbursing bank ID under the LC, through whom reimbursement will be made to the paying/negotiating bank for a letter of credit. (Reimbursing bank should be a valid customer with customer ID)"
+                },
+                "reimbursingBankAndAddress":
+                {
+                    "type": "string",
+                    "description": "Identifies the Name & Address of the reimbursing bank under the LC. If the third party reimbursing bank is not one of the banks customers (i.e. not on the customer list), then this field allows the input of a name and address of the reimbursing bank."
+                },
+                "applicableRuleCodesMT740":
+                {
+                    "type": "string",
+                    "description": ""
+                },
+                "amendStatus":
+                {
+                    "type": "string",
+                    "description": "System updated field at the time of Amendment decision under the Letter of Credit using Operation 'D'. This field indicates the current status of the amendment whether amendment is pending, approved or rejected."
+                },
+                "draftPrint":
+                {
+                    "type": "string",
+                    "description": "This field indicate whether a draft print of the Letter of Credit / Documentary Collection document created is to be produced on deal input (i.e. before the authorization stage)"
+                },
+                "releaseProvision":
+                {
+                    "type": "string",
+                    "description": "Field to decide whether the provision should be released or not"
+                },
+                "chargeFrom":
+                {
+                    "type": "string",
+                    "description": ""
+                },
+                "chargeBaseAmount":
+                {
+                    "type": "string",
+                    "description": ""
+                },
+                "chargeDefaultAccount":
+                {
+                    "type": "string",
+                    "description": ""
+                },
+                "waiveCharge":
+                {
+                    "type": "string",
+                    "description": "Defines whether charges are to be collected or waived"
+                },
+                "marginRequired":
+                {
+                    "type": "string",
+                    "description": "Decision field if margin to be blocked for the LC contract or not."
+                },
+                "marginCalculationBase":
+                {
+                    "type": "string",
+                    "description": "This field determines if the margin to be calculated based on the LC amount or the total liability amount."
+                },
+                "marginPercent":
+                {
+                    "type": "string",
+                    "description": "Field to state the percentage of provision to be taken"
+                },
+                "marginDebitAccount":
+                {
+                    "type": "string",
+                    "description": "Field to state the account from which the provision amount is to be debited"
+                },
+                "marginAmount":
+                {
+                    "type": "number",
+                    "description": "Actual amount of provision that is debited for the transaction"
+                },
+                "marginExchangeRate":
+                {
+                    "type": "string",
+                    "description": "This Field determines the exchange rate to be used between the provision debit account and the provision credit account, when the currencies differ"
+                },
+                "limitWithProvision":
+                {
+                    "type": "string",
+                    "description": "This field determines if the margin calculated to be debited after considering the limits booked under the LC contract"
+                },
+                "docyCreditNumber":
+                {
+                    "type": "string",
+                    "description": ""
+                },
+                "reimbursingBankReference":
+                {
+                    "type": "string",
+                    "description": ""
+                },
+                "dateOfOriginalAuthorisation":
+                {
+                    "type": "string",
+                    "description": ""
+                },
+                "newDocyCreditAmount":
+                {
+                    "type": "number",
+                    "description": ""
+                },
+                "senderToReceiverInfo":
+                {
+                    "type": "string",
+                    "description": ""
+                }
+            }
+        },
+        "ErrorHeader":
+        {
+            "properties":
+            {
+                "id":
+                {
+                    "type": "string",
+                    "description": "The Identifier of the record created"
+                },
+                "status":
+                {
+                    "type": "string",
+                    "description": "The status of the record"
+                },
+                "transactionStatus":
+                {
+                    "type": "string",
+                    "description": "The status of the transaction"
+                },
+                "audit":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "T24_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to response by T24"
+                        },
+                        "versionNumber":
+                        {
+                            "type": "string",
+                            "description": "The CURR.NO. of the record"
+                        },
+                        "parse_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to parse the response by IRIS"
+                        }
+                    }
+                }
+            }
+        },
+        "overrideBody":
+        {
+            "properties":
+            {
+                "overrideDetails":
+                {
+                    "type": "array",
+                    "items":
+                    {
+                        "type": "object",
+                        "properties":
+                        {
+                            "id":
+                            {
+                                "type": "string",
+                                "description": "The identifier of the override"
+                            },
+                            "description":
+                            {
+                                "type": "string",
+                                "description": "The actual override message"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "updateLCErrorResponse":
+        {
+            "properties":
+            {
+                "header":
+                {
+                    "$ref": "#/definitions/ErrorHeader"
+                },
+                "error":
+                {
+                    "$ref": "#/definitions/updateLCErrorResponseBody"
+                },
+                "override":
+                {
+                    "$ref": "#/definitions/overrideBody"
+                }
+            },
+            "description": "updateLCErrorResponse"
+        },
+        "updateLCErrorResponseBody":
+        {
+            "type": "object",
+            "properties":
+            {
+                "errorDetails":
+                {
+                    "type": "array",
+                    "items":
+                    {
+                        "type": "object",
+                        "properties":
+                        {
+                            "fieldName":
+                            {
+                                "type": "string",
+                                "description": "The name of the field"
+                            },
+                            "code":
+                            {
+                                "type": "string",
+                                "description": "The identifier of the error message"
+                            },
+                            "message":
+                            {
+                                "type": "string",
+                                "description": "The actual t24 error message"
+                            }
+                        }
+                    }
+                },
+                "type":
+                {
+                    "type": "string",
+                    "description": "The identifier of error type"
+                }
+            }
+        }
+    }
+}

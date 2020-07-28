@@ -1,0 +1,462 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Retrieves the Details of a Product",
+    "version" : "v1.0.0",
+    "title" : "Retrieves the Details of a Product"
+  },
+  "host" : "api.server.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/product/products/{productId}" : {
+      "get" : {
+        "summary" : "List product details for a catalogued product",
+        "description" : "List product details for a catalogued product",
+        "operationId" : "getProductDetails",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "productId",
+          "in" : "path",
+          "description" : "The identifier of the product",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "currency",
+          "in" : "query",
+          "description" : "",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "ProductDetailsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ProductDetailsResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "QueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records per page"
+        },
+        "page_start" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The record from which the response should be displayed"
+        },
+        "total_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records present"
+        },
+        "page_token" : {
+          "type" : "string",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request"
+        }
+      }
+    },
+    "ProductDetailsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ProductDetailsResponseBody"
+        }
+      },
+      "description" : "ProductDetailsResponse"
+    },
+    "ProductDetailsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "ccySpecific" : {
+            "type" : "array",
+            "description" : "",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "currency" : {
+                  "type" : "string",
+                  "description" : "",
+                  "maxLength" : 20
+                },
+                "creditInterest" : {
+                  "type" : "string",
+                  "description" : "",
+                  "maxLength" : 40
+                },
+                "creditInterestType" : {
+                  "type" : "string",
+                  "description" : "",
+                  "maxLength" : 10
+                },
+                "creditInterestMinimumBalance" : {
+                  "type" : "string",
+                  "description" : "",
+                  "maxLength" : 25
+                },
+                "creditInterestMaximumBalance" : {
+                  "type" : "string",
+                  "description" : "",
+                  "maxLength" : 25
+                },
+                "creditInterestMarginRate" : {
+                  "type" : "string",
+                  "description" : "",
+                  "maxLength" : 10
+                },
+                "debitInterest" : {
+                  "type" : "string",
+                  "description" : "",
+                  "maxLength" : 40
+                },
+                "debitInterestType" : {
+                  "type" : "string",
+                  "description" : "",
+                  "maxLength" : 20
+                },
+                "debitInterestMinimumBalance" : {
+                  "type" : "string",
+                  "description" : "",
+                  "maxLength" : 30
+                },
+                "debitInterestMaximumBalance" : {
+                  "type" : "string",
+                  "description" : "",
+                  "maxLength" : 30
+                },
+                "debitInterestMarginRate" : {
+                  "type" : "string",
+                  "description" : "",
+                  "maxLength" : 10
+                },
+                "overdraftAmount" : {
+                  "type" : "string",
+                  "description" : "",
+                  "maxLength" : 30
+                },
+                "minimumAmount" : {
+                  "type" : "string",
+                  "description" : "",
+                  "maxLength" : 30
+                },
+                "maximumAmount" : {
+                  "type" : "string",
+                  "description" : "",
+                  "maxLength" : 40
+                },
+                "amount" : {
+                  "type" : "string",
+                  "description" : "",
+                  "maxLength" : 40
+                },
+                "noticePeriod" : {
+                  "type" : "string",
+                  "description" : "",
+                  "maxLength" : 10
+                },
+                "term" : {
+                  "type" : "string",
+                  "description" : "The period to which the rate applies",
+                  "maxLength" : 10
+                },
+                "minimumTerm" : {
+                  "type" : "string",
+                  "description" : "",
+                  "maxLength" : 10
+                },
+                "maximumTerm" : {
+                  "type" : "string",
+                  "description" : "",
+                  "maxLength" : 10
+                },
+                "interestRates" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object",
+                    "properties" : {
+                      "creditInterestTierAmount" : {
+                        "type" : "string",
+                        "description" : "",
+                        "maxLength" : 30
+                      },
+                      "creditInterestTierPercentage" : {
+                        "type" : "string",
+                        "description" : "",
+                        "maxLength" : 5
+                      },
+                      "creditInterestRate" : {
+                        "type" : "string",
+                        "description" : "",
+                        "maxLength" : 20
+                      },
+                      "debitInterestTierAmount" : {
+                        "type" : "string",
+                        "description" : "",
+                        "maxLength" : 30
+                      },
+                      "debitInterestTierPercentage" : {
+                        "type" : "string",
+                        "description" : "",
+                        "maxLength" : 5
+                      },
+                      "debitInterestRate" : {
+                        "type" : "string",
+                        "description" : "",
+                        "maxLength" : 10
+                      }
+                    }
+                  }
+                },
+                "fees" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object",
+                    "properties" : {
+                      "fee" : {
+                        "type" : "string",
+                        "description" : "",
+                        "maxLength" : 40
+                      },
+                      "feeAmount" : {
+                        "type" : "string",
+                        "description" : "Holds the charge amount equivalent in fee currency",
+                        "maxLength" : 40
+                      },
+                      "feeFrequency" : {
+                        "type" : "string",
+                        "description" : "",
+                        "maxLength" : 60
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "productId" : {
+            "type" : "string",
+            "description" : "The identifier of the product"
+          },
+          "productGroupId" : {
+            "type" : "string",
+            "description" : "The identifier of the product group",
+            "maxLength" : 20
+          },
+          "productLine" : {
+            "type" : "string",
+            "description" : "",
+            "maxLength" : 5
+          },
+          "productDescription" : {
+            "type" : "string",
+            "description" : "",
+            "maxLength" : 60
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessQueryErrorResponseBody"
+        }
+      },
+      "description" : "BusinessQueryErrorResponse"
+    },
+    "BusinessQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message for bad requests"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemQueryErrorResponseBody"
+        }
+      },
+      "description" : "SystemQueryErrorResponse"
+    },
+    "SystemQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message caused by server"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    }
+  }
+}

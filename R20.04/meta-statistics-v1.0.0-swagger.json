@@ -1,0 +1,212 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "version" : "v1.0.0",
+    "title" : "Statistics Provider APIs"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/v1.0.0",
+  "schemes" : [ "https", "http" ],
+  "paths" : {
+    "/meta/statistics" : {
+      "get" : {
+        "operationId" : "getUsageStatistics",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Random and unique string for each page. Used for security purpose",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "apiId",
+          "in" : "query",
+          "description" : "Domain Id of the resource record",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "operationId",
+          "in" : "query",
+          "description" : "IRIS Service Id",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "fromDate",
+          "in" : "query",
+          "description" : "Start Date",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "toDate",
+          "in" : "query",
+          "description" : "End Date",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "getUsageStatisticsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getUsageStatisticsResponse"
+            }
+          },
+          "default" : {
+            "description" : "getUsageStatisticsErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getUsageStatisticsErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "QueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32"
+            },
+            "parse_time" : {
+              "type" : "integer",
+              "format" : "int32"
+            }
+          }
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "page_start" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "total_size" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "page_token" : {
+          "type" : "string"
+        }
+      }
+    },
+    "getUsageStatisticsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/getUsageStatisticsResponseBody"
+        }
+      },
+      "description" : "getUsageStatisticsResponse"
+    },
+    "getUsageStatisticsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "maxLength" : 35
+          },
+          "urlInfo" : {
+            "type" : "string",
+            "maxLength" : 150
+          },
+          "operationCount" : {
+            "type" : "string",
+            "maxLength" : 19
+          },
+          "apiCount" : {
+            "type" : "string",
+            "maxLength" : 19
+          },
+          "apiId" : {
+            "type" : "string",
+            "maxLength" : 65
+          },
+          "operationId" : {
+            "type" : "string",
+            "maxLength" : 65
+          },
+          "module" : {
+            "type" : "string",
+            "maxLength" : 6
+          },
+          "target" : {
+            "type" : "string",
+            "maxLength" : 65
+          },
+          "targetCount" : {
+            "type" : "string",
+            "maxLength" : 19
+          },
+          "moduleCount" : {
+            "type" : "string",
+            "maxLength" : 19
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32"
+            },
+            "parse_time" : {
+              "type" : "integer",
+              "format" : "int32"
+            }
+          }
+        }
+      }
+    },
+    "getUsageStatisticsErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/getUsageStatisticsErrorResponseBody"
+        }
+      },
+      "description" : "getUsageStatisticsErrorResponse"
+    },
+    "getUsageStatisticsErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string"
+        },
+        "message" : {
+          "type" : "string"
+        },
+        "type" : {
+          "type" : "string"
+        }
+      }
+    }
+  }
+}

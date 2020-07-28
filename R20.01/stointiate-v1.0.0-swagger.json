@@ -1,0 +1,467 @@
+{
+    "swagger": "2.0",
+    "info":
+    {
+        "description": "stointiate",
+        "version": "v1.0.0",
+        "title": "stointiate"
+    },
+    "host": "localhost:9089",
+    "basePath": "/api/v1.0.0",
+    "schemes": ["http", "https"],
+    "paths":
+    {
+        "/party/standingorders/{Standingorderid}/create":
+        {
+            "post":
+            {
+                "operationId": "Create Standing Order",
+                "produces": ["application/json"],
+                "parameters": [
+                {
+                    "name": "Standingorderid",
+                    "in": "path",
+                    "description": "The unique standing order identifier",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "in": "body",
+                    "name": "payload",
+                    "description": "body Payload",
+                    "required": true,
+                    "schema":
+                    {
+                        "$ref": "#/definitions/CreateStandingOrder"
+                    }
+                },
+                {
+                    "name": "validate_only",
+                    "in": "query",
+                    "description": "The identifier to indicate if it is set to only validate or not.",
+                    "required": false,
+                    "type": "boolean"
+                }],
+                "responses":
+                {
+                    "200":
+                    {
+                        "description": "Create Standing OrderResponse",
+                        "schema":
+                        {
+                            "$ref": "#/definitions/CreateStandingOrderResponse"
+                        }
+                    },
+                    "default":
+                    {
+                        "description": "Create Standing OrderErrorResponse",
+                        "schema":
+                        {
+                            "$ref": "#/definitions/CreateStandingOrderErrorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions":
+    {
+        "PayloadHeader":
+        {
+            "properties":
+            {
+                "override":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "overrideDetails":
+                        {
+                            "type": "array",
+                            "items":
+                            {
+                                "type": "object",
+                                "properties":
+                                {
+                                    "id":
+                                    {
+                                        "type": "string",
+                                        "description": "The identifier of the override"
+                                    },
+                                    "description":
+                                    {
+                                        "type": "string",
+                                        "description": "The actual override message"
+                                    },
+                                    "responseCode":
+                                    {
+                                        "type": "string",
+                                        "description": "The user input to accept/reject the override."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "CreateStandingOrder":
+        {
+            "properties":
+            {
+                "header":
+                {
+                    "$ref": "#/definitions/PayloadHeader"
+                },
+                "body":
+                {
+                    "$ref": "#/definitions/CreateStandingOrderBody"
+                }
+            },
+            "description": "CreateStandingOrder"
+        },
+        "CreateStandingOrderBody":
+        {
+            "type": "object",
+            "properties":
+            {
+                "creditorAddress":
+                {
+                    "type": "array",
+                    "description": "The address of the creditor",
+                    "items":
+                    {
+                        "type": "object",
+                        "properties":
+                        {
+                            "beneficiaryAddress":
+                            {
+                                "type": "string",
+                                "description": ""
+                            }
+                        }
+                    }
+                },
+                "endToEndReference":
+                {
+                    "type": "string",
+                    "description": "This field is used for SEPA"
+                },
+                "beneficiaryIBAN":
+                {
+                    "type": "string",
+                    "description": "The IBAN of the beneficiary's account"
+                },
+                "BIC":
+                {
+                    "type": "string",
+                    "description": ""
+                },
+                "ultimateCreditor":
+                {
+                    "type": "string",
+                    "description": "The ultimate creditor"
+                },
+                "instructionIdReference":
+                {
+                    "type": "string",
+                    "description": "The reference used in SEPA payments to indicate the type of payment"
+                },
+                "paymentDetail":
+                {
+                    "type": "string",
+                    "description": "Identifies the Payment Details to enable the Beneficiary to apply the payment."
+                },
+                "currentFrequencyDate":
+                {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Identifies the date component of field CURRENT.FREQUENCY- The Standing Order Application will execute the Standing Order instruction (i.e. the currency and amount specified in the two previous fields) according to the frequency specified in this field "
+                },
+                "currentEndDate":
+                {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Identifies the Current End Date of the Standing Order for the Currency, "
+                },
+                "debitCurrency":
+                {
+                    "type": "string",
+                    "description": "Currency of the debit account"
+                },
+                "currentAmountBalance":
+                {
+                    "type": "number",
+                    "format": "int64",
+                    "description": "The amount of the Standing Order, or for the Balance Maintenance Standing Order types, will define the Balance to be maintained in the Account.Balance Maintenance Standing Order types will always make reference to the CLEARED Balance."
+                },
+                "beneficiaryOurCharges":
+                {
+                    "type": "string",
+                    "description": "Determines who will be responsible for charges."
+                }
+            }
+        },
+        "ScreenHeader":
+        {
+            "properties":
+            {
+                "id":
+                {
+                    "type": "string",
+                    "description": "The Identifier of the record created"
+                },
+                "status":
+                {
+                    "type": "string",
+                    "description": "The status of the record"
+                },
+                "transactionStatus":
+                {
+                    "type": "string",
+                    "description": "The status of the transaction"
+                },
+                "audit":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "T24_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to response by T24"
+                        },
+                        "parse_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to parse the response by IRIS"
+                        }
+                    }
+                }
+            }
+        },
+        "CreateStandingOrderResponse":
+        {
+            "properties":
+            {
+                "header":
+                {
+                    "$ref": "#/definitions/ScreenHeader"
+                },
+                "body":
+                {
+                    "$ref": "#/definitions/CreateStandingOrderResponseBody"
+                }
+            },
+            "description": "CreateStandingOrderResponse"
+        },
+        "CreateStandingOrderResponseBody":
+        {
+            "type": "object",
+            "properties":
+            {
+                "creditorAddress":
+                {
+                    "type": "array",
+                    "description": "The address of the creditor",
+                    "items":
+                    {
+                        "type": "object",
+                        "properties":
+                        {
+                            "beneficiaryAddress":
+                            {
+                                "type": "string",
+                                "description": ""
+                            }
+                        }
+                    }
+                },
+                "endToEndReference":
+                {
+                    "type": "string",
+                    "description": "This field is used for SEPA"
+                },
+                "beneficiaryIBAN":
+                {
+                    "type": "string",
+                    "description": "The IBAN of the beneficiary's account"
+                },
+                "BIC":
+                {
+                    "type": "string",
+                    "description": ""
+                },
+                "ultimateCreditor":
+                {
+                    "type": "string",
+                    "description": "The ultimate creditor"
+                },
+                "instructionIdReference":
+                {
+                    "type": "string",
+                    "description": "The reference used in SEPA payments to indicate the type of payment"
+                },
+                "paymentDetail":
+                {
+                    "type": "string",
+                    "description": "Identifies the Payment Details to enable the Beneficiary to apply the payment."
+                },
+                "currentFrequencyDate":
+                {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Identifies the date component of field CURRENT.FREQUENCY- The Standing Order Application will execute the Standing Order instruction (i.e. the currency and amount specified in the two previous fields) according to the frequency specified in this field "
+                },
+                "currentEndDate":
+                {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Identifies the Current End Date of the Standing Order for the Currency, "
+                },
+                "debitCurrency":
+                {
+                    "type": "string",
+                    "description": "Currency of the debit account"
+                },
+                "currentAmountBalance":
+                {
+                    "type": "number",
+                    "format": "int64",
+                    "description": "The amount of the Standing Order, or for the Balance Maintenance Standing Order types, will define the Balance to be maintained in the Account.Balance Maintenance Standing Order types will always make reference to the CLEARED Balance."
+                },
+                "beneficiaryOurCharges":
+                {
+                    "type": "string",
+                    "description": "Determines who will be responsible for charges."
+                }
+            }
+        },
+        "ErrorHeader":
+        {
+            "properties":
+            {
+                "id":
+                {
+                    "type": "string",
+                    "description": "The Identifier of the record created"
+                },
+                "status":
+                {
+                    "type": "string",
+                    "description": "The status of the record"
+                },
+                "transactionStatus":
+                {
+                    "type": "string",
+                    "description": "The status of the transaction"
+                },
+                "audit":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "T24_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to response by T24"
+                        },
+                        "parse_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to parse the response by IRIS"
+                        }
+                    }
+                }
+            }
+        },
+        "overrideBody":
+        {
+            "properties":
+            {
+                "overrideDetails":
+                {
+                    "type": "array",
+                    "items":
+                    {
+                        "type": "object",
+                        "properties":
+                        {
+                            "id":
+                            {
+                                "type": "string",
+                                "description": "The identifier of the override"
+                            },
+                            "description":
+                            {
+                                "type": "string",
+                                "description": "The actual override message"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "CreateStandingOrderErrorResponse":
+        {
+            "properties":
+            {
+                "header":
+                {
+                    "$ref": "#/definitions/ErrorHeader"
+                },
+                "error":
+                {
+                    "$ref": "#/definitions/CreateStandingOrderErrorResponseBody"
+                },
+                "override":
+                {
+                    "$ref": "#/definitions/overrideBody"
+                }
+            },
+            "description": "CreateStandingOrderErrorResponse"
+        },
+        "CreateStandingOrderErrorResponseBody":
+        {
+            "type": "object",
+            "properties":
+            {
+                "errorDetails":
+                {
+                    "type": "array",
+                    "items":
+                    {
+                        "type": "object",
+                        "properties":
+                        {
+                            "fieldName":
+                            {
+                                "type": "string",
+                                "description": "The name of the field"
+                            },
+                            "code":
+                            {
+                                "type": "string",
+                                "description": "The identifier of the error message"
+                            },
+                            "message":
+                            {
+                                "type": "string",
+                                "description": "The actual t24 error message"
+                            }
+                        }
+                    }
+                },
+                "type":
+                {
+                    "type": "string",
+                    "description": "The identifier of error type"
+                }
+            }
+        }
+    }
+}

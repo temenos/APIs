@@ -1,0 +1,285 @@
+{
+    "swagger": "2.0",
+    "info":
+    {
+        "description": "Exchange rate against a particular Currency",
+        "version": "v1.0.0",
+        "title": "Bundle Exchange Rate APIs"
+    },
+    "host": "api.server.com",
+    "basePath": "/api/v1.0.0/",
+    "schemes": ["http", "https"],
+    "security": [
+    {
+        "basicAuth": []
+    }],
+    "paths":
+    {
+        "/reference/cashManagement/bundles/{bundleId}/currencies/rates":
+        {
+            "get":
+            {
+                "description": "Exchange rate against a particular Currency",
+                "operationId": "getBundleExchangeRates",
+                "produces": ["application/json"],
+                "parameters": [
+                {
+                    "name": "bundleId",
+                    "in": "path",
+                    "description": "",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "name": "currency",
+                    "in": "query",
+                    "description": "Identifies the underlying currency used for the transaction.",
+                    "required": false,
+                    "type": "string"
+                },
+                {
+                    "name": "date",
+                    "in": "query",
+                    "description": "Date",
+                    "required": false,
+                    "type": "string"
+                },
+                {
+                    "name": "page_size",
+                    "in": "query",
+                    "description": "The total number of records per page",
+                    "required": false,
+                    "type": "integer",
+                    "format": "int32"
+                },
+                {
+                    "name": "page_start",
+                    "in": "query",
+                    "description": "The record from which the response should be displayed",
+                    "required": false,
+                    "type": "integer",
+                    "format": "int32"
+                },
+                {
+                    "name": "page_token",
+                    "in": "query",
+                    "description": "Unique id expected to get as part of response from t24 on every enquiry request.",
+                    "required": false,
+                    "type": "string"
+                },
+                {
+                    "name": "credentials",
+                    "in": "header",
+                    "required": false,
+                    "type": "string"
+                },
+                {
+                    "name": "companyId",
+                    "in": "header",
+                    "required": false,
+                    "type": "string"
+                }],
+                "responses":
+                {
+                    "200":
+                    {
+                        "description": "BundleExchangeRatesResponse",
+                        "schema":
+                        {
+                            "$ref": "#/definitions/BundleExchangeRatesResponse"
+                        }
+                    },
+                    "default":
+                    {
+                        "description": "QueryErrorResponse",
+                        "schema":
+                        {
+                            "$ref": "#/definitions/QueryErrorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "securityDefinitions":
+    {
+        "basicAuth":
+        {
+            "type": "basic"
+        }
+    },
+    "definitions":
+    {
+        "QueryHeader":
+        {
+            "properties":
+            {
+                "audit":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "T24_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to response by T24"
+                        },
+                        "versionNumber":
+                        {
+                            "type": "string",
+                            "description": "The CURR.NO. of the record"
+                        },
+                        "parse_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to parse the response by IRIS"
+                        }
+                    }
+                },
+                "page_size":
+                {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "The total number of records per page"
+                },
+                "page_start":
+                {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "The record from which the response should be displayed"
+                },
+                "total_size":
+                {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "The total number of records present"
+                },
+                "page_token":
+                {
+                    "type": "string",
+                    "description": "Unique id expected to get as part of response from t24 on every enquiry request"
+                }
+            }
+        },
+        "BundleExchangeRatesResponse":
+        {
+            "properties":
+            {
+                "header":
+                {
+                    "$ref": "#/definitions/QueryHeader"
+                },
+                "body":
+                {
+                    "$ref": "#/definitions/BundleExchangeRatesResponseBody"
+                }
+            },
+            "description": "BundleExchangeRatesResponse"
+        },
+        "BundleExchangeRatesResponseBody":
+        {
+            "type": "array",
+            "items":
+            {
+                "type": "object",
+                "properties":
+                {
+                    "currency":
+                    {
+                        "type": "string",
+                        "description": "Identifies the underlying currency used for the transaction."
+                    },
+                    "currencyName":
+                    {
+                        "type": "string",
+                        "description": "The name that is displayed for the currency"
+                    },
+                    "midRate":
+                    {
+                        "type": "string",
+                        "description": ""
+                    },
+                    "exchangeRate":
+                    {
+                        "type": "string",
+                        "description": "Contains the exchange rate applicable"
+                    },
+                    "allowedCurrency":
+                    {
+                        "type": "string",
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "ErrorHeader":
+        {
+            "properties":
+            {
+                "audit":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "T24_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to response by T24"
+                        },
+                        "versionNumber":
+                        {
+                            "type": "string",
+                            "description": "The CURR.NO. of the record"
+                        },
+                        "parse_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to parse the response by IRIS"
+                        }
+                    }
+                }
+            }
+        },
+        "QueryErrorResponse":
+        {
+            "properties":
+            {
+                "header":
+                {
+                    "$ref": "#/definitions/ErrorHeader"
+                },
+                "error":
+                {
+                    "$ref": "#/definitions/QueryErrorResponseBody"
+                }
+            },
+            "description": "QueryErrorResponse"
+        },
+        "QueryErrorResponseBody":
+        {
+            "type": "object",
+            "properties":
+            {
+                "code":
+                {
+                    "type": "string",
+                    "description": "The identifier of the error message"
+                },
+                "message":
+                {
+                    "type": "string",
+                    "description": "The actual t24 error message"
+                },
+                "type":
+                {
+                    "type": "string",
+                    "description": "The identifier of error type"
+                }
+            }
+        }
+    }
+}

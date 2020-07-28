@@ -1,0 +1,1397 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Allows the creation, viewing and management of customers.",
+    "version" : "v1.0.0",
+    "title" : "Party Customers APIs"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/party/customers/{customerId}/contactDetails" : {
+      "get" : {
+        "summary" : "Retrieves the list of contact details(Email/Phone) for specific customer",
+        "description" : "Retrieves customer contact details",
+        "operationId" : "getCustomerContactDetails",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "customerId",
+          "in" : "path",
+          "description" : "Identifier of the customer",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "100100"
+        }, {
+          "name" : "customerName",
+          "in" : "query",
+          "description" : "Name of the customer",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "street",
+          "in" : "query",
+          "description" : "Contains the first line of customer's base address, example building number, street number etc.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "town",
+          "in" : "query",
+          "description" : "Contains the name of the town in which the travel has taken place",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "countryId",
+          "in" : "query",
+          "description" : "ISO country code of the financial institution. ",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "postcode",
+          "in" : "query",
+          "description" : "Identifies the address postal code for the customer.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "dateOfBirth",
+          "in" : "query",
+          "description" : "The date of birth of an individual customer",
+          "required" : false,
+          "type" : "string",
+          "format" : "date"
+        }, {
+          "name" : "customerStatus",
+          "in" : "query",
+          "description" : "The internal bank status of a customer",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "customerType",
+          "in" : "query",
+          "description" : "Illustrates the capacity in which a client is acting.Possible Values : Customer, Broker, Depository, Client, Counterparty, External Account Manager",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "CustomerContactDetailsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/CustomerContactDetailsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Updates the contact details for specific customer",
+        "description" : "Update customer contact details",
+        "operationId" : "updateCustomerContactDetail",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "customerId",
+          "in" : "path",
+          "description" : "Identifier of the customer",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "100100"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/CustomerContactDetail"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "CustomerContactDetailResponse",
+            "schema" : {
+              "$ref" : "#/definitions/CustomerContactDetailResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/party/customers/{customerId}/portfolios/{portfolioId}/overdueSettlements" : {
+      "get" : {
+        "summary" : "Get Overdue settlement",
+        "description" : "Get Overdue settlement",
+        "operationId" : "getOverdueSettlements",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "customerId",
+          "in" : "path",
+          "description" : "Identifier of the customer",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "portfolioId",
+          "in" : "path",
+          "description" : "Id of the portfolio or security account",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "transactionId",
+          "in" : "query",
+          "description" : "Unique transaction identifier for retrieving the details of the transaction. For example: FT0102030333 etc.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "brokerId",
+          "in" : "query",
+          "description" : "The identifier of the broker",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "tradeDate",
+          "in" : "query",
+          "description" : "Standard date field which records trade date of the account",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "valueDate",
+          "in" : "query",
+          "description" : "Indicates the value date on which the underlying accounting entry is to be given value (for interest purposes)",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "depository",
+          "in" : "query",
+          "description" : "The custodian where securities are held",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "currency",
+          "in" : "query",
+          "description" : "Indicates the type of currency to which the account belongs",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "instrumentId",
+          "in" : "query",
+          "description" : "The identifier of the instrument",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deliveryInstruction",
+          "in" : "query",
+          "description" : "Type of Delivery to be made for this transaction. Allowed values: - DAP: Delivery Against Payment - FOP: Free of Payment",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "transactionType",
+          "in" : "query",
+          "description" : "Identifies the transaction type applicable to the transaction being processed, i.e. outward or inward payment. For example: ACPX, OTPX etc.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "quantity",
+          "in" : "query",
+          "description" : "The nominal quantity",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "stockExchange",
+          "in" : "query",
+          "description" : "The stock exchange identifier",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OverdueSettlementsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/OverdueSettlementsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/party/customers/accountServicingProviders/" : {
+      "get" : {
+        "summary" : "Retrieves the list of other/external bank details",
+        "description" : "Retrieves other banks to connect to details",
+        "operationId" : "getOtherBanksToConnectTo",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "openBankingId",
+          "in" : "query",
+          "description" : "Identifies the open banking number of the customer",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "countryId",
+          "in" : "query",
+          "description" : "ISO country code of the financial institution. ",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "setActive",
+          "in" : "query",
+          "description" : "Flag to set the connection status to active",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "status",
+          "in" : "query",
+          "description" : "Status identifier of the account. The values are 'DELETED' if the account is closed, 'BLOCKED' is there are any posting restrictions & 'ENABLED' for active accounts.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "extSourceProvider",
+          "in" : "query",
+          "description" : "Contains the name of the external source provider for the customer",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OtherBanksToConnectToResponse",
+            "schema" : {
+              "$ref" : "#/definitions/OtherBanksToConnectToResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "QueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records per page"
+        },
+        "page_start" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The record from which the response should be displayed"
+        },
+        "total_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records present"
+        },
+        "page_token" : {
+          "type" : "string",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request"
+        }
+      }
+    },
+    "CustomerContactDetailsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/CustomerContactDetailsResponseBody"
+        }
+      },
+      "description" : "CustomerContactDetailsResponse"
+    },
+    "CustomerContactDetailsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "addressDetails" : {
+            "type" : "array",
+            "description" : "Additional address information, e.g. Contact Person. Building, Floor, Apartment, Street Number, Street Name, Town, Area, Code",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "street" : {
+                  "type" : "string",
+                  "description" : "Contains the first line of customer's base address, example building number, street number etc.",
+                  "maxLength" : 35
+                },
+                "address" : {
+                  "type" : "string",
+                  "description" : "Communication Address of the Customer",
+                  "maxLength" : 35
+                },
+                "addressCity" : {
+                  "type" : "string",
+                  "description" : "The town and/or city component of the base address of a customer",
+                  "maxLength" : 35
+                },
+                "postCode" : {
+                  "type" : "string",
+                  "description" : "Identifies the address postal code for the customer.",
+                  "maxLength" : 35
+                },
+                "country" : {
+                  "type" : "string",
+                  "description" : "Identifies the country of the customer.",
+                  "maxLength" : 35
+                }
+              }
+            }
+          },
+          "contactDetails" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "phoneNumber" : {
+                  "type" : "string",
+                  "description" : "The phone number of the customer or prospect",
+                  "maxLength" : 17
+                },
+                "officePhoneNumber" : {
+                  "type" : "string",
+                  "description" : "The office phone number of the customer",
+                  "maxLength" : 17
+                },
+                "smsNumber" : {
+                  "type" : "string",
+                  "description" : "The mobile SMS number of the customer",
+                  "maxLength" : 17
+                },
+                "emailId" : {
+                  "type" : "string",
+                  "description" : "The Email id of the customer",
+                  "maxLength" : 50
+                },
+                "faxNumber" : {
+                  "type" : "string",
+                  "description" : "Fax number of the Customer",
+                  "maxLength" : 17
+                }
+              }
+            }
+          },
+          "customerId" : {
+            "type" : "string",
+            "description" : "Identifier of the customer",
+            "maxLength" : 10
+          },
+          "customerName" : {
+            "type" : "string",
+            "description" : "Name of the customer",
+            "maxLength" : 50
+          },
+          "dateOfBirth" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "The date of birth of an individual customer"
+          },
+          "customerStatus" : {
+            "type" : "string",
+            "description" : "The internal bank status of a customer",
+            "maxLength" : 4
+          },
+          "customerStatusName" : {
+            "type" : "string",
+            "description" : "Specifies the customer status",
+            "maxLength" : 4
+          },
+          "customerType" : {
+            "type" : "string",
+            "description" : "Illustrates the capacity in which a client is acting.Possible Values : Customer, Broker, Depository, Client, Counterparty, External Account Manager",
+            "maxLength" : 35
+          },
+          "socialSecurityId" : {
+            "type" : "string",
+            "description" : "Specifies the Tax id of the customer",
+            "maxLength" : 35
+          },
+          "lastName" : {
+            "type" : "string",
+            "description" : "The last name of an individual customer",
+            "maxLength" : 50
+          },
+          "versionNumber" : {
+            "type" : "string",
+            "description" : "Current number of the record",
+            "maxLength" : 6
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessQueryErrorResponseBody"
+        }
+      },
+      "description" : "BusinessQueryErrorResponse"
+    },
+    "BusinessQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message for bad requests"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemQueryErrorResponseBody"
+        }
+      },
+      "description" : "SystemQueryErrorResponse"
+    },
+    "SystemQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message caused by server"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    },
+    "PayloadHeader" : {
+      "properties" : {
+        "override" : {
+          "type" : "object",
+          "properties" : {
+            "overrideDetails" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "id" : {
+                    "type" : "string",
+                    "description" : "The identifier of the override"
+                  },
+                  "description" : {
+                    "type" : "string",
+                    "description" : "The actual override message"
+                  },
+                  "responseCode" : {
+                    "type" : "string",
+                    "description" : "The user input to accept/reject the override."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            }
+          }
+        }
+      }
+    },
+    "CustomerContactDetail" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/CustomerContactDetailBody"
+        }
+      },
+      "description" : "CustomerContactDetail"
+    },
+    "CustomerContactDetailBody" : {
+      "type" : "object",
+      "properties" : {
+        "contactDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "phoneNumber" : {
+                "type" : "string",
+                "description" : "The phone number of the customer or prospect",
+                "minLength" : 0,
+                "maxLength" : 25
+              },
+              "smsNumber" : {
+                "type" : "string",
+                "description" : "The mobile SMS number of the customer",
+                "minLength" : 0,
+                "maxLength" : 25
+              },
+              "emailId" : {
+                "type" : "string",
+                "description" : "The Email id of the customer",
+                "minLength" : 0,
+                "maxLength" : 50
+              }
+            }
+          }
+        },
+        "officePhoneNumbers" : {
+          "type" : "array",
+          "description" : "The office phone number of the customer",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "officePhoneNumber" : {
+                "type" : "string",
+                "description" : "The office phone number of the customer",
+                "minLength" : 0,
+                "maxLength" : 25
+              }
+            }
+          }
+        },
+        "faxNumbers" : {
+          "type" : "array",
+          "description" : "Fax number of the Customer",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "faxNumber" : {
+                "type" : "string",
+                "description" : "Fax number of the Customer",
+                "minLength" : 0,
+                "maxLength" : 25
+              }
+            }
+          }
+        },
+        "overrides" : {
+          "type" : "array",
+          "description" : "The override message is captured  that was generated at the time of commitment of the transaction to the database.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "override" : {
+                "type" : "string",
+                "description" : "The override message is captured  that was generated at the time of commitment of the transaction to the database.",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "addressDetails" : {
+          "type" : "array",
+          "description" : "Additional address information, e.g. Contact Person. Building, Floor, Apartment, Street Number, Street Name, Town, Area, Code",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "address" : {
+                "type" : "string",
+                "description" : "Communication Address of the Customer",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "street" : {
+          "type" : "string",
+          "description" : "Contains the first line of customer's base address, example building number, street number etc.",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "addressCity" : {
+          "type" : "string",
+          "description" : "The town and/or city component of the base address of a customer",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "postCode" : {
+          "type" : "string",
+          "description" : "Identifies the address postal code for the customer.",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "country" : {
+          "type" : "string",
+          "description" : "Identifies the country of the customer.",
+          "minLength" : 0,
+          "maxLength" : 7
+        }
+      }
+    },
+    "ScreenHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "uniqueIdentifier" : {
+          "type" : "string",
+          "description" : "The unique identifier/Message Reference of the record created."
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "CustomerContactDetailResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/CustomerContactDetailResponseBody"
+        }
+      },
+      "description" : "CustomerContactDetailResponse"
+    },
+    "CustomerContactDetailResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "contactDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "phoneNumber" : {
+                "type" : "string",
+                "description" : "The phone number of the customer or prospect",
+                "minLength" : 0,
+                "maxLength" : 25
+              },
+              "smsNumber" : {
+                "type" : "string",
+                "description" : "The mobile SMS number of the customer",
+                "minLength" : 0,
+                "maxLength" : 25
+              },
+              "emailId" : {
+                "type" : "string",
+                "description" : "The Email id of the customer",
+                "minLength" : 0,
+                "maxLength" : 50
+              }
+            }
+          }
+        },
+        "officePhoneNumbers" : {
+          "type" : "array",
+          "description" : "The office phone number of the customer",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "officePhoneNumber" : {
+                "type" : "string",
+                "description" : "The office phone number of the customer",
+                "minLength" : 0,
+                "maxLength" : 25
+              }
+            }
+          }
+        },
+        "faxNumbers" : {
+          "type" : "array",
+          "description" : "Fax number of the Customer",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "faxNumber" : {
+                "type" : "string",
+                "description" : "Fax number of the Customer",
+                "minLength" : 0,
+                "maxLength" : 25
+              }
+            }
+          }
+        },
+        "overrides" : {
+          "type" : "array",
+          "description" : "The override message is captured  that was generated at the time of commitment of the transaction to the database.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "override" : {
+                "type" : "string",
+                "description" : "The override message is captured  that was generated at the time of commitment of the transaction to the database.",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "addressDetails" : {
+          "type" : "array",
+          "description" : "Additional address information, e.g. Contact Person. Building, Floor, Apartment, Street Number, Street Name, Town, Area, Code",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "address" : {
+                "type" : "string",
+                "description" : "Communication Address of the Customer",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "street" : {
+          "type" : "string",
+          "description" : "Contains the first line of customer's base address, example building number, street number etc.",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "addressCity" : {
+          "type" : "string",
+          "description" : "The town and/or city component of the base address of a customer",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "postCode" : {
+          "type" : "string",
+          "description" : "Identifies the address postal code for the customer.",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "country" : {
+          "type" : "string",
+          "description" : "Identifies the country of the customer.",
+          "minLength" : 0,
+          "maxLength" : 7
+        }
+      }
+    },
+    "overrideBody" : {
+      "properties" : {
+        "overrideDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "string",
+                "description" : "The identifier of the override"
+              },
+              "description" : {
+                "type" : "string",
+                "description" : "The actual override message"
+              },
+              "options" : {
+                "type" : "array",
+                "description" : "The usable options for the override",
+                "items" : {
+                  "type" : "string"
+                }
+              },
+              "type" : {
+                "type" : "string",
+                "description" : "The type of the override"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/ScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "ScreenErrorResponse"
+    },
+    "ScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message "
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "BusinessScreenErrorResponse"
+    },
+    "BusinessScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message for bad requests"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "SystemScreenErrorResponse"
+    },
+    "SystemScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message caused by server"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    },
+    "OverdueSettlementsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/OverdueSettlementsResponseBody"
+        }
+      },
+      "description" : "OverdueSettlementsResponse"
+    },
+    "OverdueSettlementsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "broker" : {
+            "type" : "array",
+            "description" : "Specifies the counterparty with whom the trade is to be effected.",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "brokerId" : {
+                  "type" : "string",
+                  "description" : "The identifier of the broker",
+                  "maxLength" : 10
+                },
+                "brokerName" : {
+                  "type" : "string",
+                  "description" : "The name that is displayed for the broker",
+                  "maxLength" : 10
+                },
+                "nostro" : {
+                  "type" : "string",
+                  "description" : "Nostro account id"
+                },
+                "nostroCurrency" : {
+                  "type" : "string",
+                  "description" : "Currency of the nostro account"
+                },
+                "brokerOutstandingAmount" : {
+                  "type" : "number",
+                  "description" : "The amount outstanding for the broker",
+                  "maximum" : 19
+                },
+                "brokerOutstandingQuantity" : {
+                  "type" : "string",
+                  "description" : "The quantity of the instrument outstanding for the broker",
+                  "maxLength" : 19
+                }
+              }
+            }
+          },
+          "transactionId" : {
+            "type" : "string",
+            "description" : "Unique transaction identifier for retrieving the details of the transaction. For example: FT0102030333 etc.",
+            "maxLength" : 97
+          },
+          "instrumentId" : {
+            "type" : "string",
+            "description" : "The identifier of the instrument",
+            "maxLength" : 12
+          },
+          "instrumentName" : {
+            "type" : "string",
+            "description" : "The name that is displayed for the instrument, taken from the Security Master"
+          },
+          "depository" : {
+            "type" : "string",
+            "description" : "The custodian where securities are held",
+            "maxLength" : 10
+          },
+          "depositoryName" : {
+            "type" : "string",
+            "description" : "The name that is displayed for the depository"
+          },
+          "tradeDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "Standard date field which records trade date of the account"
+          },
+          "valueDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "Indicates the value date on which the underlying accounting entry is to be given value (for interest purposes)"
+          },
+          "tradeCurrency" : {
+            "type" : "string",
+            "description" : "The trade currency is the settlement currency for the trade",
+            "maxLength" : 3
+          },
+          "quantity" : {
+            "type" : "string",
+            "description" : "The nominal quantity",
+            "maxLength" : 19
+          },
+          "portfolioId" : {
+            "type" : "string",
+            "description" : "Id of the portfolio or security account",
+            "maxLength" : 18
+          },
+          "portfolioName" : {
+            "type" : "string",
+            "description" : "The name that is displayed for the portfolio",
+            "maxLength" : 10
+          },
+          "accountCurrency" : {
+            "type" : "string",
+            "description" : "Currency of the account. For example: USD, GBP.",
+            "maxLength" : 3
+          },
+          "customerOutstandingAmount" : {
+            "type" : "number",
+            "description" : "The amount outstanding from/to the customer",
+            "maximum" : 19
+          },
+          "customerOutstandingQuantity" : {
+            "type" : "string",
+            "description" : "The quantity outstanding from/to the customer",
+            "maxLength" : 19
+          }
+        }
+      }
+    },
+    "OtherBanksToConnectToResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/OtherBanksToConnectToResponseBody"
+        }
+      },
+      "description" : "OtherBanksToConnectToResponse"
+    },
+    "OtherBanksToConnectToResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "paymentTemplates" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "paymentTemplate" : {
+                  "type" : "string",
+                  "description" : "Specifies the customer payment template",
+                  "maxLength" : 35
+                }
+              }
+            }
+          },
+          "globalUrn" : {
+            "type" : "string",
+            "description" : "globalURNSpecifies the GLOBAL.URN reference of the TPP (third party provider). This will be retrieved from the request and should match a GLOBAL.URN from a record within the Open Banking Directory.",
+            "maxLength" : 35
+          },
+          "bankId" : {
+            "type" : "string",
+            "description" : "Contains the identifier of the bank with which the transaction is performed"
+          },
+          "bankCode" : {
+            "type" : "string",
+            "description" : "Contains the code of the bank with which the transaction is performed"
+          },
+          "bankName" : {
+            "type" : "string",
+            "description" : "The name of the bank being referred to.",
+            "maxLength" : 150
+          },
+          "logoURL" : {
+            "type" : "string",
+            "description" : "Contains the uniform resourcelocator of the logo",
+            "maxLength" : 200
+          },
+          "countryId" : {
+            "type" : "string",
+            "description" : "ISO country code of the financial institution. ",
+            "maxLength" : 35
+          },
+          "extSourceProvider" : {
+            "type" : "string",
+            "description" : "Contains the name of the external source provider for the customer",
+            "maxLength" : 35
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,308 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Clearing meta data cache of Queries and Screens",
+    "version" : "v1.0.0",
+    "title" : "MetaCacheClearingProcess"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/meta/clearCache/queries" : {
+      "delete" : {
+        "operationId" : "deleteQueries",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "QueriesResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueriesResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueriesErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessErrorResponseWithId"
+            }
+          }
+        }
+      }
+    },
+    "/meta/clearCache/queries/{enquiryId}" : {
+      "delete" : {
+        "operationId" : "deleteEnquiryId",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "enquiryId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "EnquiryIdResponse",
+            "schema" : {
+              "$ref" : "#/definitions/EnquiryIdResponse"
+            }
+          },
+          "404" : {
+            "description" : "BusinessEnquiryIdErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessErrorResponseWithId"
+            }
+          },
+          "default" : {
+            "description" : "EnquiryIdErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessErrorResponseWithId"
+            }
+          }
+        }
+      }
+    },
+    "/meta/clearCache/screens" : {
+      "delete" : {
+        "operationId" : "deleteScreens",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "ScreensResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreensResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessErrorResponseWithId"
+            }
+          }
+        }
+      }
+    },
+    "/meta/clearCache/screens/{screenId}" : {
+      "delete" : {
+        "operationId" : "deleteScreenId",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "screenId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "ScreenIdResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenIdResponse"
+            }
+          },
+          "404" : {
+            "description" : "BusinessScreenIdErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessErrorResponseWithId"
+            }
+          },
+          "default" : {
+            "description" : "ScreenIdErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessErrorResponseWithId"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "ScreenHeader" : {
+      "properties" : {
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "QueriesResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/QueriesResponseBody"
+        }
+      },
+      "description" : "QueriesResponse"
+    },
+    "QueriesResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "message" : {
+          "type" : "string",
+          "description" : "Message to be displayed after clearing queries cache",
+          "minLength" : 0,
+          "maxLength" : 30
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "BusinessErrorResponseWithId" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessErrorResponseBodyWithId"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "BusinessScreenErrorResponse"
+    },
+    "BusinessErrorResponseBodyWithId" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "Error message to be displayed when no cache data found"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        },
+        "target" : {
+          "type" : "string",
+          "description" : "Target API for which cache has to be cleared"
+        }
+      }
+    },
+    "EnquiryIdResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/EnquiryIdResponseBody"
+        }
+      },
+      "description" : "EnquiryIdResponse"
+    },
+    "EnquiryIdResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "message" : {
+          "type" : "string",
+          "description" : "Message to be displayed after clearing screens cache",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "target" : {
+          "type" : "string",
+          "description" : "Target API for which cache has been cleared",
+          "minLength" : 0,
+          "maxLength" : 30
+        }
+      }
+    },
+    "ScreensResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ScreensResponseBody"
+        }
+      },
+      "description" : "ScreensResponse"
+    },
+    "ScreensResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "message" : {
+          "type" : "string",
+          "description" : "Message to be displayed after clearing screens cache",
+          "minLength" : 0,
+          "maxLength" : 30
+        }
+      }
+    },
+    "ScreenIdResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ScreenIdResponseBody"
+        }
+      },
+      "description" : "ScreenIdResponse"
+    },
+    "ScreenIdResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "message" : {
+          "type" : "string",
+          "description" : "Error message to be displayed when tno cache data found to clear",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "target" : {
+          "type" : "string",
+          "description" : "Target API for which no cache has been found",
+          "minLength" : 0,
+          "maxLength" : 30
+        }
+      }
+    }
+  }
+}

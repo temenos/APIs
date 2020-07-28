@@ -1,0 +1,312 @@
+{
+    "swagger": "2.0",
+    "info":
+    {
+        "description": "Lists closed arrangements",
+        "version": "v1.0.0",
+        "title": "getClosedArrangements"
+    },
+    "host": "api.server.com",
+    "basePath": "/api/v1.0.0/",
+    "schemes": ["http", "https"],
+    "security": [
+    {
+        "basicAuth": []
+    }],
+    "paths":
+    {
+        "/holdings/productLine/{productLineId}/closedArrangements":
+        {
+            "get":
+            {
+                "operationId": "getClosedMaturedAccounts",
+                "produces": ["application/json"],
+                "parameters": [
+                {
+                    "name": "productLineId",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "name": "customerId",
+                    "in": "query",
+                    "description": "The identifier of the customer",
+                    "required": false,
+                    "type": "string"
+                },
+                {
+                    "name": "arrangementId",
+                    "in": "query",
+                    "description": "The identifier of the arrangement",
+                    "required": false,
+                    "type": "string"
+                },
+                {
+                    "name": "productGroup",
+                    "in": "query",
+                    "description": "The group, as defined by the institution, that the product belongs to.",
+                    "required": false,
+                    "type": "string"
+                },
+                {
+                    "name": "product",
+                    "in": "query",
+                    "description": "The product for which the pricing plan is applicable",
+                    "required": false,
+                    "type": "string"
+                },
+                {
+                    "name": "currency",
+                    "in": "query",
+                    "description": "Identifies the underlying currency used for the transaction.",
+                    "required": false,
+                    "type": "string"
+                },
+                {
+                    "name": "page_size",
+                    "in": "query",
+                    "description": "The total number of records per page",
+                    "required": false,
+                    "type": "integer",
+                    "format": "int32"
+                },
+                {
+                    "name": "page_start",
+                    "in": "query",
+                    "description": "The record from which the response should be displayed",
+                    "required": false,
+                    "type": "integer",
+                    "format": "int32"
+                },
+                {
+                    "name": "page_token",
+                    "in": "query",
+                    "description": "Unique id expected to get as part of response from t24 on every enquiry request.",
+                    "required": false,
+                    "type": "string"
+                },
+                {
+                    "name": "credentials",
+                    "in": "query",
+                    "required": false,
+                    "type": "string"
+                },
+                {
+                    "name": "companyId",
+                    "in": "query",
+                    "required": false,
+                    "type": "string"
+                }],
+                "responses":
+                {
+                    "200":
+                    {
+                        "description": "ClosedMaturedAccountsResponse",
+                        "schema":
+                        {
+                            "$ref": "#/definitions/holdingsClosedMaturedAccountsResponse"
+                        }
+                    },
+                    "default":
+                    {
+                        "description": "QueryErrorResponse",
+                        "schema":
+                        {
+                            "$ref": "#/definitions/QueryErrorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "securityDefinitions":
+    {
+        "basicAuth":
+        {
+            "type": "basic"
+        }
+    },
+    "definitions":
+    {
+        "QueryHeader":
+        {
+            "properties":
+            {
+                "audit":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "T24_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to response by T24"
+                        },
+                        "versionNumber":
+                        {
+                            "type": "string",
+                            "description": "The CURR.NO. of the record"
+                        },
+                        "parse_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to parse the response by IRIS"
+                        }
+                    }
+                },
+                "page_size":
+                {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "The total number of records per page"
+                },
+                "page_start":
+                {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "The record from which the response should be displayed"
+                },
+                "total_size":
+                {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "The total number of records present"
+                },
+                "page_token":
+                {
+                    "type": "string",
+                    "description": "Unique id expected to get as part of response from t24 on every enquiry request"
+                }
+            }
+        },
+        "holdingsClosedMaturedAccountsResponse":
+        {
+            "properties":
+            {
+                "header":
+                {
+                    "$ref": "#/definitions/QueryHeader"
+                },
+                "body":
+                {
+                    "$ref": "#/definitions/holdingsClosedMaturedAccountsResponseBody"
+                }
+            },
+            "description": "holdingsClosedMaturedAccountsResponse"
+        },
+        "holdingsClosedMaturedAccountsResponseBody":
+        {
+            "type": "array",
+            "items":
+            {
+                "type": "object",
+                "properties":
+                {
+                    "arrangementId":
+                    {
+                        "type": "string",
+                        "description": "The identifier of the arrangement"
+                    },
+                    "accountId":
+                    {
+                        "type": "string",
+                        "description": "The identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId.",
+                        "maxLength": 35
+                    },
+                    "productDescription":
+                    {
+                        "type": "string",
+                        "description": "Description of the product"
+                    },
+                    "customerId":
+                    {
+                        "type": "number",
+                        "description": "The identifier of the customer"
+                    },
+                    "customerName":
+                    {
+                        "type": "string",
+                        "description": "Name of the customer",
+                        "maxLength": 35
+                    },
+                    "arrangementStatus":
+                    {
+                        "type": "string",
+                        "description": "Status of the arrangement: UNAUTH - input but not authorised yet. AUTH - authorised. AUTH-FWD (Forward) - authorised, will become active on a future date. CURRENT - the arrangement has begun full or partial disbursement. MATURED - the contract has matured and all dues have been cleared. EXPIRED - the contract has gone past its final payment date with some dues left unsettled. REVERSED - reversed. CANCELLED - cancelled (only for deposits) CLOSE - closed PENDING.CLOSURE - ready for closure",
+                        "maxLength": 15
+                    }
+                }
+            }
+        },
+        "ErrorHeader":
+        {
+            "properties":
+            {
+                "audit":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "T24_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to response by T24"
+                        },
+                        "versionNumber":
+                        {
+                            "type": "string",
+                            "description": "The CURR.NO. of the record"
+                        },
+                        "parse_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to parse the response by IRIS"
+                        }
+                    }
+                }
+            }
+        },
+        "QueryErrorResponse":
+        {
+            "properties":
+            {
+                "header":
+                {
+                    "$ref": "#/definitions/ErrorHeader"
+                },
+                "error":
+                {
+                    "$ref": "#/definitions/QueryErrorResponseBody"
+                }
+            },
+            "description": "QueryErrorResponse"
+        },
+        "QueryErrorResponseBody":
+        {
+            "type": "object",
+            "properties":
+            {
+                "code":
+                {
+                    "type": "string",
+                    "description": "The identifier of the error message"
+                },
+                "message":
+                {
+                    "type": "string",
+                    "description": "The actual t24 error message"
+                },
+                "type":
+                {
+                    "type": "string",
+                    "description": "The identifier of error type"
+                }
+            }
+        }
+    }
+}

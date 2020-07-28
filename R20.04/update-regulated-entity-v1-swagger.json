@@ -1,0 +1,141 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "This is a swagger definition of the PRETA Open Banking Europe Regulatory Data Notifications APIs.\nThis documentation describes the APIs that Directory Distributor needs to implement in order to receive critical regulatory data notifications from the Directory by webhook.\n The Directory is the client of the call.\n\n All responses contain a signature of the canonical JSON Response.\n\nThe canonical form is defined by the following rules:\n- The document MUST be encoded in UTF-8 \n- Non-significant(1) whitespace characters MUST NOT be used\n- Non-significant(1) line endings MUST NOT be used\n- Entries (set of name/value pairs) in JSON objects MUST be sorted lexicographically(2) by their names \n- Arrays MUST preserve their initial ordering\n\n(1) As defined in JSON data-interchange format, JSON objects consists of multiple \"name\"/\"value\" pairs and JSON arrays consists of multiple \"value\" fields. Non-significant means not part of \"name\" or \"value\".\n(2) Lexicographic comparison, which orders strings from least to greatest alphabetically based on the UCS (Unicode Character Set) codepoint values.",
+    "version" : "2.0.2",
+    "title" : "Regulatory Data Notifications API",
+    "termsOfService" : "https://www.preta.eu/legal/",
+    "contact" : {
+      "email" : "info@preta.eu"
+    }
+  },
+  "basePath" : "/api/",
+  "tags" : [ {
+    "name" : "regulatedEntityVersion",
+    "description" : "Regulatory Entity Version Notification API"
+  } ],
+  "schemes" : [ "https", "http" ],
+  "paths" : {
+    "/notification/test/version" : {
+      "post" : {
+        "tags" : [ "regulatedEntityVersion" ],
+        "summary" : "Post your webhook to get critical Regulatory Data notifications containing the Global Unique Reference Number (GURN) and version number of the Regulated Entity that has changed.",
+        "description" : "Directory Distributors implementing this notifications API must implement Idempotency. This API must be able to accept the same Regulated Entity version more than once in the case of any break in http communication.",
+        "operationId" : "updateRegulatedEntity",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "New Record Version of Regulated Entity Details",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/RegulatedEntityVersionWrapper"
+          }
+        }, {
+          "name" : "OBE-Signature",
+          "in" : "header",
+          "description" : "Base64 encoded RS256 Signature of the canonical JSON content of this notification. Please see the API description for more details.",
+          "required" : true,
+          "type" : "string",
+          "enum" : [ "MIWo73K4IYuFKQf2LxoY6rnybASe7doIOINKdCDu7l5OaOYvDWN4/mILfr7g4erIVz7SK2vQXLjUFVDqIIJVmd3XlHsPT06Z9VJ+btodQUacgv45cPmuXy8vxVw566JczOElLTlgLHCCz2nfxAhZNmjAFPKBTAb47P+0y+NMj8bc9QPknboEt78rba4CMU/gzqlc3po141LqvDOIoY8KRCdg8VT6iMatdjZOFgOMKOcmQ3M/c9/lquBGARjGZNL+XXhXyVjdhx6oAv/qw2Q23YB4Xw4MyO55+EycM/Y0uiOUnQYWuT/xr9THWQPrRUtb7cN/rFXyZoRUmQX7P0Fcyw==" ]
+        }, {
+          "name" : "Webhook",
+          "in" : "header",
+          "description" : "The URL where the notification should be sent (e.g. http://example.com or /example.com)",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "headerName",
+          "in" : "header",
+          "description" : "Name of the custom header you want to add to the webhook notification, next to the OBE-Signature.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "headerValue",
+          "in" : "header",
+          "description" : "Value of the custom header you want to add to the webhook notification, next to the OBE-Signature.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "The request has succeeded"
+          },
+          "400" : {
+            "description" : "General error when fulfilling the request would cause an invalid state (e.g. domain validation errors, missing data, etc.)"
+          },
+          "401" : {
+            "description" : "Not authenticated to access this API. Please check your API key"
+          },
+          "403" : {
+            "description" : "The request was valid, but the server is refusing action. You might not have the necessary permissions for a resource"
+          },
+          "404" : {
+            "description" : "The requested resource could not be found"
+          },
+          "405" : {
+            "description" : "The request method is not supported for the requested resource"
+          },
+          "408" : {
+            "description" : "The server timed out waiting for the request. You did not produce a request within the time that the server was prepared to wait"
+          },
+          "415" : {
+            "description" : "The media format of the requested data is not supported by the server"
+          },
+          "429" : {
+            "description" : "Too many requests."
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "RegulatedEntityVersionWrapper" : {
+      "type" : "object",
+      "properties" : {
+        "environment" : {
+          "type" : "string",
+          "example" : "Production",
+          "description" : "Description of the environment the notification has been sent from"
+        },
+        "notificationDateTime" : {
+          "type" : "string",
+          "format" : "date",
+          "example" : "2008-02-12T12:34:45Z",
+          "description" : "Notification submission date and time"
+        },
+        "participant" : {
+          "type" : "string",
+          "example" : "HSBC",
+          "description" : "Name of the Directory Distributor the notification is intended for"
+        },
+        "entity" : {
+          "type" : "object",
+          "properties" : {
+            "globalUrn" : {
+              "type" : "string",
+              "example" : "GB-FCA-100008",
+              "description" : "Global Unique Reference Number"
+            },
+            "recordVersion" : {
+              "type" : "integer",
+              "format" : "int32",
+              "example" : 3,
+              "description" : "Version number of the record. This version will increment each time a new version is published"
+            }
+          }
+        },
+        "isTestNotification" : {
+          "type" : "boolean",
+          "example" : false,
+          "description" : "Indication that this is a Webhook Test Message and should be ignored"
+        }
+      }
+    }
+  },
+  "externalDocs" : {
+    "description" : "Find out more about Open Banking Europe",
+    "url" : "http://www.preta.eu"
+  }
+}

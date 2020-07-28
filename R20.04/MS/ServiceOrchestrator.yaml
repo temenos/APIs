@@ -1,0 +1,201 @@
+openapi: 3.0.0
+info:
+  title: Service Orchestrator
+  description: API to create and manage the service orchestration sequences in the service orchestrator microservice. The service orchestrator microservice can be used to orchestrate the execution of business operations which span across different applications in a defined sequence. The api collection includes the apis to query the status of the sequences managed by the service orchestrator microservice.
+  version: 1.0.0
+
+tags:
+- name: Service Orchestrator
+  description: The API  end points is used to manage service orchestration sequences in service orchestrator service.
+servers:
+- url: http://localhost:8090/ms-service-orchestrator-api/api/v1.0.0
+
+paths:
+
+  /createSequence:
+    post:
+      summary: Creates the new service orchestrator sequence
+      description: Creates the new service orchestrator sequence in service orchestrator
+      operationId: CreateSequence
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Sequence'
+      responses:
+        '200':
+          description: New Sequence Created Successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SequenceCreated'
+
+  /sequences:
+    get:
+      summary: Retrieves the set of service orchestration sequences.
+      description: Retrieves the details of service orchestration sequences for a specified entity id and status.
+      operationId: GetSequence
+      parameters:
+        - name: entityid
+          in: query
+          description: Indicates the unique id of business object
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: Indicates current status of the sequence.
+          schema:
+            type: string
+            enum:
+              - NEW # <--- orchestration sequence created . But not initiated
+              - INFLIGHT # <--- orchestration sequence execution is in progress
+              - PROCESSED_SUCCESS # <--- orchestration sequence execution completed successfully
+              - PROCESSED_FAIL # <--- orchestration sequence execution completed with failures
+              - HALT # <--- orchestration sequence execution halted
+              - TO_BE_HALT # <--- orchestration sequence about to get halted
+      responses:
+        '200':
+          description: Retrieved the Sequences Successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Sequences'
+
+  /sequences/{sequenceid}:
+    get:
+      summary: Retrieves the service orchestration sequence.
+      description: Retrieves the details of service orchestration sequences based on given sequence id and status.
+      operationId: GetSequenceById
+      parameters:
+        - name: sequenceid
+          in: path
+          description: Indicates the unique id of the sequence.
+          required: true
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: Indicates current status of the sequence.
+          schema:
+            type: string
+            enum:
+              - NEW # <--- orchestration sequence created . But not initiated
+              - INFLIGHT # <--- orchestration sequence execution is in progress
+              - PROCESSED_SUCCESS # <--- orchestration sequence execution completed successfully
+              - PROCESSED_FAIL # <--- orchestration sequence execution completed with failures
+              - HALT # <--- orchestration sequence execution halted
+              - TO_BE_HALT # <--- orchestration sequence about to get halted
+      responses:
+        '200':
+          description: Retrieved the service orchestration sequences successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Sequence'
+    put:
+      summary: Cancel a sequence that was initiated.
+      description: Cancel a active sequence based on the specified sequence id.
+      operationId: CancelSequence
+      parameters:
+        - name: sequenceid
+          in: path
+          description: Indicates the unique id of the sequence.
+          required: true
+          schema:
+            type: string
+        - name: operation
+          in: query
+          description: Operation to cancel the sequence.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Sequence status updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SequenceHalted'
+
+components:
+  schemas:
+    SequenceCreated:
+      properties:
+        sequenceId:
+          type: string
+          description: Indicates the unique id of the sequence.
+        status:
+          type: string
+          description: Indicates Status of Sequence
+    SequenceHalted:
+      properties:
+        sequenceId:
+          type: string
+          description: Indicates the unique id of the sequence.
+        status:
+          type: string
+          description: Indicates Status of Sequence
+    CompensatingOperation:
+      properties:
+        instanceId:
+          type: string
+          description: Identifier of the sequence instance
+        serviceId:
+          type: string
+          description: Identifier of the Microservices.
+        operationId:
+          type: string
+          description: Identifier of the business Operation
+        transformSpec:
+          type: string
+          description: Optionally Specify JOLT Transformation spec to create a compensatory request json from previous response json
+    Operation:
+      properties:
+        instanceId:
+          type: string
+          description: Identifier of the sequence instance
+        serviceId:
+          type: string
+          description: Identifier of the Microservices service.
+        operationId:
+          type: string
+          description: Identifier of the business Operation
+        payload:
+          type: string
+          description: Indicates the json body input.
+        sequenceNo:
+          type: string
+          description: Specifies the order of operation execution in the sequence
+        compensatingOperations:
+          type: array
+          description: Specifies the List of Compensation operations
+          items:
+            $ref: '#/components/schemas/CompensatingOperation'
+
+    Sequence:
+      properties:
+        instanceId:
+          type: string
+          description: Identifier of the sequence instance
+        serviceId:
+          type: string
+          description: Identifier of the Microservices.
+        operationId:
+          type: string
+          description: Identifier of the business Operation
+        entityId:
+          type: string
+          description: Indicates unique id of the business object
+        parentId:
+          type: string
+          description: Indicates the unique id of the parent sequence
+        operations:
+          type: array
+          description: Specifies the List of operations
+          items:
+            $ref: '#/components/schemas/Operation'
+
+    Sequences:
+      type: array
+      description: Specifies List of sequences.
+      items:
+        $ref: '#/components/schemas/Sequence'

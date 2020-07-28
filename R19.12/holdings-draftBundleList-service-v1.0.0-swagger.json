@@ -1,0 +1,505 @@
+{
+    "swagger": "2.0",
+    "info":
+    {
+        "description": "List of draft arrangement and account details",
+        "version": "v1.0.0",
+        "title": "getDraftBundleList"
+    },
+    "host": "api.server.com",
+    "basePath": "/api/v1.0.0/",
+    "schemes": ["http", "https"],
+    "security": [
+    {
+        "basicAuth": []
+    }],
+    "paths":
+    {
+        "/holdings/cashManagement/bundles/{bundleId}/drafts/accounts":
+        {
+            "get":
+            {
+                "description": "List of draft arrangement and account details",
+                "operationId": "getDraftBundleList",
+                "produces": ["application/json"],
+                "parameters": [
+                {
+                    "name": "bundleId",
+                    "in": "path",
+                    "description": "",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "name": "page_size",
+                    "in": "query",
+                    "description": "The total number of records per page",
+                    "required": false,
+                    "type": "integer",
+                    "format": "int32"
+                },
+                {
+                    "name": "page_start",
+                    "in": "query",
+                    "description": "The record from which the response should be displayed",
+                    "required": false,
+                    "type": "integer",
+                    "format": "int32"
+                },
+                {
+                    "name": "page_token",
+                    "in": "query",
+                    "description": "Unique id expected to get as part of response from t24 on every enquiry request.",
+                    "required": false,
+                    "type": "string"
+                },
+                {
+                    "name": "credentials",
+                    "in": "header",
+                    "required": false,
+                    "type": "string"
+                },
+                {
+                    "name": "companyId",
+                    "in": "header",
+                    "required": false,
+                    "type": "string"
+                }],
+                "responses":
+                {
+                    "200":
+                    {
+                        "description": "DraftBundleListResponse",
+                        "schema":
+                        {
+                            "$ref": "#/definitions/DraftBundleListResponse"
+                        }
+                    },
+                    "default":
+                    {
+                        "description": "QueryErrorResponse",
+                        "schema":
+                        {
+                            "$ref": "#/definitions/QueryErrorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "securityDefinitions":
+    {
+        "basicAuth":
+        {
+            "type": "basic"
+        }
+    },
+    "definitions":
+    {
+        "QueryHeader":
+        {
+            "properties":
+            {
+                "audit":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "T24_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to response by T24"
+                        },
+                        "versionNumber":
+                        {
+                            "type": "string",
+                            "description": "The CURR.NO. of the record"
+                        },
+                        "parse_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to parse the response by IRIS"
+                        }
+                    }
+                },
+                "page_size":
+                {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "The total number of records per page"
+                },
+                "page_start":
+                {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "The record from which the response should be displayed"
+                },
+                "total_size":
+                {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "The total number of records present"
+                },
+                "page_token":
+                {
+                    "type": "string",
+                    "description": "Unique id expected to get as part of response from t24 on every enquiry request"
+                }
+            }
+        },
+        "DraftBundleListResponse":
+        {
+            "properties":
+            {
+                "header":
+                {
+                    "$ref": "#/definitions/QueryHeader"
+                },
+                "body":
+                {
+                    "$ref": "#/definitions/DraftBundleListResponseBody"
+                }
+            },
+            "description": "DraftBundleListResponse"
+        },
+        "DraftBundleListResponseBody":
+        {
+            "type": "array",
+            "items":
+            {
+                "type": "object",
+                "properties":
+                {
+                    "aliases":
+                    {
+                        "type": "array",
+                        "items":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "alias":
+                                {
+                                    "type": "string",
+                                    "description": ""
+                                }
+                            }
+                        }
+                    },
+                    "accounts":
+                    {
+                        "type": "array",
+                        "description": "Account Identifier in the transaction/deal",
+                        "items":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "account":
+                                {
+                                    "type": "string",
+                                    "description": "Account Identifier in the transaction/deal"
+                                }
+                            }
+                        }
+                    },
+                    "customers":
+                    {
+                        "type": "array",
+                        "description": "The customer number",
+                        "items":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "customer":
+                                {
+                                    "type": "string",
+                                    "description": "The customer number"
+                                }
+                            }
+                        }
+                    },
+                    "companies":
+                    {
+                        "type": "array",
+                        "description": "The company code",
+                        "items":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "company":
+                                {
+                                    "type": "string",
+                                    "description": "The company code"
+                                }
+                            }
+                        }
+                    },
+                    "countries":
+                    {
+                        "type": "array",
+                        "description": "The country component of the base address of a customer",
+                        "items":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "country":
+                                {
+                                    "type": "string",
+                                    "description": "The country component of the base address of a customer"
+                                }
+                            }
+                        }
+                    },
+                    "currencies":
+                    {
+                        "type": "array",
+                        "description": "Identifies the underlying currency used for the transaction.",
+                        "items":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "currency":
+                                {
+                                    "type": "string",
+                                    "description": "Identifies the underlying currency used for the transaction."
+                                }
+                            }
+                        }
+                    },
+                    "products":
+                    {
+                        "type": "array",
+                        "description": "The product for which the pricing plan is applicable",
+                        "items":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "product":
+                                {
+                                    "type": "string",
+                                    "description": "The product for which the pricing plan is applicable"
+                                }
+                            }
+                        }
+                    },
+                    "productDescriptions":
+                    {
+                        "type": "array",
+                        "description": "Description of the product",
+                        "items":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "productDescription":
+                                {
+                                    "type": "string",
+                                    "description": "Description of the product"
+                                }
+                            }
+                        }
+                    },
+                    "names":
+                    {
+                        "type": "array",
+                        "items":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "name":
+                                {
+                                    "type": "string",
+                                    "description": ""
+                                }
+                            }
+                        }
+                    },
+                    "alternateReferences":
+                    {
+                        "type": "array",
+                        "items":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "alternateReference":
+                                {
+                                    "type": "string",
+                                    "description": ""
+                                }
+                            }
+                        }
+                    },
+                    "parents":
+                    {
+                        "type": "array",
+                        "description": "This Field is to determine whether the order is a parent order, Allowed value is YES",
+                        "items":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "parent":
+                                {
+                                    "type": "string",
+                                    "description": "This Field is to determine whether the order is a parent order, Allowed value is YES"
+                                }
+                            }
+                        }
+                    },
+                    "goLiveDates":
+                    {
+                        "type": "array",
+                        "items":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "goLiveDate":
+                                {
+                                    "type": "string",
+                                    "description": ""
+                                }
+                            }
+                        }
+                    },
+                    "linkTypes":
+                    {
+                        "type": "array",
+                        "items":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "linkType":
+                                {
+                                    "type": "string",
+                                    "description": ""
+                                }
+                            }
+                        }
+                    },
+                    "keepBalances":
+                    {
+                        "type": "array",
+                        "items":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "keepBalance":
+                                {
+                                    "type": "string",
+                                    "description": ""
+                                }
+                            }
+                        }
+                    },
+                    "accountTitles":
+                    {
+                        "type": "array",
+                        "items":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "accountTitle":
+                                {
+                                    "type": "string",
+                                    "description": ""
+                                }
+                            }
+                        }
+                    },
+                    "level":
+                    {
+                        "type": "string",
+                        "description": ""
+                    },
+                    "bundleArrangement":
+                    {
+                        "type": "string",
+                        "description": "",
+                        "maxLength": 20
+                    }
+                }
+            }
+        },
+        "ErrorHeader":
+        {
+            "properties":
+            {
+                "audit":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "T24_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to response by T24"
+                        },
+                        "versionNumber":
+                        {
+                            "type": "string",
+                            "description": "The CURR.NO. of the record"
+                        },
+                        "parse_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to parse the response by IRIS"
+                        }
+                    }
+                }
+            }
+        },
+        "QueryErrorResponse":
+        {
+            "properties":
+            {
+                "header":
+                {
+                    "$ref": "#/definitions/ErrorHeader"
+                },
+                "error":
+                {
+                    "$ref": "#/definitions/QueryErrorResponseBody"
+                }
+            },
+            "description": "QueryErrorResponse"
+        },
+        "QueryErrorResponseBody":
+        {
+            "type": "object",
+            "properties":
+            {
+                "code":
+                {
+                    "type": "string",
+                    "description": "The identifier of the error message"
+                },
+                "message":
+                {
+                    "type": "string",
+                    "description": "The actual t24 error message"
+                },
+                "type":
+                {
+                    "type": "string",
+                    "description": "The identifier of error type"
+                }
+            }
+        }
+    }
+}

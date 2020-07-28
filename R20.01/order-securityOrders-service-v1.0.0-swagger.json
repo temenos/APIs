@@ -1,0 +1,1178 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Allows the creation, viewing and management of security orders",
+    "version" : "v1.0.0",
+    "title" : "API for security orders"
+  },
+  "host" : "api.server.com",
+  "basePath" : "/api/v1.0.0/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/order/securityOrders/" : {
+      "post" : {
+        "summary" : "Creates a security order",
+        "description" : "Creates a security order with the transaction channel",
+        "operationId" : "createSecurityOrder",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/SecurityOrder"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "SecurityOrderResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SecurityOrderResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/securityOrders/{securityOrderId}" : {
+      "get" : {
+        "summary" : "Retrieves the security order",
+        "description" : "Retrieves the security order",
+        "operationId" : "getSecurityOrder",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "securityOrderId",
+          "in" : "path",
+          "description" : "",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "SecurityOrderResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SecurityOrderResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Updates the security order",
+        "description" : "Updates the security order",
+        "operationId" : "updateSecurityOrder",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "securityOrderId",
+          "in" : "path",
+          "description" : "",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/SecurityOrder"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "SecurityOrderResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SecurityOrderResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "PayloadHeader" : {
+      "properties" : {
+        "override" : {
+          "type" : "object",
+          "properties" : {
+            "overrideDetails" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "id" : {
+                    "type" : "string",
+                    "description" : "The identifier of the override"
+                  },
+                  "description" : {
+                    "type" : "string",
+                    "description" : "The actual override message"
+                  },
+                  "responseCode" : {
+                    "type" : "string",
+                    "description" : "The user input to accept/reject the override."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            }
+          }
+        }
+      }
+    },
+    "SecurityOrder" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/SecurityOrderBody"
+        }
+      },
+      "description" : "SecurityOrder"
+    },
+    "SecurityOrderBody" : {
+      "type" : "object",
+      "properties" : {
+        "brokers" : {
+          "type" : "array",
+          "description" : "Specifies the counterparty with whom the trade is to be effected.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "broker" : {
+                "type" : "string",
+                "description" : "Specifies the counterparty with whom the trade is to be effected.",
+                "maxLength" : 30
+              },
+              "dateToBroker" : {
+                "type" : "string",
+                "format" : "date",
+                "description" : "Specifies the date a particular Order has been placed with the Broker/Counterparty"
+              },
+              "amountToBroker" : {
+                "type" : "number",
+                "description" : "Specifies the particular amount of an order which has been placed with the previously defined Broker"
+              }
+            }
+          }
+        },
+        "customers" : {
+          "type" : "array",
+          "description" : "The type of charge or tax to be paid by the customer",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "customerId" : {
+                "type" : "string",
+                "description" : "Identifier of the customer",
+                "maxLength" : 30
+              },
+              "portfolioId" : {
+                "type" : "string",
+                "description" : "Id of the portfolio or security account",
+                "maxLength" : 30
+              },
+              "depository" : {
+                "type" : "string",
+                "description" : "The custodian where securities are held",
+                "maxLength" : 30
+              },
+              "accountId" : {
+                "type" : "string",
+                "description" : "Identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId. Accepts both IBAN & BBAN",
+                "maxLength" : 30
+              },
+              "quantity" : {
+                "type" : "number",
+                "description" : "The nominal quantity"
+              },
+              "amount" : {
+                "type" : "number",
+                "description" : "This is the payment amount"
+              },
+              "percentage" : {
+                "type" : "number",
+                "description" : "The percentage of holdings redeemed/subscribed"
+              },
+              "price" : {
+                "type" : "string",
+                "description" : "The Price at which the nominal amount of the Security is to be valued for the transaction.",
+                "maxLength" : 30
+              },
+              "calculateCharges" : {
+                "type" : "string",
+                "description" : "Indicates whether charges will be calculated.  Allowed values: - YES - null (default)",
+                "maxLength" : 30
+              },
+              "chargesGrossOrNet" : {
+                "type" : "string",
+                "description" : "Indicates whether the cash amount is to include charges (NET) or have charges applied in addition to the trade consideration (GROSS). Allowed values: - NET - GROSS",
+                "maxLength" : 30
+              },
+              "rounding" : {
+                "type" : "string",
+                "description" : "Defines the rounding type for the amount calculated or input",
+                "maxLength" : 30
+              },
+              "adjustCommission" : {
+                "type" : "string",
+                "description" : "Determine whether to reduce the commission in order to make the total trade match the cash amount exactly.",
+                "maxLength" : 30
+              },
+              "settlementCurrency" : {
+                "type" : "string",
+                "description" : "The currency of the trade settlement",
+                "maxLength" : 30
+              },
+              "brokerCommission" : {
+                "type" : "string",
+                "description" : "Amount of broker commission charged to the customer for the trade.",
+                "maxLength" : 30
+              },
+              "foreignFee" : {
+                "type" : "string",
+                "description" : "This field Records the Foreign Fee amount charged to the Customer for the trade.",
+                "maxLength" : 30
+              },
+              "commission" : {
+                "type" : "number",
+                "description" : "The bank fees or commission charged for the transaction"
+              },
+              "customerCommissionTax" : {
+                "type" : "string",
+                "description" : "Specifies the tax amount based on the commission charged",
+                "maxLength" : 30
+              },
+              "stampTax" : {
+                "type" : "string",
+                "description" : "The Stamp Tax amount charged to the Customer for the trade",
+                "maxLength" : 30
+              },
+              "EBVFee" : {
+                "type" : "string",
+                "description" : "This field Records the amount of EBV Fees charged to the Customer for the trade.",
+                "maxLength" : 30
+              },
+              "miscellaneousFees" : {
+                "type" : "string",
+                "description" : "The amount of miscellaneous fees charged to the Customer for the trade",
+                "maxLength" : 30
+              },
+              "incomeAccount" : {
+                "type" : "string",
+                "description" : "The customer account to which income or expenses are debited/credited",
+                "maxLength" : 30
+              },
+              "incomeAccountCurrency" : {
+                "type" : "string",
+                "description" : "The currency of the customer's income account",
+                "maxLength" : 30
+              },
+              "orderAmount" : {
+                "type" : "number",
+                "description" : "The amount of the order"
+              },
+              "instructions" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "customerInstructions" : {
+                      "type" : "string",
+                      "description" : "Instructions given by the customer",
+                      "maxLength" : 30
+                    }
+                  }
+                }
+              },
+              "customerWitholdingTaxes" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "customerWitholdingTax" : {
+                      "type" : "string",
+                      "description" : "Specifies the amount of Tax on the Securities up to the Value Date of the trade",
+                      "maxLength" : 30
+                    }
+                  }
+                }
+              },
+              "buyingPowers" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "buyingPower" : {
+                      "type" : "string",
+                      "description" : "Indicates the buying power of the portfolio on placement of order",
+                      "maxLength" : 30
+                    }
+                  }
+                }
+              },
+              "customerChargeTaxTypes" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "customerChargeTaxType" : {
+                      "type" : "string",
+                      "description" : "The type of charge or tax to be paid by the customer",
+                      "maxLength" : 30
+                    },
+                    "customerChargeTaxAmount" : {
+                      "type" : "number",
+                      "description" : "The amount of charges or taxes to be paid by customer"
+                    },
+                    "customerChargeTaxCode" : {
+                      "type" : "string",
+                      "description" : "The Charge or tax identifier",
+                      "maxLength" : 30
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "transactionChannel" : {
+          "type" : "string",
+          "description" : "The channel through which the transaction has been placed",
+          "maxLength" : 30
+        },
+        "instrumentId" : {
+          "type" : "string",
+          "description" : "The identifier of the instrument",
+          "maxLength" : 30
+        },
+        "tradeCurrency" : {
+          "type" : "string",
+          "description" : "The trade currency is the settlement currency for the trade",
+          "maxLength" : 30
+        },
+        "stockExchange" : {
+          "type" : "string",
+          "description" : "The stock exchange identifier",
+          "maxLength" : 30
+        },
+        "transactionType" : {
+          "type" : "string",
+          "description" : "Identifies the transaction type applicable to the transaction being processed, i.e. outward or inward payment. For example: ACPX, OTPX etc.",
+          "maxLength" : 30
+        },
+        "orderDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "The order date of the instructions contained within the transaction"
+        },
+        "valueDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Indicates the value date on which the underlying accounting entry is to be given value (for interest purposes)"
+        },
+        "orderedAt" : {
+          "type" : "string",
+          "description" : "The time at which the order has been transacted",
+          "maxLength" : 30
+        },
+        "orderType" : {
+          "type" : "string",
+          "description" : "Order type i.e.  single, if done, revolving and one cancels other.",
+          "maxLength" : 30
+        },
+        "tradeType" : {
+          "type" : "string",
+          "description" : "The trade type",
+          "maxLength" : 30
+        },
+        "switchMethod" : {
+          "type" : "string",
+          "description" : "If the switch is within same fund house(intra) or between fund houses",
+          "maxLength" : 30
+        },
+        "switchSpecification" : {
+          "type" : "string",
+          "description" : "Mode of the switch order (Unit / Percentage / Amount)",
+          "maxLength" : 30
+        },
+        "masterOrderOfSwitch" : {
+          "type" : "string",
+          "description" : "Indicates if this is the Master Order for Switch orders",
+          "maxLength" : 30
+        },
+        "commonSwitchRef" : {
+          "type" : "string",
+          "description" : "The field will hold a common reference to link a set of switch orders.",
+          "maxLength" : 30
+        },
+        "noOfSwitchOrder" : {
+          "type" : "string",
+          "description" : "Number of Orders in a Switch Order combination",
+          "maxLength" : 30
+        },
+        "threadKey" : {
+          "type" : "string",
+          "description" : "The thread key for an order created by a service",
+          "maxLength" : 30
+        },
+        "limitPrice" : {
+          "type" : "number",
+          "description" : "The Price at which the shares are to be bought or sold"
+        },
+        "limitType" : {
+          "type" : "string",
+          "description" : "Defines the limit type for the trade",
+          "maxLength" : 30
+        },
+        "limitExpiryDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "This field specifies the validity of the Limit, i.e. how long is it to remain in force"
+        },
+        "fractionalOrder" : {
+          "type" : "string",
+          "description" : "Indicate If this is an odd lot order",
+          "maxLength" : 30
+        },
+        "depositoryId" : {
+          "type" : "string",
+          "description" : "Id of the securities depository.",
+          "maxLength" : 30
+        },
+        "frontOfficeInstructions" : {
+          "type" : "string",
+          "description" : "Optional free text field to capture any narrative for the account officer.",
+          "maxLength" : 30
+        },
+        "approximateSettlementAmount" : {
+          "type" : "number",
+          "description" : "The order value (Nominal x Price ) for each customer in the security currency. If a limit price is input and transaction code is debit, lower price among market and limit price is used for sell and higher price is used for buy. If transaction code is credit, then lowest is used."
+        },
+        "parent" : {
+          "type" : "string",
+          "description" : "This Field is to determine whether the order is a parent order, Allowed value is YES",
+          "maxLength" : 30
+        },
+        "parentReference" : {
+          "type" : "string",
+          "description" : "The parent reference that is common for both parent and child orders and will serve as a link.",
+          "maxLength" : 30
+        },
+        "dealStatus" : {
+          "type" : "string",
+          "description" : "The status of the deal",
+          "maxLength" : 30
+        },
+        "orderStatus" : {
+          "type" : "string",
+          "description" : "Status of the order.",
+          "maxLength" : 30
+        }
+      }
+    },
+    "ScreenHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "SecurityOrderResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/SecurityOrderResponseBody"
+        }
+      },
+      "description" : "SecurityOrderResponse"
+    },
+    "SecurityOrderResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "brokers" : {
+          "type" : "array",
+          "description" : "Specifies the counterparty with whom the trade is to be effected.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "broker" : {
+                "type" : "string",
+                "description" : "Specifies the counterparty with whom the trade is to be effected.",
+                "maxLength" : 30
+              },
+              "dateToBroker" : {
+                "type" : "string",
+                "format" : "date",
+                "description" : "Specifies the date a particular Order has been placed with the Broker/Counterparty"
+              },
+              "amountToBroker" : {
+                "type" : "number",
+                "description" : "Specifies the particular amount of an order which has been placed with the previously defined Broker"
+              }
+            }
+          }
+        },
+        "customers" : {
+          "type" : "array",
+          "description" : "The type of charge or tax to be paid by the customer",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "customerId" : {
+                "type" : "string",
+                "description" : "Identifier of the customer",
+                "maxLength" : 30
+              },
+              "portfolioId" : {
+                "type" : "string",
+                "description" : "Id of the portfolio or security account",
+                "maxLength" : 30
+              },
+              "depository" : {
+                "type" : "string",
+                "description" : "The custodian where securities are held",
+                "maxLength" : 30
+              },
+              "accountId" : {
+                "type" : "string",
+                "description" : "Identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId. Accepts both IBAN & BBAN",
+                "maxLength" : 30
+              },
+              "quantity" : {
+                "type" : "number",
+                "description" : "The nominal quantity"
+              },
+              "amount" : {
+                "type" : "number",
+                "description" : "This is the payment amount"
+              },
+              "percentage" : {
+                "type" : "number",
+                "description" : "The percentage of holdings redeemed/subscribed"
+              },
+              "price" : {
+                "type" : "string",
+                "description" : "The Price at which the nominal amount of the Security is to be valued for the transaction.",
+                "maxLength" : 30
+              },
+              "calculateCharges" : {
+                "type" : "string",
+                "description" : "Indicates whether charges will be calculated.  Allowed values: - YES - null (default)",
+                "maxLength" : 30
+              },
+              "chargesGrossOrNet" : {
+                "type" : "string",
+                "description" : "Indicates whether the cash amount is to include charges (NET) or have charges applied in addition to the trade consideration (GROSS). Allowed values: - NET - GROSS",
+                "maxLength" : 30
+              },
+              "rounding" : {
+                "type" : "string",
+                "description" : "Defines the rounding type for the amount calculated or input",
+                "maxLength" : 30
+              },
+              "adjustCommission" : {
+                "type" : "string",
+                "description" : "Determine whether to reduce the commission in order to make the total trade match the cash amount exactly.",
+                "maxLength" : 30
+              },
+              "settlementCurrency" : {
+                "type" : "string",
+                "description" : "The currency of the trade settlement",
+                "maxLength" : 30
+              },
+              "brokerCommission" : {
+                "type" : "string",
+                "description" : "Amount of broker commission charged to the customer for the trade.",
+                "maxLength" : 30
+              },
+              "foreignFee" : {
+                "type" : "string",
+                "description" : "This field Records the Foreign Fee amount charged to the Customer for the trade.",
+                "maxLength" : 30
+              },
+              "commission" : {
+                "type" : "number",
+                "description" : "The bank fees or commission charged for the transaction"
+              },
+              "customerCommissionTax" : {
+                "type" : "string",
+                "description" : "Specifies the tax amount based on the commission charged",
+                "maxLength" : 30
+              },
+              "stampTax" : {
+                "type" : "string",
+                "description" : "The Stamp Tax amount charged to the Customer for the trade",
+                "maxLength" : 30
+              },
+              "EBVFee" : {
+                "type" : "string",
+                "description" : "This field Records the amount of EBV Fees charged to the Customer for the trade.",
+                "maxLength" : 30
+              },
+              "miscellaneousFees" : {
+                "type" : "string",
+                "description" : "The amount of miscellaneous fees charged to the Customer for the trade",
+                "maxLength" : 30
+              },
+              "incomeAccount" : {
+                "type" : "string",
+                "description" : "The customer account to which income or expenses are debited/credited",
+                "maxLength" : 30
+              },
+              "incomeAccountCurrency" : {
+                "type" : "string",
+                "description" : "The currency of the customer's income account",
+                "maxLength" : 30
+              },
+              "orderAmount" : {
+                "type" : "number",
+                "description" : "The amount of the order"
+              },
+              "instructions" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "customerInstructions" : {
+                      "type" : "string",
+                      "description" : "Instructions given by the customer",
+                      "maxLength" : 30
+                    }
+                  }
+                }
+              },
+              "customerWitholdingTaxes" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "customerWitholdingTax" : {
+                      "type" : "string",
+                      "description" : "Specifies the amount of Tax on the Securities up to the Value Date of the trade",
+                      "maxLength" : 30
+                    }
+                  }
+                }
+              },
+              "buyingPowers" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "buyingPower" : {
+                      "type" : "string",
+                      "description" : "Indicates the buying power of the portfolio on placement of order",
+                      "maxLength" : 30
+                    }
+                  }
+                }
+              },
+              "customerChargeTaxTypes" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "customerChargeTaxType" : {
+                      "type" : "string",
+                      "description" : "The type of charge or tax to be paid by the customer",
+                      "maxLength" : 30
+                    },
+                    "customerChargeTaxAmount" : {
+                      "type" : "number",
+                      "description" : "The amount of charges or taxes to be paid by customer"
+                    },
+                    "customerChargeTaxCode" : {
+                      "type" : "string",
+                      "description" : "The Charge or tax identifier",
+                      "maxLength" : 30
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "transactionChannel" : {
+          "type" : "string",
+          "description" : "The channel through which the transaction has been placed",
+          "maxLength" : 30
+        },
+        "instrumentId" : {
+          "type" : "string",
+          "description" : "The identifier of the instrument",
+          "maxLength" : 30
+        },
+        "tradeCurrency" : {
+          "type" : "string",
+          "description" : "The trade currency is the settlement currency for the trade",
+          "maxLength" : 30
+        },
+        "stockExchange" : {
+          "type" : "string",
+          "description" : "The stock exchange identifier",
+          "maxLength" : 30
+        },
+        "transactionType" : {
+          "type" : "string",
+          "description" : "Identifies the transaction type applicable to the transaction being processed, i.e. outward or inward payment. For example: ACPX, OTPX etc.",
+          "maxLength" : 30
+        },
+        "orderDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "The order date of the instructions contained within the transaction"
+        },
+        "valueDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Indicates the value date on which the underlying accounting entry is to be given value (for interest purposes)"
+        },
+        "orderedAt" : {
+          "type" : "string",
+          "description" : "The time at which the order has been transacted",
+          "maxLength" : 30
+        },
+        "orderType" : {
+          "type" : "string",
+          "description" : "Order type i.e.  single, if done, revolving and one cancels other.",
+          "maxLength" : 30
+        },
+        "tradeType" : {
+          "type" : "string",
+          "description" : "The trade type",
+          "maxLength" : 30
+        },
+        "switchMethod" : {
+          "type" : "string",
+          "description" : "If the switch is within same fund house(intra) or between fund houses",
+          "maxLength" : 30
+        },
+        "switchSpecification" : {
+          "type" : "string",
+          "description" : "Mode of the switch order (Unit / Percentage / Amount)",
+          "maxLength" : 30
+        },
+        "masterOrderOfSwitch" : {
+          "type" : "string",
+          "description" : "Indicates if this is the Master Order for Switch orders",
+          "maxLength" : 30
+        },
+        "commonSwitchRef" : {
+          "type" : "string",
+          "description" : "The field will hold a common reference to link a set of switch orders.",
+          "maxLength" : 30
+        },
+        "noOfSwitchOrder" : {
+          "type" : "string",
+          "description" : "Number of Orders in a Switch Order combination",
+          "maxLength" : 30
+        },
+        "threadKey" : {
+          "type" : "string",
+          "description" : "The thread key for an order created by a service",
+          "maxLength" : 30
+        },
+        "limitPrice" : {
+          "type" : "number",
+          "description" : "The Price at which the shares are to be bought or sold"
+        },
+        "limitType" : {
+          "type" : "string",
+          "description" : "Defines the limit type for the trade",
+          "maxLength" : 30
+        },
+        "limitExpiryDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "This field specifies the validity of the Limit, i.e. how long is it to remain in force"
+        },
+        "fractionalOrder" : {
+          "type" : "string",
+          "description" : "Indicate If this is an odd lot order",
+          "maxLength" : 30
+        },
+        "depositoryId" : {
+          "type" : "string",
+          "description" : "Id of the securities depository.",
+          "maxLength" : 30
+        },
+        "frontOfficeInstructions" : {
+          "type" : "string",
+          "description" : "Optional free text field to capture any narrative for the account officer.",
+          "maxLength" : 30
+        },
+        "approximateSettlementAmount" : {
+          "type" : "number",
+          "description" : "The order value (Nominal x Price ) for each customer in the security currency. If a limit price is input and transaction code is debit, lower price among market and limit price is used for sell and higher price is used for buy. If transaction code is credit, then lowest is used."
+        },
+        "parent" : {
+          "type" : "string",
+          "description" : "This Field is to determine whether the order is a parent order, Allowed value is YES",
+          "maxLength" : 30
+        },
+        "parentReference" : {
+          "type" : "string",
+          "description" : "The parent reference that is common for both parent and child orders and will serve as a link.",
+          "maxLength" : 30
+        },
+        "dealStatus" : {
+          "type" : "string",
+          "description" : "The status of the deal",
+          "maxLength" : 30
+        },
+        "orderStatus" : {
+          "type" : "string",
+          "description" : "Status of the order.",
+          "maxLength" : 30
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "overrideBody" : {
+      "properties" : {
+        "overrideDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "string",
+                "description" : "The identifier of the override"
+              },
+              "description" : {
+                "type" : "string",
+                "description" : "The actual override message"
+              },
+              "options" : {
+                "type" : "array",
+                "description" : "The usable options for the override",
+                "items" : {
+                  "type" : "string"
+                }
+              },
+              "type" : {
+                "type" : "string",
+                "description" : "The type of the override"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/ScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "ScreenErrorResponse"
+    },
+    "ScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message "
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "BusinessScreenErrorResponse"
+    },
+    "BusinessScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message for bad requests"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "SystemScreenErrorResponse"
+    },
+    "SystemScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message caused by server"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    }
+  }
+}

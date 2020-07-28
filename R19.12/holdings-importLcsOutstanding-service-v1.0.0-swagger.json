@@ -1,0 +1,340 @@
+{
+    "swagger": "2.0",
+    "info":
+    {
+        "description": "Enquiry for Import LCs Outstanding ",
+        "version": "v1.0.0",
+        "title": "getImportLcsOutstanding"
+    },
+    "host": "api.server.com",
+    "basePath": "/api/v1.0.0/",
+    "schemes": ["http", "https"],
+    "security": [
+    {
+        "basicAuth": []
+    }],
+    "paths":
+    {
+        "/holdings/customers/{customerId}/LettersOfCredits/imports/outstandings":
+        {
+            "get":
+            {
+                "operationId": "getImportLcsOutstanding",
+                "produces": ["application/json"],
+                "parameters": [
+                {
+                    "name": "customerId",
+                    "in": "path",
+                    "description": "The identifier of the customer",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "name": "transactionReference",
+                    "in": "query",
+                    "description": "The transaction reference identifier",
+                    "required": false,
+                    "type": "string"
+                },
+                {
+                    "name": "lcCurrency",
+                    "in": "query",
+                    "description": "Denote the currency of the Letter of Credit.",
+                    "required": false,
+                    "type": "string"
+                },
+                {
+                    "name": "advisingBank",
+                    "in": "query",
+                    "description": "Identifies the advising bank under the LC, through whom Letter of Credit to be advised to second advising bank or beneficiary",
+                    "required": false,
+                    "type": "string"
+                },
+                {
+                    "name": "page_size",
+                    "in": "query",
+                    "description": "The total number of records per page",
+                    "required": false,
+                    "type": "integer",
+                    "format": "int32"
+                },
+                {
+                    "name": "page_start",
+                    "in": "query",
+                    "description": "The record from which the response should be displayed",
+                    "required": false,
+                    "type": "integer",
+                    "format": "int32"
+                },
+                {
+                    "name": "page_token",
+                    "in": "query",
+                    "description": "Unique id expected to get as part of response from t24 on every enquiry request.",
+                    "required": false,
+                    "type": "string"
+                },
+                {
+                    "name": "credentials",
+                    "in": "query",
+                    "required": false,
+                    "type": "string"
+                },
+                {
+                    "name": "companyId",
+                    "in": "query",
+                    "required": false,
+                    "type": "string"
+                }],
+                "responses":
+                {
+                    "200":
+                    {
+                        "description": "getImportLcsOutstandingResponse",
+                        "schema":
+                        {
+                            "$ref": "#/definitions/getImportLcsOutstandingResponse"
+                        }
+                    },
+                    "default":
+                    {
+                        "description": "getImportLcsOutstandingErrorResponse",
+                        "schema":
+                        {
+                            "$ref": "#/definitions/getImportLcsOutstandingErrorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "securityDefinitions":
+    {
+        "basicAuth":
+        {
+            "type": "basic"
+        }
+    },
+    "definitions":
+    {
+        "QueryHeader":
+        {
+            "properties":
+            {
+                "audit":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "T24_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to response by T24"
+                        },
+                        "versionNumber":
+                        {
+                            "type": "string",
+                            "description": "The CURR.NO. of the record"
+                        },
+                        "parse_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to parse the response by IRIS"
+                        }
+                    }
+                },
+                "page_size":
+                {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "The total number of records per page"
+                },
+                "page_start":
+                {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "The record from which the response should be displayed"
+                },
+                "total_size":
+                {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "The total number of records present"
+                },
+                "page_token":
+                {
+                    "type": "string",
+                    "description": "Unique id expected to get as part of response from t24 on every enquiry request"
+                }
+            }
+        },
+        "getImportLcsOutstandingResponse":
+        {
+            "properties":
+            {
+                "header":
+                {
+                    "$ref": "#/definitions/QueryHeader"
+                },
+                "body":
+                {
+                    "$ref": "#/definitions/getImportLcsOutstandingResponseBody"
+                }
+            },
+            "description": "getImportLcsOutstandingResponse"
+        },
+        "getImportLcsOutstandingResponseBody":
+        {
+            "type": "array",
+            "items":
+            {
+                "type": "object",
+                "properties":
+                {
+                    "transactionReference":
+                    {
+                        "type": "string",
+                        "description": "The transaction reference identifier",
+                        "maxLength": 14
+                    },
+                    "lcNumber":
+                    {
+                        "type": "string",
+                        "description": "Identifies the banks LCs number (or reference of the L/C from legacy system)",
+                        "maxLength": 16
+                    },
+                    "lcType":
+                    {
+                        "type": "string",
+                        "description": "Indicates the type of LC, whether this is an Import/Export, Confirmed/Unconfirmed/Revolving/Transferrable/Back to Back LC/documentary collection/Clean collection etc.",
+                        "maxLength": 35
+                    },
+                    "issueDate":
+                    {
+                        "type": "string",
+                        "description": "The date the item was issued.",
+                        "maxLength": 11
+                    },
+                    "applicant":
+                    {
+                        "type": "string",
+                        "description": "Indicates the  applicant on whose behalf the Letter of Credit is issued",
+                        "maxLength": 35
+                    },
+                    "currency":
+                    {
+                        "type": "string",
+                        "description": "",
+                        "maxLength": 3
+                    },
+                    "amount":
+                    {
+                        "type": "string",
+                        "description": ""
+                    },
+                    "outstandingAmount":
+                    {
+                        "type": "string",
+                        "description": "Identifies the total outstanding amount for the corresponding Liability number and Limit reference. "
+                    },
+                    "liabilityAmount":
+                    {
+                        "type": "string",
+                        "description": "It’s a system populated field that indicates the total liability amount in respect of each issued or confirmed letters of credit"
+                    },
+                    "marginCurrency":
+                    {
+                        "type": "string",
+                        "description": "Currency of the Credit provision account",
+                        "maxLength": 14
+                    },
+                    "marginOutstanding":
+                    {
+                        "type": "string",
+                        "description": "Indicates the provision amount outstanding for the LC contract."
+                    },
+                    "expiryDate":
+                    {
+                        "type": "string",
+                        "description": "The date an agreement such as a credit facility or limit is due to expire",
+                        "maxLength": 11
+                    },
+                    "liabilityReversalDate":
+                    {
+                        "type": "string",
+                        "description": "Date on which the contigent entries and the limits raised on the LC will be reversed.",
+                        "maxLength": 11
+                    }
+                }
+            }
+        },
+        "ErrorHeader":
+        {
+            "properties":
+            {
+                "audit":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "T24_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to response by T24"
+                        },
+                        "versionNumber":
+                        {
+                            "type": "string",
+                            "description": "The CURR.NO. of the record"
+                        },
+                        "parse_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to parse the response by IRIS"
+                        }
+                    }
+                }
+            }
+        },
+        "getImportLcsOutstandingErrorResponse":
+        {
+            "properties":
+            {
+                "header":
+                {
+                    "$ref": "#/definitions/ErrorHeader"
+                },
+                "error":
+                {
+                    "$ref": "#/definitions/getImportLcsOutstandingErrorResponseBody"
+                }
+            },
+            "description": "getImportLcsOutstandingErrorResponse"
+        },
+        "getImportLcsOutstandingErrorResponseBody":
+        {
+            "type": "object",
+            "properties":
+            {
+                "code":
+                {
+                    "type": "string",
+                    "description": "The identifier of the error message"
+                },
+                "message":
+                {
+                    "type": "string",
+                    "description": "The actual t24 error message"
+                },
+                "type":
+                {
+                    "type": "string",
+                    "description": "The identifier of error type"
+                }
+            }
+        }
+    }
+}

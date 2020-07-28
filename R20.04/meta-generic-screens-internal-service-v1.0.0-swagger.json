@@ -1,0 +1,694 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Allows the creation, viewing and management of generic screen definitions",
+    "version" : "v1.0.0",
+    "title" : "Meta APIs about Generic Screens"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0",
+  "schemes" : [ "http", "https" ],
+  "paths" : {
+    "/meta/generic/screens/{screenId}" : {
+      "get" : {
+        "operationId" : "getScreen",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "screenId",
+          "in" : "path",
+          "description" : "The screen identifier",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "getScreenResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getScreenResponse"
+            }
+          },
+          "default" : {
+            "description" : "getScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getScreenErrorResponse"
+            }
+          }
+        }
+      },
+      "post" : {
+        "operationId" : "createScreen",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "screenId",
+          "in" : "path",
+          "description" : "The screen identifier",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/createScreen"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "createScreenResponse",
+            "schema" : {
+              "$ref" : "#/definitions/createScreenResponse"
+            }
+          },
+          "default" : {
+            "description" : "createScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/createScreenErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "parse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "ScreenHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "parse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "getScreenResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ScreenResponseBody"
+        }
+      },
+      "description" : "getScreenResponse"
+    },
+    "ScreenResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "fields" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "enrichmChar" : {
+                "type" : "number"
+              },
+              "fieldNo" : {
+                "type" : "string"
+              },
+              "column" : {
+                "type" : "string"
+              },
+              "text" : {
+                "type" : "string"
+              },
+              "textCharMax" : {
+                "type" : "number"
+              },
+              "expansion" : {
+                "type" : "string"
+              },
+              "promptCol" : {
+                "type" : "string"
+              },
+              "promptText" : {
+                "type" : "string"
+              },
+              "toolTip" : {
+                "type" : "string"
+              },
+              "dropDown" : {
+                "type" : "string"
+              },
+              "enqSelection" : {
+                "type" : "string"
+              },
+              "popupControl" : {
+                "type" : "string"
+              },
+              "caseConv" : {
+                "type" : "string"
+              },
+              "hyperlink" : {
+                "type" : "string"
+              },
+              "iLink" : {
+                "type" : "string"
+              },
+              "association" : {
+                "type" : "string"
+              },
+              "displayType" : {
+                "type" : "string"
+              },
+              "iDesc" : {
+                "type" : "string"
+              },
+              "attribs" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "defaults" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "automFieldNo" : {
+                "type" : "string"
+              },
+              "autOldContent" : {
+                "type" : "string"
+              },
+              "autNewContent" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "languageCodes" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "languageCode" : {
+                "type" : "number"
+              }
+            }
+          }
+        },
+        "gtsControl" : {
+          "type" : "string"
+        },
+        "noOfAuth" : {
+          "type" : "string"
+        },
+        "recordsPerPage" : {
+          "type" : "string"
+        },
+        "fieldsPerLine" : {
+          "type" : "string"
+        },
+        "reportLocks" : {
+          "type" : "string"
+        },
+        "hdr1001039s" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "hdr1001039" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "mandatoryFields" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "mandatoryField" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "rightAdjFields" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "rightAdjField" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "refNoIn1stLine" : {
+          "type" : "string"
+        },
+        "idAutomSequs" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "idAutomSequ" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "noinputFields" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "noinputField" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "nochangeFields" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "nochangeField" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "rekeyFieldNos" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "rekeyFieldNo" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "excIncRtn" : {
+          "type" : "string"
+        },
+        "descriptions" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "description" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "validationDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "validationFld" : {
+                "type" : "string"
+              },
+              "validationRtn" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "dSlipDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "dSlipFormat" : {
+                "type" : "string"
+              },
+              "dSlipFunction" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "inputRoutines" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "inputRoutine" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "authRoutines" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "authRoutine" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "assocVersions" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "assocVersion" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "captions" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "caption" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "idRtns" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "idRtn" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "afterUnauRtns" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "afterUnauRtn" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "checkRecRtns" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "checkRecRtn" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "layoutTypes" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "layoutType" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "services" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "service" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "attributesDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "attributesDetail" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "autoOverrides" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "autoOverride" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "maxDisplayLines" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "maxDisplayLine" : {
+                "type" : "number"
+              }
+            }
+          }
+        },
+        "beforeAuthRtns" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "beforeAuthRtn" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "pgmNameVersion" : {
+          "type" : "string"
+        },
+        "printOnly" : {
+          "type" : "string"
+        },
+        "versionType" : {
+          "type" : "string"
+        },
+        "enableGrid" : {
+          "type" : "string"
+        },
+        "nauProcessing" : {
+          "type" : "string"
+        },
+        "companyAccess" : {
+          "type" : "string"
+        },
+        "businessDay" : {
+          "type" : "string"
+        },
+        "autoCompChange" : {
+          "type" : "string"
+        },
+        "sysMsgSuppress" : {
+          "type" : "string"
+        },
+        "dSlipStyleSheet" : {
+          "type" : "string"
+        },
+        "webValRtn" : {
+          "type" : "string"
+        },
+        "confirmVersion" : {
+          "type" : "string"
+        },
+        "previewVersion" : {
+          "type" : "string"
+        },
+        "browserToolbar" : {
+          "type" : "string"
+        },
+        "expose" : {
+          "type" : "string"
+        },
+        "activity" : {
+          "type" : "string"
+        },
+        "funct" : {
+          "type" : "string"
+        },
+        "exposeDesc" : {
+          "type" : "string"
+        },
+        "nextVersion" : {
+          "type" : "string"
+        },
+        "initialCursorPos" : {
+          "type" : "string"
+        },
+        "dSlipTrigger" : {
+          "type" : "string"
+        },
+        "defaultRoutine" : {
+          "type" : "string"
+        },
+        "challResp" : {
+          "type" : "string"
+        }
+      }
+    },
+    "getScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/getScreenErrorResponseBody"
+        }
+      },
+      "description" : "getScreenErrorResponse"
+    },
+    "getScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type"
+        }
+      }
+    },
+    "PayloadHeader" : {
+      "type" : "object"
+    },
+    "createScreen" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ScreenResponseBody"
+        }
+      },
+      "description" : "createScreen"
+    },
+    "createScreenResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ScreenResponseBody"
+        }
+      },
+      "description" : "createScreenResponse"
+    },
+    "createScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/createScreenErrorResponseBody"
+        }
+      },
+      "description" : "createScreenErrorResponse"
+    },
+    "createScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type"
+        }
+      }
+    }
+  }
+}

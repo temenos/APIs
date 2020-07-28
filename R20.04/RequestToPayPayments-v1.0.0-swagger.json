@@ -1,0 +1,5339 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "APIs to create and manage Request to Pay payments in order to create, view, update, block and decline the payment requests from both Biller and Payer systems",
+    "version" : "v1.0.0",
+    "title" : "Request to Pay Payment services"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/requesttopay/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/order/paymentRequests/ebaPayments" : {
+      "post" : {
+        "summary" : "Payment request initiation for EBA Scheme",
+        "description" : "Create payment requests for EBA scheme from Biller application",
+        "operationId" : "initiateEBARequests",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/EBARequests"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "EBARequestsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/EBARequestsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/paymentRequests/ukPayments" : {
+      "post" : {
+        "summary" : "Payment request initiation for UK Scheme",
+        "description" : "Create payment requests for UK scheme from Biller application",
+        "operationId" : "initiatePayUKRequests",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PayUKRequests"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "PayUKRequestsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/PayUKRequestsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/paymentRequests/{requestId}/partialPayments" : {
+      "put" : {
+        "summary" : "Update partial payment by payer",
+        "description" : "Enables the Payer to accept Biller's request but pays only a part of the outstanding amount. The original request sent by the biller remains open until the total amount is paid by the payer",
+        "operationId" : "partialPayment",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "requestId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Payment"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "PaymentResponse",
+            "schema" : {
+              "$ref" : "#/definitions/PaymentResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/paymentRequests/{requestId}/extensions" : {
+      "put" : {
+        "summary" : "Request the biller for an extension of the payment due date",
+        "description" : "Enables the payer to request the biller for a new due date in the future for the biller's payment request",
+        "operationId" : "dateExtension",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "requestId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Extension"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "ExtensionResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ExtensionResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/paymentRequests/{requestId}/declinedRequests" : {
+      "put" : {
+        "summary" : "Decline the payment request from biller",
+        "description" : "Enables the payer to decline the biller's payment request when payer does not want make any payment towards that request",
+        "operationId" : "declinePayment",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "requestId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Payment1"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "PaymentResponse",
+            "schema" : {
+              "$ref" : "#/definitions/PaymentResponse1"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/paymentRequests/{requestId}/billerNotes" : {
+      "put" : {
+        "summary" : "Update the messages sent to biller by payer",
+        "description" : "Enables the payer to send messages to biller when the payer requires further information regarding a specific payment request",
+        "operationId" : "notesToRequestor",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "requestId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/ToRequestor"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "ToRequestorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ToRequestorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/paymentRequests/{requestId}/amountModifications" : {
+      "put" : {
+        "summary" : "Update the requested amount in a payment request",
+        "description" : "Enables the payer to modify the amount requested by biller, if modification is allowed by the respective scheme",
+        "operationId" : "modifyPayments",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "requestId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Payments"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "PaymentsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/PaymentsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/paymentRequests/{requestId}/payments" : {
+      "put" : {
+        "summary" : "Update the payment with full amount requested by the biller",
+        "description" : "Enables the payer to accept the biller's request and pay the outstanding amount",
+        "operationId" : "fullPayment",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "requestId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Payment2"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "PaymentResponse",
+            "schema" : {
+              "$ref" : "#/definitions/PaymentResponse2"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/paymentRequests/{requestId}/blocks" : {
+      "get" : {
+        "summary" : "Retrieves the blocked biller details from payer system",
+        "description" : "Retrieves the biller details who have been blocked by the payer",
+        "operationId" : "getPayersBlockedRequestorList",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "requestId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "Id",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "scheme",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "participantId",
+          "in" : "query",
+          "description" : "Process Workflow Participant ID",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "role",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "PayersBlockedRequestorListResponse",
+            "schema" : {
+              "$ref" : "#/definitions/PayersBlockedRequestorListResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Decline the payment request and block the biller",
+        "description" : "Enables the payer to decline the biller's payment request and block the biller when payer does not want make any payment towards that biller",
+        "operationId" : "declineAndBlock",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "requestId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/AndBlock"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "AndBlockResponse",
+            "schema" : {
+              "$ref" : "#/definitions/AndBlockResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/paymentRequests/{requestId}/unblocks" : {
+      "put" : {
+        "summary" : "Unblock the previously blocked biller",
+        "description" : "Enables the payer to unblock the previously blocked biller",
+        "operationId" : "unblockRequestor",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "requestId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Requestor"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "RequestorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/RequestorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/paymentRequests/{requestId}/payerNotes" : {
+      "put" : {
+        "summary" : "Update the messages sent to payer by biller",
+        "description" : "Enables the biller to send messages to payer when the biller requires further information regarding a specific payment request",
+        "operationId" : "notesToPayer",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "requestId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/ToPayer"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "ToPayerResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ToPayerResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/paymentRequests/ukPayments/billerRequests" : {
+      "post" : {
+        "summary" : "Payment request initiation for UK scheme from biller to payer system",
+        "description" : "Creates payment request for UK scheme. This API can be linked to any published API which is in accordance to requesttopay.co.uk standards",
+        "operationId" : "initiatePayUKPaymentRequests",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PayUKPaymentRequests"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "PayUKPaymentRequestsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/PayUKPaymentRequestsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/paymentRequests/{requestId}/ukPayments" : {
+      "put" : {
+        "summary" : "Manages payment requests for UK scheme between biller and payer systems",
+        "description" : " Update payment request onto the biller system from payer to support partial payment, full payment, due date extension request , decline and block the biller, decline the payment request and messages sent to the biller. Similarly, update payment request onto the payer system from biller to support approval of due date extension, rejection of due date extension, messages sent to the payer and acknowledgement to payer.This API can be linked to any published API which is in accordance to requesttopay.co.uk standards.",
+        "operationId" : "amendPayUKPaymentForRepository",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "requestId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PayUKPaymentRequests"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "PayUKPaymentForRepositoryResponse",
+            "schema" : {
+              "$ref" : "#/definitions/PayUKPaymentRequestsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/paymentRequests/{requestId}/extensions/acceptances" : {
+      "get" : {
+        "summary" : "Retrieves the payment requests for which extension have been granted",
+        "description" : "Retrieves the payers payments requests for which the due date extensions have been granted by the biller",
+        "operationId" : "getPayerListWithExtensionGranted",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "requestId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "customerId",
+          "in" : "query",
+          "description" : "Identifier of the customer",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "rtpScheme",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "PayerListWithExtensionGrantedResponse",
+            "schema" : {
+              "$ref" : "#/definitions/PayerListWithExtensionGrantedResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Approve the due date extension requested by the payer",
+        "description" : "Enables the Biller to approve the new due date for the payment, requested by the payer",
+        "operationId" : "grantExtension",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "requestId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Extension1"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "ExtensionResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ExtensionResponse1"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/paymentRequests/{requestId}/extensions/rejections" : {
+      "get" : {
+        "summary" : "Retrieves  the incoming payment requests for which the extension have been declined",
+        "description" : "Retrieves the incoming payments requests for which extensions have been declined by the biller",
+        "operationId" : "getPayersListWithExtensionDeclined",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "requestId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "customerId",
+          "in" : "query",
+          "description" : "Identifier of the customer",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "rtpScheme",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "PayersListWithExtensionDeclinedResponse",
+            "schema" : {
+              "$ref" : "#/definitions/PayersListWithExtensionDeclinedResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Decline the due date extension requested by payer",
+        "description" : "Enables the biller to decline the due date extension for the payment requested by the payer",
+        "operationId" : "declineExtension",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "requestId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Extension2"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "ExtensionResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ExtensionResponse2"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/paymentRequests/{requestId}/billers" : {
+      "get" : {
+        "summary" : "Retrieves the list of biller payment requests",
+        "description" : "Retrieves the list of biller payment requests which are in Completed, Rejected and Pending status",
+        "operationId" : "getRequestorsOutwardRequest",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "requestId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "currentState",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "customerID",
+          "in" : "query",
+          "description" : "Identifier of the customer",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "rtpScheme",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "RequestorsOutwardRequestResponse",
+            "schema" : {
+              "$ref" : "#/definitions/RequestorsOutwardRequestResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/paymentRequests/{requestId}/payers/pendingRequests" : {
+      "get" : {
+        "summary" : "Retrieves the list of payment requests that are pending with payer ",
+        "description" : "Retrieves the list of payer payment requests which are in pending status and requires action from payer",
+        "operationId" : "getPayersReceivedPendingState",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "requestId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "currentState",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "customerID",
+          "in" : "query",
+          "description" : "Identifier of the customer",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "rtpScheme",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "PayersReceivedPendingStateResponse",
+            "schema" : {
+              "$ref" : "#/definitions/PayersReceivedPendingStateResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/paymentRequests/{requestId}/payers/completedRequests" : {
+      "get" : {
+        "summary" : "Retrieves the list of completed payer payment requests",
+        "description" : "Retrieves the list of payer payment requests which are in Completed status",
+        "operationId" : "getPayersCompletedState",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "requestId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "customerId",
+          "in" : "query",
+          "description" : "Identifier of the customer",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "rtpScheme",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "PayersCompletedStateResponse",
+            "schema" : {
+              "$ref" : "#/definitions/PayersCompletedStateResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/paymentRequests/{requestId}/payers" : {
+      "get" : {
+        "summary" : "Retrieves the payer payment requests",
+        "description" : "Retrieves the list of payer payment requests which are in Completed, Partially paid, Extension Granted, Declined, Extension Declined and Asked For Extension status",
+        "operationId" : "getPayersList",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "requestId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "customerId",
+          "in" : "query",
+          "description" : "Identifier of the customer",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "rtpScheme",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "requestorId",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "PayersListResponse",
+            "schema" : {
+              "$ref" : "#/definitions/PayersListResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/paymentRequests/{requestId}/billers/pendingExtensions" : {
+      "get" : {
+        "summary" : "Retrieves the billers payment requests which are awaiting due date extension approval",
+        "description" : "Retrieves the  payment requests with biller which are awaiting response for due date extension. These requests can either be declined or approved by the biller",
+        "operationId" : "getRequestorsDateExtension",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "requestId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "customerId",
+          "in" : "query",
+          "description" : "Identifier of the customer",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "rtpScheme",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "requestorId",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "RequestorsDateExtensionResponse",
+            "schema" : {
+              "$ref" : "#/definitions/RequestorsDateExtensionResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/paymentRequests/{requestId}/errors" : {
+      "get" : {
+        "summary" : "Retrieve the payment requests which are in error status",
+        "description" : "Retrieves the payment requests which are in error status due to technical reasons such as payment processing failures.",
+        "operationId" : "getOutwardErrors",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "requestId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "customerID",
+          "in" : "query",
+          "description" : "Identifier of the customer",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "rtpScheme",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OutwardErrorsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/OutwardErrorsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/paymentRequests/{requestId}/billers/pendingAcknowledgements" : {
+      "get" : {
+        "summary" : "Retrieves the billers payment requests which are pending to be acknowledged",
+        "description" : "Retrieves the payment requests which are yet to be acknowledged by the biller. Generally, Partially paid or Paid are the two statuses with which the biller acknowledges the payer",
+        "operationId" : "getApiPendingAck",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "requestId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "customerId",
+          "in" : "query",
+          "description" : "Identifier of the customer",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "rtpScheme",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "ApiPendingAckResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ApiPendingAckResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "PayloadHeader" : {
+      "properties" : {
+        "override" : {
+          "type" : "object",
+          "properties" : {
+            "overrideDetails" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "id" : {
+                    "type" : "string",
+                    "description" : "The identifier of the override"
+                  },
+                  "description" : {
+                    "type" : "string",
+                    "description" : "The actual override message"
+                  },
+                  "responseCode" : {
+                    "type" : "string",
+                    "description" : "The user input to accept/reject the override."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            }
+          }
+        }
+      }
+    },
+    "EBARequests" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/EBARequestsBody"
+        }
+      },
+      "description" : "EBARequests"
+    },
+    "EBARequestsBody" : {
+      "type" : "object",
+      "required" : [ "accountToDebit", "amount", "currency", "payerName", "paymentMethod", "requestedExecutionDate", "requestorName", "serviceAgreementCode" ],
+      "properties" : {
+        "chargeDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "chargeType" : {
+                "type" : "string",
+                "description" : "Indicates the charge types which are applicable for the transaction. Example: CORRBKCHG",
+                "minLength" : 0,
+                "maxLength" : 30
+              },
+              "chargeDescription" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 30
+              },
+              "chargeCurrency" : {
+                "type" : "string",
+                "description" : "Indicates the currency code of the charge account from where the fee is deducted",
+                "minLength" : 0,
+                "maxLength" : 30
+              },
+              "chargeAmount" : {
+                "type" : "string",
+                "description" : "Retrieves the Charge Amount after redeem",
+                "minLength" : 0,
+                "maxLength" : 30
+              },
+              "chargeAccountCurrencyAmount" : {
+                "type" : "string",
+                "description" : "Holds the charge to be applied for the corresponding charge type for the order in the currency of the charge account",
+                "minLength" : 0,
+                "maxLength" : 30
+              }
+            }
+          }
+        },
+        "paymentMethod" : {
+          "type" : "string",
+          "description" : "Method chosen to make the payment",
+          "minLength" : 1,
+          "maxLength" : 30
+        },
+        "requestedExecutionDate" : {
+          "type" : "string",
+          "minLength" : 1,
+          "maxLength" : 30
+        },
+        "payerName" : {
+          "type" : "string",
+          "minLength" : 1,
+          "maxLength" : 30
+        },
+        "payerStreetName" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "payerBuildingNumber" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "payerPostalCode" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "payerTownName" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "payerCountry" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "payerDateofBirth" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "payerCityofBirth" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "accountToDebit" : {
+          "type" : "string",
+          "minLength" : 1,
+          "maxLength" : 30
+        },
+        "payerBankBIC" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "payerBankSortCode" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "serviceAgreementCode" : {
+          "type" : "string",
+          "minLength" : 1,
+          "maxLength" : 30
+        },
+        "amount" : {
+          "type" : "string",
+          "description" : "This is the payment amount",
+          "minLength" : 1,
+          "maxLength" : 30
+        },
+        "currency" : {
+          "type" : "string",
+          "description" : "Indicates the type of currency to which the account belongs",
+          "minLength" : 1,
+          "maxLength" : 30
+        },
+        "paymentChargeBearer" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "requestorBankSortCode" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "requestorBankBIC" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "requestorName" : {
+          "type" : "string",
+          "minLength" : 1,
+          "maxLength" : 30
+        },
+        "requestorStreetName" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "requestorBuildingNumber" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "requestorPostalCode" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "requestorTownName" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "requestorCountry" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "requestorDateofBirth" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "requestorCityofBirth" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "requestorCountryofBirth" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "accountToCredit" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "remittanceIdentification" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "remittanceLocationMethod" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "remittanceLocationDetails" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "remittanceInformation" : {
+          "type" : "string",
+          "description" : "Indicates the remittance information that is supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "expiryDate" : {
+          "type" : "string",
+          "description" : "The date an agreement such as an arrangement, product, credit facility or limit is due to expire",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "canPayerModifyAmount" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "payerAccountIBAN" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "requestorAccountIBAN" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "rtpScheme" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "requestorProxyID" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "payerProxyIDType" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "payerProxyID" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "maxNoofInstallmentsAllowed" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "outstandingAmount" : {
+          "type" : "string",
+          "description" : "Identifies the total outstanding amount for the corresponding Liability number and Limit reference. ",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "chargeAccount" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "chargeAccountCurrency" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "customerId" : {
+          "type" : "string",
+          "description" : "Identifier of the customer",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "rtpMsgId" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        }
+      }
+    },
+    "ScreenHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "uniqueIdentifier" : {
+          "type" : "string",
+          "description" : "The unique identifier/Message Reference of the record created."
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "EBARequestsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/EBARequestsResponseBody"
+        }
+      },
+      "description" : "EBARequestsResponse"
+    },
+    "EBARequestsResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "chargeDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "chargeType" : {
+                "type" : "string",
+                "description" : "Indicates the charge types which are applicable for the transaction. Example: CORRBKCHG",
+                "minLength" : 0,
+                "maxLength" : 30
+              },
+              "chargeDescription" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 30
+              },
+              "chargeCurrency" : {
+                "type" : "string",
+                "description" : "Indicates the currency code of the charge account from where the fee is deducted",
+                "minLength" : 0,
+                "maxLength" : 30
+              },
+              "chargeAmount" : {
+                "type" : "string",
+                "description" : "Retrieves the Charge Amount after redeem",
+                "minLength" : 0,
+                "maxLength" : 30
+              },
+              "chargeAccountCurrencyAmount" : {
+                "type" : "string",
+                "description" : "Holds the charge to be applied for the corresponding charge type for the order in the currency of the charge account",
+                "minLength" : 0,
+                "maxLength" : 30
+              }
+            }
+          }
+        },
+        "paymentMethod" : {
+          "type" : "string",
+          "description" : "Method chosen to make the payment",
+          "minLength" : 1,
+          "maxLength" : 30
+        },
+        "requestedExecutionDate" : {
+          "type" : "string",
+          "minLength" : 1,
+          "maxLength" : 30
+        },
+        "payerName" : {
+          "type" : "string",
+          "minLength" : 1,
+          "maxLength" : 30
+        },
+        "payerStreetName" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "payerBuildingNumber" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "payerPostalCode" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "payerTownName" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "payerCountry" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "payerDateofBirth" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "payerCityofBirth" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "accountToDebit" : {
+          "type" : "string",
+          "minLength" : 1,
+          "maxLength" : 30
+        },
+        "payerBankBIC" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "payerBankSortCode" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "serviceAgreementCode" : {
+          "type" : "string",
+          "minLength" : 1,
+          "maxLength" : 30
+        },
+        "amount" : {
+          "type" : "string",
+          "description" : "This is the payment amount",
+          "minLength" : 1,
+          "maxLength" : 30
+        },
+        "currency" : {
+          "type" : "string",
+          "description" : "Indicates the type of currency to which the account belongs",
+          "minLength" : 1,
+          "maxLength" : 30
+        },
+        "paymentChargeBearer" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "requestorBankSortCode" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "requestorBankBIC" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "requestorName" : {
+          "type" : "string",
+          "minLength" : 1,
+          "maxLength" : 30
+        },
+        "requestorStreetName" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "requestorBuildingNumber" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "requestorPostalCode" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "requestorTownName" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "requestorCountry" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "requestorDateofBirth" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "requestorCityofBirth" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "requestorCountryofBirth" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "accountToCredit" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "remittanceIdentification" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "remittanceLocationMethod" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "remittanceLocationDetails" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "remittanceInformation" : {
+          "type" : "string",
+          "description" : "Indicates the remittance information that is supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "expiryDate" : {
+          "type" : "string",
+          "description" : "The date an agreement such as an arrangement, product, credit facility or limit is due to expire",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "canPayerModifyAmount" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "payerAccountIBAN" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "requestorAccountIBAN" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "rtpScheme" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "requestorProxyID" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "payerProxyIDType" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "payerProxyID" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "maxNoofInstallmentsAllowed" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "outstandingAmount" : {
+          "type" : "string",
+          "description" : "Identifies the total outstanding amount for the corresponding Liability number and Limit reference. ",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "chargeAccount" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "chargeAccountCurrency" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "customerId" : {
+          "type" : "string",
+          "description" : "Identifier of the customer",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "rtpMsgId" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "uniqueIdentifier" : {
+          "type" : "string",
+          "description" : "The unique identifier/Message Reference of the record created."
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "overrideBody" : {
+      "properties" : {
+        "overrideDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "string",
+                "description" : "The identifier of the override"
+              },
+              "description" : {
+                "type" : "string",
+                "description" : "The actual override message"
+              },
+              "options" : {
+                "type" : "array",
+                "description" : "The usable options for the override",
+                "items" : {
+                  "type" : "string"
+                }
+              },
+              "type" : {
+                "type" : "string",
+                "description" : "The type of the override"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/ScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "ScreenErrorResponse"
+    },
+    "ScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message "
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "BusinessScreenErrorResponse"
+    },
+    "BusinessScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message for bad requests"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "SystemScreenErrorResponse"
+    },
+    "SystemScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message caused by server"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    },
+    "PayUKRequests" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/PayUKRequestsBody"
+        }
+      },
+      "description" : "PayUKRequests"
+    },
+    "PayUKRequestsBody" : {
+      "type" : "object",
+      "required" : [ "billName", "currency", "dueDate", "payerPID", "paymentMethod", "requestorName", "requestorPID", "subject" ],
+      "properties" : {
+        "portalInfo" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "basketID" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 30
+              },
+              "requestorURL" : {
+                "type" : "string",
+                "minLength" : 1,
+                "maxLength" : 30
+              }
+            },
+            "required" : [ "requestorURL" ]
+          }
+        },
+        "errorInfo" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "errorInformation" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 30
+              }
+            }
+          }
+        },
+        "chargeDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "chargeType" : {
+                "type" : "string",
+                "description" : "Indicates the charge types which are applicable for the transaction. Example: CORRBKCHG",
+                "minLength" : 0,
+                "maxLength" : 30
+              },
+              "chargeDescription" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 30
+              },
+              "chargeCurrency" : {
+                "type" : "string",
+                "description" : "Indicates the currency code of the charge account from where the fee is deducted",
+                "minLength" : 0,
+                "maxLength" : 30
+              },
+              "chargeAmount" : {
+                "type" : "string",
+                "description" : "Retrieves the Charge Amount after redeem",
+                "minLength" : 0,
+                "maxLength" : 30
+              },
+              "chargeAccountCurrencyAmount" : {
+                "type" : "string",
+                "description" : "Holds the charge to be applied for the corresponding charge type for the order in the currency of the charge account",
+                "minLength" : 0,
+                "maxLength" : 30
+              }
+            }
+          }
+        },
+        "endToEndReference" : {
+          "type" : "string",
+          "description" : "Indicates the end to end reference for the payment. This field can be provided by the person who instructs the payment and this flows through the lifecycle of the payment.",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "paymentMethod" : {
+          "type" : "string",
+          "description" : "Method chosen to make the payment",
+          "minLength" : 1,
+          "maxLength" : 30
+        },
+        "requestorBankBIC" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "requestorBankSortCode" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "requestorAccountIBAN" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "requestorAccountNumber" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "currency" : {
+          "type" : "string",
+          "description" : "Indicates the type of currency to which the account belongs",
+          "minLength" : 1,
+          "maxLength" : 30
+        },
+        "dueDate" : {
+          "type" : "string",
+          "description" : "Identifies the date on which the activity is due.",
+          "minLength" : 1,
+          "maxLength" : 30
+        },
+        "amount" : {
+          "type" : "string",
+          "description" : "This is the payment amount",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "remittanceInformation" : {
+          "type" : "string",
+          "description" : "Indicates the remittance information that is supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "billName" : {
+          "type" : "string",
+          "minLength" : 1,
+          "maxLength" : 30
+        },
+        "billingPeriodFrom" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "billingPeriodTo" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "remittanceIdentification" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "rtpScheme" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "customerId" : {
+          "type" : "string",
+          "description" : "Identifier of the customer",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "requestorPID" : {
+          "type" : "string",
+          "minLength" : 1,
+          "maxLength" : 30
+        },
+        "subject" : {
+          "type" : "string",
+          "description" : "The subject of the message to be sent or received.",
+          "minLength" : 1,
+          "maxLength" : 30
+        },
+        "payerPID" : {
+          "type" : "string",
+          "minLength" : 1,
+          "maxLength" : 30
+        },
+        "requestorReferenceInformation" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "remittanceElectronicAddress" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "outstandingAmount" : {
+          "type" : "string",
+          "description" : "Identifies the total outstanding amount for the corresponding Liability number and Limit reference. ",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "priority" : {
+          "type" : "string",
+          "description" : "Defines the Campaign priority",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "payerName" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "requestorName" : {
+          "type" : "string",
+          "minLength" : 1,
+          "maxLength" : 30
+        },
+        "chargeBearer" : {
+          "type" : "string",
+          "description" : "Bearer of the charges of the order. For example: BEN(All transaction charges are to be borne by the beneficiary customer.), OUR(All transaction charges are to be borne by the ordering customer.), SHA(Transaction charges on the Sender's side are to be borne by the ordering customer, transaction charges on the Receiver's side are to be borne by the beneficiary customer.)",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "chargeAccount" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "chargeAccountCurrency" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "rtpMsgId" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "receivedDateTime" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 16
+        }
+      }
+    },
+    "PayUKRequestsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/PayUKRequestsResponseBody"
+        }
+      },
+      "description" : "PayUKRequestsResponse"
+    },
+    "PayUKRequestsResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "portalInfo" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "basketID" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 30
+              },
+              "requestorURL" : {
+                "type" : "string",
+                "minLength" : 1,
+                "maxLength" : 30
+              }
+            }
+          }
+        },
+        "errorInfo" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "errorInformation" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 30
+              }
+            }
+          }
+        },
+        "chargeDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "chargeType" : {
+                "type" : "string",
+                "description" : "Indicates the charge types which are applicable for the transaction. Example: CORRBKCHG",
+                "minLength" : 0,
+                "maxLength" : 30
+              },
+              "chargeDescription" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 30
+              },
+              "chargeCurrency" : {
+                "type" : "string",
+                "description" : "Indicates the currency code of the charge account from where the fee is deducted",
+                "minLength" : 0,
+                "maxLength" : 30
+              },
+              "chargeAmount" : {
+                "type" : "string",
+                "description" : "Retrieves the Charge Amount after redeem",
+                "minLength" : 0,
+                "maxLength" : 30
+              },
+              "chargeAccountCurrencyAmount" : {
+                "type" : "string",
+                "description" : "Holds the charge to be applied for the corresponding charge type for the order in the currency of the charge account",
+                "minLength" : 0,
+                "maxLength" : 30
+              }
+            }
+          }
+        },
+        "endToEndReference" : {
+          "type" : "string",
+          "description" : "Indicates the end to end reference for the payment. This field can be provided by the person who instructs the payment and this flows through the lifecycle of the payment.",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "paymentMethod" : {
+          "type" : "string",
+          "description" : "Method chosen to make the payment",
+          "minLength" : 1,
+          "maxLength" : 30
+        },
+        "requestorBankBIC" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "requestorBankSortCode" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "requestorAccountIBAN" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "requestorAccountNumber" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "currency" : {
+          "type" : "string",
+          "description" : "Indicates the type of currency to which the account belongs",
+          "minLength" : 1,
+          "maxLength" : 30
+        },
+        "dueDate" : {
+          "type" : "string",
+          "description" : "Identifies the date on which the activity is due.",
+          "minLength" : 1,
+          "maxLength" : 30
+        },
+        "amount" : {
+          "type" : "string",
+          "description" : "This is the payment amount",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "remittanceInformation" : {
+          "type" : "string",
+          "description" : "Indicates the remittance information that is supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "billName" : {
+          "type" : "string",
+          "minLength" : 1,
+          "maxLength" : 30
+        },
+        "billingPeriodFrom" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "billingPeriodTo" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "remittanceIdentification" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "rtpScheme" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "customerId" : {
+          "type" : "string",
+          "description" : "Identifier of the customer",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "requestorPID" : {
+          "type" : "string",
+          "minLength" : 1,
+          "maxLength" : 30
+        },
+        "subject" : {
+          "type" : "string",
+          "description" : "The subject of the message to be sent or received.",
+          "minLength" : 1,
+          "maxLength" : 30
+        },
+        "payerPID" : {
+          "type" : "string",
+          "minLength" : 1,
+          "maxLength" : 30
+        },
+        "requestorReferenceInformation" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "remittanceElectronicAddress" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "outstandingAmount" : {
+          "type" : "string",
+          "description" : "Identifies the total outstanding amount for the corresponding Liability number and Limit reference. ",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "priority" : {
+          "type" : "string",
+          "description" : "Defines the Campaign priority",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "payerName" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "requestorName" : {
+          "type" : "string",
+          "minLength" : 1,
+          "maxLength" : 30
+        },
+        "chargeBearer" : {
+          "type" : "string",
+          "description" : "Bearer of the charges of the order. For example: BEN(All transaction charges are to be borne by the beneficiary customer.), OUR(All transaction charges are to be borne by the ordering customer.), SHA(Transaction charges on the Sender's side are to be borne by the ordering customer, transaction charges on the Receiver's side are to be borne by the beneficiary customer.)",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "chargeAccount" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "chargeAccountCurrency" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "rtpMsgId" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "receivedDateTime" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 16
+        }
+      }
+    },
+    "Payment" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/PaymentBody"
+        }
+      },
+      "description" : "Payment"
+    },
+    "PaymentBody" : {
+      "type" : "object",
+      "properties" : {
+        "additionalInfo" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "additionalInfoToRequestor" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 25
+              }
+            }
+          }
+        },
+        "amountToPay" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 13
+        },
+        "currentBalance" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 15
+        },
+        "requestedExecutionDate" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "accountToDebit" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "paymentReference" : {
+          "type" : "string",
+          "description" : "Payment reference details",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "payerResponse" : {
+          "type" : "string",
+          "minLength" : 0
+        }
+      }
+    },
+    "PaymentResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/PaymentResponseBody"
+        }
+      },
+      "description" : "PaymentResponse"
+    },
+    "PaymentResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "additionalInfo" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "additionalInfoToRequestor" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 25
+              }
+            }
+          }
+        },
+        "amountToPay" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 13
+        },
+        "currentBalance" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 15
+        },
+        "requestedExecutionDate" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "accountToDebit" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "paymentReference" : {
+          "type" : "string",
+          "description" : "Payment reference details",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "payerResponse" : {
+          "type" : "string",
+          "minLength" : 0
+        }
+      }
+    },
+    "Extension" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ExtensionBody"
+        }
+      },
+      "description" : "Extension"
+    },
+    "ExtensionBody" : {
+      "type" : "object",
+      "properties" : {
+        "additionalInfo" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "additionalInfoToRequestor" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 25
+              }
+            }
+          }
+        },
+        "requestedExpiryDate" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 24
+        },
+        "payerResponse" : {
+          "type" : "string",
+          "minLength" : 0
+        }
+      }
+    },
+    "ExtensionResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ExtensionResponseBody"
+        }
+      },
+      "description" : "ExtensionResponse"
+    },
+    "ExtensionResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "additionalInfo" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "additionalInfoToRequestor" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 25
+              }
+            }
+          }
+        },
+        "requestedExpiryDate" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 24
+        },
+        "payerResponse" : {
+          "type" : "string",
+          "minLength" : 0
+        }
+      }
+    },
+    "Payment1" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/Payment1Body"
+        }
+      },
+      "description" : "Payment1"
+    },
+    "Payment1Body" : {
+      "type" : "object",
+      "properties" : {
+        "additionalInfoToRequestor" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "reasonForDecline" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 18
+              }
+            }
+          }
+        },
+        "payerResponse" : {
+          "type" : "string",
+          "minLength" : 0
+        }
+      }
+    },
+    "PaymentResponse1" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/PaymentResponse1Body"
+        }
+      },
+      "description" : "PaymentResponse1"
+    },
+    "PaymentResponse1Body" : {
+      "type" : "object",
+      "properties" : {
+        "additionalInfoToRequestor" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "reasonForDecline" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 18
+              }
+            }
+          }
+        },
+        "payerResponse" : {
+          "type" : "string",
+          "minLength" : 0
+        }
+      }
+    },
+    "ToRequestor" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ToRequestorBody"
+        }
+      },
+      "description" : "ToRequestor"
+    },
+    "ToRequestorBody" : {
+      "type" : "object",
+      "properties" : {
+        "notesToRequestor" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "messagetoRequestor" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 20
+              }
+            }
+          }
+        },
+        "payerResponse" : {
+          "type" : "string",
+          "minLength" : 0
+        }
+      }
+    },
+    "ToRequestorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ToRequestorResponseBody"
+        }
+      },
+      "description" : "ToRequestorResponse"
+    },
+    "ToRequestorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "notesToRequestor" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "messagetoRequestor" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 20
+              }
+            }
+          }
+        },
+        "payerResponse" : {
+          "type" : "string",
+          "minLength" : 0
+        }
+      }
+    },
+    "Payments" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/PaymentsBody"
+        }
+      },
+      "description" : "Payments"
+    },
+    "PaymentsBody" : {
+      "type" : "object",
+      "properties" : {
+        "accountToDebit" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 16
+        },
+        "ibanOfAccountToDebit" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 24
+        },
+        "newRTPAmount" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 14
+        }
+      }
+    },
+    "PaymentsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/PaymentsResponseBody"
+        }
+      },
+      "description" : "PaymentsResponse"
+    },
+    "PaymentsResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "accountToDebit" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 16
+        },
+        "ibanOfAccountToDebit" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 24
+        },
+        "newRTPAmount" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 14
+        }
+      }
+    },
+    "Payment2" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/Payment2Body"
+        }
+      },
+      "description" : "Payment2"
+    },
+    "Payment2Body" : {
+      "type" : "object",
+      "properties" : {
+        "additionalInfo" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "additionalInfoToRequestor" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 30
+              }
+            }
+          }
+        },
+        "accountToDebit" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "currentBalance" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 15
+        },
+        "requestedExecutionDate" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "paymentReference" : {
+          "type" : "string",
+          "description" : "Payment reference details",
+          "minLength" : 0,
+          "maxLength" : 30
+        }
+      }
+    },
+    "PaymentResponse2" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/PaymentResponse2Body"
+        }
+      },
+      "description" : "PaymentResponse2"
+    },
+    "PaymentResponse2Body" : {
+      "type" : "object",
+      "properties" : {
+        "additionalInfo" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "additionalInfoToRequestor" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 30
+              }
+            }
+          }
+        },
+        "amountToPay" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 13
+        },
+        "accountToDebit" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "currentBalance" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 15
+        },
+        "requestedExecutionDate" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "paymentReference" : {
+          "type" : "string",
+          "description" : "Payment reference details",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "payerResponse" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        }
+      }
+    },
+    "AndBlock" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/AndBlockBody"
+        }
+      },
+      "description" : "AndBlock"
+    },
+    "AndBlockBody" : {
+      "type" : "object",
+      "properties" : {
+        "additionalInfoToRequestor" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "reasonForDecline" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 18
+              }
+            }
+          }
+        },
+        "payerResponse" : {
+          "type" : "string",
+          "minLength" : 0
+        }
+      }
+    },
+    "AndBlockResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/AndBlockResponseBody"
+        }
+      },
+      "description" : "AndBlockResponse"
+    },
+    "AndBlockResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "additionalInfoToRequestor" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "reasonForDecline" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 18
+              }
+            }
+          }
+        },
+        "payerResponse" : {
+          "type" : "string",
+          "minLength" : 0
+        }
+      }
+    },
+    "Requestor" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/RequestorBody"
+        }
+      },
+      "description" : "Requestor"
+    },
+    "RequestorBody" : {
+      "type" : "object",
+      "properties" : {
+        "blockedRequestorId" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        }
+      }
+    },
+    "RequestorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/RequestorResponseBody"
+        }
+      },
+      "description" : "RequestorResponse"
+    },
+    "RequestorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "blockedRequestorId" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        }
+      }
+    },
+    "ToPayer" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ToPayerBody"
+        }
+      },
+      "description" : "ToPayer"
+    },
+    "ToPayerBody" : {
+      "type" : "object",
+      "properties" : {
+        "notesToPayer" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "messageToPayer" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 14
+              }
+            }
+          }
+        },
+        "payerName" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 10
+        },
+        "creditAccountNumber" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 21
+        },
+        "creditAccountIBAN" : {
+          "type" : "string",
+          "description" : "Indicates the IBAN of the credit account",
+          "minLength" : 0,
+          "maxLength" : 19
+        },
+        "requestorName" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 14
+        },
+        "requestedExecutionDate" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 24
+        },
+        "endToEndID" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 13
+        },
+        "remittanceInformation" : {
+          "type" : "string",
+          "description" : "Indicates the remittance information that is supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
+          "minLength" : 0,
+          "maxLength" : 22
+        }
+      }
+    },
+    "ToPayerResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ToPayerResponseBody"
+        }
+      },
+      "description" : "ToPayerResponse"
+    },
+    "ToPayerResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "notesToPayer" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "messageToPayer" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 14
+              }
+            }
+          }
+        },
+        "payerName" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 10
+        },
+        "creditAccountNumber" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 21
+        },
+        "creditAccountIBAN" : {
+          "type" : "string",
+          "description" : "Indicates the IBAN of the credit account",
+          "minLength" : 0,
+          "maxLength" : 19
+        },
+        "requestorName" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 14
+        },
+        "requestedExecutionDate" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 24
+        },
+        "endToEndID" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 13
+        },
+        "remittanceInformation" : {
+          "type" : "string",
+          "description" : "Indicates the remittance information that is supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
+          "minLength" : 0,
+          "maxLength" : 22
+        }
+      }
+    },
+    "PayUKPaymentRequests" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/PayUKPaymentRequestsBody"
+        }
+      },
+      "description" : "PayUKPaymentRequests"
+    },
+    "PayUKPaymentRequestsBody" : {
+      "type" : "object",
+      "required" : [ "billName", "currency", "dueDate", "endToEndReference", "payerPID", "paymentMethod", "requestorName", "requestorPID", "subject" ],
+      "properties" : {
+        "portalInfo" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "basketID" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 30
+              },
+              "requestorURL" : {
+                "type" : "string",
+                "minLength" : 1,
+                "maxLength" : 30
+              }
+            },
+            "required" : [ "requestorURL" ]
+          }
+        },
+        "errorInfo" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "errorInformation" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 30
+              }
+            }
+          }
+        },
+        "chargeDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "chargeType" : {
+                "type" : "string",
+                "description" : "Indicates the charge types which are applicable for the transaction. Example: CORRBKCHG",
+                "minLength" : 0,
+                "maxLength" : 30
+              },
+              "chargeDescription" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 30
+              },
+              "chargeCurrency" : {
+                "type" : "string",
+                "description" : "Indicates the currency code of the charge account from where the fee is deducted",
+                "minLength" : 0,
+                "maxLength" : 30
+              },
+              "chargeAmount" : {
+                "type" : "string",
+                "description" : "Retrieves the Charge Amount after redeem",
+                "minLength" : 0,
+                "maxLength" : 30
+              },
+              "chargeAccountCurrencyAmount" : {
+                "type" : "string",
+                "description" : "Holds the charge to be applied for the corresponding charge type for the order in the currency of the charge account",
+                "minLength" : 0,
+                "maxLength" : 30
+              }
+            }
+          }
+        },
+        "paymentStatus" : {
+          "type" : "array",
+          "description" : "Describes the current status of the payment order in the payment system",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "paymentStatus" : {
+                "type" : "string",
+                "description" : "Describes the current status of the payment order in the payment system",
+                "minLength" : 0,
+                "maxLength" : 30
+              }
+            }
+          }
+        },
+        "acceptanceDateTime" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "acceptanceDateTime" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 30
+              }
+            }
+          }
+        },
+        "additionalInfo" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "additionalInfoToRequestor" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 30
+              },
+              "additionalInfoToPayer" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 30
+              }
+            }
+          }
+        },
+        "messageToPayer" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "notesToPayer" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 30
+              }
+            }
+          }
+        },
+        "messageToRequestor" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "notesToRequestor" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 30
+              }
+            }
+          }
+        },
+        "paymentReferenceDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "paymentReference" : {
+                "type" : "string",
+                "description" : "Payment reference details",
+                "minLength" : 0,
+                "maxLength" : 30
+              }
+            }
+          }
+        },
+        "endToEndReference" : {
+          "type" : "string",
+          "description" : "Indicates the end to end reference for the payment. This field can be provided by the person who instructs the payment and this flows through the lifecycle of the payment.",
+          "minLength" : 1,
+          "maxLength" : 30
+        },
+        "paymentMethod" : {
+          "type" : "string",
+          "description" : "Method chosen to make the payment",
+          "minLength" : 1,
+          "maxLength" : 30
+        },
+        "requestorBankBIC" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "requestorBankSortCode" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "requestorAccountIBAN" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "requestorAccountNumber" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "currency" : {
+          "type" : "string",
+          "description" : "Indicates the type of currency to which the account belongs",
+          "minLength" : 1,
+          "maxLength" : 30
+        },
+        "dueDate" : {
+          "type" : "string",
+          "description" : "Identifies the date on which the activity is due.",
+          "minLength" : 1,
+          "maxLength" : 30
+        },
+        "amount" : {
+          "type" : "string",
+          "description" : "This is the payment amount",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "remittanceInformation" : {
+          "type" : "string",
+          "description" : "Indicates the remittance information that is supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "billName" : {
+          "type" : "string",
+          "minLength" : 1,
+          "maxLength" : 30
+        },
+        "billingPeriodFrom" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "billingPeriodTo" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "remittanceIdentification" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "rtpScheme" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "customerId" : {
+          "type" : "string",
+          "description" : "Identifier of the customer",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "requestorPID" : {
+          "type" : "string",
+          "minLength" : 1,
+          "maxLength" : 30
+        },
+        "subject" : {
+          "type" : "string",
+          "description" : "The subject of the message to be sent or received.",
+          "minLength" : 1,
+          "maxLength" : 30
+        },
+        "payerPID" : {
+          "type" : "string",
+          "minLength" : 1,
+          "maxLength" : 30
+        },
+        "requestorReferenceInformation" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "remittanceElectronicAddress" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "outstandingAmount" : {
+          "type" : "string",
+          "description" : "Identifies the total outstanding amount for the corresponding Liability number and Limit reference. ",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "priority" : {
+          "type" : "string",
+          "description" : "Defines the Campaign priority",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "payerName" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "requestorName" : {
+          "type" : "string",
+          "minLength" : 1,
+          "maxLength" : 30
+        },
+        "chargeBearer" : {
+          "type" : "string",
+          "description" : "Bearer of the charges of the order. For example: BEN(All transaction charges are to be borne by the beneficiary customer.), OUR(All transaction charges are to be borne by the ordering customer.), SHA(Transaction charges on the Sender's side are to be borne by the ordering customer, transaction charges on the Receiver's side are to be borne by the beneficiary customer.)",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "chargeAccount" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "chargeAccountCurrency" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "rtpMsgId" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "requestedExecutionDate" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "requestorResponse" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "payerResponse" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "rtpDirection" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "requestedExpiryDate" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "receivedDateTime" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 16
+        }
+      }
+    },
+    "PayUKPaymentRequestsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/PayUKPaymentRequestsResponseBody"
+        }
+      },
+      "description" : "PayUKPaymentRequestsResponse"
+    },
+    "PayUKPaymentRequestsResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "portalInfo" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "basketID" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 30
+              },
+              "requestorURL" : {
+                "type" : "string",
+                "minLength" : 1,
+                "maxLength" : 30
+              }
+            }
+          }
+        },
+        "errorInfo" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "errorInformation" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 30
+              }
+            }
+          }
+        },
+        "chargeDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "chargeType" : {
+                "type" : "string",
+                "description" : "Indicates the charge types which are applicable for the transaction. Example: CORRBKCHG",
+                "minLength" : 0,
+                "maxLength" : 30
+              },
+              "chargeDescription" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 30
+              },
+              "chargeCurrency" : {
+                "type" : "string",
+                "description" : "Indicates the currency code of the charge account from where the fee is deducted",
+                "minLength" : 0,
+                "maxLength" : 30
+              },
+              "chargeAmount" : {
+                "type" : "string",
+                "description" : "Retrieves the Charge Amount after redeem",
+                "minLength" : 0,
+                "maxLength" : 30
+              },
+              "chargeAccountCurrencyAmount" : {
+                "type" : "string",
+                "description" : "Holds the charge to be applied for the corresponding charge type for the order in the currency of the charge account",
+                "minLength" : 0,
+                "maxLength" : 30
+              }
+            }
+          }
+        },
+        "paymentStatus" : {
+          "type" : "array",
+          "description" : "Describes the current status of the payment order in the payment system",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "paymentStatus" : {
+                "type" : "string",
+                "description" : "Describes the current status of the payment order in the payment system",
+                "minLength" : 0,
+                "maxLength" : 30
+              }
+            }
+          }
+        },
+        "acceptanceDateTime" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "acceptanceDateTime" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 30
+              }
+            }
+          }
+        },
+        "additionalInfo" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "additionalInfoToRequestor" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 30
+              },
+              "additionalInfoToPayer" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 30
+              }
+            }
+          }
+        },
+        "messageToPayer" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "notesToPayer" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 30
+              }
+            }
+          }
+        },
+        "messageToRequestor" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "notesToRequestor" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 30
+              }
+            }
+          }
+        },
+        "paymentReferenceDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "paymentReference" : {
+                "type" : "string",
+                "description" : "Payment reference details",
+                "minLength" : 0,
+                "maxLength" : 30
+              }
+            }
+          }
+        },
+        "endToEndReference" : {
+          "type" : "string",
+          "description" : "Indicates the end to end reference for the payment. This field can be provided by the person who instructs the payment and this flows through the lifecycle of the payment.",
+          "minLength" : 1,
+          "maxLength" : 30
+        },
+        "paymentMethod" : {
+          "type" : "string",
+          "description" : "Method chosen to make the payment",
+          "minLength" : 1,
+          "maxLength" : 30
+        },
+        "requestorBankBIC" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "requestorBankSortCode" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "requestorAccountIBAN" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "requestorAccountNumber" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "currency" : {
+          "type" : "string",
+          "description" : "Indicates the type of currency to which the account belongs",
+          "minLength" : 1,
+          "maxLength" : 30
+        },
+        "dueDate" : {
+          "type" : "string",
+          "description" : "Identifies the date on which the activity is due.",
+          "minLength" : 1,
+          "maxLength" : 30
+        },
+        "amount" : {
+          "type" : "string",
+          "description" : "This is the payment amount",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "remittanceInformation" : {
+          "type" : "string",
+          "description" : "Indicates the remittance information that is supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "billName" : {
+          "type" : "string",
+          "minLength" : 1,
+          "maxLength" : 30
+        },
+        "billingPeriodFrom" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "billingPeriodTo" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "remittanceIdentification" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "rtpScheme" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "customerId" : {
+          "type" : "string",
+          "description" : "Identifier of the customer",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "requestorPID" : {
+          "type" : "string",
+          "minLength" : 1,
+          "maxLength" : 30
+        },
+        "subject" : {
+          "type" : "string",
+          "description" : "The subject of the message to be sent or received.",
+          "minLength" : 1,
+          "maxLength" : 30
+        },
+        "payerPID" : {
+          "type" : "string",
+          "minLength" : 1,
+          "maxLength" : 30
+        },
+        "requestorReferenceInformation" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "remittanceElectronicAddress" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "outstandingAmount" : {
+          "type" : "string",
+          "description" : "Identifies the total outstanding amount for the corresponding Liability number and Limit reference. ",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "priority" : {
+          "type" : "string",
+          "description" : "Defines the Campaign priority",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "payerName" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "requestorName" : {
+          "type" : "string",
+          "minLength" : 1,
+          "maxLength" : 30
+        },
+        "chargeBearer" : {
+          "type" : "string",
+          "description" : "Bearer of the charges of the order. For example: BEN(All transaction charges are to be borne by the beneficiary customer.), OUR(All transaction charges are to be borne by the ordering customer.), SHA(Transaction charges on the Sender's side are to be borne by the ordering customer, transaction charges on the Receiver's side are to be borne by the beneficiary customer.)",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "chargeAccount" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "chargeAccountCurrency" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "rtpMsgId" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "requestedExecutionDate" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "requestorResponse" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "payerResponse" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "rtpDirection" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "requestedExpiryDate" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 30
+        },
+        "receivedDateTime" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 16
+        }
+      }
+    },
+    "Extension1" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/Extension1Body"
+        }
+      },
+      "description" : "Extension1"
+    },
+    "Extension1Body" : {
+      "type" : "object",
+      "properties" : {
+        "additionalInfo" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "additionalInfoToPayer" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 30
+              }
+            }
+          }
+        }
+      }
+    },
+    "ExtensionResponse1" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ExtensionResponse1Body"
+        }
+      },
+      "description" : "ExtensionResponse1"
+    },
+    "ExtensionResponse1Body" : {
+      "type" : "object",
+      "properties" : {
+        "additionalInfo" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "additionalInfoToPayer" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 30
+              }
+            }
+          }
+        }
+      }
+    },
+    "Extension2" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/Extension2Body"
+        }
+      },
+      "description" : "Extension2"
+    },
+    "Extension2Body" : {
+      "type" : "object",
+      "properties" : {
+        "additionalInfo" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "additionalInfoToPayer" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 30
+              }
+            }
+          }
+        },
+        "requestorResponse" : {
+          "type" : "string",
+          "minLength" : 0
+        }
+      }
+    },
+    "ExtensionResponse2" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ExtensionResponse2Body"
+        }
+      },
+      "description" : "ExtensionResponse2"
+    },
+    "ExtensionResponse2Body" : {
+      "type" : "object",
+      "properties" : {
+        "additionalInfo" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "additionalInfoToPayer" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 30
+              }
+            }
+          }
+        },
+        "requestorResponse" : {
+          "type" : "string",
+          "minLength" : 0
+        }
+      }
+    },
+    "QueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records per page"
+        },
+        "page_start" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The record from which the response should be displayed"
+        },
+        "total_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records present"
+        },
+        "page_token" : {
+          "type" : "string",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request"
+        }
+      }
+    },
+    "RequestorsOutwardRequestResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/RequestorsOutwardRequestResponseBody"
+        }
+      },
+      "description" : "RequestorsOutwardRequestResponse"
+    },
+    "RequestorsOutwardRequestResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "payerName" : {
+            "type" : "string",
+            "maxLength" : 140
+          },
+          "ZERONORECORDS" : {
+            "type" : "string",
+            "description" : "zero records display for NOFILE (an enquiry does not exist in a single file) enquiry for online upgrade"
+          },
+          "amount" : {
+            "type" : "string",
+            "description" : "This is the payment amount",
+            "maxLength" : 14
+          },
+          "outstandingAmount" : {
+            "type" : "string",
+            "description" : "Identifies the total outstanding amount for the corresponding Liability number and Limit reference. ",
+            "maxLength" : 14
+          },
+          "requestedExecutionDate" : {
+            "type" : "string",
+            "maxLength" : 8
+          },
+          "endToEndId" : {
+            "type" : "string",
+            "maxLength" : 35
+          },
+          "expiryDate" : {
+            "type" : "string",
+            "description" : "The date an agreement such as an arrangement, product, credit facility or limit is due to expire",
+            "maxLength" : 8
+          },
+          "currentState" : {
+            "type" : "string",
+            "maxLength" : 65
+          },
+          "orderId" : {
+            "type" : "string",
+            "maxLength" : 35
+          },
+          "payerId" : {
+            "type" : "string",
+            "maxLength" : 100
+          },
+          "receivedDate" : {
+            "type" : "string",
+            "description" : "Identifies the date on which the document was received",
+            "maxLength" : 17
+          },
+          "paymentReference" : {
+            "type" : "string",
+            "description" : "Payment reference details",
+            "maxLength" : 65
+          }
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessQueryErrorResponseBody"
+        }
+      },
+      "description" : "BusinessQueryErrorResponse"
+    },
+    "BusinessQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message for bad requests"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemQueryErrorResponseBody"
+        }
+      },
+      "description" : "SystemQueryErrorResponse"
+    },
+    "SystemQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message caused by server"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    },
+    "PayersReceivedPendingStateResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/PayersReceivedPendingStateResponseBody"
+        }
+      },
+      "description" : "PayersReceivedPendingStateResponse"
+    },
+    "PayersReceivedPendingStateResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "requestorName" : {
+            "type" : "string",
+            "maxLength" : 140
+          },
+          "ZERONORECORDS" : {
+            "type" : "string",
+            "description" : "zero records display for NOFILE (an enquiry does not exist in a single file) enquiry for online upgrade"
+          },
+          "amount" : {
+            "type" : "string",
+            "description" : "This is the payment amount"
+          },
+          "outstandingAmountToPay" : {
+            "type" : "string",
+            "maxLength" : 14
+          },
+          "debitAccount" : {
+            "type" : "string",
+            "description" : " Refers to the account which will be debited and funds moved out.",
+            "maxLength" : 35
+          },
+          "receivedDate" : {
+            "type" : "string",
+            "description" : "Identifies the date on which the document was received",
+            "maxLength" : 17
+          },
+          "requestedExecutionDate" : {
+            "type" : "string",
+            "maxLength" : 8
+          },
+          "expiryDate" : {
+            "type" : "string",
+            "description" : "The date an agreement such as an arrangement, product, credit facility or limit is due to expire",
+            "maxLength" : 8
+          },
+          "orderId" : {
+            "type" : "string",
+            "maxLength" : 35
+          },
+          "subject" : {
+            "type" : "string",
+            "description" : "The subject of the message to be sent or received.",
+            "maxLength" : 140
+          },
+          "paymentReference" : {
+            "type" : "string",
+            "description" : "Payment reference details",
+            "maxLength" : 65
+          }
+        }
+      }
+    },
+    "PayersCompletedStateResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/PayersCompletedStateResponseBody"
+        }
+      },
+      "description" : "PayersCompletedStateResponse"
+    },
+    "PayersCompletedStateResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "requestRaisedBy" : {
+            "type" : "string",
+            "description" : "The details of the request raised by the commercial bank",
+            "maxLength" : 140
+          },
+          "ZERONORECORDS" : {
+            "type" : "string",
+            "description" : "zero records display for NOFILE (an enquiry does not exist in a single file) enquiry for online upgrade"
+          },
+          "amount" : {
+            "type" : "string",
+            "description" : "This is the payment amount",
+            "maxLength" : 14
+          },
+          "status" : {
+            "type" : "string",
+            "description" : "Status identifier of the account. The values are 'DELETED' if the account is closed, 'BLOCKED' is there are any posting restrictions & 'ENABLED' for active accounts.",
+            "maxLength" : 65
+          },
+          "accountDebited" : {
+            "type" : "string",
+            "maxLength" : 35
+          },
+          "receivedDate" : {
+            "type" : "string",
+            "description" : "Identifies the date on which the document was received",
+            "maxLength" : 17
+          },
+          "paidDate" : {
+            "type" : "string",
+            "maxLength" : 8
+          },
+          "orderId" : {
+            "type" : "string",
+            "maxLength" : 35
+          }
+        }
+      }
+    },
+    "PayersListResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/PayersListResponseBody"
+        }
+      },
+      "description" : "PayersListResponse"
+    },
+    "PayersListResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "requestorName" : {
+            "type" : "string",
+            "maxLength" : 140
+          },
+          "ZERONORECORDS" : {
+            "type" : "string",
+            "description" : "zero records display for NOFILE (an enquiry does not exist in a single file) enquiry for online upgrade"
+          },
+          "payerName" : {
+            "type" : "string",
+            "maxLength" : 140
+          },
+          "amount" : {
+            "type" : "string",
+            "description" : "This is the payment amount"
+          },
+          "outstandingAmount" : {
+            "type" : "string",
+            "description" : "Identifies the total outstanding amount for the corresponding Liability number and Limit reference. ",
+            "maxLength" : 14
+          },
+          "debitAccountNumber" : {
+            "type" : "string",
+            "maxLength" : 35
+          },
+          "receivedDate" : {
+            "type" : "string",
+            "description" : "Identifies the date on which the document was received",
+            "maxLength" : 17
+          },
+          "requestedExecutionDate" : {
+            "type" : "string",
+            "maxLength" : 8
+          },
+          "expiryDate" : {
+            "type" : "string",
+            "description" : "The date an agreement such as an arrangement, product, credit facility or limit is due to expire",
+            "maxLength" : 8
+          },
+          "orderId" : {
+            "type" : "string",
+            "maxLength" : 35
+          }
+        }
+      }
+    },
+    "RequestorsDateExtensionResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/RequestorsDateExtensionResponseBody"
+        }
+      },
+      "description" : "RequestorsDateExtensionResponse"
+    },
+    "RequestorsDateExtensionResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "payerName" : {
+            "type" : "string",
+            "maxLength" : 140
+          },
+          "ZERONORECORDS" : {
+            "type" : "string",
+            "description" : "zero records display for NOFILE (an enquiry does not exist in a single file) enquiry for online upgrade"
+          },
+          "amount" : {
+            "type" : "string",
+            "description" : "This is the payment amount"
+          },
+          "outStandingAmount" : {
+            "type" : "string",
+            "description" : "Identifies the total outstanding amount for the corresponding Liability number and Limit reference. ",
+            "maxLength" : 14
+          },
+          "requestedExecutionDate" : {
+            "type" : "string",
+            "maxLength" : 8
+          },
+          "endToEndId" : {
+            "type" : "string",
+            "maxLength" : 35
+          },
+          "expiryDate" : {
+            "type" : "string",
+            "description" : "The date an agreement such as an arrangement, product, credit facility or limit is due to expire",
+            "maxLength" : 8
+          },
+          "currentState" : {
+            "type" : "string",
+            "maxLength" : 65
+          },
+          "orderId" : {
+            "type" : "string",
+            "maxLength" : 35
+          }
+        }
+      }
+    },
+    "OutwardErrorsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/OutwardErrorsResponseBody"
+        }
+      },
+      "description" : "OutwardErrorsResponse"
+    },
+    "OutwardErrorsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "payerName" : {
+            "type" : "string",
+            "maxLength" : 140
+          },
+          "ZERONORECORDS" : {
+            "type" : "string",
+            "description" : "zero records display for NOFILE (an enquiry does not exist in a single file) enquiry for online upgrade"
+          },
+          "amount" : {
+            "type" : "string",
+            "description" : "This is the payment amount"
+          },
+          "outstandingAmount" : {
+            "type" : "string",
+            "description" : "Identifies the total outstanding amount for the corresponding Liability number and Limit reference. ",
+            "maxLength" : 14
+          },
+          "requestedExecutionDate" : {
+            "type" : "string",
+            "maxLength" : 8
+          },
+          "endToEndId" : {
+            "type" : "string",
+            "maxLength" : 35
+          },
+          "expiryDate" : {
+            "type" : "string",
+            "description" : "The date an agreement such as an arrangement, product, credit facility or limit is due to expire",
+            "maxLength" : 8
+          },
+          "currentState" : {
+            "type" : "string",
+            "maxLength" : 65
+          },
+          "orderId" : {
+            "type" : "string",
+            "maxLength" : 35
+          }
+        }
+      }
+    },
+    "ApiPendingAckResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ApiPendingAckResponseBody"
+        }
+      },
+      "description" : "ApiPendingAckResponse"
+    },
+    "ApiPendingAckResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "payerName" : {
+            "type" : "string",
+            "maxLength" : 140
+          },
+          "ZERONORECORDS" : {
+            "type" : "string",
+            "description" : "zero records display for NOFILE (an enquiry does not exist in a single file) enquiry for online upgrade"
+          },
+          "amount" : {
+            "type" : "string",
+            "description" : "This is the payment amount"
+          },
+          "outstandingAmount" : {
+            "type" : "string",
+            "description" : "Identifies the total outstanding amount for the corresponding Liability number and Limit reference. ",
+            "maxLength" : 14
+          },
+          "requestedExecutionDate" : {
+            "type" : "string",
+            "maxLength" : 8
+          },
+          "endToEndId" : {
+            "type" : "string",
+            "maxLength" : 35
+          },
+          "expiryDate" : {
+            "type" : "string",
+            "description" : "The date an agreement such as an arrangement, product, credit facility or limit is due to expire",
+            "maxLength" : 8
+          },
+          "currentState" : {
+            "type" : "string",
+            "maxLength" : 65
+          },
+          "orderId" : {
+            "type" : "string",
+            "maxLength" : 35
+          }
+        }
+      }
+    },
+    "PayerListWithExtensionGrantedResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/PayerListWithExtensionGrantedResponseBody"
+        }
+      },
+      "description" : "PayerListWithExtensionGrantedResponse"
+    },
+    "PayerListWithExtensionGrantedResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "requestorName" : {
+            "type" : "string",
+            "maxLength" : 140
+          },
+          "ZERONORECORDS" : {
+            "type" : "string",
+            "description" : "zero records display for NOFILE (an enquiry does not exist in a single file) enquiry for online upgrade"
+          },
+          "amount" : {
+            "type" : "string",
+            "description" : "This is the payment amount"
+          },
+          "outstandingAmount" : {
+            "type" : "string",
+            "description" : "Identifies the total outstanding amount for the corresponding Liability number and Limit reference. ",
+            "maxLength" : 14
+          },
+          "currentState" : {
+            "type" : "string",
+            "maxLength" : 65
+          },
+          "expiryDate" : {
+            "type" : "string",
+            "description" : "The date an agreement such as an arrangement, product, credit facility or limit is due to expire",
+            "maxLength" : 8
+          },
+          "orderId" : {
+            "type" : "string",
+            "maxLength" : 35
+          }
+        }
+      }
+    },
+    "PayersListWithExtensionDeclinedResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/PayersListWithExtensionDeclinedResponseBody"
+        }
+      },
+      "description" : "PayersListWithExtensionDeclinedResponse"
+    },
+    "PayersListWithExtensionDeclinedResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "requestorName" : {
+            "type" : "string",
+            "maxLength" : 140
+          },
+          "ZERONORECORDS" : {
+            "type" : "string",
+            "description" : "zero records display for NOFILE (an enquiry does not exist in a single file) enquiry for online upgrade"
+          },
+          "amount" : {
+            "type" : "string",
+            "description" : "This is the payment amount"
+          },
+          "outstandingAmount" : {
+            "type" : "string",
+            "description" : "Identifies the total outstanding amount for the corresponding Liability number and Limit reference. ",
+            "maxLength" : 14
+          },
+          "currentState" : {
+            "type" : "string",
+            "maxLength" : 65
+          },
+          "expiryDate" : {
+            "type" : "string",
+            "description" : "The date an agreement such as an arrangement, product, credit facility or limit is due to expire",
+            "maxLength" : 8
+          },
+          "orderId" : {
+            "type" : "string",
+            "maxLength" : 35
+          }
+        }
+      }
+    },
+    "PayersBlockedRequestorListResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/PayersBlockedRequestorListResponseBody"
+        }
+      },
+      "description" : "PayersBlockedRequestorListResponse"
+    },
+    "PayersBlockedRequestorListResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "customerId" : {
+            "type" : "string",
+            "description" : "Identifier of the customer",
+            "maxLength" : 35
+          },
+          "scheme" : {
+            "type" : "string",
+            "maxLength" : 16
+          },
+          "participantId" : {
+            "type" : "string",
+            "description" : "Process Workflow Participant ID",
+            "maxLength" : 255
+          },
+          "role" : {
+            "type" : "string",
+            "maxLength" : 35
+          },
+          "ZERONORECORDS" : {
+            "type" : "string",
+            "description" : "zero records display for NOFILE (an enquiry does not exist in a single file) enquiry for online upgrade"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,5328 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Allows the creation, viewing and management of payment orders",
+    "version" : "v1.0.0",
+    "title" : "Order Payment Orders APIs"
+  },
+  "host" : "api.server.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/order/paymentOrders/{paymentOrderId}" : {
+      "get" : {
+        "summary" : "Retrieves payment order details",
+        "description" : "Retrieves the details of a payment order",
+        "operationId" : "getPaymentOrder",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "paymentOrderId",
+          "in" : "path",
+          "description" : "The unique reference number of payment",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "currentPaymentState",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "paymentStatus",
+          "in" : "query",
+          "description" : "Describes the current status of the payment order in the payment system",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "paymentOrderProductId",
+          "in" : "query",
+          "description" : "Reference to identify the payment details that are allowed, optional and mandatory are defined based on product",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "debitAccountId",
+          "in" : "query",
+          "description" : "Debit account unique id",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "orderingCustomerId",
+          "in" : "query",
+          "description" : "Debit Account customer id details",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "PaymentOrderResponse",
+            "schema" : {
+              "$ref" : "#/definitions/PaymentOrderResponse1"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Update payment order details",
+        "description" : "Updates an existing payment order",
+        "operationId" : "updatePaymentOrder",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "paymentOrderId",
+          "in" : "path",
+          "description" : "The unique reference number of payment",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PaymentOrder"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "PaymentOrderResponse",
+            "schema" : {
+              "$ref" : "#/definitions/PaymentOrderResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Remove payment order",
+        "description" : "Cancel an existing payment order",
+        "operationId" : "deletePaymentOrder",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "paymentOrderId",
+          "in" : "path",
+          "description" : "The unique reference number of payment",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/PaymentOrderDelete"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "PaymentOrderResponse",
+            "schema" : {
+              "$ref" : "#/definitions/PaymentOrderResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/paymentOrders" : {
+      "get" : {
+        "summary" : "Retrieves the payment orders",
+        "description" : "Retrieves the list of payment orders",
+        "operationId" : "getPaymentOrders",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "paymentOrderId",
+          "in" : "query",
+          "description" : "Reference to identify the payment details",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "currentPaymentState",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "paymentStatus",
+          "in" : "query",
+          "description" : "Describes the current status of the payment order in the payment system",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "paymentOrderProductId",
+          "in" : "query",
+          "description" : "Reference to identify the payment details that are allowed, optional and mandatory are defined based on product",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "paymentOrderProductIdNE",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "debitAccountId",
+          "in" : "query",
+          "description" : "Debit account unique id",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "orderingCustomerId",
+          "in" : "query",
+          "description" : "Debit Account customer id details",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "uniqueTransactionReference",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "uniqueTransactionReferenceNE",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "PaymentOrdersResponse",
+            "schema" : {
+              "$ref" : "#/definitions/PaymentOrderResponse1"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Create payment order",
+        "description" : "Creates a new payment order",
+        "operationId" : "createPaymentOrder",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PaymentOrder"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "PaymentOrderResponse",
+            "schema" : {
+              "$ref" : "#/definitions/PaymentOrderResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/paymentOrders/purposes" : {
+      "get" : {
+        "summary" : "Retrieves payment order purposes details",
+        "description" : "Retrieves the list of payment order purpose code details",
+        "operationId" : "getPaymentOrderPurposes",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "paymentOrderPurposeCodeId",
+          "in" : "query",
+          "description" : "Purpose code details of the payment",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "PaymentOrderPurposesResponse",
+            "schema" : {
+              "$ref" : "#/definitions/PaymentOrderPurposesResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/paymentOrders/products" : {
+      "get" : {
+        "summary" : "Retrieves payment order products details",
+        "description" : "Retrieves the list of payment order product details",
+        "operationId" : "getPaymentOrderProducts",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "paymentProductGroupId",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "paymentOrderProductId",
+          "in" : "query",
+          "description" : "Reference to identify the payment details that are allowed, optional and mandatory are defined based on product",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "PaymentOrderProductsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/PaymentOrderProductsResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/paymentOrders/countryRules" : {
+      "get" : {
+        "summary" : "Retrieves payment order country rules details",
+        "description" : "Retrieves the list of payment order country rule details",
+        "operationId" : "getPaymentOrderCountryRules",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "countryId",
+          "in" : "query",
+          "description" : "Country details specific to the payments",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "PaymentOrderCountryRulesResponse",
+            "schema" : {
+              "$ref" : "#/definitions/PaymentOrderCountryRulesResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/paymentOrders/sepaInstantPayment" : {
+      "post" : {
+        "summary" : "Create sepa instant payment",
+        "description" : "Creates a new Sepa Instant payment record",
+        "operationId" : "createSepaInstantPayment",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/SepaInstantPayment"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "SepaInstantPaymentResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SepaInstantPaymentResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/paymentOrders/sepaInstantTransfer" : {
+      "post" : {
+        "summary" : "Create sepa instant transfer",
+        "description" : "Creates a new Sepa instant transfer record",
+        "operationId" : "createSepaInstantTransfer",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/SepaInstantTransfer"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "SepaInstantTransferResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SepaInstantTransferResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/paymentOrders/sepaPayment" : {
+      "post" : {
+        "summary" : "Create sepa payment",
+        "description" : "Creates a new Sepa payment record for an external account",
+        "operationId" : "createSepaPayment",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/SepaPayment"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "SepaPaymentResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SepaPaymentResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/paymentOrders/swiftPayment" : {
+      "post" : {
+        "summary" : "Create swift payment",
+        "description" : "Creates a new Swift payment record for an external account",
+        "operationId" : "createSwiftPayment",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/SwiftPayment"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "SwiftPaymentResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SwiftPaymentResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/paymentOrders/fasterPayment" : {
+      "post" : {
+        "summary" : "Create faster payment",
+        "description" : "Creates a new fast payment record for an external account",
+        "operationId" : "createFasterPayment",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/FasterPayment"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "FasterPaymentResponse",
+            "schema" : {
+              "$ref" : "#/definitions/FasterPaymentResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/paymentOrders/{paymentOrderId}/cancelPaymentOrder" : {
+      "put" : {
+        "summary" : "Cancel external payment order",
+        "description" : "Cancel the existing payment order for external account",
+        "operationId" : "cancelExternalPaymentOrder",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "paymentOrderId",
+          "in" : "path",
+          "description" : "The unique reference number of payment",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/ExternalPaymentOrder"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "ExternalPaymentOrderResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ExternalPaymentOrderResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/paymentOrders/ISOClearingCodes" : {
+      "get" : {
+        "summary" : "Retrieves ISO clearing codes details",
+        "description" : "Retrieves the list of ISO clearing codes",
+        "operationId" : "getISOClearingCodes",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "ISOClearingCodesResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ISOClearingCodesResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/paymentOrders/paymentOrderApprovals/{paymentOrderId}" : {
+      "put" : {
+        "summary" : "Approve payment order",
+        "description" : "Approve an unauthorized payment order",
+        "operationId" : "approvePaymentOrder",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "paymentOrderId",
+          "in" : "path",
+          "description" : "The unique reference number of payment",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "PaymentOrderResponse",
+            "schema" : {
+              "$ref" : "#/definitions/PaymentOrderResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/paymentOrders/cancellations/{paymentOrderId}" : {
+      "delete" : {
+        "summary" : "Reject payment order",
+        "description" : "Reject an unauthorized payment order",
+        "operationId" : "rejectPaymentOrder",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "paymentOrderId",
+          "in" : "path",
+          "description" : "The unique reference number of payment",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/PaymentOrderDelete"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "PaymentOrderResponse",
+            "schema" : {
+              "$ref" : "#/definitions/PaymentOrderResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/paymentOrders/paymentStatus/{paymentId}" : {
+      "post" : {
+        "summary" : "Create GPI payment status",
+        "description" : "Create a GPI payment status with unique transaction reference",
+        "operationId" : "createGPIPaymentStatus",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "paymentId",
+          "in" : "path",
+          "description" : "Indicates the unique reference number of the payment",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/GPIPaymentStatus"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "GPIPaymentStatusResponse",
+            "schema" : {
+              "$ref" : "#/definitions/GPIPaymentStatusResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Update GPI payment status",
+        "description" : "Update GPI payment status with unique transaction reference",
+        "operationId" : "updateGPIPaymentStatus",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "paymentId",
+          "in" : "path",
+          "description" : "Indicates the unique reference number of the payment",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/GPIPaymentStatus"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "GPIPaymentStatusResponse",
+            "schema" : {
+              "$ref" : "#/definitions/GPIPaymentStatusResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/paymentOrders/transactions/tracking" : {
+      "get" : {
+        "summary" : "Retrieves the GPI tracking details",
+        "description" : "Retrives the GPI Tracking information",
+        "operationId" : "getPORTracking",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "paymentId",
+          "in" : "query",
+          "description" : "Unique id to identify/track the payments",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "paymentMethod",
+          "in" : "query",
+          "description" : "Field to define method of transfer being initiated, which is required when it is to be processed through payment suites",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "PORTrackingResponse",
+            "schema" : {
+              "$ref" : "#/definitions/PORTrackingResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/paymentOrders/transactions" : {
+      "get" : {
+        "summary" : "Retrieves the payment order details",
+        "description" : "Retrieves the list of payment order details",
+        "operationId" : "getPORTransactions",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "paymentDirection",
+          "in" : "query",
+          "description" : "Possible values of payment receiving and outgoing",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "endToEndReference",
+          "in" : "query",
+          "description" : "Reference details used for SEPA",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "endToEndReferenceNE",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "serviceIdentifier",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "serviceIdentifierNE",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "debitCustomerId",
+          "in" : "query",
+          "description" : "Debtor customer id details",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "creditCustomerId",
+          "in" : "query",
+          "description" : "Creditor customer id details",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "creditmainAccountId",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "PORTransactionsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/PORTransactionsResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "PayloadHeader" : {
+      "properties" : {
+        "override" : {
+          "type" : "object",
+          "properties" : {
+            "overrideDetails" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "id" : {
+                    "type" : "string",
+                    "description" : "The identifier of the override"
+                  },
+                  "description" : {
+                    "type" : "string",
+                    "description" : "The actual override message"
+                  },
+                  "responseCode" : {
+                    "type" : "string",
+                    "description" : "The user input to accept/reject the override."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            }
+          }
+        }
+      }
+    },
+    "PaymentOrder" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/PaymentOrderBody"
+        }
+      },
+      "description" : "PaymentOrder"
+    },
+    "PaymentOrderBody" : {
+      "type" : "object",
+      "properties" : {
+        "narratives" : {
+          "type" : "array",
+          "description" : "The additional text printed on descriptive statements in addition to the standard narrative and/or reference",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "narrative" : {
+                "type" : "string",
+                "description" : "The additional text printed on descriptive statements in addition to the standard narrative and/or reference",
+                "maxLength" : 65
+              }
+            }
+          }
+        },
+        "additionalInformations" : {
+          "type" : "array",
+          "description" : "Additional Information provided to add context",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "additionalInformation" : {
+                "type" : "string",
+                "description" : "Additional Information provided to add context",
+                "maxLength" : 65
+              }
+            }
+          }
+        },
+        "remittanceInformations" : {
+          "type" : "array",
+          "description" : "Indicates the remittance information that is supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "remittanceInformation" : {
+                "type" : "string",
+                "description" : "Indicates the remittance information that is supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "signatories" : {
+          "type" : "array",
+          "description" : "The authorised signatories for the payments can be specified here. More applicable in case of corporate payments where multiple signatories are required to sign a payment instruction",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "signatory" : {
+                "type" : "string",
+                "description" : "The authorised signatories for the payments can be specified here. More applicable in case of corporate payments where multiple signatories are required to sign a payment instruction",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "invoiceReferences" : {
+          "type" : "array",
+          "description" : "It provides the reference of the invoice ",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "invoiceReference" : {
+                "type" : "string",
+                "description" : "It provides the reference of the invoice ",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "charges" : {
+          "type" : "array",
+          "description" : "The charges or fees for this transaction",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "chargeType" : {
+                "type" : "string",
+                "description" : "Indicates the charge types which are applicable for the transaction. Example: CORRBKCHG",
+                "maxLength" : 20
+              },
+              "chargeName" : {
+                "type" : "string",
+                "description" : "The description of the charge to be taken for payment",
+                "maxLength" : 50
+              },
+              "chargeCurrency" : {
+                "type" : "string",
+                "description" : "Indicates the currency code of the charge account from where the fee is deducted",
+                "maxLength" : 14
+              },
+              "chargeAmount" : {
+                "type" : "number",
+                "description" : "Retrieves the Charge Amount after redeem"
+              },
+              "chargeAccountCurrencyAmount" : {
+                "type" : "string",
+                "description" : "Holds the charge to be applied for the corresponding charge type for the order in the currency of the charge account",
+                "maxLength" : 27
+              }
+            }
+          }
+        },
+        "overrides" : {
+          "type" : "array",
+          "description" : "The override message is captured  that was generated at the time of commitment of the transaction to the database.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "override" : {
+                "type" : "string",
+                "description" : "The override message is captured  that was generated at the time of commitment of the transaction to the database.",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "paymentOrderProductId" : {
+          "type" : "string",
+          "description" : "Indicates the payment order product for which payment is initiated",
+          "maxLength" : 35
+        },
+        "debitAccountId" : {
+          "type" : "string",
+          "description" : "Indicates the debit account number of the payment or transaction.",
+          "maxLength" : 34
+        },
+        "debitAccountIBAN" : {
+          "type" : "string",
+          "description" : "International Bank Account Number (IBAN) of the debtor account, required only for International transfers/payments outside the Bank. For example: GB98 MIDL07009312345678, FR7630006000011234567890189",
+          "maxLength" : 35
+        },
+        "debitCurrency" : {
+          "type" : "string",
+          "description" : "Currency of the debit account. For example: USD, EUR etc.",
+          "maxLength" : 13
+        },
+        "debitValueDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Date on which the amount will be debited for settlement"
+        },
+        "creditAccountId" : {
+          "type" : "string",
+          "description" : "Credit account identifier of the payment or transaction",
+          "maxLength" : 19
+        },
+        "creditAccountIBAN" : {
+          "type" : "string",
+          "description" : "Indicates the IBAN of the credit account",
+          "maxLength" : 35
+        },
+        "orderingCustomerId" : {
+          "type" : "string",
+          "description" : "Indicates the customer id for the ordering customer",
+          "maxLength" : 35
+        },
+        "orderingCustomerName" : {
+          "type" : "string",
+          "description" : "Indicates the name of Ordering Customer",
+          "maxLength" : 140
+        },
+        "paymentCurrencyId" : {
+          "type" : "string",
+          "description" : "The currency of payment.",
+          "maxLength" : 17
+        },
+        "amount" : {
+          "type" : "number",
+          "description" : "This is the payment amount"
+        },
+        "executionDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Date on which the transaction or payment gets processed, i.e. the processing date of the transaction."
+        },
+        "treasuryRate" : {
+          "type" : "string",
+          "description" : "The Treasury rate for the conversion between payment currency and the ordering currency",
+          "maxLength" : 12
+        },
+        "forexSpread" : {
+          "type" : "string",
+          "description" : "The spread that is applied to the published internal exchange rates to derive the final exchange rate or the customer rate for the transaction for currency conversion between ordering currency and payment currency",
+          "maxLength" : 12
+        },
+        "forexCustomerRate" : {
+          "type" : "string",
+          "description" : "The exchange rate that is actually applied for currency conversion between ordering currency and payment currency in case of transactions involving FX conversion. ",
+          "maxLength" : 17
+        },
+        "orderingPortfolio" : {
+          "type" : "string",
+          "description" : "Indicates the portfolio id for the debit side if the account belongs to a specific portfolio",
+          "maxLength" : 18
+        },
+        "creditPortfolio" : {
+          "type" : "string",
+          "description" : "Indicates the portfolio id for the credit side if the account belongs to a specific portfolio",
+          "maxLength" : 18
+        },
+        "orderingReference" : {
+          "type" : "string",
+          "description" : "The reference related to the ordering details",
+          "maxLength" : 18
+        },
+        "chargeBearer" : {
+          "type" : "string",
+          "description" : "Bearer of the charges of the order. For example: BEN(All transaction charges are to be borne by the beneficiary customer.), OUR(All transaction charges are to be borne by the ordering customer.), SHA(Transaction charges on the Sender's side are to be borne by the ordering customer, transaction charges on the Receiver's side are to be borne by the beneficiary customer.)",
+          "maxLength" : 35
+        },
+        "beneficiaryId" : {
+          "type" : "string",
+          "description" : "Indicates the Id of beneficiary when beneficiary details are stored",
+          "maxLength" : 17
+        },
+        "beneficiaryAccountId" : {
+          "type" : "string",
+          "description" : "Unique account identifier of the beneficiary account number.",
+          "maxLength" : 34
+        },
+        "beneficiaryBIC" : {
+          "type" : "string",
+          "description" : "BIC (Bank Identifier Code) of the beneficiary customer ",
+          "maxLength" : 35
+        },
+        "beneficiaryName" : {
+          "type" : "string",
+          "description" : "Short title or short name of the beneficiary account account",
+          "maxLength" : 70
+        },
+        "accountWithBankBIC" : {
+          "type" : "string",
+          "description" : "This is the BIC code of the institution where beneficiary holds an account",
+          "maxLength" : 27
+        },
+        "beneficiaryBankClearingCode" : {
+          "type" : "string",
+          "description" : "Clearing code or sort code of the beneficiary bank",
+          "maxLength" : 35
+        },
+        "accountWithBankClearingCode" : {
+          "type" : "string",
+          "description" : "This is the national clearing code or sort code of the institution where beneficiary holds an account",
+          "maxLength" : 35
+        },
+        "clearingChannel" : {
+          "type" : "string",
+          "description" : "Indicates the clearing channel for the payment in the ISO format of the Clearing System Identifiers",
+          "maxLength" : 35
+        },
+        "structuredCreditorReference" : {
+          "type" : "string",
+          "description" : "Contains description of the credit account reference",
+          "maxLength" : 65
+        },
+        "beneficiaryCountryCode" : {
+          "type" : "string",
+          "description" : "Country code details for the beneficiary. Override may raise if the country not allowed",
+          "maxLength" : 22
+        },
+        "beneficiaryIBAN" : {
+          "type" : "string",
+          "description" : "International Bank Account Number (IBAN) of the beneficiary account, required only for International transfers/payments outside the Bank. For example: GB98 MIDL07009312345678, FR7630006000011234567890189",
+          "maxLength" : 35
+        },
+        "accountWithBankIBAN" : {
+          "type" : "string",
+          "description" : "This is the IBAN of the institution where beneficiary holds an account",
+          "maxLength" : 35
+        },
+        "requiredCreditValueDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "The credit value date i.e. tentative date on which the payment system will process the payment"
+        },
+        "purpose" : {
+          "type" : "string",
+          "description" : "Purpose identifier of the payment or transaction, for SEPA payments in general.",
+          "maxLength" : 65
+        },
+        "structuredCommunicationCode" : {
+          "type" : "string",
+          "description" : "Creditor reference in a coded form i.e - RADM (RemittanceAdviceMessage) - RPIN (RelatedPaymentInstruction) - FXDR (ForeignExchangeDealReference) - DISP (DispatchAdvice) - PUOR (PurchaseOrder) - SCOR (StructuredCommunicationReference)",
+          "maxLength" : 35
+        },
+        "structuredIssuer" : {
+          "type" : "string",
+          "description" : "Entity that assigns the identification",
+          "maxLength" : 65
+        },
+        "endToEndReference" : {
+          "type" : "string",
+          "description" : "Indicates the end to end reference for the payment. This field can be provided by the person who instructs the payment and this flows through the lifecycle of the payment.",
+          "maxLength" : 35
+        },
+        "instructionIdReference" : {
+          "type" : "string",
+          "description" : "Indicates the SEPA purpose of the SEPA Payment",
+          "maxLength" : 35
+        },
+        "termsAndConditions" : {
+          "type" : "string",
+          "description" : "Specifies the terms and conditions in the text format for the payment instruction, if any.",
+          "maxLength" : 120
+        },
+        "indicativeRate" : {
+          "type" : "string",
+          "description" : "The indicative rate at the time of submitting a payment initiation request. Actual rate with which the payment will be processed will be calculated/ fetched during payment processing. ",
+          "maxLength" : 14
+        },
+        "chargeAccountId" : {
+          "type" : "string",
+          "description" : "Indicates the account to which the charges has to be levied. Used when charges are to be taken from a separate account",
+          "maxLength" : 34
+        },
+        "chargeAccountCurrencyId" : {
+          "type" : "string",
+          "description" : "When a charge account is specified, this field indicates the currency of the charge account",
+          "maxLength" : 23
+        },
+        "creditValueDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Reference quoted by the credit account for a payment"
+        },
+        "PSDCompliant" : {
+          "type" : "string",
+          "description" : "Defines whether the transaction is PSD (Payment Services Directive) compliant or not.",
+          "maxLength" : 35
+        },
+        "totalDebitAmount" : {
+          "type" : "string",
+          "description" : "The total debit amount including the charges associated for the payment",
+          "maxLength" : 19
+        },
+        "localInstrumentCode" : {
+          "type" : "string",
+          "description" : "List of transfer type has been mentioned locally in a record",
+          "maxLength" : 35
+        },
+        "recordStatus" : {
+          "type" : "string",
+          "description" : "General status of the record. Possible values: - null - authorised - IHLD - input, on hold - INAU - input, not authorised - INA2 - input, authorised, pending second authorisation - INAO - input, not authorised with blocking overrides - RNAU - reversed, not authorised - RNAO - reversed, not authorised with blocking overrides",
+          "maxLength" : 12
+        }
+      }
+    },
+    "ScreenHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "PaymentOrderResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/PaymentOrderResponseBody"
+        }
+      },
+      "description" : "PaymentOrderResponse"
+    },
+    "PaymentOrderResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "narratives" : {
+          "type" : "array",
+          "description" : "The additional text printed on descriptive statements in addition to the standard narrative and/or reference",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "narrative" : {
+                "type" : "string",
+                "description" : "The additional text printed on descriptive statements in addition to the standard narrative and/or reference",
+                "maxLength" : 65
+              }
+            }
+          }
+        },
+        "additionalInformations" : {
+          "type" : "array",
+          "description" : "Additional Information provided to add context",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "additionalInformation" : {
+                "type" : "string",
+                "description" : "Additional Information provided to add context",
+                "maxLength" : 65
+              }
+            }
+          }
+        },
+        "remittanceInformations" : {
+          "type" : "array",
+          "description" : "Indicates the remittance information that is supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "remittanceInformation" : {
+                "type" : "string",
+                "description" : "Indicates the remittance information that is supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "signatories" : {
+          "type" : "array",
+          "description" : "The authorised signatories for the payments can be specified here. More applicable in case of corporate payments where multiple signatories are required to sign a payment instruction",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "signatory" : {
+                "type" : "string",
+                "description" : "The authorised signatories for the payments can be specified here. More applicable in case of corporate payments where multiple signatories are required to sign a payment instruction",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "invoiceReferences" : {
+          "type" : "array",
+          "description" : "It provides the reference of the invoice ",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "invoiceReference" : {
+                "type" : "string",
+                "description" : "It provides the reference of the invoice ",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "charges" : {
+          "type" : "array",
+          "description" : "The charges or fees for this transaction",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "chargeType" : {
+                "type" : "string",
+                "description" : "Indicates the charge types which are applicable for the transaction. Example: CORRBKCHG",
+                "maxLength" : 20
+              },
+              "chargeName" : {
+                "type" : "string",
+                "description" : "The description of the charge to be taken for payment",
+                "maxLength" : 50
+              },
+              "chargeCurrency" : {
+                "type" : "string",
+                "description" : "Indicates the currency code of the charge account from where the fee is deducted",
+                "maxLength" : 14
+              },
+              "chargeAmount" : {
+                "type" : "number",
+                "description" : "Retrieves the Charge Amount after redeem"
+              },
+              "chargeAccountCurrencyAmount" : {
+                "type" : "string",
+                "description" : "Holds the charge to be applied for the corresponding charge type for the order in the currency of the charge account",
+                "maxLength" : 27
+              }
+            }
+          }
+        },
+        "overrides" : {
+          "type" : "array",
+          "description" : "The override message is captured  that was generated at the time of commitment of the transaction to the database.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "override" : {
+                "type" : "string",
+                "description" : "The override message is captured  that was generated at the time of commitment of the transaction to the database.",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "paymentOrderProductId" : {
+          "type" : "string",
+          "description" : "Indicates the payment order product for which payment is initiated",
+          "maxLength" : 35
+        },
+        "debitAccountId" : {
+          "type" : "string",
+          "description" : "Indicates the debit account number of the payment or transaction.",
+          "maxLength" : 34
+        },
+        "debitAccountIBAN" : {
+          "type" : "string",
+          "description" : "International Bank Account Number (IBAN) of the debtor account, required only for International transfers/payments outside the Bank. For example: GB98 MIDL07009312345678, FR7630006000011234567890189",
+          "maxLength" : 35
+        },
+        "debitCurrency" : {
+          "type" : "string",
+          "description" : "Currency of the debit account. For example: USD, EUR etc.",
+          "maxLength" : 13
+        },
+        "debitValueDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Date on which the amount will be debited for settlement"
+        },
+        "creditAccountId" : {
+          "type" : "string",
+          "description" : "Credit account identifier of the payment or transaction",
+          "maxLength" : 19
+        },
+        "creditAccountIBAN" : {
+          "type" : "string",
+          "description" : "Indicates the IBAN of the credit account",
+          "maxLength" : 35
+        },
+        "orderingCustomerId" : {
+          "type" : "string",
+          "description" : "Indicates the customer id for the ordering customer",
+          "maxLength" : 35
+        },
+        "orderingCustomerName" : {
+          "type" : "string",
+          "description" : "Indicates the name of Ordering Customer",
+          "maxLength" : 140
+        },
+        "paymentCurrencyId" : {
+          "type" : "string",
+          "description" : "The currency of payment.",
+          "maxLength" : 17
+        },
+        "amount" : {
+          "type" : "number",
+          "description" : "This is the payment amount"
+        },
+        "executionDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Date on which the transaction or payment gets processed, i.e. the processing date of the transaction."
+        },
+        "treasuryRate" : {
+          "type" : "string",
+          "description" : "The Treasury rate for the conversion between payment currency and the ordering currency",
+          "maxLength" : 12
+        },
+        "forexSpread" : {
+          "type" : "string",
+          "description" : "The spread that is applied to the published internal exchange rates to derive the final exchange rate or the customer rate for the transaction for currency conversion between ordering currency and payment currency",
+          "maxLength" : 12
+        },
+        "forexCustomerRate" : {
+          "type" : "string",
+          "description" : "The exchange rate that is actually applied for currency conversion between ordering currency and payment currency in case of transactions involving FX conversion. ",
+          "maxLength" : 17
+        },
+        "orderingPortfolio" : {
+          "type" : "string",
+          "description" : "Indicates the portfolio id for the debit side if the account belongs to a specific portfolio",
+          "maxLength" : 18
+        },
+        "creditPortfolio" : {
+          "type" : "string",
+          "description" : "Indicates the portfolio id for the credit side if the account belongs to a specific portfolio",
+          "maxLength" : 18
+        },
+        "orderingReference" : {
+          "type" : "string",
+          "description" : "The reference related to the ordering details",
+          "maxLength" : 18
+        },
+        "chargeBearer" : {
+          "type" : "string",
+          "description" : "Bearer of the charges of the order. For example: BEN(All transaction charges are to be borne by the beneficiary customer.), OUR(All transaction charges are to be borne by the ordering customer.), SHA(Transaction charges on the Sender's side are to be borne by the ordering customer, transaction charges on the Receiver's side are to be borne by the beneficiary customer.)",
+          "maxLength" : 35
+        },
+        "beneficiaryId" : {
+          "type" : "string",
+          "description" : "Indicates the Id of beneficiary when beneficiary details are stored",
+          "maxLength" : 17
+        },
+        "beneficiaryAccountId" : {
+          "type" : "string",
+          "description" : "Unique account identifier of the beneficiary account number.",
+          "maxLength" : 34
+        },
+        "beneficiaryBIC" : {
+          "type" : "string",
+          "description" : "BIC (Bank Identifier Code) of the beneficiary customer ",
+          "maxLength" : 35
+        },
+        "beneficiaryName" : {
+          "type" : "string",
+          "description" : "Short title or short name of the beneficiary account account",
+          "maxLength" : 70
+        },
+        "accountWithBankBIC" : {
+          "type" : "string",
+          "description" : "This is the BIC code of the institution where beneficiary holds an account",
+          "maxLength" : 27
+        },
+        "beneficiaryBankClearingCode" : {
+          "type" : "string",
+          "description" : "Clearing code or sort code of the beneficiary bank",
+          "maxLength" : 35
+        },
+        "accountWithBankClearingCode" : {
+          "type" : "string",
+          "description" : "This is the national clearing code or sort code of the institution where beneficiary holds an account",
+          "maxLength" : 35
+        },
+        "clearingChannel" : {
+          "type" : "string",
+          "description" : "Indicates the clearing channel for the payment in the ISO format of the Clearing System Identifiers",
+          "maxLength" : 35
+        },
+        "structuredCreditorReference" : {
+          "type" : "string",
+          "description" : "Contains description of the credit account reference",
+          "maxLength" : 65
+        },
+        "beneficiaryCountryCode" : {
+          "type" : "string",
+          "description" : "Country code details for the beneficiary. Override may raise if the country not allowed",
+          "maxLength" : 22
+        },
+        "beneficiaryIBAN" : {
+          "type" : "string",
+          "description" : "International Bank Account Number (IBAN) of the beneficiary account, required only for International transfers/payments outside the Bank. For example: GB98 MIDL07009312345678, FR7630006000011234567890189",
+          "maxLength" : 35
+        },
+        "accountWithBankIBAN" : {
+          "type" : "string",
+          "description" : "This is the IBAN of the institution where beneficiary holds an account",
+          "maxLength" : 35
+        },
+        "requiredCreditValueDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "The credit value date i.e. tentative date on which the payment system will process the payment"
+        },
+        "purpose" : {
+          "type" : "string",
+          "description" : "Purpose identifier of the payment or transaction, for SEPA payments in general.",
+          "maxLength" : 65
+        },
+        "structuredCommunicationCode" : {
+          "type" : "string",
+          "description" : "Creditor reference in a coded form i.e - RADM (RemittanceAdviceMessage) - RPIN (RelatedPaymentInstruction) - FXDR (ForeignExchangeDealReference) - DISP (DispatchAdvice) - PUOR (PurchaseOrder) - SCOR (StructuredCommunicationReference)",
+          "maxLength" : 35
+        },
+        "structuredIssuer" : {
+          "type" : "string",
+          "description" : "Entity that assigns the identification",
+          "maxLength" : 65
+        },
+        "endToEndReference" : {
+          "type" : "string",
+          "description" : "Indicates the end to end reference for the payment. This field can be provided by the person who instructs the payment and this flows through the lifecycle of the payment.",
+          "maxLength" : 35
+        },
+        "instructionIdReference" : {
+          "type" : "string",
+          "description" : "Indicates the SEPA purpose of the SEPA Payment",
+          "maxLength" : 35
+        },
+        "termsAndConditions" : {
+          "type" : "string",
+          "description" : "Specifies the terms and conditions in the text format for the payment instruction, if any.",
+          "maxLength" : 120
+        },
+        "indicativeRate" : {
+          "type" : "string",
+          "description" : "The indicative rate at the time of submitting a payment initiation request. Actual rate with which the payment will be processed will be calculated/ fetched during payment processing. ",
+          "maxLength" : 14
+        },
+        "chargeAccountId" : {
+          "type" : "string",
+          "description" : "Indicates the account to which the charges has to be levied. Used when charges are to be taken from a separate account",
+          "maxLength" : 34
+        },
+        "chargeAccountCurrencyId" : {
+          "type" : "string",
+          "description" : "When a charge account is specified, this field indicates the currency of the charge account",
+          "maxLength" : 23
+        },
+        "creditValueDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Reference quoted by the credit account for a payment"
+        },
+        "PSDCompliant" : {
+          "type" : "string",
+          "description" : "Defines whether the transaction is PSD (Payment Services Directive) compliant or not.",
+          "maxLength" : 35
+        },
+        "totalDebitAmount" : {
+          "type" : "string",
+          "description" : "The total debit amount including the charges associated for the payment",
+          "maxLength" : 19
+        },
+        "localInstrumentCode" : {
+          "type" : "string",
+          "description" : "List of transfer type has been mentioned locally in a record",
+          "maxLength" : 35
+        },
+        "recordStatus" : {
+          "type" : "string",
+          "description" : "General status of the record. Possible values: - null - authorised - IHLD - input, on hold - INAU - input, not authorised - INA2 - input, authorised, pending second authorisation - INAO - input, not authorised with blocking overrides - RNAU - reversed, not authorised - RNAO - reversed, not authorised with blocking overrides",
+          "maxLength" : 12
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "overrideBody" : {
+      "properties" : {
+        "overrideDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "string",
+                "description" : "The identifier of the override"
+              },
+              "description" : {
+                "type" : "string",
+                "description" : "The actual override message"
+              },
+              "options" : {
+                "type" : "array",
+                "description" : "The usable options for the override",
+                "items" : {
+                  "type" : "string"
+                }
+              },
+              "type" : {
+                "type" : "string",
+                "description" : "The type of the override"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/ScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "ScreenErrorResponse"
+    },
+    "ScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message "
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "BusinessScreenErrorResponse"
+    },
+    "BusinessScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message for bad requests"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "SystemScreenErrorResponse"
+    },
+    "SystemScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message caused by server"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    },
+    "PaymentOrderDelete" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        }
+      },
+      "description" : "PaymentOrderDelete"
+    },
+    "QueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records per page"
+        },
+        "page_start" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The record from which the response should be displayed"
+        },
+        "total_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records present"
+        },
+        "page_token" : {
+          "type" : "string",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request"
+        }
+      }
+    },
+    "PaymentOrderResponse1" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/PaymentOrderResponse1Body"
+        }
+      },
+      "description" : "PaymentOrderResponse1"
+    },
+    "PaymentOrderResponse1Body" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "debits" : {
+            "type" : "array",
+            "description" : "Debit value of the transaction ",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "debitAccountId" : {
+                  "type" : "string",
+                  "description" : "Indicates the debit account number of the payment or transaction.",
+                  "maxLength" : 34
+                },
+                "debitAccountIBAN" : {
+                  "type" : "string",
+                  "description" : "International Bank Account Number (IBAN) of the debtor account, required only for International transfers/payments outside the Bank. For example: GB98 MIDL07009312345678, FR7630006000011234567890189",
+                  "maxLength" : 35
+                },
+                "debitCurrency" : {
+                  "type" : "string",
+                  "description" : "Currency of the debit account. For example: USD, EUR etc.",
+                  "maxLength" : 3
+                },
+                "debitValueDate" : {
+                  "type" : "string",
+                  "format" : "date",
+                  "description" : "Date on which the amount will be debited for settlement"
+                },
+                "totalDebitAmount" : {
+                  "type" : "number",
+                  "description" : "The total debit amount including the charges associated for the payment"
+                }
+              }
+            }
+          },
+          "credits" : {
+            "type" : "array",
+            "description" : "Credit value of the transaction",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "creditAccountId" : {
+                  "type" : "string",
+                  "description" : "Credit account identifier of the payment or transaction",
+                  "maxLength" : 19
+                },
+                "creditAccountIBAN" : {
+                  "type" : "string",
+                  "description" : "Indicates the IBAN of the credit account",
+                  "maxLength" : 35
+                },
+                "requiredCreditValueDate" : {
+                  "type" : "string",
+                  "format" : "date",
+                  "description" : "The credit value date i.e. tentative date on which the payment system will process the payment"
+                },
+                "creditValueDate" : {
+                  "type" : "string",
+                  "format" : "date",
+                  "description" : "Reference quoted by the credit account for a payment"
+                }
+              }
+            }
+          },
+          "narratives" : {
+            "type" : "array",
+            "description" : "The additional text printed on descriptive statements in addition to the standard narrative and/or reference",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "narrative" : {
+                  "type" : "string",
+                  "description" : "The additional text printed on descriptive statements in addition to the standard narrative and/or reference",
+                  "maxLength" : 65
+                }
+              }
+            }
+          },
+          "additionalInformations" : {
+            "type" : "array",
+            "description" : "Additional Information provided to add context",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "additionalInformation" : {
+                  "type" : "string",
+                  "description" : "Additional Information provided to add context",
+                  "maxLength" : 65
+                }
+              }
+            }
+          },
+          "remittanceInformations" : {
+            "type" : "array",
+            "description" : "Indicates the remittance information that is supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "remittanceInformation" : {
+                  "type" : "string",
+                  "description" : "Indicates the remittance information that is supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
+                  "maxLength" : 140
+                }
+              }
+            }
+          },
+          "beneficiaries" : {
+            "type" : "array",
+            "description" : "Identifies the Beneficiary name and address of the Standing Order",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "beneficiaryId" : {
+                  "type" : "string",
+                  "description" : "Indicates the Id of beneficiary when beneficiary details are stored",
+                  "maxLength" : 17
+                },
+                "beneficiaryAccountId" : {
+                  "type" : "string",
+                  "description" : "Unique account identifier of the beneficiary account number.",
+                  "maxLength" : 34
+                },
+                "beneficiaryBIC" : {
+                  "type" : "string",
+                  "description" : "BIC (Bank Identifier Code) of the beneficiary customer ",
+                  "maxLength" : 35
+                },
+                "beneficiaryName" : {
+                  "type" : "string",
+                  "description" : "Short title or short name of the beneficiary account account",
+                  "maxLength" : 70
+                },
+                "beneficiaryCountryCode" : {
+                  "type" : "string",
+                  "description" : "Country code details for the beneficiary. Override may raise if the country not allowed",
+                  "maxLength" : 2
+                },
+                "beneficiaryIBAN" : {
+                  "type" : "string",
+                  "description" : "International Bank Account Number (IBAN) of the beneficiary account, required only for International transfers/payments outside the Bank. For example: GB98 MIDL07009312345678, FR7630006000011234567890189",
+                  "maxLength" : 35
+                },
+                "accountWithBankIBAN" : {
+                  "type" : "string",
+                  "description" : "This is the IBAN of the institution where beneficiary holds an account",
+                  "maxLength" : 35
+                }
+              }
+            }
+          },
+          "invoiceReferences" : {
+            "type" : "array",
+            "description" : "It provides the reference of the invoice ",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "invoiceReference" : {
+                  "type" : "string",
+                  "description" : "It provides the reference of the invoice ",
+                  "maxLength" : 35
+                }
+              }
+            }
+          },
+          "charges" : {
+            "type" : "array",
+            "description" : "The charges or fees for this transaction",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "chargeAccountId" : {
+                  "type" : "string",
+                  "description" : "Indicates the account to which the charges has to be levied. Used when charges are to be taken from a separate account",
+                  "maxLength" : 34
+                },
+                "chargeAccountCurrencyId" : {
+                  "type" : "string",
+                  "description" : "When a charge account is specified, this field indicates the currency of the charge account",
+                  "maxLength" : 3
+                },
+                "chargeType" : {
+                  "type" : "string",
+                  "description" : "Indicates the charge types which are applicable for the transaction. Example: CORRBKCHG",
+                  "maxLength" : 20
+                },
+                "chargeName" : {
+                  "type" : "string",
+                  "description" : "The description of the charge to be taken for payment",
+                  "maxLength" : 50
+                },
+                "chargeCurrencyId" : {
+                  "type" : "string",
+                  "description" : "Specifies the currency of the charge amount. Allowed only when a charge amount is specified ",
+                  "maxLength" : 3
+                },
+                "chargeAmount" : {
+                  "type" : "string",
+                  "description" : "Retrieves the Charge Amount after redeem",
+                  "maxLength" : 19
+                },
+                "chargeAccountCurrencyAmount" : {
+                  "type" : "number",
+                  "description" : "Holds the charge to be applied for the corresponding charge type for the order in the currency of the charge account"
+                }
+              }
+            }
+          },
+          "paymentOrderId" : {
+            "type" : "string",
+            "description" : "The unique reference number of payment",
+            "maxLength" : 35
+          },
+          "paymentOrderProductId" : {
+            "type" : "string",
+            "description" : "Indicates the payment order product for which payment is initiated",
+            "maxLength" : 35
+          },
+          "orderingCustomerId" : {
+            "type" : "string",
+            "description" : "Indicates the customer id for the ordering customer",
+            "maxLength" : 35
+          },
+          "orderingCustomerName" : {
+            "type" : "string",
+            "description" : "Indicates the name of Ordering Customer",
+            "maxLength" : 140
+          },
+          "paymentCurrencyId" : {
+            "type" : "string",
+            "description" : "The currency of payment.",
+            "maxLength" : 3
+          },
+          "amount" : {
+            "type" : "number",
+            "description" : "This is the payment amount"
+          },
+          "executionDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "Date on which the transaction or payment gets processed, i.e. the processing date of the transaction."
+          },
+          "treasuryRate" : {
+            "type" : "string",
+            "description" : "The Treasury rate for the conversion between payment currency and the ordering currency",
+            "maxLength" : 11
+          },
+          "forexSpread" : {
+            "type" : "string",
+            "description" : "The spread that is applied to the published internal exchange rates to derive the final exchange rate or the customer rate for the transaction for currency conversion between ordering currency and payment currency",
+            "maxLength" : 12
+          },
+          "forexCustomerRate" : {
+            "type" : "string",
+            "description" : "The exchange rate that is actually applied for currency conversion between ordering currency and payment currency in case of transactions involving FX conversion. ",
+            "maxLength" : 11
+          },
+          "orderingPortfolio" : {
+            "type" : "string",
+            "description" : "Indicates the portfolio id for the debit side if the account belongs to a specific portfolio",
+            "maxLength" : 18
+          },
+          "creditPortfolio" : {
+            "type" : "string",
+            "description" : "Indicates the portfolio id for the credit side if the account belongs to a specific portfolio",
+            "maxLength" : 18
+          },
+          "orderingReference" : {
+            "type" : "string",
+            "description" : "The reference related to the ordering details",
+            "maxLength" : 18
+          },
+          "chargeBearer" : {
+            "type" : "string",
+            "description" : "Bearer of the charges of the order. For example: BEN(All transaction charges are to be borne by the beneficiary customer.), OUR(All transaction charges are to be borne by the ordering customer.), SHA(Transaction charges on the Sender's side are to be borne by the ordering customer, transaction charges on the Receiver's side are to be borne by the beneficiary customer.)",
+            "maxLength" : 35
+          },
+          "accountWithBankBIC" : {
+            "type" : "string",
+            "description" : "This is the BIC code of the institution where beneficiary holds an account",
+            "maxLength" : 27
+          },
+          "beneficiaryBankClearingCode" : {
+            "type" : "string",
+            "description" : "Clearing code or sort code of the beneficiary bank",
+            "maxLength" : 35
+          },
+          "accountWithBankClearingCode" : {
+            "type" : "string",
+            "description" : "This is the national clearing code or sort code of the institution where beneficiary holds an account",
+            "maxLength" : 35
+          },
+          "clearingChannel" : {
+            "type" : "string",
+            "description" : "Indicates the clearing channel for the payment in the ISO format of the Clearing System Identifiers",
+            "maxLength" : 35
+          },
+          "structuredCreditorReference" : {
+            "type" : "string",
+            "description" : "Contains description of the credit account reference",
+            "maxLength" : 65
+          },
+          "signatory" : {
+            "type" : "string",
+            "description" : "The authorised signatories for the payments can be specified here. More applicable in case of corporate payments where multiple signatories are required to sign a payment instruction",
+            "maxLength" : 35
+          },
+          "purpose" : {
+            "type" : "string",
+            "description" : "Purpose identifier of the payment or transaction, for SEPA payments in general.",
+            "maxLength" : 65
+          },
+          "structuredCommunicationCode" : {
+            "type" : "string",
+            "description" : "Creditor reference in a coded form i.e - RADM (RemittanceAdviceMessage) - RPIN (RelatedPaymentInstruction) - FXDR (ForeignExchangeDealReference) - DISP (DispatchAdvice) - PUOR (PurchaseOrder) - SCOR (StructuredCommunicationReference)",
+            "maxLength" : 35
+          },
+          "structuredIssuer" : {
+            "type" : "string",
+            "description" : "Entity that assigns the identification",
+            "maxLength" : 65
+          },
+          "endToEndReference" : {
+            "type" : "string",
+            "description" : "Indicates the end to end reference for the payment. This field can be provided by the person who instructs the payment and this flows through the lifecycle of the payment.",
+            "maxLength" : 35
+          },
+          "instructionIdReference" : {
+            "type" : "string",
+            "description" : "Indicates the SEPA purpose of the SEPA Payment",
+            "maxLength" : 35
+          },
+          "termsAndConditions" : {
+            "type" : "string",
+            "description" : "Specifies the terms and conditions in the text format for the payment instruction, if any.",
+            "maxLength" : 120
+          },
+          "paymentStatus" : {
+            "type" : "string",
+            "description" : "Contains the current status of the transaction. For example: 'ACCC': 'AcceptedSettlementCompleted' - Settlement on the creditor's account has been completed.'ACCP': 'AcceptedCustomerProfile' - Preceding check of technical validation was successful. Customer profile check was also successful.'CANC': 'Cancelled' Payment initiation has been cancelled before execution Remark: This codeis accepted as new code by ISO20022.'RCVD': 'Received' - Payment initiation has been received by the receiving agent.",
+            "maxLength" : 35
+          },
+          "currentStatus" : {
+            "type" : "string",
+            "description" : "This indicates the current status of payment order",
+            "maxLength" : 65
+          },
+          "internalStatus" : {
+            "type" : "string",
+            "description" : "This indicates a full description of payment purpose code. i.e. purpose of the instruction based on a set of pre-defined categories.",
+            "maxLength" : 10
+          },
+          "systemId" : {
+            "type" : "string",
+            "description" : "The system application identifier from which the entry was generated",
+            "maxLength" : 35
+          },
+          "indicativeRate" : {
+            "type" : "string",
+            "description" : "The indicative rate at the time of submitting a payment initiation request. Actual rate with which the payment will be processed will be calculated/ fetched during payment processing. ",
+            "maxLength" : 11
+          },
+          "PSDCompliant" : {
+            "type" : "string",
+            "description" : "Defines whether the transaction is PSD (Payment Services Directive) compliant or not.",
+            "maxLength" : 35
+          },
+          "GPIStatus" : {
+            "type" : "string",
+            "description" : "This field to store the GPI status as received in gpi confirmation tracker",
+            "maxLength" : 10
+          },
+          "GPICreditValueDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "Field store the date and time when the credit confirmation received"
+          },
+          "beneficiaryName" : {
+            "type" : "string",
+            "description" : "Short title or short name of the beneficiary account account",
+            "maxLength" : 35
+          },
+          "versionNumber" : {
+            "type" : "string",
+            "description" : "Current number of the record",
+            "maxLength" : 6
+          }
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessQueryErrorResponseBody"
+        }
+      },
+      "description" : "BusinessQueryErrorResponse"
+    },
+    "BusinessQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message for bad requests"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemQueryErrorResponseBody"
+        }
+      },
+      "description" : "SystemQueryErrorResponse"
+    },
+    "SystemQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message caused by server"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    },
+    "PaymentOrderPurposesResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/PaymentOrderPurposesResponseBody"
+        }
+      },
+      "description" : "PaymentOrderPurposesResponse"
+    },
+    "PaymentOrderPurposesResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "paymentOrderPurposeCodeId" : {
+            "type" : "string",
+            "description" : "Indicates the Id of payment purpose code i.e. purpose of the instruction based on a set of pre-defined categories.",
+            "maxLength" : 4
+          },
+          "displayName" : {
+            "type" : "string",
+            "description" : "Name used for display or enrichment purposes",
+            "maxLength" : 70
+          },
+          "classification" : {
+            "type" : "string",
+            "description" : "This indicates a high-level classification of payment purpose code. i.e. purpose of the instruction based on a set of pre-defined categories.",
+            "maxLength" : 70
+          },
+          "definition" : {
+            "type" : "string",
+            "description" : "This indicates a full description of payment purpose code. i.e. purpose of the instruction based on a set of pre-defined categories.",
+            "maxLength" : 120
+          }
+        }
+      }
+    },
+    "PaymentOrderProductsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/PaymentOrderProductsResponseBody"
+        }
+      },
+      "description" : "PaymentOrderProductsResponse"
+    },
+    "PaymentOrderProductsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "paymentProductGroupIds" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "paymentProductGroupId" : {
+                  "type" : "string",
+                  "description" : "Payment method group details of the payment",
+                  "maxLength" : 35
+                }
+              }
+            }
+          },
+          "paymentCurrencyIds" : {
+            "type" : "array",
+            "description" : "The currency of payment.",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "paymentCurrencyId" : {
+                  "type" : "string",
+                  "description" : "The currency of payment.",
+                  "maxLength" : 3
+                }
+              }
+            }
+          },
+          "orderingCurrencyIds" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "orderingCurrencyId" : {
+                  "type" : "string",
+                  "description" : "Debit Account currency specific details",
+                  "maxLength" : 3
+                }
+              }
+            }
+          },
+          "countryIds" : {
+            "type" : "array",
+            "description" : "ISO country code of the financial institution. ",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "countryId" : {
+                  "type" : "string",
+                  "description" : "ISO country code of the financial institution. ",
+                  "maxLength" : 2
+                }
+              }
+            }
+          },
+          "clearingChannelIds" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "clearingChannelId" : {
+                  "type" : "string",
+                  "description" : "Clearing channel id details for the order",
+                  "maxLength" : 35
+                }
+              }
+            }
+          },
+          "additionalInformations" : {
+            "type" : "array",
+            "description" : "Additional Information provided to add context",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "additionalInformation" : {
+                  "type" : "string",
+                  "description" : "Additional Information provided to add context",
+                  "maxLength" : 120
+                }
+              }
+            }
+          },
+          "paymentOrderProductId" : {
+            "type" : "string",
+            "description" : "Indicates the payment order product for which payment is initiated",
+            "maxLength" : 10
+          },
+          "displayName" : {
+            "type" : "string",
+            "description" : "Name used for display or enrichment purposes",
+            "maxLength" : 35
+          },
+          "rank" : {
+            "type" : "string",
+            "description" : "Indicates the rank of the payment order product within the group. ",
+            "maxLength" : 10
+          },
+          "payThroughBeneficiary" : {
+            "type" : "string",
+            "description" : "Defines whether payment initiation can be done by providing beneficiary details. This is applicable when beneficiary is not within the same bank",
+            "maxLength" : 35
+          },
+          "futureDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "Indicates if a future dated instruction can be inputted for the specific payment order product"
+          },
+          "requiredCreditValue" : {
+            "type" : "string",
+            "description" : "Indicates if required credit value date can be inputted for the specific payment order product while initiating a payment",
+            "maxLength" : 35
+          },
+          "IBANSupport" : {
+            "type" : "string",
+            "description" : "Check for payment support for IBAN or not",
+            "maxLength" : 35
+          },
+          "BICSupport" : {
+            "type" : "string",
+            "description" : "Check for payment support for BIC or not",
+            "maxLength" : 35
+          },
+          "sortCodeSupport" : {
+            "type" : "string",
+            "description" : "Check for payment support for sortCode or not",
+            "maxLength" : 35
+          },
+          "narrative" : {
+            "type" : "string",
+            "description" : "The additional text printed on descriptive statements in addition to the standard narrative and/or reference",
+            "maxLength" : 65
+          },
+          "weblink" : {
+            "type" : "string",
+            "description" : "The web link for additional information",
+            "maxLength" : 70
+          },
+          "forexSupport" : {
+            "type" : "string",
+            "description" : "Check for payment support for forex or not",
+            "maxLength" : 3
+          },
+          "defaultChargeOption" : {
+            "type" : "string",
+            "description" : "Indicates the charge option which will be defaulted at the time of payment initiation for specific payment order product i.e. Recipient To Pay All Charges, Pay My Bank's Charges or Pay My Bank Charges Only.",
+            "maxLength" : 35
+          },
+          "checkTransparency" : {
+            "type" : "string",
+            "description" : "Used to set if simulation is required or not",
+            "maxLength" : 35
+          },
+          "awaitExternalSubmit" : {
+            "type" : "string",
+            "description" : "External payment request for approval details",
+            "maxLength" : 35
+          }
+        }
+      }
+    },
+    "PaymentOrderCountryRulesResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/PaymentOrderCountryRulesResponseBody"
+        }
+      },
+      "description" : "PaymentOrderCountryRulesResponse"
+    },
+    "PaymentOrderCountryRulesResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "clearingChannelIds" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "clearingChannelId" : {
+                  "type" : "string",
+                  "description" : "Clearing channel id details for the order",
+                  "maxLength" : 35
+                }
+              }
+            }
+          },
+          "paymentCurrencyIds" : {
+            "type" : "array",
+            "description" : "The currency of payment.",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "paymentCurrencyId" : {
+                  "type" : "string",
+                  "description" : "The currency of payment.",
+                  "maxLength" : 3
+                }
+              }
+            }
+          },
+          "countryId" : {
+            "type" : "string",
+            "description" : "ISO country code of the financial institution. ",
+            "maxLength" : 9
+          },
+          "displayName" : {
+            "type" : "string",
+            "description" : "Name used for display or enrichment purposes",
+            "maxLength" : 65
+          },
+          "IBANSupport" : {
+            "type" : "string",
+            "description" : "Check for payment support for IBAN or not",
+            "maxLength" : 35
+          },
+          "BICSupport" : {
+            "type" : "string",
+            "description" : "Check for payment support for BIC or not",
+            "maxLength" : 35
+          },
+          "sortCodeSupport" : {
+            "type" : "string",
+            "description" : "Check for payment support for sortCode or not",
+            "maxLength" : 35
+          }
+        }
+      }
+    },
+    "SepaInstantPayment" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/SepaInstantPaymentBody"
+        }
+      },
+      "description" : "SepaInstantPayment"
+    },
+    "SepaInstantPaymentBody" : {
+      "type" : "object",
+      "properties" : {
+        "narratives" : {
+          "type" : "array",
+          "description" : "The additional text printed on descriptive statements in addition to the standard narrative and/or reference",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "narrative" : {
+                "type" : "string",
+                "description" : "The additional text printed on descriptive statements in addition to the standard narrative and/or reference",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "contexts" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "contextName" : {
+                "type" : "string",
+                "description" : "Field name returned by the payment engine (TPH) for information or further processing.",
+                "maxLength" : 35
+              },
+              "contextValue" : {
+                "type" : "string",
+                "description" : "Field value returned by the payment engine (TPH) for information or further processing.",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "charges" : {
+          "type" : "array",
+          "description" : "The charges or fees for this transaction",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "chargeAmount" : {
+                "type" : "number",
+                "description" : "Retrieves the Charge Amount after redeem"
+              },
+              "chargeCurrencyId" : {
+                "type" : "string",
+                "description" : "Specifies the currency of the charge amount. Allowed only when a charge amount is specified ",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "paymentOrderProductId" : {
+          "type" : "string",
+          "description" : "Indicates the payment order product for which payment is initiated",
+          "maxLength" : 35
+        },
+        "debitAccountIBAN" : {
+          "type" : "string",
+          "description" : "International Bank Account Number (IBAN) of the debtor account, required only for International transfers/payments outside the Bank. For example: GB98 MIDL07009312345678, FR7630006000011234567890189",
+          "maxLength" : 35
+        },
+        "paymentCurrencyId" : {
+          "type" : "string",
+          "description" : "The currency of payment.",
+          "maxLength" : 35
+        },
+        "amount" : {
+          "type" : "number",
+          "description" : "This is the payment amount"
+        },
+        "beneficiaryIBAN" : {
+          "type" : "string",
+          "description" : "International Bank Account Number (IBAN) of the beneficiary account, required only for International transfers/payments outside the Bank. For example: GB98 MIDL07009312345678, FR7630006000011234567890189",
+          "maxLength" : 35
+        },
+        "consent" : {
+          "type" : "string",
+          "description" : "This field indicates if Ordering customer has provided consent for this payment order to be initiated",
+          "maxLength" : 35
+        },
+        "beneficiaryName" : {
+          "type" : "string",
+          "description" : "Short title or short name of the beneficiary account account",
+          "maxLength" : 35
+        },
+        "endToEndReference" : {
+          "type" : "string",
+          "description" : "Indicates the end to end reference for the payment. This field can be provided by the person who instructs the payment and this flows through the lifecycle of the payment.",
+          "maxLength" : 35
+        },
+        "paymentScheme" : {
+          "type" : "string",
+          "description" : "Payment scheme details",
+          "maxLength" : 35
+        }
+      }
+    },
+    "SepaInstantPaymentResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/SepaInstantPaymentResponseBody"
+        }
+      },
+      "description" : "SepaInstantPaymentResponse"
+    },
+    "SepaInstantPaymentResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "narratives" : {
+          "type" : "array",
+          "description" : "The additional text printed on descriptive statements in addition to the standard narrative and/or reference",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "narrative" : {
+                "type" : "string",
+                "description" : "The additional text printed on descriptive statements in addition to the standard narrative and/or reference",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "contexts" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "contextName" : {
+                "type" : "string",
+                "description" : "Field name returned by the payment engine (TPH) for information or further processing.",
+                "maxLength" : 35
+              },
+              "contextValue" : {
+                "type" : "string",
+                "description" : "Field value returned by the payment engine (TPH) for information or further processing.",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "charges" : {
+          "type" : "array",
+          "description" : "The charges or fees for this transaction",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "chargeAmount" : {
+                "type" : "number",
+                "description" : "Retrieves the Charge Amount after redeem"
+              },
+              "chargeCurrencyId" : {
+                "type" : "string",
+                "description" : "Specifies the currency of the charge amount. Allowed only when a charge amount is specified ",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "paymentOrderProductId" : {
+          "type" : "string",
+          "description" : "Indicates the payment order product for which payment is initiated",
+          "maxLength" : 35
+        },
+        "debitAccountIBAN" : {
+          "type" : "string",
+          "description" : "International Bank Account Number (IBAN) of the debtor account, required only for International transfers/payments outside the Bank. For example: GB98 MIDL07009312345678, FR7630006000011234567890189",
+          "maxLength" : 35
+        },
+        "paymentCurrencyId" : {
+          "type" : "string",
+          "description" : "The currency of payment.",
+          "maxLength" : 35
+        },
+        "amount" : {
+          "type" : "number",
+          "description" : "This is the payment amount"
+        },
+        "beneficiaryIBAN" : {
+          "type" : "string",
+          "description" : "International Bank Account Number (IBAN) of the beneficiary account, required only for International transfers/payments outside the Bank. For example: GB98 MIDL07009312345678, FR7630006000011234567890189",
+          "maxLength" : 35
+        },
+        "consent" : {
+          "type" : "string",
+          "description" : "This field indicates if Ordering customer has provided consent for this payment order to be initiated",
+          "maxLength" : 35
+        },
+        "beneficiaryName" : {
+          "type" : "string",
+          "description" : "Short title or short name of the beneficiary account account",
+          "maxLength" : 35
+        },
+        "endToEndReference" : {
+          "type" : "string",
+          "description" : "Indicates the end to end reference for the payment. This field can be provided by the person who instructs the payment and this flows through the lifecycle of the payment.",
+          "maxLength" : 35
+        },
+        "paymentScheme" : {
+          "type" : "string",
+          "description" : "Payment scheme details",
+          "maxLength" : 35
+        }
+      }
+    },
+    "SepaInstantTransfer" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/SepaInstantTransferBody"
+        }
+      },
+      "description" : "SepaInstantTransfer"
+    },
+    "SepaInstantTransferBody" : {
+      "type" : "object",
+      "properties" : {
+        "narratives" : {
+          "type" : "array",
+          "description" : "The additional text printed on descriptive statements in addition to the standard narrative and/or reference",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "narrative" : {
+                "type" : "string",
+                "description" : "The additional text printed on descriptive statements in addition to the standard narrative and/or reference",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "contexts" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "contextName" : {
+                "type" : "string",
+                "description" : "Field name returned by the payment engine (TPH) for information or further processing.",
+                "maxLength" : 35
+              },
+              "contextValue" : {
+                "type" : "string",
+                "description" : "Field value returned by the payment engine (TPH) for information or further processing.",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "charges" : {
+          "type" : "array",
+          "description" : "The charges or fees for this transaction",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "chargeAmount" : {
+                "type" : "number",
+                "description" : "Retrieves the Charge Amount after redeem"
+              },
+              "chargeCurrencyId" : {
+                "type" : "string",
+                "description" : "Specifies the currency of the charge amount. Allowed only when a charge amount is specified ",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "paymentOrderProductId" : {
+          "type" : "string",
+          "description" : "Indicates the payment order product for which payment is initiated",
+          "maxLength" : 35
+        },
+        "debitAccountId" : {
+          "type" : "string",
+          "description" : "Indicates the debit account number of the payment or transaction.",
+          "maxLength" : 35
+        },
+        "paymentCurrencyId" : {
+          "type" : "string",
+          "description" : "The currency of payment.",
+          "maxLength" : 35
+        },
+        "amount" : {
+          "type" : "number",
+          "description" : "This is the payment amount"
+        },
+        "beneficiaryAccountId" : {
+          "type" : "string",
+          "description" : "Unique account identifier of the beneficiary account number.",
+          "maxLength" : 35
+        },
+        "beneficiaryName" : {
+          "type" : "string",
+          "description" : "Short title or short name of the beneficiary account account",
+          "maxLength" : 35
+        },
+        "consent" : {
+          "type" : "string",
+          "description" : "This field indicates if Ordering customer has provided consent for this payment order to be initiated",
+          "maxLength" : 35
+        },
+        "paymentScheme" : {
+          "type" : "string",
+          "description" : "Payment scheme details",
+          "maxLength" : 35
+        }
+      }
+    },
+    "SepaInstantTransferResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/SepaInstantTransferResponseBody"
+        }
+      },
+      "description" : "SepaInstantTransferResponse"
+    },
+    "SepaInstantTransferResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "narratives" : {
+          "type" : "array",
+          "description" : "The additional text printed on descriptive statements in addition to the standard narrative and/or reference",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "narrative" : {
+                "type" : "string",
+                "description" : "The additional text printed on descriptive statements in addition to the standard narrative and/or reference",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "contexts" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "contextName" : {
+                "type" : "string",
+                "description" : "Field name returned by the payment engine (TPH) for information or further processing.",
+                "maxLength" : 35
+              },
+              "contextValue" : {
+                "type" : "string",
+                "description" : "Field value returned by the payment engine (TPH) for information or further processing.",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "charges" : {
+          "type" : "array",
+          "description" : "The charges or fees for this transaction",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "chargeAmount" : {
+                "type" : "number",
+                "description" : "Retrieves the Charge Amount after redeem"
+              },
+              "chargeCurrencyId" : {
+                "type" : "string",
+                "description" : "Specifies the currency of the charge amount. Allowed only when a charge amount is specified ",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "paymentOrderProductId" : {
+          "type" : "string",
+          "description" : "Indicates the payment order product for which payment is initiated",
+          "maxLength" : 35
+        },
+        "debitAccountId" : {
+          "type" : "string",
+          "description" : "Indicates the debit account number of the payment or transaction.",
+          "maxLength" : 35
+        },
+        "paymentCurrencyId" : {
+          "type" : "string",
+          "description" : "The currency of payment.",
+          "maxLength" : 35
+        },
+        "amount" : {
+          "type" : "number",
+          "description" : "This is the payment amount"
+        },
+        "beneficiaryAccountId" : {
+          "type" : "string",
+          "description" : "Unique account identifier of the beneficiary account number.",
+          "maxLength" : 35
+        },
+        "beneficiaryName" : {
+          "type" : "string",
+          "description" : "Short title or short name of the beneficiary account account",
+          "maxLength" : 35
+        },
+        "consent" : {
+          "type" : "string",
+          "description" : "This field indicates if Ordering customer has provided consent for this payment order to be initiated",
+          "maxLength" : 35
+        },
+        "paymentScheme" : {
+          "type" : "string",
+          "description" : "Payment scheme details",
+          "maxLength" : 35
+        }
+      }
+    },
+    "SepaPayment" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/SepaPaymentBody"
+        }
+      },
+      "description" : "SepaPayment"
+    },
+    "SepaPaymentBody" : {
+      "type" : "object",
+      "properties" : {
+        "narratives" : {
+          "type" : "array",
+          "description" : "The additional text printed on descriptive statements in addition to the standard narrative and/or reference",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "narrative" : {
+                "type" : "string",
+                "description" : "The additional text printed on descriptive statements in addition to the standard narrative and/or reference",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "benPostAddrLine" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "creditorAddress" : {
+                "type" : "string",
+                "description" : "Address of the creditor or beneficiary account",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "acctWithBankPostAddrLn" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "creditorBankAddress" : {
+                "type" : "string",
+                "description" : "Creditor bank address details",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "orderingPostAddrLine" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "debtorAddress" : {
+                "type" : "string",
+                "description" : "Debtor address details",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "contexts" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "contextName" : {
+                "type" : "string",
+                "description" : "Field name returned by the payment engine (TPH) for information or further processing.",
+                "maxLength" : 35
+              },
+              "contextValue" : {
+                "type" : "string",
+                "description" : "Field value returned by the payment engine (TPH) for information or further processing.",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "charges" : {
+          "type" : "array",
+          "description" : "The charges or fees for this transaction",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "chargeAmount" : {
+                "type" : "number",
+                "description" : "Retrieves the Charge Amount after redeem"
+              },
+              "chargeCurrencyId" : {
+                "type" : "string",
+                "description" : "Specifies the currency of the charge amount. Allowed only when a charge amount is specified ",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "paymentOrderProductId" : {
+          "type" : "string",
+          "description" : "Indicates the payment order product for which payment is initiated",
+          "maxLength" : 35
+        },
+        "debitAccountIBAN" : {
+          "type" : "string",
+          "description" : "International Bank Account Number (IBAN) of the debtor account, required only for International transfers/payments outside the Bank. For example: GB98 MIDL07009312345678, FR7630006000011234567890189",
+          "maxLength" : 35
+        },
+        "paymentCurrencyId" : {
+          "type" : "string",
+          "description" : "The currency of payment.",
+          "maxLength" : 35
+        },
+        "amount" : {
+          "type" : "number",
+          "description" : "This is the payment amount"
+        },
+        "beneficiaryIBAN" : {
+          "type" : "string",
+          "description" : "International Bank Account Number (IBAN) of the beneficiary account, required only for International transfers/payments outside the Bank. For example: GB98 MIDL07009312345678, FR7630006000011234567890189",
+          "maxLength" : 35
+        },
+        "purpose" : {
+          "type" : "string",
+          "description" : "Purpose identifier of the payment or transaction, for SEPA payments in general.",
+          "maxLength" : 35
+        },
+        "beneficiaryCountryCode" : {
+          "type" : "string",
+          "description" : "Creditor country code details",
+          "maxLength" : 35
+        },
+        "debtorCountryCode" : {
+          "type" : "string",
+          "description" : "Debtor country code details",
+          "maxLength" : 35
+        },
+        "orderingCustomerName" : {
+          "type" : "string",
+          "description" : "Indicates the name of Ordering Customer",
+          "maxLength" : 35
+        },
+        "endToEndReference" : {
+          "type" : "string",
+          "description" : "Indicates the end to end reference for the payment. This field can be provided by the person who instructs the payment and this flows through the lifecycle of the payment.",
+          "maxLength" : 35
+        },
+        "executionDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Date on which the transaction or payment gets processed, i.e. the processing date of the transaction."
+        },
+        "consent" : {
+          "type" : "string",
+          "description" : "This field indicates if Ordering customer has provided consent for this payment order to be initiated",
+          "maxLength" : 35
+        },
+        "beneficiaryName" : {
+          "type" : "string",
+          "description" : "Short title or short name of the beneficiary account account",
+          "maxLength" : 35
+        },
+        "accountWithBankClearingCode" : {
+          "type" : "string",
+          "description" : "This is the national clearing code or sort code of the institution where beneficiary holds an account",
+          "maxLength" : 35
+        },
+        "paymentScheme" : {
+          "type" : "string",
+          "description" : "Payment scheme details",
+          "maxLength" : 35
+        }
+      }
+    },
+    "SepaPaymentResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/SepaPaymentResponseBody"
+        }
+      },
+      "description" : "SepaPaymentResponse"
+    },
+    "SepaPaymentResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "narratives" : {
+          "type" : "array",
+          "description" : "The additional text printed on descriptive statements in addition to the standard narrative and/or reference",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "narrative" : {
+                "type" : "string",
+                "description" : "The additional text printed on descriptive statements in addition to the standard narrative and/or reference",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "benPostAddrLine" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "creditorAddress" : {
+                "type" : "string",
+                "description" : "Address of the creditor or beneficiary account",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "acctWithBankPostAddrLn" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "creditorBankAddress" : {
+                "type" : "string",
+                "description" : "Creditor bank address details",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "orderingPostAddrLine" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "debtorAddress" : {
+                "type" : "string",
+                "description" : "Debtor address details",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "contexts" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "contextName" : {
+                "type" : "string",
+                "description" : "Field name returned by the payment engine (TPH) for information or further processing.",
+                "maxLength" : 35
+              },
+              "contextValue" : {
+                "type" : "string",
+                "description" : "Field value returned by the payment engine (TPH) for information or further processing.",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "charges" : {
+          "type" : "array",
+          "description" : "The charges or fees for this transaction",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "chargeAmount" : {
+                "type" : "number",
+                "description" : "Retrieves the Charge Amount after redeem"
+              },
+              "chargeCurrencyId" : {
+                "type" : "string",
+                "description" : "Specifies the currency of the charge amount. Allowed only when a charge amount is specified ",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "paymentOrderProductId" : {
+          "type" : "string",
+          "description" : "Indicates the payment order product for which payment is initiated",
+          "maxLength" : 35
+        },
+        "debitAccountIBAN" : {
+          "type" : "string",
+          "description" : "International Bank Account Number (IBAN) of the debtor account, required only for International transfers/payments outside the Bank. For example: GB98 MIDL07009312345678, FR7630006000011234567890189",
+          "maxLength" : 35
+        },
+        "paymentCurrencyId" : {
+          "type" : "string",
+          "description" : "The currency of payment.",
+          "maxLength" : 35
+        },
+        "amount" : {
+          "type" : "number",
+          "description" : "This is the payment amount"
+        },
+        "beneficiaryIBAN" : {
+          "type" : "string",
+          "description" : "International Bank Account Number (IBAN) of the beneficiary account, required only for International transfers/payments outside the Bank. For example: GB98 MIDL07009312345678, FR7630006000011234567890189",
+          "maxLength" : 35
+        },
+        "purpose" : {
+          "type" : "string",
+          "description" : "Purpose identifier of the payment or transaction, for SEPA payments in general.",
+          "maxLength" : 35
+        },
+        "beneficiaryCountryCode" : {
+          "type" : "string",
+          "description" : "Creditor country code details",
+          "maxLength" : 35
+        },
+        "debtorCountryCode" : {
+          "type" : "string",
+          "description" : "Debtor country code details",
+          "maxLength" : 35
+        },
+        "orderingCustomerName" : {
+          "type" : "string",
+          "description" : "Indicates the name of Ordering Customer",
+          "maxLength" : 35
+        },
+        "endToEndReference" : {
+          "type" : "string",
+          "description" : "Indicates the end to end reference for the payment. This field can be provided by the person who instructs the payment and this flows through the lifecycle of the payment.",
+          "maxLength" : 35
+        },
+        "executionDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Date on which the transaction or payment gets processed, i.e. the processing date of the transaction."
+        },
+        "consent" : {
+          "type" : "string",
+          "description" : "This field indicates if Ordering customer has provided consent for this payment order to be initiated",
+          "maxLength" : 35
+        },
+        "beneficiaryName" : {
+          "type" : "string",
+          "description" : "Short title or short name of the beneficiary account account",
+          "maxLength" : 35
+        },
+        "accountWithBankClearingCode" : {
+          "type" : "string",
+          "description" : "This is the national clearing code or sort code of the institution where beneficiary holds an account",
+          "maxLength" : 35
+        },
+        "paymentScheme" : {
+          "type" : "string",
+          "description" : "Payment scheme details",
+          "maxLength" : 35
+        }
+      }
+    },
+    "SwiftPayment" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/SwiftPaymentBody"
+        }
+      },
+      "description" : "SwiftPayment"
+    },
+    "SwiftPaymentBody" : {
+      "type" : "object",
+      "properties" : {
+        "orderingPostSwiftAddress" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "debtorAddress" : {
+                "type" : "string",
+                "description" : "Debtor address details",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "benPostSwiftAddress" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "creditorAddress" : {
+                "type" : "string",
+                "description" : "Address of the creditor or beneficiary account",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "acctWithBankPostAddrLn" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "creditorBankAddress" : {
+                "type" : "string",
+                "description" : "Creditor bank address details",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "narratives" : {
+          "type" : "array",
+          "description" : "The additional text printed on descriptive statements in addition to the standard narrative and/or reference",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "narrative" : {
+                "type" : "string",
+                "description" : "The additional text printed on descriptive statements in addition to the standard narrative and/or reference",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "contexts" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "contextName" : {
+                "type" : "string",
+                "description" : "Field name returned by the payment engine (TPH) for information or further processing.",
+                "maxLength" : 35
+              },
+              "contextValue" : {
+                "type" : "string",
+                "description" : "Field value returned by the payment engine (TPH) for information or further processing.",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "charges" : {
+          "type" : "array",
+          "description" : "The charges or fees for this transaction",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "chargeAmount" : {
+                "type" : "number",
+                "description" : "Retrieves the Charge Amount after redeem"
+              },
+              "chargeCurrencyId" : {
+                "type" : "string",
+                "description" : "Specifies the currency of the charge amount. Allowed only when a charge amount is specified ",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "paymentOrderProductId" : {
+          "type" : "string",
+          "description" : "Indicates the payment order product for which payment is initiated",
+          "maxLength" : 35
+        },
+        "debitAccountId" : {
+          "type" : "string",
+          "description" : "Indicates the debit account number of the payment or transaction.",
+          "maxLength" : 35
+        },
+        "debtorCountryCode" : {
+          "type" : "string",
+          "description" : "Debtor country code details",
+          "maxLength" : 35
+        },
+        "orderingCustomerName" : {
+          "type" : "string",
+          "description" : "Indicates the name of Ordering Customer",
+          "maxLength" : 35
+        },
+        "creditorAgentId" : {
+          "type" : "string",
+          "description" : "Clearing system identifier for the beneficiary institution. Contains a valid ISO code for the clearing.",
+          "maxLength" : 35
+        },
+        "creditorBankCountryCode" : {
+          "type" : "string",
+          "description" : "Creditor bank country code details",
+          "maxLength" : 35
+        },
+        "accountWithBankBIC" : {
+          "type" : "string",
+          "description" : "This is the BIC code of the institution where beneficiary holds an account",
+          "maxLength" : 35
+        },
+        "beneficiaryCountryCode" : {
+          "type" : "string",
+          "description" : "Creditor country code details",
+          "maxLength" : 35
+        },
+        "beneficiaryName" : {
+          "type" : "string",
+          "description" : "Short title or short name of the beneficiary account account",
+          "maxLength" : 35
+        },
+        "paymentCurrencyId" : {
+          "type" : "string",
+          "description" : "The currency of payment.",
+          "maxLength" : 35
+        },
+        "amount" : {
+          "type" : "number",
+          "description" : "This is the payment amount"
+        },
+        "purpose" : {
+          "type" : "string",
+          "description" : "Purpose identifier of the payment or transaction, for SEPA payments in general.",
+          "maxLength" : 35
+        },
+        "chargeBearer" : {
+          "type" : "string",
+          "description" : "Bearer of the charges of the order. For example: BEN(All transaction charges are to be borne by the beneficiary customer.), OUR(All transaction charges are to be borne by the ordering customer.), SHA(Transaction charges on the Sender's side are to be borne by the ordering customer, transaction charges on the Receiver's side are to be borne by the beneficiary customer.)",
+          "maxLength" : 35
+        },
+        "endToEndReference" : {
+          "type" : "string",
+          "description" : "Indicates the end to end reference for the payment. This field can be provided by the person who instructs the payment and this flows through the lifecycle of the payment.",
+          "maxLength" : 35
+        },
+        "executionDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Date on which the transaction or payment gets processed, i.e. the processing date of the transaction."
+        },
+        "priority" : {
+          "type" : "string",
+          "description" : "Defines the Campaign priority",
+          "maxLength" : 35
+        },
+        "beneficiaryAccountId" : {
+          "type" : "string",
+          "description" : "Unique account identifier of the beneficiary account number.",
+          "maxLength" : 35
+        },
+        "consent" : {
+          "type" : "string",
+          "description" : "This field indicates if Ordering customer has provided consent for this payment order to be initiated",
+          "maxLength" : 35
+        },
+        "paymentScheme" : {
+          "type" : "string",
+          "description" : "Payment scheme details",
+          "maxLength" : 35
+        }
+      }
+    },
+    "SwiftPaymentResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/SwiftPaymentResponseBody"
+        }
+      },
+      "description" : "SwiftPaymentResponse"
+    },
+    "SwiftPaymentResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "orderingPostSwiftAddress" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "debtorAddress" : {
+                "type" : "string",
+                "description" : "Debtor address details",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "benPostSwiftAddress" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "creditorAddress" : {
+                "type" : "string",
+                "description" : "Address of the creditor or beneficiary account",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "acctWithBankPostAddrLn" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "creditorBankAddress" : {
+                "type" : "string",
+                "description" : "Creditor bank address details",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "narratives" : {
+          "type" : "array",
+          "description" : "The additional text printed on descriptive statements in addition to the standard narrative and/or reference",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "narrative" : {
+                "type" : "string",
+                "description" : "The additional text printed on descriptive statements in addition to the standard narrative and/or reference",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "contexts" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "contextName" : {
+                "type" : "string",
+                "description" : "Field name returned by the payment engine (TPH) for information or further processing.",
+                "maxLength" : 35
+              },
+              "contextValue" : {
+                "type" : "string",
+                "description" : "Field value returned by the payment engine (TPH) for information or further processing.",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "charges" : {
+          "type" : "array",
+          "description" : "The charges or fees for this transaction",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "chargeAmount" : {
+                "type" : "number",
+                "description" : "Retrieves the Charge Amount after redeem"
+              },
+              "chargeCurrencyId" : {
+                "type" : "string",
+                "description" : "Specifies the currency of the charge amount. Allowed only when a charge amount is specified ",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "paymentOrderProductId" : {
+          "type" : "string",
+          "description" : "Indicates the payment order product for which payment is initiated",
+          "maxLength" : 35
+        },
+        "debitAccountId" : {
+          "type" : "string",
+          "description" : "Indicates the debit account number of the payment or transaction.",
+          "maxLength" : 35
+        },
+        "debtorCountryCode" : {
+          "type" : "string",
+          "description" : "Debtor country code details",
+          "maxLength" : 35
+        },
+        "orderingCustomerName" : {
+          "type" : "string",
+          "description" : "Indicates the name of Ordering Customer",
+          "maxLength" : 35
+        },
+        "creditorAgentId" : {
+          "type" : "string",
+          "description" : "Clearing system identifier for the beneficiary institution. Contains a valid ISO code for the clearing.",
+          "maxLength" : 35
+        },
+        "creditorBankCountryCode" : {
+          "type" : "string",
+          "description" : "Creditor bank country code details",
+          "maxLength" : 35
+        },
+        "accountWithBankBIC" : {
+          "type" : "string",
+          "description" : "This is the BIC code of the institution where beneficiary holds an account",
+          "maxLength" : 35
+        },
+        "beneficiaryCountryCode" : {
+          "type" : "string",
+          "description" : "Creditor country code details",
+          "maxLength" : 35
+        },
+        "beneficiaryName" : {
+          "type" : "string",
+          "description" : "Short title or short name of the beneficiary account account",
+          "maxLength" : 35
+        },
+        "paymentCurrencyId" : {
+          "type" : "string",
+          "description" : "The currency of payment.",
+          "maxLength" : 35
+        },
+        "amount" : {
+          "type" : "number",
+          "description" : "This is the payment amount"
+        },
+        "purpose" : {
+          "type" : "string",
+          "description" : "Purpose identifier of the payment or transaction, for SEPA payments in general.",
+          "maxLength" : 35
+        },
+        "chargeBearer" : {
+          "type" : "string",
+          "description" : "Bearer of the charges of the order. For example: BEN(All transaction charges are to be borne by the beneficiary customer.), OUR(All transaction charges are to be borne by the ordering customer.), SHA(Transaction charges on the Sender's side are to be borne by the ordering customer, transaction charges on the Receiver's side are to be borne by the beneficiary customer.)",
+          "maxLength" : 35
+        },
+        "endToEndReference" : {
+          "type" : "string",
+          "description" : "Indicates the end to end reference for the payment. This field can be provided by the person who instructs the payment and this flows through the lifecycle of the payment.",
+          "maxLength" : 35
+        },
+        "executionDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Date on which the transaction or payment gets processed, i.e. the processing date of the transaction."
+        },
+        "priority" : {
+          "type" : "string",
+          "description" : "Defines the Campaign priority",
+          "maxLength" : 35
+        },
+        "beneficiaryAccountId" : {
+          "type" : "string",
+          "description" : "Unique account identifier of the beneficiary account number.",
+          "maxLength" : 35
+        },
+        "consent" : {
+          "type" : "string",
+          "description" : "This field indicates if Ordering customer has provided consent for this payment order to be initiated",
+          "maxLength" : 35
+        },
+        "paymentScheme" : {
+          "type" : "string",
+          "description" : "Payment scheme details",
+          "maxLength" : 35
+        }
+      }
+    },
+    "FasterPayment" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/FasterPaymentBody"
+        }
+      },
+      "description" : "FasterPayment"
+    },
+    "FasterPaymentBody" : {
+      "type" : "object",
+      "properties" : {
+        "orderingPostSwiftAddress" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "debtorAddress" : {
+                "type" : "string",
+                "description" : "Debtor address details",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "benPostSwiftAddress" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "creditorAddress" : {
+                "type" : "string",
+                "description" : "Address of the creditor or beneficiary account",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "acctWithBankPostAddrLn" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "creditorBankAddress" : {
+                "type" : "string",
+                "description" : "Creditor bank address details",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "narratives" : {
+          "type" : "array",
+          "description" : "The additional text printed on descriptive statements in addition to the standard narrative and/or reference",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "narrative" : {
+                "type" : "string",
+                "description" : "The additional text printed on descriptive statements in addition to the standard narrative and/or reference",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "contexts" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "contextName" : {
+                "type" : "string",
+                "description" : "Field name returned by the payment engine (TPH) for information or further processing.",
+                "maxLength" : 35
+              },
+              "contextValue" : {
+                "type" : "string",
+                "description" : "Field value returned by the payment engine (TPH) for information or further processing.",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "charges" : {
+          "type" : "array",
+          "description" : "The charges or fees for this transaction",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "chargeAmount" : {
+                "type" : "number",
+                "description" : "Retrieves the Charge Amount after redeem"
+              },
+              "chargeCurrencyId" : {
+                "type" : "string",
+                "description" : "Specifies the currency of the charge amount. Allowed only when a charge amount is specified ",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "paymentOrderProductId" : {
+          "type" : "string",
+          "description" : "Indicates the payment order product for which payment is initiated",
+          "maxLength" : 35
+        },
+        "debitAccountId" : {
+          "type" : "string",
+          "description" : "Indicates the debit account number of the payment or transaction.",
+          "maxLength" : 35
+        },
+        "debtorSortCode" : {
+          "type" : "string",
+          "description" : "Debtor sort code details",
+          "maxLength" : 35
+        },
+        "debtorCountryCode" : {
+          "type" : "string",
+          "description" : "Debtor country code details",
+          "maxLength" : 35
+        },
+        "orderingCustomerName" : {
+          "type" : "string",
+          "description" : "Indicates the name of Ordering Customer",
+          "maxLength" : 35
+        },
+        "creditorSortCode" : {
+          "type" : "string",
+          "description" : "Creditor sort code details",
+          "maxLength" : 35
+        },
+        "beneficiaryIBAN" : {
+          "type" : "string",
+          "description" : "International Bank Account Number (IBAN) of the beneficiary account, required only for International transfers/payments outside the Bank. For example: GB98 MIDL07009312345678, FR7630006000011234567890189",
+          "maxLength" : 35
+        },
+        "creditorAgentId" : {
+          "type" : "string",
+          "description" : "Clearing system identifier for the beneficiary institution. Contains a valid ISO code for the clearing.",
+          "maxLength" : 35
+        },
+        "creditorBankCountryCode" : {
+          "type" : "string",
+          "description" : "Creditor bank country code details",
+          "maxLength" : 35
+        },
+        "accountWithBankBIC" : {
+          "type" : "string",
+          "description" : "This is the BIC code of the institution where beneficiary holds an account",
+          "maxLength" : 35
+        },
+        "purpose" : {
+          "type" : "string",
+          "description" : "Purpose identifier of the payment or transaction, for SEPA payments in general.",
+          "maxLength" : 35
+        },
+        "beneficiaryCountryCode" : {
+          "type" : "string",
+          "description" : "Creditor country code details",
+          "maxLength" : 35
+        },
+        "beneficiaryName" : {
+          "type" : "string",
+          "description" : "Short title or short name of the beneficiary account account",
+          "maxLength" : 35
+        },
+        "paymentCurrencyId" : {
+          "type" : "string",
+          "description" : "The currency of payment.",
+          "maxLength" : 35
+        },
+        "amount" : {
+          "type" : "number",
+          "description" : "This is the payment amount"
+        },
+        "endToEndReference" : {
+          "type" : "string",
+          "description" : "Indicates the end to end reference for the payment. This field can be provided by the person who instructs the payment and this flows through the lifecycle of the payment.",
+          "maxLength" : 35
+        },
+        "executionDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Date on which the transaction or payment gets processed, i.e. the processing date of the transaction."
+        },
+        "priority" : {
+          "type" : "string",
+          "description" : "Defines the Campaign priority",
+          "maxLength" : 35
+        },
+        "consent" : {
+          "type" : "string",
+          "description" : "This field indicates if Ordering customer has provided consent for this payment order to be initiated",
+          "maxLength" : 35
+        },
+        "paymentScheme" : {
+          "type" : "string",
+          "description" : "Payment scheme details",
+          "maxLength" : 35
+        }
+      }
+    },
+    "FasterPaymentResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/FasterPaymentResponseBody"
+        }
+      },
+      "description" : "FasterPaymentResponse"
+    },
+    "FasterPaymentResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "orderingPostSwiftAddress" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "debtorAddress" : {
+                "type" : "string",
+                "description" : "Debtor address details",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "benPostSwiftAddress" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "creditorAddress" : {
+                "type" : "string",
+                "description" : "Address of the creditor or beneficiary account",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "acctWithBankPostAddrLn" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "creditorBankAddress" : {
+                "type" : "string",
+                "description" : "Creditor bank address details",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "narratives" : {
+          "type" : "array",
+          "description" : "The additional text printed on descriptive statements in addition to the standard narrative and/or reference",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "narrative" : {
+                "type" : "string",
+                "description" : "The additional text printed on descriptive statements in addition to the standard narrative and/or reference",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "contexts" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "contextName" : {
+                "type" : "string",
+                "description" : "Field name returned by the payment engine (TPH) for information or further processing.",
+                "maxLength" : 35
+              },
+              "contextValue" : {
+                "type" : "string",
+                "description" : "Field value returned by the payment engine (TPH) for information or further processing.",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "charges" : {
+          "type" : "array",
+          "description" : "The charges or fees for this transaction",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "chargeAmount" : {
+                "type" : "number",
+                "description" : "Retrieves the Charge Amount after redeem"
+              },
+              "chargeCurrencyId" : {
+                "type" : "string",
+                "description" : "Specifies the currency of the charge amount. Allowed only when a charge amount is specified ",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "paymentOrderProductId" : {
+          "type" : "string",
+          "description" : "Indicates the payment order product for which payment is initiated",
+          "maxLength" : 35
+        },
+        "debitAccountId" : {
+          "type" : "string",
+          "description" : "Indicates the debit account number of the payment or transaction.",
+          "maxLength" : 35
+        },
+        "debtorSortCode" : {
+          "type" : "string",
+          "description" : "Debtor sort code details",
+          "maxLength" : 35
+        },
+        "debtorCountryCode" : {
+          "type" : "string",
+          "description" : "Debtor country code details",
+          "maxLength" : 35
+        },
+        "orderingCustomerName" : {
+          "type" : "string",
+          "description" : "Indicates the name of Ordering Customer",
+          "maxLength" : 35
+        },
+        "creditorSortCode" : {
+          "type" : "string",
+          "description" : "Creditor sort code details",
+          "maxLength" : 35
+        },
+        "beneficiaryIBAN" : {
+          "type" : "string",
+          "description" : "International Bank Account Number (IBAN) of the beneficiary account, required only for International transfers/payments outside the Bank. For example: GB98 MIDL07009312345678, FR7630006000011234567890189",
+          "maxLength" : 35
+        },
+        "creditorAgentId" : {
+          "type" : "string",
+          "description" : "Clearing system identifier for the beneficiary institution. Contains a valid ISO code for the clearing.",
+          "maxLength" : 35
+        },
+        "creditorBankCountryCode" : {
+          "type" : "string",
+          "description" : "Creditor bank country code details",
+          "maxLength" : 35
+        },
+        "accountWithBankBIC" : {
+          "type" : "string",
+          "description" : "This is the BIC code of the institution where beneficiary holds an account",
+          "maxLength" : 35
+        },
+        "purpose" : {
+          "type" : "string",
+          "description" : "Purpose identifier of the payment or transaction, for SEPA payments in general.",
+          "maxLength" : 35
+        },
+        "beneficiaryCountryCode" : {
+          "type" : "string",
+          "description" : "Creditor country code details",
+          "maxLength" : 35
+        },
+        "beneficiaryName" : {
+          "type" : "string",
+          "description" : "Short title or short name of the beneficiary account account",
+          "maxLength" : 35
+        },
+        "paymentCurrencyId" : {
+          "type" : "string",
+          "description" : "The currency of payment.",
+          "maxLength" : 35
+        },
+        "amount" : {
+          "type" : "number",
+          "description" : "This is the payment amount"
+        },
+        "endToEndReference" : {
+          "type" : "string",
+          "description" : "Indicates the end to end reference for the payment. This field can be provided by the person who instructs the payment and this flows through the lifecycle of the payment.",
+          "maxLength" : 35
+        },
+        "executionDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Date on which the transaction or payment gets processed, i.e. the processing date of the transaction."
+        },
+        "priority" : {
+          "type" : "string",
+          "description" : "Defines the Campaign priority",
+          "maxLength" : 35
+        },
+        "consent" : {
+          "type" : "string",
+          "description" : "This field indicates if Ordering customer has provided consent for this payment order to be initiated",
+          "maxLength" : 35
+        },
+        "paymentScheme" : {
+          "type" : "string",
+          "description" : "Payment scheme details",
+          "maxLength" : 35
+        }
+      }
+    },
+    "ExternalPaymentOrder" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ExternalPaymentOrderBody"
+        }
+      },
+      "description" : "ExternalPaymentOrder"
+    },
+    "ExternalPaymentOrderBody" : {
+      "type" : "object",
+      "properties" : {
+        "internalStatus" : {
+          "type" : "string",
+          "description" : "This indicates a full description of payment purpose code. i.e. purpose of the instruction based on a set of pre-defined categories.",
+          "maxLength" : 14
+        },
+        "cancellationReason" : {
+          "type" : "string",
+          "description" : "The reason for the cancellation",
+          "maxLength" : 35
+        },
+        "remarks" : {
+          "type" : "string",
+          "description" : "General comments / notes.",
+          "maxLength" : 35
+        },
+        "initiator" : {
+          "type" : "string",
+          "description" : "Initiator details of the payment",
+          "maxLength" : 35
+        }
+      }
+    },
+    "ExternalPaymentOrderResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ExternalPaymentOrderResponseBody"
+        }
+      },
+      "description" : "ExternalPaymentOrderResponse"
+    },
+    "ExternalPaymentOrderResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "internalStatus" : {
+          "type" : "string",
+          "description" : "This indicates a full description of payment purpose code. i.e. purpose of the instruction based on a set of pre-defined categories.",
+          "maxLength" : 14
+        },
+        "cancellationReason" : {
+          "type" : "string",
+          "description" : "The reason for the cancellation",
+          "maxLength" : 35
+        },
+        "remarks" : {
+          "type" : "string",
+          "description" : "General comments / notes.",
+          "maxLength" : 35
+        },
+        "initiator" : {
+          "type" : "string",
+          "description" : "Initiator details of the payment",
+          "maxLength" : 35
+        }
+      }
+    },
+    "ISOClearingCodesResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ISOClearingCodesResponseBody"
+        }
+      },
+      "description" : "ISOClearingCodesResponse"
+    },
+    "ISOClearingCodesResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "clearingId" : {
+            "type" : "string",
+            "description" : "Clearing channel specific details",
+            "maxLength" : 35
+          },
+          "displayName" : {
+            "type" : "string",
+            "description" : "Name used for display or enrichment purposes",
+            "maxLength" : 65
+          },
+          "swiftPrefix" : {
+            "type" : "string",
+            "description" : "Prefix of country specific details in payments method",
+            "maxLength" : 6
+          },
+          "countryShortName" : {
+            "type" : "string",
+            "description" : "Short name of country details",
+            "maxLength" : 2
+          }
+        }
+      }
+    },
+    "GPIPaymentStatus" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/GPIPaymentStatusBody"
+        }
+      },
+      "description" : "GPIPaymentStatus"
+    },
+    "GPIPaymentStatusBody" : {
+      "type" : "object",
+      "properties" : {
+        "UETRId" : {
+          "type" : "string",
+          "description" : "Unique transaction reference details for payments",
+          "maxLength" : 6
+        },
+        "paymentReference" : {
+          "type" : "string",
+          "description" : "Payment reference details",
+          "maxLength" : 16
+        },
+        "requestMessage" : {
+          "type" : "string",
+          "description" : "User requested message details",
+          "maxLength" : 14
+        },
+        "responseMessage" : {
+          "type" : "string",
+          "description" : "Message  from bank details",
+          "maxLength" : 15
+        }
+      }
+    },
+    "GPIPaymentStatusResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/GPIPaymentStatusResponseBody"
+        }
+      },
+      "description" : "GPIPaymentStatusResponse"
+    },
+    "GPIPaymentStatusResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "UETRId" : {
+          "type" : "string",
+          "description" : "Unique transaction reference details for payments",
+          "maxLength" : 6
+        },
+        "paymentReference" : {
+          "type" : "string",
+          "description" : "Payment reference details",
+          "maxLength" : 16
+        },
+        "requestMessage" : {
+          "type" : "string",
+          "description" : "User requested message details",
+          "maxLength" : 14
+        },
+        "responseMessage" : {
+          "type" : "string",
+          "description" : "Message  from bank details",
+          "maxLength" : 15
+        }
+      }
+    },
+    "PORTrackingResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/PORTrackingResponseBody"
+        }
+      },
+      "description" : "PORTrackingResponse"
+    },
+    "PORTrackingResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "transactionDetails" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "messageNameIdentification" : {
+                  "type" : "string",
+                  "description" : "Message name identification details"
+                }
+              }
+            }
+          },
+          "uniqueTransactionReference" : {
+            "type" : "string",
+            "description" : "Unique transaction reference details"
+          },
+          "paymentSystemId" : {
+            "type" : "string",
+            "description" : "Payment system id details"
+          },
+          "transactionAmount" : {
+            "type" : "string",
+            "description" : "Contains the transaction amount. This is based on the currency, either local or foreign currency"
+          },
+          "endToEndReference" : {
+            "type" : "string",
+            "description" : "Indicates the end to end reference for the payment. This field can be provided by the person who instructs the payment and this flows through the lifecycle of the payment."
+          },
+          "paymentDirection" : {
+            "type" : "string",
+            "description" : "Indicates the direction of payment i.e. incoming, outgoing, book or redirect"
+          },
+          "companyId" : {
+            "type" : "string",
+            "description" : "The identifier of the underlying Entity/Company/Branch."
+          },
+          "instructedAmount" : {
+            "type" : "string",
+            "description" : "Specifies the amount which is allocated or instructed for the account reference included in the selection for a specific transaction."
+          },
+          "instructedCurrencyCode" : {
+            "type" : "string",
+            "description" : "Instructed currency code details"
+          },
+          "completionTime" : {
+            "type" : "string",
+            "description" : "Payment completion time details"
+          },
+          "initiationTime" : {
+            "type" : "string",
+            "description" : "Initiation of the payment time details"
+          },
+          "confirmedAmount" : {
+            "type" : "string",
+            "description" : "Confirmed amount details"
+          },
+          "confirmedAmountCurrency" : {
+            "type" : "string",
+            "description" : "Confirmed amount currency details"
+          },
+          "finalChargeAmount" : {
+            "type" : "string",
+            "description" : "Total amount details of payment inclusive of charges"
+          },
+          "transactionEventType" : {
+            "type" : "string",
+            "description" : "Transaction event type details"
+          },
+          "debtorAgent" : {
+            "type" : "string",
+            "description" : "Debtor agent details"
+          },
+          "totalDuration" : {
+            "type" : "string",
+            "description" : "Payment total duration details"
+          },
+          "overallStatusCode" : {
+            "type" : "string",
+            "description" : "Overall status code details of the payment"
+          },
+          "partyCompanyName" : {
+            "type" : "string",
+            "description" : "Debtor company name details"
+          },
+          "partyCompanyBIC" : {
+            "type" : "string",
+            "description" : "Debtor company BIC details"
+          },
+          "partyCompanyFlag" : {
+            "type" : "string",
+            "description" : "Debtor company flag details"
+          },
+          "partyCountryName" : {
+            "type" : "string",
+            "description" : "Debtor country name details"
+          },
+          "partyCreationTime" : {
+            "type" : "string",
+            "description" : "Debtor creation time details of the payment"
+          },
+          "partySendersReferenceOutgoing" : {
+            "type" : "string",
+            "description" : "Debtor payment reference details of outgoing "
+          },
+          "partySendersReferenceIncoming" : {
+            "type" : "string",
+            "description" : "Debtor payment reference details of incoming"
+          },
+          "beneficiaryCompanyName" : {
+            "type" : "string",
+            "description" : "Creditor company name details"
+          },
+          "beneficiaryCompanyBIC" : {
+            "type" : "string",
+            "description" : "Creditor company BIC details"
+          },
+          "beneficiaryCompanyFlag" : {
+            "type" : "string",
+            "description" : "Creditor company flag details"
+          },
+          "beneficiaryCountryName" : {
+            "type" : "string",
+            "description" : "Creditor country name details"
+          },
+          "beneficiaryReceivedDateTime" : {
+            "type" : "string",
+            "description" : "Creditor payment received date time details"
+          },
+          "beneficiaryCompletionTime" : {
+            "type" : "string",
+            "description" : "Creditor payment completion time details"
+          },
+          "beneficiaryDeducts" : {
+            "type" : "string",
+            "description" : "Payment deduction details for creditor"
+          },
+          "beneficiaryTotalDuration" : {
+            "type" : "string",
+            "description" : "Payment total duration details for receiver"
+          },
+          "partyAccountNumber" : {
+            "type" : "string",
+            "description" : "Ordering party account number"
+          },
+          "partyCustomerName" : {
+            "type" : "string",
+            "description" : "Ordering party customer name"
+          },
+          "beneficiaryAccountNumber" : {
+            "type" : "string",
+            "description" : "Receiving party account number"
+          },
+          "beneficiaryCustomerName" : {
+            "type" : "string",
+            "description" : "Receiving party customer name"
+          }
+        }
+      }
+    },
+    "PORTransactionsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/PORTransactionsResponseBody"
+        }
+      },
+      "description" : "PORTransactionsResponse"
+    },
+    "PORTransactionsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "creditValueDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "Reference quoted by the credit account for a payment"
+          },
+          "displayName" : {
+            "type" : "string",
+            "description" : "Name used for display or enrichment purposes",
+            "maxLength" : 255
+          },
+          "GPIStatus" : {
+            "type" : "string",
+            "description" : "This field to store the GPI status as received in gpi confirmation tracker",
+            "maxLength" : 36
+          },
+          "amount" : {
+            "type" : "number",
+            "description" : "This is the payment amount"
+          },
+          "currencyId" : {
+            "type" : "string",
+            "description" : "Identifier of the currency. This is the 3-letter ISO 4217 code of the currency.",
+            "maxLength" : 3
+          },
+          "transactionId" : {
+            "type" : "string",
+            "description" : "Unique transaction identifier for retrieving the details of the transaction. For example: FT0102030333 etc.",
+            "maxLength" : 16
+          },
+          "orderingName" : {
+            "type" : "string",
+            "description" : "Ordering customer name details",
+            "maxLength" : 255
+          }
+        }
+      }
+    }
+  }
+}

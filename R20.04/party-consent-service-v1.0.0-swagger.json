@@ -1,0 +1,100 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Allows you create, update and query customer consent",
+    "version" : "v1.0.0",
+    "title" : "Order API"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api",
+  "schemes" : [ "https" ],
+  "paths" : {
+    "/party/customers/{customerId}/consents" : {
+      "post" : {
+        "operationId" : "createConsentItem",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "customerId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "100384"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/createConsentItem"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "createPaymentStopResponse",
+            "schema" : {
+              "$ref" : "#/definitions/createConsentItemResponse"
+            }
+          },
+          "default" : {
+            "description" : "createPaymentStopErorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/createConsentItemErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "PayloadHeader" : {
+      "type" : "object",
+      "properties" : {
+        "override_acceptId" : {
+          "type" : "string"
+        }
+      }
+    },
+    "createConsentItem" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/createConsentItemBody"
+        }
+      },
+      "description" : "createPaymentStop"
+    },
+    "createConsentItemBody" : {
+      "type" : "object",
+      "properties" : {
+        "stops" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "stopTypeId" : {
+                "type" : "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "createConsentItemResponse" : {
+      "type" : "object",
+      "properties" : {
+        "consentItemId" : {
+          "type" : "string"
+        }
+      }
+    },
+    "createConsentItemErrorResponse" : {
+      "type" : "object",
+      "properties" : {
+        "error" : {
+          "type" : "string"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,128 @@
+openapi: 3.0.0
+info:
+  title: Callback Registry
+  description: >-
+    API allows applications to register client application's call back url in the call back registry microservice. In the event of long running transactions, the client applications are notified with the result of the transactions on the registered url once the transaction processing has completed. In addition, the record keeping system (transact) uses the api to publish transaction results as events to the  callback registry.
+  version: 1.0.0
+tags:
+  - name: callbackregistry
+    description: A collections of APIs to create callback registry entries and also to receive transaction results as events.
+servers:
+- url: http://localhost:8085//ms-callbackregistry-api/api/v1.0.0
+paths:
+  /callbackregistry/callbacks:
+    post:
+      summary: Adds callback url in the callback registry
+      description: Registers the callback request received from the API end point and helps to deliver an event based on the registered url.  
+      operationId: CreateCallback
+      tags:
+        - 'callbackregistry'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Callback'
+      responses:
+        '200':
+          description: Created callback succeess response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Callback'
+  /callbackregistry/events:
+    post:
+      summary: Receives transaction processed events    
+      description: Receives transaction processed events from record keeping system and initiate delivery of events using registered callback url.  
+      operationId: AcceptEvent
+      tags:
+        - 'callbackregistry'      
+      requestBody:
+         required: true 
+         content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventMessage'
+      responses:
+        '200':
+          description: Success response from source keeping system for a transaction processed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventResponse'       
+components:
+  schemas:
+    Callback:
+      properties:
+        eventId:
+          type: string
+          description: Identifier of an event. 
+        eventType:
+          type: string
+          description: Indicates the type of operation/command executed in the record keeping system. 
+        keyFieldsData:
+          type: string
+          description: Indicates key field data related to event.
+        status:
+          type: string
+          description: Indicates the status of event.
+        callbackUrl:
+          type: string
+          description: Indicates client application Url to perform callback.
+        expiry:
+          type: number
+          format: integer
+          description: Indicates expiry timeout of event in millisecounds.
+      example: 
+        eventId: "5b7f3e84-1c6f-4a0d-aacc-13aaae5c583b"
+        eventType: "CREATE.PAYMENT.ORDER"
+        keyFieldsData: "id=FAZEB0QA15B"
+        status: "Processed"
+        callbackUrl: "http://localhost:8080/callback"
+        expiry: 30000
+    EventMessage:
+      properties:
+        eventType:
+          type: string
+          description: Indicates the type of event.Indicate type of operation/command executed in the record keeping system
+        message:
+          type: string
+          description: Indicates message along with event.
+      example: 
+        eventType: "CREATE.PAYMENT.ORDER"
+        message: "Payment order created successfully"
+    Data:
+      properties:
+        eventType:
+          type: string
+          description: Indicates the type of event. Identifies type of operation/command executed in the record keeping system
+        keys:
+          type: array
+          description: Array of keys, which related to events.
+          items:
+            type: string
+      example: 
+        eventType: "CREATE.PAYMENT.ORDER"
+        keys: ["FAZEB0QA15B"]
+    ErrorDetails:
+      properties:
+        error:
+          type: string
+          description: Contains short error message.
+        status:
+          type: number
+          format: biginteger
+          description: Status code of an error.
+        message:
+          type: string
+          description: Detailed messages of an error.
+      example: 
+        error: ""
+        status:
+        message: ""
+    EventResponse:
+      properties:
+        errors:
+          $ref: '#/components/schemas/ErrorDetails'
+        data:
+          $ref: '#/components/schemas/Data'

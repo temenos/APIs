@@ -1,0 +1,1940 @@
+{
+    "swagger": "2.0",
+    "info":
+    {
+        "description": "Creates a Three Year Bond",
+        "version": "v1.0.0",
+        "title": "createThreeYearBond"
+    },
+    "host": "api.server.com",
+    "basePath": "/api/v1.0.0/",
+    "schemes": ["http", "https"],
+    "security": [
+    {
+        "basicAuth": []
+    }],
+    "paths":
+    {
+        "/holdings/deposits/threeYearBonds":
+        {
+            "post":
+            {
+                "operationId": "createThreeYearBond",
+                "produces": ["application/json"],
+                "description": "Create a three year savings bond",
+                "parameters": [
+                {
+                    "in": "body",
+                    "name": "payload",
+                    "required": true,
+                    "schema":
+                    {
+                        "$ref": "#/definitions/holdingsThreeYearBond"
+                    }
+                },
+                {
+                    "name": "credentials",
+                    "in": "query",
+                    "required": false,
+                    "type": "string"
+                },
+                {
+                    "name": "companyId",
+                    "in": "query",
+                    "required": false,
+                    "type": "string"
+                }],
+                "responses":
+                {
+                    "200":
+                    {
+                        "description": "createThreeYearBondResponse",
+                        "schema":
+                        {
+                            "$ref": "#/definitions/holdingsThreeYearBondResponse"
+                        }
+                    },
+                    "default":
+                    {
+                        "description": "ArrangementErrorResponse",
+                        "schema":
+                        {
+                            "$ref": "#/definitions/ArrangementErrorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "securityDefinitions":
+    {
+        "basicAuth":
+        {
+            "type": "basic"
+        }
+    },
+    "definitions":
+    {
+        "PayloadHeader":
+        {
+            "properties":
+            {
+                "override":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "overrideDetails":
+                        {
+                            "type": "array",
+                            "items":
+                            {
+                                "type": "object",
+                                "properties":
+                                {
+                                    "id":
+                                    {
+                                        "type": "string",
+                                        "description": "The identifier of the override"
+                                    },
+                                    "description":
+                                    {
+                                        "type": "string",
+                                        "description": "The actual override message"
+                                    },
+                                    "responseCode":
+                                    {
+                                        "type": "string",
+                                        "description": "The user input to accept/reject the override."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "audit":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "versionNumber":
+                        {
+                            "type": "string",
+                            "description": "The CURR.NO. of the record"
+                        }
+                    }
+                }
+            }
+        },
+        "holdingsThreeYearBond":
+        {
+            "properties":
+            {
+                "header":
+                {
+                    "$ref": "#/definitions/PayloadHeader"
+                },
+                "body":
+                {
+                    "$ref": "#/definitions/holdingsThreeYearBondBody"
+                }
+            },
+            "description": "holdingsThreeYearBond"
+        },
+        "holdingsThreeYearBondBody":
+        {
+            "type": "object",
+            "properties":
+            {
+                "parties":
+                {
+                    "type": "array",
+                    "description": "",
+                    "items":
+                    {
+                        "type": "object",
+                        "properties":
+                        {
+                            "partyId":
+                            {
+                                "type": "string",
+                                "description": "Allows capturing of customers or person entities to be part of the relationship. If partyType is selected as Customer, then the system will allow only customer Ids to be captured into this field. If partyType is selected as Person or Entity, then system will allow only personEntity Ids to be captured into this field."
+                            },
+                            "partyRole":
+                            {
+                                "type": "string",
+                                "description": "The role of the customer on the account - select from standard list"
+                            }
+                        }
+                    }
+                },
+                "activityId":
+                {
+                    "type": "string",
+                    "description": "Id of the activity, e.g. ACCOUNTS-CAPITALISE-ACCHARGE*CARDISSUEFEE"
+                },
+                "effectiveDate":
+                {
+                    "type": "string",
+                    "format": "date",
+                    "description": "The date on which the principal movement is effected"
+                },
+                "productId":
+                {
+                    "type": "string",
+                    "description": "Id of the product."
+                },
+                "currencyId":
+                {
+                    "type": "string",
+                    "description": "Identifier of the currency. This is the 3-letter ISO 4217 code of the currency."
+                },
+                "simulationId":
+                {
+                    "type": "string",
+                    "description": ""
+                },
+                "settlement":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "settlement":
+                        {
+                            "type": "array",
+                            "description": "The Account number, arrangement id or Portfolio No, subscribing to the alerts. ",
+                            "items":
+                            {
+                                "type": "object",
+                                "properties":
+                                {
+                                    "payinSettlement":
+                                    {
+                                        "type": "string",
+                                        "description": ""
+                                    },
+                                    "payoutSettlement":
+                                    {
+                                        "type": "string",
+                                        "description": ""
+                                    },
+                                    "reference":
+                                    {
+                                        "type": "array",
+                                        "items":
+                                        {
+                                            "type": "object",
+                                            "properties":
+                                            {
+                                                "ddMandateReference":
+                                                {
+                                                    "type": "string",
+                                                    "format": "date",
+                                                    "description": ""
+                                                },
+                                                "payinAccount":
+                                                {
+                                                    "type": "string",
+                                                    "description": ""
+                                                },
+                                                "payinBeneficiary":
+                                                {
+                                                    "type": "string",
+                                                    "description": ""
+                                                },
+                                                "payinPercentage":
+                                                {
+                                                    "type": "number",
+                                                    "description": ""
+                                                },
+                                                "payinAmount":
+                                                {
+                                                    "type": "number",
+                                                    "description": ""
+                                                },
+                                                "payoutAccount":
+                                                {
+                                                    "type": "string",
+                                                    "description": "The account to which a settlement amount is transferred."
+                                                },
+                                                "payoutBeneficiary":
+                                                {
+                                                    "type": "string",
+                                                    "description": "The beneficiary that payment should be made to ."
+                                                },
+                                                "payoutPercentage":
+                                                {
+                                                    "type": "number",
+                                                    "description": ""
+                                                },
+                                                "payoutAmount":
+                                                {
+                                                    "type": "number",
+                                                    "description": ""
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "assocSettlement":
+                        {
+                            "type": "array",
+                            "description": "The Account number, arrangement id or Portfolio No, subscribing to the alerts. ",
+                            "items":
+                            {
+                                "type": "object",
+                                "properties":
+                                {
+                                    "payinSettlement":
+                                    {
+                                        "type": "string",
+                                        "description": ""
+                                    },
+                                    "payinRule":
+                                    {
+                                        "type": "string",
+                                        "description": ""
+                                    },
+                                    "payinSettlementActivity":
+                                    {
+                                        "type": "string",
+                                        "description": ""
+                                    },
+                                    "payinRCType":
+                                    {
+                                        "type": "string",
+                                        "description": ""
+                                    },
+                                    "payinRCCondition":
+                                    {
+                                        "type": "string",
+                                        "description": ""
+                                    },
+                                    "reference":
+                                    {
+                                        "type": "array",
+                                        "items":
+                                        {
+                                            "type": "object",
+                                            "properties":
+                                            {
+                                                "payinAccount":
+                                                {
+                                                    "type": "string",
+                                                    "description": ""
+                                                },
+                                                "payinBeneficiary":
+                                                {
+                                                    "type": "string",
+                                                    "description": ""
+                                                },
+                                                "payinPOProduct":
+                                                {
+                                                    "type": "string",
+                                                    "description": ""
+                                                },
+                                                "payinPercentage":
+                                                {
+                                                    "type": "number",
+                                                    "description": ""
+                                                },
+                                                "payinAmount":
+                                                {
+                                                    "type": "number",
+                                                    "description": ""
+                                                },
+                                                "payinActivity":
+                                                {
+                                                    "type": "string",
+                                                    "description": ""
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "asscoSettlement":
+                        {
+                            "type": "array",
+                            "description": "The Account number, arrangement id or Portfolio No, subscribing to the alerts. ",
+                            "items":
+                            {
+                                "type": "object",
+                                "properties":
+                                {
+                                    "reference":
+                                    {
+                                        "type": "array",
+                                        "items":
+                                        {
+                                            "type": "object",
+                                            "properties":
+                                            {
+                                                "ddMandateReference":
+                                                {
+                                                    "type": "string",
+                                                    "format": "date",
+                                                    "description": ""
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "payout":
+                        {
+                            "type": "array",
+                            "description": "Id of the product property",
+                            "items":
+                            {
+                                "type": "object",
+                                "properties":
+                                {
+                                    "payoutSettlement":
+                                    {
+                                        "type": "string",
+                                        "description": ""
+                                    },
+                                    "payoutSettlementActivity":
+                                    {
+                                        "type": "string",
+                                        "description": ""
+                                    },
+                                    "property":
+                                    {
+                                        "type": "array",
+                                        "items":
+                                        {
+                                            "type": "object",
+                                            "properties":
+                                            {
+                                                "payoutPropertyClass":
+                                                {
+                                                    "type": "string",
+                                                    "description": ""
+                                                },
+                                                "payoutProperty":
+                                                {
+                                                    "type": "string",
+                                                    "description": ""
+                                                },
+                                                "payoutAccount":
+                                                {
+                                                    "type": "string",
+                                                    "description": "The account to which a settlement amount is transferred."
+                                                },
+                                                "payoutBeneficiary":
+                                                {
+                                                    "type": "string",
+                                                    "description": "The beneficiary that payment should be made to ."
+                                                },
+                                                "payoutPOProduct":
+                                                {
+                                                    "type": "string",
+                                                    "description": ""
+                                                },
+                                                "payoutPercentage":
+                                                {
+                                                    "type": "number",
+                                                    "description": ""
+                                                },
+                                                "payoutAmount":
+                                                {
+                                                    "type": "number",
+                                                    "description": ""
+                                                },
+                                                "payoutActivity":
+                                                {
+                                                    "type": "string",
+                                                    "description": ""
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "paymentType":
+                        {
+                            "type": "string",
+                            "description": "Indicates if the payment is Customer (C) type or Bank (B) type"
+                        },
+                        "defaultSettlementAccount":
+                        {
+                            "type": "string",
+                            "description": ""
+                        }
+                    }
+                },
+                "commitment":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "amount":
+                        {
+                            "type": "number",
+                            "description": "This is the payment amount"
+                        },
+                        "changeAmount":
+                        {
+                            "type": "number",
+                            "description": ""
+                        },
+                        "term":
+                        {
+                            "type": "string",
+                            "description": "Indicates the period to which the BID and OFFER rates apply"
+                        },
+                        "revolving":
+                        {
+                            "type": "string",
+                            "description": "",
+                            "enum": ["NO", "PAYMENT", "PREPAYMENT"]
+                        },
+                        "updateLimit":
+                        {
+                            "type": "string",
+                            "description": "Flag to define if the limits are to be booked or not at the time of issuing the pre-advice LC. Allowed values: - YES - NO (same as null) - null (default).",
+                            "enum": ["YES", "NO"]
+                        }
+                    }
+                }
+            }
+        },
+        "ArrangementHeader":
+        {
+            "properties":
+            {
+                "transactionStatus":
+                {
+                    "type": "string",
+                    "description": "The status of the transaction"
+                },
+                "aaaId":
+                {
+                    "type": "string",
+                    "description": "The Identifier of the aa record created"
+                },
+                "id":
+                {
+                    "type": "string",
+                    "description": "The Identifier of the record created"
+                },
+                "status":
+                {
+                    "type": "string",
+                    "description": "The status of the record"
+                },
+                "audit":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "T24_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to response by T24"
+                        },
+                        "versionNumber":
+                        {
+                            "type": "string",
+                            "description": "The CURR.NO. of the record"
+                        },
+                        "parse_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to parse the response by IRIS"
+                        }
+                    }
+                }
+            }
+        },
+        "holdingsThreeYearBondResponse":
+        {
+            "properties":
+            {
+                "header":
+                {
+                    "$ref": "#/definitions/ArrangementHeader"
+                },
+                "body":
+                {
+                    "$ref": "#/definitions/holdingsThreeYearBondResponseBody"
+                }
+            },
+            "description": "holdingsThreeYearBondResponse"
+        },
+        "holdingsThreeYearBondResponseBody":
+        {
+            "type": "object",
+            "properties":
+            {
+                "arrangementActivity":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "parties":
+                        {
+                            "type": "array",
+                            "description": "",
+                            "items":
+                            {
+                                "type": "object",
+                                "properties":
+                                {
+                                    "partyId":
+                                    {
+                                        "type": "string",
+                                        "description": "Allows capturing of customers or person entities to be part of the relationship. If partyType is selected as Customer, then the system will allow only customer Ids to be captured into this field. If partyType is selected as Person or Entity, then system will allow only personEntity Ids to be captured into this field."
+                                    },
+                                    "partyRole":
+                                    {
+                                        "type": "string",
+                                        "description": "The role of the customer on the account - select from standard list"
+                                    }
+                                }
+                            }
+                        },
+                        "arrangementId":
+                        {
+                            "type": "string",
+                            "description": "The identifier of the arrangement"
+                        },
+                        "activityId":
+                        {
+                            "type": "string",
+                            "description": "Id of the activity, e.g. ACCOUNTS-CAPITALISE-ACCHARGE*CARDISSUEFEE"
+                        },
+                        "effectiveDate":
+                        {
+                            "type": "string",
+                            "format": "date",
+                            "description": "The date on which the principal movement is effected"
+                        },
+                        "productId":
+                        {
+                            "type": "string",
+                            "description": "Id of the product."
+                        },
+                        "currencyId":
+                        {
+                            "type": "string",
+                            "description": "Identifier of the currency. This is the 3-letter ISO 4217 code of the currency."
+                        },
+                        "simulationId":
+                        {
+                            "type": "string",
+                            "description": ""
+                        }
+                    }
+                },
+                "activities":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "{activityName}":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "activity":
+                                {
+                                    "type": "string"
+                                },
+                                "transactionStatus":
+                                {
+                                    "type": "string",
+                                    "description": "The status of the transaction"
+                                },
+                                "id":
+                                {
+                                    "type": "string",
+                                    "description": "The Identifier of the record created"
+                                }
+                            }
+                        }
+                    }
+                },
+                "properties":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "account":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "header":
+                                {
+                                    "type": "object",
+                                    "properties":
+                                    {
+                                        "transactionStatus":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "id":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "status":
+                                        {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "activityCharges":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "header":
+                                {
+                                    "type": "object",
+                                    "properties":
+                                    {
+                                        "transactionStatus":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "id":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "status":
+                                        {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "messaging":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "header":
+                                {
+                                    "type": "object",
+                                    "properties":
+                                    {
+                                        "transactionStatus":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "id":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "status":
+                                        {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "arrangementRules":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "header":
+                                {
+                                    "type": "object",
+                                    "properties":
+                                    {
+                                        "transactionStatus":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "id":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "status":
+                                        {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "agentCommission":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "header":
+                                {
+                                    "type": "object",
+                                    "properties":
+                                    {
+                                        "transactionStatus":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "id":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "status":
+                                        {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "rewardsPoints":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "header":
+                                {
+                                    "type": "object",
+                                    "properties":
+                                    {
+                                        "transactionStatus":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "id":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "status":
+                                        {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "alerts":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "header":
+                                {
+                                    "type": "object",
+                                    "properties":
+                                    {
+                                        "transactionStatus":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "id":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "status":
+                                        {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "adminfees":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "header":
+                                {
+                                    "type": "object",
+                                    "properties":
+                                    {
+                                        "transactionStatus":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "id":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "status":
+                                        {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "redemptionfee":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "header":
+                                {
+                                    "type": "object",
+                                    "properties":
+                                    {
+                                        "transactionStatus":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "id":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "status":
+                                        {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "withdrawalfees":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "header":
+                                {
+                                    "type": "object",
+                                    "properties":
+                                    {
+                                        "transactionStatus":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "id":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "status":
+                                        {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "insurance":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "header":
+                                {
+                                    "type": "object",
+                                    "properties":
+                                    {
+                                        "transactionStatus":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "id":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "status":
+                                        {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "bonus":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "header":
+                                {
+                                    "type": "object",
+                                    "properties":
+                                    {
+                                        "transactionStatus":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "id":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "status":
+                                        {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "dormancyfees":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "header":
+                                {
+                                    "type": "object",
+                                    "properties":
+                                    {
+                                        "transactionStatus":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "id":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "status":
+                                        {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "mgmtfees":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "header":
+                                {
+                                    "type": "object",
+                                    "properties":
+                                    {
+                                        "transactionStatus":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "id":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "status":
+                                        {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "closure":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "header":
+                                {
+                                    "type": "object",
+                                    "properties":
+                                    {
+                                        "transactionStatus":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "id":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "status":
+                                        {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "customer":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "header":
+                                {
+                                    "type": "object",
+                                    "properties":
+                                    {
+                                        "transactionStatus":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "id":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "status":
+                                        {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "depositint":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "header":
+                                {
+                                    "type": "object",
+                                    "properties":
+                                    {
+                                        "transactionStatus":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "id":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "status":
+                                        {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "officers":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "header":
+                                {
+                                    "type": "object",
+                                    "properties":
+                                    {
+                                        "transactionStatus":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "id":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "status":
+                                        {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "prDeposit":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "header":
+                                {
+                                    "type": "object",
+                                    "properties":
+                                    {
+                                        "transactionStatus":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "id":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "status":
+                                        {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "prCurrentBalances":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "header":
+                                {
+                                    "type": "object",
+                                    "properties":
+                                    {
+                                        "transactionStatus":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "id":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "status":
+                                        {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "schedule":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "header":
+                                {
+                                    "type": "object",
+                                    "properties":
+                                    {
+                                        "transactionStatus":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "id":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "status":
+                                        {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "poEarlyWithdrawal":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "header":
+                                {
+                                    "type": "object",
+                                    "properties":
+                                    {
+                                        "transactionStatus":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "id":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "status":
+                                        {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "poWithdrawal":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "header":
+                                {
+                                    "type": "object",
+                                    "properties":
+                                    {
+                                        "transactionStatus":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "id":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "status":
+                                        {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "periodiccharge":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "header":
+                                {
+                                    "type": "object",
+                                    "properties":
+                                    {
+                                        "transactionStatus":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "id":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "status":
+                                        {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "deppricing":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "header":
+                                {
+                                    "type": "object",
+                                    "properties":
+                                    {
+                                        "transactionStatus":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "id":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "status":
+                                        {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "renewal":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "header":
+                                {
+                                    "type": "object",
+                                    "properties":
+                                    {
+                                        "transactionStatus":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "id":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "status":
+                                        {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "reporting":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "header":
+                                {
+                                    "type": "object",
+                                    "properties":
+                                    {
+                                        "transactionStatus":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "id":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "status":
+                                        {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "settlement":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "header":
+                                {
+                                    "type": "object",
+                                    "properties":
+                                    {
+                                        "transactionStatus":
+                                        {
+                                            "type": "string",
+                                            "description": "The status of the transaction"
+                                        },
+                                        "audit":
+                                        {
+                                            "type": "object",
+                                            "properties":
+                                            {
+                                                "parseTime":
+                                                {
+                                                    "type": "integer",
+                                                    "format": "int32",
+                                                    "description": "Time taken to parse the response by IRIS"
+                                                }
+                                            }
+                                        },
+                                        "id":
+                                        {
+                                            "type": "string",
+                                            "description": "The Identifier of the record created"
+                                        },
+                                        "status":
+                                        {
+                                            "type": "string",
+                                            "description": "The status of the record"
+                                        }
+                                    }
+                                },
+                                "body":
+                                {
+                                    "type": "object",
+                                    "properties":
+                                    {
+                                        "settlement":
+                                        {
+                                            "type": "array",
+                                            "description": "The Account number, arrangement id or Portfolio No, subscribing to the alerts. ",
+                                            "items":
+                                            {
+                                                "type": "object",
+                                                "properties":
+                                                {
+                                                    "payinSettlement":
+                                                    {
+                                                        "type": "string",
+                                                        "description": ""
+                                                    },
+                                                    "payoutSettlement":
+                                                    {
+                                                        "type": "string",
+                                                        "description": ""
+                                                    },
+                                                    "reference":
+                                                    {
+                                                        "type": "array",
+                                                        "items":
+                                                        {
+                                                            "type": "object",
+                                                            "properties":
+                                                            {
+                                                                "ddMandateReference":
+                                                                {
+                                                                    "type": "string",
+                                                                    "format": "date",
+                                                                    "description": ""
+                                                                },
+                                                                "payinAccount":
+                                                                {
+                                                                    "type": "string",
+                                                                    "description": ""
+                                                                },
+                                                                "payinBeneficiary":
+                                                                {
+                                                                    "type": "string",
+                                                                    "description": ""
+                                                                },
+                                                                "payinPercentage":
+                                                                {
+                                                                    "type": "number",
+                                                                    "description": ""
+                                                                },
+                                                                "payinAmount":
+                                                                {
+                                                                    "type": "number",
+                                                                    "description": ""
+                                                                },
+                                                                "payoutAccount":
+                                                                {
+                                                                    "type": "string",
+                                                                    "description": "The account to which a settlement amount is transferred."
+                                                                },
+                                                                "payoutBeneficiary":
+                                                                {
+                                                                    "type": "string",
+                                                                    "description": "The beneficiary that payment should be made to ."
+                                                                },
+                                                                "payoutPercentage":
+                                                                {
+                                                                    "type": "number",
+                                                                    "description": ""
+                                                                },
+                                                                "payoutAmount":
+                                                                {
+                                                                    "type": "number",
+                                                                    "description": ""
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "assocSettlement":
+                                        {
+                                            "type": "array",
+                                            "description": "The Account number, arrangement id or Portfolio No, subscribing to the alerts. ",
+                                            "items":
+                                            {
+                                                "type": "object",
+                                                "properties":
+                                                {
+                                                    "payinSettlement":
+                                                    {
+                                                        "type": "string",
+                                                        "description": ""
+                                                    },
+                                                    "payinRule":
+                                                    {
+                                                        "type": "string",
+                                                        "description": ""
+                                                    },
+                                                    "payinSettlementActivity":
+                                                    {
+                                                        "type": "string",
+                                                        "description": ""
+                                                    },
+                                                    "payinRCType":
+                                                    {
+                                                        "type": "string",
+                                                        "description": ""
+                                                    },
+                                                    "payinRCCondition":
+                                                    {
+                                                        "type": "string",
+                                                        "description": ""
+                                                    },
+                                                    "reference":
+                                                    {
+                                                        "type": "array",
+                                                        "items":
+                                                        {
+                                                            "type": "object",
+                                                            "properties":
+                                                            {
+                                                                "payinAccount":
+                                                                {
+                                                                    "type": "string",
+                                                                    "description": ""
+                                                                },
+                                                                "payinBeneficiary":
+                                                                {
+                                                                    "type": "string",
+                                                                    "description": ""
+                                                                },
+                                                                "payinPOProduct":
+                                                                {
+                                                                    "type": "string",
+                                                                    "description": ""
+                                                                },
+                                                                "payinPercentage":
+                                                                {
+                                                                    "type": "number",
+                                                                    "description": ""
+                                                                },
+                                                                "payinAmount":
+                                                                {
+                                                                    "type": "number",
+                                                                    "description": ""
+                                                                },
+                                                                "payinActivity":
+                                                                {
+                                                                    "type": "string",
+                                                                    "description": ""
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "asscoSettlement":
+                                        {
+                                            "type": "array",
+                                            "description": "The Account number, arrangement id or Portfolio No, subscribing to the alerts. ",
+                                            "items":
+                                            {
+                                                "type": "object",
+                                                "properties":
+                                                {
+                                                    "reference":
+                                                    {
+                                                        "type": "array",
+                                                        "items":
+                                                        {
+                                                            "type": "object",
+                                                            "properties":
+                                                            {
+                                                                "ddMandateReference":
+                                                                {
+                                                                    "type": "string",
+                                                                    "format": "date",
+                                                                    "description": ""
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "payout":
+                                        {
+                                            "type": "array",
+                                            "description": "Id of the product property",
+                                            "items":
+                                            {
+                                                "type": "object",
+                                                "properties":
+                                                {
+                                                    "payoutSettlement":
+                                                    {
+                                                        "type": "string",
+                                                        "description": ""
+                                                    },
+                                                    "payoutSettlementActivity":
+                                                    {
+                                                        "type": "string",
+                                                        "description": ""
+                                                    },
+                                                    "property":
+                                                    {
+                                                        "type": "array",
+                                                        "items":
+                                                        {
+                                                            "type": "object",
+                                                            "properties":
+                                                            {
+                                                                "payoutPropertyClass":
+                                                                {
+                                                                    "type": "string",
+                                                                    "description": ""
+                                                                },
+                                                                "payoutProperty":
+                                                                {
+                                                                    "type": "string",
+                                                                    "description": ""
+                                                                },
+                                                                "payoutAccount":
+                                                                {
+                                                                    "type": "string",
+                                                                    "description": "The account to which a settlement amount is transferred."
+                                                                },
+                                                                "payoutBeneficiary":
+                                                                {
+                                                                    "type": "string",
+                                                                    "description": "The beneficiary that payment should be made to ."
+                                                                },
+                                                                "payoutPOProduct":
+                                                                {
+                                                                    "type": "string",
+                                                                    "description": ""
+                                                                },
+                                                                "payoutPercentage":
+                                                                {
+                                                                    "type": "number",
+                                                                    "description": ""
+                                                                },
+                                                                "payoutAmount":
+                                                                {
+                                                                    "type": "number",
+                                                                    "description": ""
+                                                                },
+                                                                "payoutActivity":
+                                                                {
+                                                                    "type": "string",
+                                                                    "description": ""
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "paymentType":
+                                        {
+                                            "type": "string",
+                                            "description": "Indicates if the payment is Customer (C) type or Bank (B) type"
+                                        },
+                                        "defaultSettlementAccount":
+                                        {
+                                            "type": "string",
+                                            "description": ""
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "tax":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "header":
+                                {
+                                    "type": "object",
+                                    "properties":
+                                    {
+                                        "transactionStatus":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "id":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "status":
+                                        {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "commitment":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "header":
+                                {
+                                    "type": "object",
+                                    "properties":
+                                    {
+                                        "transactionStatus":
+                                        {
+                                            "type": "string",
+                                            "description": "The status of the transaction"
+                                        },
+                                        "audit":
+                                        {
+                                            "type": "object",
+                                            "properties":
+                                            {
+                                                "parseTime":
+                                                {
+                                                    "type": "integer",
+                                                    "format": "int32",
+                                                    "description": "Time taken to parse the response by IRIS"
+                                                }
+                                            }
+                                        },
+                                        "id":
+                                        {
+                                            "type": "string",
+                                            "description": "The Identifier of the record created"
+                                        },
+                                        "status":
+                                        {
+                                            "type": "string",
+                                            "description": "The status of the record"
+                                        }
+                                    }
+                                },
+                                "body":
+                                {
+                                    "type": "object",
+                                    "properties":
+                                    {
+                                        "amount":
+                                        {
+                                            "type": "number",
+                                            "description": "This is the payment amount"
+                                        },
+                                        "changeAmount":
+                                        {
+                                            "type": "number",
+                                            "description": ""
+                                        },
+                                        "term":
+                                        {
+                                            "type": "string",
+                                            "description": "Indicates the period to which the BID and OFFER rates apply"
+                                        },
+                                        "revolving":
+                                        {
+                                            "type": "string",
+                                            "description": "",
+                                            "enum": ["NO", "PAYMENT", "PREPAYMENT"]
+                                        },
+                                        "updateLimit":
+                                        {
+                                            "type": "string",
+                                            "description": "Flag to define if the limits are to be booked or not at the time of issuing the pre-advice LC. Allowed values: - YES - NO (same as null) - null (default).",
+                                            "enum": ["YES", "NO"]
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "dormancy":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "header":
+                                {
+                                    "type": "object",
+                                    "properties":
+                                    {
+                                        "transactionStatus":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "id":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "status":
+                                        {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "statement":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "header":
+                                {
+                                    "type": "object",
+                                    "properties":
+                                    {
+                                        "transactionStatus":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "id":
+                                        {
+                                            "type": "string"
+                                        },
+                                        "status":
+                                        {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "overrideBody":
+        {
+            "properties":
+            {
+                "overrideDetails":
+                {
+                    "type": "array",
+                    "items":
+                    {
+                        "type": "object",
+                        "properties":
+                        {
+                            "id":
+                            {
+                                "type": "string",
+                                "description": "The identifier of the override"
+                            },
+                            "description":
+                            {
+                                "type": "string",
+                                "description": "The actual override message"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "ArrangementErrorResponse":
+        {
+            "properties":
+            {
+                "header":
+                {
+                    "$ref": "#/definitions/ArrangementHeader"
+                },
+                "error":
+                {
+                    "$ref": "#/definitions/ArrangementErrorResponseBody"
+                },
+                "override":
+                {
+                    "$ref": "#/definitions/overrideBody"
+                }
+            },
+            "description": "ArrangementErrorResponse"
+        },
+        "ArrangementErrorResponseBody":
+        {
+            "type": "object",
+            "properties":
+            {
+                "errorDetails":
+                {
+                    "type": "array",
+                    "items":
+                    {
+                        "type": "object",
+                        "properties":
+                        {
+                            "fieldName":
+                            {
+                                "type": "string",
+                                "description": "The name of the field"
+                            },
+                            "code":
+                            {
+                                "type": "string",
+                                "description": "The identifier of the error message"
+                            },
+                            "message":
+                            {
+                                "type": "string",
+                                "description": "The actual t24 error message"
+                            },
+                            "property":
+                            {
+                                "type": "string",
+                                "description": "The corresponding property"
+                            }
+                        }
+                    }
+                },
+                "type":
+                {
+                    "type": "string",
+                    "description": "The identifier of error type"
+                }
+            }
+        }
+    }
+}

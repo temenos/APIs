@@ -1,0 +1,2230 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Create a Current Account",
+    "version" : "v2.0.0",
+    "title" : "Manage and create accounts"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v2.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/holdings/accounts/currentAccounts" : {
+      "post" : {
+        "summary" : "Create a Current Account",
+        "description" : "Create a Current Account",
+        "operationId" : "createCurrentAccounts",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/CurrentAccounts"
+          }
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the company, following the format CCGGGLLLL, where: CC is the country code, GGG is Company Group Code and LLLL is the Local Code. Country Code must be a valid countryCode, Company Group Code must be 3 numeric characters in the range 001-999 and must be a valid companyGroup. The Local Code is 4 numeric characters in the range 0001-9999, e.g. GB0010001",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "createCurrentAccountsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/CurrentAccountsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessArrangementErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessArrangementErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemArrangementErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemArrangementErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ArrangementErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ArrangementErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "PayloadHeader" : {
+      "properties" : {
+        "override" : {
+          "type" : "object",
+          "properties" : {
+            "overrideDetails" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "id" : {
+                    "type" : "string",
+                    "description" : "The identifier of the override."
+                  },
+                  "description" : {
+                    "type" : "string",
+                    "description" : "The actual override message."
+                  },
+                  "code" : {
+                    "type" : "string",
+                    "description" : "The code related to override message."
+                  },
+                  "responseCode" : {
+                    "type" : "string",
+                    "description" : "The user input to accept/reject the override."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            }
+          }
+        }
+      }
+    },
+    "CurrentAccounts" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/CurrentAccountsBody"
+        }
+      },
+      "description" : "CurrentAccounts",
+      "example" : {
+        "header" : {
+          "audit" : {
+            "versionNumber" : ""
+          },
+          "override" : {
+            "overrideDetails" : [ {
+              "description" : "Statement would get generated both on schedule date and the date defined in statement condition for CRINTEREST DRINTEREST",
+              "id" : "AA.PS.DUPLICATE.STATEMENT.GENERATE",
+              "type" : "Override"
+            }, {
+              "options" : [ "RECEIVED", "NOT RECEIVED" ],
+              "description" : "Have you received Account Opening Agreement/AAA*212 from 100336}RECEIVED_NOT RECEIVED",
+              "id" : "DM.CONFIRM.DOC",
+              "type" : "Warning",
+              "responseCode" : "RECEIVED"
+            } ]
+          }
+        },
+        "body" : {
+          "partyIds" : [ {
+            "partyId" : "100336"
+          } ],
+          "activityId" : "ACCOUNTS-NEW-ARRANGEMENT",
+          "schedule" : { },
+          "arrangmentId" : "NEW",
+          "productId" : "CURRENT.ACCOUNT",
+          "currency" : "USD",
+          "tradeDate" : "",
+          "partyRoles" : [ {
+            "partyRole" : "OWNER"
+          } ],
+          "arrangementEffectiveDate" : "20190417"
+        }
+      }
+    },
+    "CurrentAccountsBody" : {
+      "type" : "object",
+      "properties" : {
+        "parties" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "partyId" : {
+                "type" : "string",
+                "minLength" : 0
+              },
+              "partyRole" : {
+                "type" : "string",
+                "minLength" : 0
+              }
+            }
+          }
+        },
+        "activityId" : {
+          "type" : "string",
+          "description" : "The identifier of the activity",
+          "minLength" : 0
+        },
+        "effectiveDate" : {
+          "type" : "string",
+          "minLength" : 0
+        },
+        "productId" : {
+          "type" : "string",
+          "description" : "The identifier of the product",
+          "minLength" : 0
+        },
+        "currencyId" : {
+          "type" : "string",
+          "description" : "The identifier of the curreny. The is the 3 letter ISO 4217 code of the currency.",
+          "minLength" : 0
+        },
+        "simulationId" : {
+          "type" : "string",
+          "minLength" : 0
+        },
+        "balance" : {
+          "type" : "object",
+          "properties" : {
+            "alternateIds" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "alternateIdType" : {
+                    "type" : "string",
+                    "minLength" : 0,
+                    "maxLength" : 15
+                  },
+                  "alternateId" : {
+                    "type" : "string",
+                    "minLength" : 0,
+                    "maxLength" : 11
+                  }
+                }
+              }
+            },
+            "accountType" : {
+              "type" : "string",
+              "minLength" : 0,
+              "maxLength" : 11
+            },
+            "accountName" : {
+              "type" : "string",
+              "description" : "The name of the account that is displayed",
+              "minLength" : 0,
+              "maxLength" : 11
+            },
+            "accountId" : {
+              "type" : "string",
+              "description" : "The identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId.",
+              "minLength" : 0,
+              "maxLength" : 9
+            },
+            "portfolioId" : {
+              "type" : "string",
+              "description" : "The identifier of the portfolio",
+              "minLength" : 0,
+              "maxLength" : 11
+            },
+            "anniversary" : {
+              "type" : "string",
+              "minLength" : 0,
+              "maxLength" : 11
+            },
+            "customerReference" : {
+              "type" : "string",
+              "description" : "The reference quoted by customer of the ordering account in a payment that is to be communicated to the beneficiary when a payment takes place",
+              "minLength" : 0,
+              "maxLength" : 17
+            }
+          }
+        }
+      }
+    },
+    "ArrangementHeader" : {
+      "properties" : {
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "aaaId" : {
+          "type" : "string",
+          "description" : "The Identifier of the aa record created"
+        },
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        },
+        "uniqueIdentifier" : {
+          "type" : "string",
+          "description" : "The unique identifier/Message Reference of the record created."
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "CurrentAccountsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ArrangementHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/CurrentAccountsResponseBody"
+        }
+      },
+      "description" : "CurrentAccountsResponse"
+    },
+    "CurrentAccountsResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "arrangementActivity" : {
+          "type" : "object",
+          "properties" : {
+            "parties" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "partyId" : {
+                    "type" : "string",
+                    "minLength" : 0
+                  },
+                  "partyRole" : {
+                    "type" : "string",
+                    "minLength" : 0
+                  }
+                }
+              }
+            },
+            "arrangementId" : {
+              "type" : "string",
+              "description" : "The unique identifiier of an arrangement contract. The format of the ID is YYDDDXXXXX prefixed with AA. YYDDD is the year and date of input in julian date format, XXXXX - is a random generated string.",
+              "minLength" : 0
+            },
+            "activityId" : {
+              "type" : "string",
+              "description" : "The identifier of the activity",
+              "minLength" : 0
+            },
+            "effectiveDate" : {
+              "type" : "string",
+              "minLength" : 0
+            },
+            "productId" : {
+              "type" : "string",
+              "description" : "The identifier of the product",
+              "minLength" : 0
+            },
+            "currencyId" : {
+              "type" : "string",
+              "description" : "The identifier of the curreny. The is the 3 letter ISO 4217 code of the currency.",
+              "minLength" : 0
+            },
+            "simulationId" : {
+              "type" : "string",
+              "minLength" : 0
+            }
+          }
+        },
+        "activities" : {
+          "type" : "object",
+          "properties" : {
+            "{activityName}" : {
+              "type" : "object",
+              "properties" : {
+                "activity" : {
+                  "type" : "string"
+                },
+                "transactionStatus" : {
+                  "type" : "string",
+                  "description" : "The status of the transaction"
+                },
+                "id" : {
+                  "type" : "string",
+                  "description" : "The Identifier of the record created"
+                }
+              }
+            }
+          }
+        },
+        "properties" : {
+          "type" : "object",
+          "properties" : {
+            "balance" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string",
+                      "description" : "The status of the transaction"
+                    },
+                    "audit" : {
+                      "type" : "object"
+                    },
+                    "id" : {
+                      "type" : "string",
+                      "description" : "The Identifier of the record created"
+                    },
+                    "status" : {
+                      "type" : "string",
+                      "description" : "The status of the record"
+                    }
+                  }
+                },
+                "body" : {
+                  "type" : "object",
+                  "properties" : {
+                    "alternateIds" : {
+                      "type" : "array",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "alternateIdType" : {
+                            "type" : "string",
+                            "minLength" : 0,
+                            "maxLength" : 15
+                          },
+                          "alternateId" : {
+                            "type" : "string",
+                            "minLength" : 0,
+                            "maxLength" : 11
+                          }
+                        }
+                      }
+                    },
+                    "accountType" : {
+                      "type" : "string",
+                      "minLength" : 0,
+                      "maxLength" : 11
+                    },
+                    "accountName" : {
+                      "type" : "string",
+                      "description" : "The name of the account that is displayed",
+                      "minLength" : 0,
+                      "maxLength" : 11
+                    },
+                    "accountId" : {
+                      "type" : "string",
+                      "description" : "The identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId.",
+                      "minLength" : 0,
+                      "maxLength" : 9
+                    },
+                    "portfolioId" : {
+                      "type" : "string",
+                      "description" : "The identifier of the portfolio",
+                      "minLength" : 0,
+                      "maxLength" : 11
+                    },
+                    "anniversary" : {
+                      "type" : "string",
+                      "minLength" : 0,
+                      "maxLength" : 11
+                    },
+                    "customerReference" : {
+                      "type" : "string",
+                      "description" : "The reference quoted by customer of the ordering account in a payment that is to be communicated to the beneficiary when a payment takes place",
+                      "minLength" : 0,
+                      "maxLength" : 17
+                    }
+                  }
+                }
+              }
+            },
+            "messaging" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "activityCharges" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "agentCommission" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "rewardsPoints" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "alerts" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "highestdebit" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "chequewd" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "minbalfee" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "noofcredits" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "noofdebits" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "turnovercredit" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "turnoverdebit" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "bonus" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "investcredit" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "achcreditfee" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "achdebitfee" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "atmdebitfee" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "atmposfee" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "wirefee" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "overdraft" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "odnotification" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "withdrawalfee" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "packagefee" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "closurefee" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "accharge" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "dormancyfee" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "mgmtfee" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "cardissuefee" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "commitmentfee" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "setupfee" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "subscriptionfee" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "inhcommitment" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "limitfees" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "payfees" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "returnfees" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "nsfreversalfees" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "cashback" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "adminfee" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "servicefee" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "dorcloseadvfee" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "periodiccharges" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "customer" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "crinterest" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "drinterest" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "penalint" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "bundleinterest" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "infcrinterest" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "infdrinterest" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "inhcrinterest" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "inhdrinterest" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "inhpenalint" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "utllimitfees" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "ovdlimitfees" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "bundlecrinterst" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "bundledrinterst" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "limit" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "officers" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "schedule" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "inhSchedule" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "arrangementRules" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "productQualifierRules" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "closure" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "balanceMaintenance" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "renewal" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "tax" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "balanceAvailability" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "accountsPaymentRules" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "prAccountsCommitmentfee" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "prAccountsDrinterest" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "prAccountsPenaltyInt" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "accountsPayout" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "poAccountsCrinterest" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "settlement" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "payoff" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "dormancy" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "facility" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "statement" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "inheritanceSource" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "inheritanceTarget" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "constraint" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "prefpricing" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "overrideBody" : {
+      "properties" : {
+        "overrideDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "string",
+                "description" : "The identifier of the override."
+              },
+              "description" : {
+                "type" : "string",
+                "description" : "The actual override message."
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The code related to override message."
+              },
+              "options" : {
+                "type" : "array",
+                "description" : "The usable options for the override.",
+                "items" : {
+                  "type" : "string"
+                }
+              },
+              "type" : {
+                "type" : "string",
+                "description" : "The type of the override."
+              }
+            }
+          }
+        }
+      }
+    },
+    "ArrangementErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ArrangementHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/ArrangementErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "ArrangementErrorResponse"
+    },
+    "ArrangementErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "message" : {
+                "type" : "string"
+              },
+              "property" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessArrangementErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ArrangementHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessArrangementErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "BusinessArrangementErrorResponse"
+    },
+    "BusinessArrangementErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "for bad requests"
+              },
+              "property" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemArrangementErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ArrangementHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemArrangementErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "SystemArrangementErrorResponse"
+    },
+    "SystemArrangementErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "caused by server"
+              },
+              "property" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    },
+    "createCurrentAccounts" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/CurrentAccountsBody"
+        }
+      },
+      "description" : "CurrentAccounts",
+      "example" : {
+        "header" : {
+          "audit" : {
+            "versionNumber" : ""
+          },
+          "override" : {
+            "overrideDetails" : [ {
+              "description" : "Statement would get generated both on schedule date and the date defined in statement condition for CRINTEREST DRINTEREST",
+              "id" : "AA.PS.DUPLICATE.STATEMENT.GENERATE",
+              "type" : "Override"
+            }, {
+              "options" : [ "RECEIVED", "NOT RECEIVED" ],
+              "description" : "Have you received Account Opening Agreement/AAA*212 from 100336}RECEIVED_NOT RECEIVED",
+              "id" : "DM.CONFIRM.DOC",
+              "type" : "Warning",
+              "responseCode" : "RECEIVED"
+            } ]
+          }
+        },
+        "body" : {
+          "partyIds" : [ {
+            "partyId" : "100336"
+          } ],
+          "activityId" : "ACCOUNTS-NEW-ARRANGEMENT",
+          "schedule" : { },
+          "arrangmentId" : "NEW",
+          "productId" : "CURRENT.ACCOUNT",
+          "currency" : "USD",
+          "tradeDate" : "",
+          "partyRoles" : [ {
+            "partyRole" : "OWNER"
+          } ],
+          "arrangementEffectiveDate" : "20190417"
+        }
+      }
+    }
+  }
+}

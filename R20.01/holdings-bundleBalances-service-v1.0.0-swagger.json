@@ -1,0 +1,266 @@
+{
+    "swagger": "2.0",
+    "info":
+    {
+        "description": "Balances of Master/Bundle Arrangement",
+        "version": "v1.0.0",
+        "title": "Bundle Balance APIs"
+    },
+    "host": "api.server.com",
+    "basePath": "/api/v1.0.0/",
+    "schemes": ["http", "https"],
+    "security": [
+    {
+        "basicAuth": []
+    }],
+    "paths":
+    {
+        "/holdings/cashManagement/bundles/{bundleId}/balances":
+        {
+            "get":
+            {
+                "description": "Balances of Master/Bundle Arrangement",
+                "operationId": "getBundleBalances",
+                "produces": ["application/json"],
+                "parameters": [
+                {
+                    "name": "bundleId",
+                    "in": "path",
+                    "description": "",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "name": "page_size",
+                    "in": "query",
+                    "description": "The total number of records per page",
+                    "required": false,
+                    "type": "integer",
+                    "format": "int32"
+                },
+                {
+                    "name": "page_start",
+                    "in": "query",
+                    "description": "The record from which the response should be displayed",
+                    "required": false,
+                    "type": "integer",
+                    "format": "int32"
+                },
+                {
+                    "name": "page_token",
+                    "in": "query",
+                    "description": "Unique id expected to get as part of response from t24 on every enquiry request.",
+                    "required": false,
+                    "type": "string"
+                },
+                {
+                    "name": "credentials",
+                    "in": "header",
+                    "required": false,
+                    "type": "string"
+                },
+                {
+                    "name": "companyId",
+                    "in": "header",
+                    "required": false,
+                    "type": "string"
+                }],
+                "responses":
+                {
+                    "200":
+                    {
+                        "description": "BundleBalancesResponse",
+                        "schema":
+                        {
+                            "$ref": "#/definitions/BundleBalancesResponse"
+                        }
+                    },
+                    "default":
+                    {
+                        "description": "QueryErrorResponse",
+                        "schema":
+                        {
+                            "$ref": "#/definitions/QueryErrorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "securityDefinitions":
+    {
+        "basicAuth":
+        {
+            "type": "basic"
+        }
+    },
+    "definitions":
+    {
+        "QueryHeader":
+        {
+            "properties":
+            {
+                "audit":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "T24_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to response by T24"
+                        },
+                        "versionNumber":
+                        {
+                            "type": "string",
+                            "description": "The CURR.NO. of the record"
+                        },
+                        "parse_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to parse the response by IRIS"
+                        }
+                    }
+                },
+                "page_size":
+                {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "The total number of records per page"
+                },
+                "page_start":
+                {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "The record from which the response should be displayed"
+                },
+                "total_size":
+                {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "The total number of records present"
+                },
+                "page_token":
+                {
+                    "type": "string",
+                    "description": "Unique id expected to get as part of response from t24 on every enquiry request"
+                }
+            }
+        },
+        "BundleBalancesResponse":
+        {
+            "properties":
+            {
+                "header":
+                {
+                    "$ref": "#/definitions/QueryHeader"
+                },
+                "body":
+                {
+                    "$ref": "#/definitions/BundleBalancesResponseBody"
+                }
+            },
+            "description": "BundleBalancesResponse"
+        },
+        "BundleBalancesResponseBody":
+        {
+            "type": "array",
+            "items":
+            {
+                "type": "object",
+                "properties":
+                {
+                    "ledgerBalance":
+                    {
+                        "type": "string",
+                        "description": "Real-time balance including all authorised transactions posted against the account, excluding any entries with a future processing date."
+                    },
+                    "clearedBalance":
+                    {
+                        "type": "string",
+                        "description": "Balance taking into consideration all cleared funds booked against the account, including credit and reversed debit entries with a future exposure date."
+                    },
+                    "workingBalance":
+                    {
+                        "type": "string",
+                        "description": "Real-time balance including all authorised transactions posted against the account and, unless it is a nostro or internal account, unauthorised debit entries."
+                    },
+                    "availableBalance":
+                    {
+                        "type": "string",
+                        "description": "Shows the net balance of an account, however may or may not include unauthorized debits and credits depending on the business setup."
+                    }
+                }
+            }
+        },
+        "ErrorHeader":
+        {
+            "properties":
+            {
+                "audit":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "T24_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to response by T24"
+                        },
+                        "versionNumber":
+                        {
+                            "type": "string",
+                            "description": "The CURR.NO. of the record"
+                        },
+                        "parse_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to parse the response by IRIS"
+                        }
+                    }
+                }
+            }
+        },
+        "QueryErrorResponse":
+        {
+            "properties":
+            {
+                "header":
+                {
+                    "$ref": "#/definitions/ErrorHeader"
+                },
+                "error":
+                {
+                    "$ref": "#/definitions/QueryErrorResponseBody"
+                }
+            },
+            "description": "QueryErrorResponse"
+        },
+        "QueryErrorResponseBody":
+        {
+            "type": "object",
+            "properties":
+            {
+                "code":
+                {
+                    "type": "string",
+                    "description": "The identifier of the error message"
+                },
+                "message":
+                {
+                    "type": "string",
+                    "description": "The actual t24 error message"
+                },
+                "type":
+                {
+                    "type": "string",
+                    "description": "The identifier of error type"
+                }
+            }
+        }
+    }
+}

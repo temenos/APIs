@@ -1,0 +1,1967 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Retrieves forex limit orders of customers",
+    "version" : "v1.0.0",
+    "title" : "API to perform different actions on foreign exchange limit orders"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/order/forexOrders/limitOrders/{limitOrderId}" : {
+      "get" : {
+        "summary" : "Retrieves forex orders created for customers to buy/sell currencies at desired rates",
+        "description" : "Retrieves forex orders created for the given customer to buy/sell currencies at desired rates and specified dates along with the order status(active,cancelled etc.)",
+        "operationId" : "getCustomerForexLimitOrders",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "limitOrderId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "customerId",
+          "in" : "query",
+          "description" : "Identifier of the customer",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "CustomerForexLimitOrdersResponse",
+            "schema" : {
+              "$ref" : "#/definitions/CustomerForexLimitOrdersResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Cancels an existing forex limit order",
+        "description" : "Cancels an existing forex limit order of a customer",
+        "operationId" : "updateForexLimitOrder",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "limitOrderId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/ForexLimitOrder"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "ForexLimitOrderResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ForexLimitOrderResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/forexOrders/limitOrders" : {
+      "post" : {
+        "summary" : "Creates forex limit order for a customer",
+        "description" : "Creates forex limit order for a customer and also displays the list of existing limit orders ",
+        "operationId" : "createForexLimitOrder",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/ForexLimitOrder1"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "ForexLimitOrderResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ForexLimitOrderResponse1"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/forexOrders/customers/{customerId}" : {
+      "get" : {
+        "summary" : "Retrieves the forex deals created out of the forex limit order of the given customer",
+        "description" : "Retrieves the forex deals created out of the forex limit order to buy/sell currencies at customer specified rates",
+        "operationId" : "getCustomerForexDeals",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "customerId",
+          "in" : "path",
+          "description" : "Identifier of the customer",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "CustomerForexDealsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/CustomerForexDealsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/forexOrders" : {
+      "get" : {
+        "summary" : "Retrieves the open position",
+        "description" : "Retrieves the open position for different currencies",
+        "operationId" : "getForexOrders",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "currencyId",
+          "in" : "query",
+          "description" : "Identifier of the currency. This is the 3-letter ISO 4217 code of the currency.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "dealerDeskId",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "ForexOrdersResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ForexOrdersResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Creates foreign exchange deal",
+        "description" : "Creates foreign exchange deal",
+        "operationId" : "createForexOrder",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/ForexOrder"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "ForexOrderResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ForexOrderResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/forexOrders/outstandingOrders" : {
+      "get" : {
+        "summary" : "Retrieves all the foreign exchange active deals as on today",
+        "description" : "Retrieves the foreign exchange outstanding(active) deals as on today ",
+        "operationId" : "getOutstandingForexOrders",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "dealType",
+          "in" : "query",
+          "description" : "Foreign Exchange deal type. Allowed values: - SP(spot) - FW(forward) - SW(Swap)",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "counterparty",
+          "in" : "query",
+          "description" : "The counterparty ID  for the  deal.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "transactionId",
+          "in" : "query",
+          "description" : "Unique transaction identifier for retrieving the details of the transaction. For example: FT0102030333 etc.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "swapId",
+          "in" : "query",
+          "description" : "Swap contract identifier",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "settlementDateSell",
+          "in" : "query",
+          "description" : "Settlement date for sell side.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "settlementDateBuy",
+          "in" : "query",
+          "description" : "Settlement date for buy side.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "buyCurrency",
+          "in" : "query",
+          "description" : "ISO Currency code for the bought currency.  ",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "buyAmount",
+          "in" : "query",
+          "description" : "Amount bought in the FX deal.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "sellCurrency",
+          "in" : "query",
+          "description" : "ISO Currency code for the sold currency.  ",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "sellAmount",
+          "in" : "query",
+          "description" : "Amount sold in the FX deal.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "dealDate",
+          "in" : "query",
+          "description" : "Date on which the deal was agreed. ",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "accountSell",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "accountBuy",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "dealerDeskId",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "unevenSwap",
+          "in" : "query",
+          "description" : "Identifier for a FX uneven swap  (the swap base currency amount in near and far leg are not the same).",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OutstandingForexOrdersResponse",
+            "schema" : {
+              "$ref" : "#/definitions/OutstandingForexOrdersResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "QueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records per page"
+        },
+        "page_start" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The record from which the response should be displayed"
+        },
+        "total_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records present"
+        },
+        "page_token" : {
+          "type" : "string",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request"
+        }
+      }
+    },
+    "CustomerForexLimitOrdersResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/CustomerForexLimitOrdersResponseBody"
+        }
+      },
+      "description" : "CustomerForexLimitOrdersResponse"
+    },
+    "CustomerForexLimitOrdersResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "transactionReference" : {
+            "type" : "string",
+            "description" : "Transaction reference identifier.",
+            "maxLength" : 14
+          },
+          "dealDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "Date on which the deal was agreed. "
+          },
+          "orderCurrency" : {
+            "type" : "string",
+            "description" : "Currency to be bought or sold through the limit  order.",
+            "maxLength" : 3
+          },
+          "orderAmount" : {
+            "type" : "number",
+            "description" : "The amount of the order"
+          },
+          "contraCurrency" : {
+            "type" : "string",
+            "description" : "Opposite to order currency. Currency of the amount paid or received against order amount bought/sold.",
+            "maxLength" : 3
+          },
+          "contraAmount" : {
+            "type" : "number",
+            "description" : "Opposite to order amount. Amount paid or received against order amount bought/sold."
+          },
+          "buyOrSell" : {
+            "type" : "string",
+            "description" : "Whether the transaction is a buy or a sell.",
+            "maxLength" : 4
+          },
+          "orderStatus" : {
+            "type" : "string",
+            "description" : "Status of the order.",
+            "maxLength" : 12
+          },
+          "exchangeRate" : {
+            "type" : "number",
+            "description" : "Contains the exchange rate returned from the system. i.e. For entries over foreign currency accounts, this contains the rate which used to convert the currency amount to the local equivalent at the time of the originating transaction."
+          },
+          "forexDealId" : {
+            "type" : "string",
+            "description" : "The  FX deal reference number. ",
+            "maxLength" : 15
+          },
+          "orderRateLow" : {
+            "type" : "number",
+            "description" : "The low rate stipulated for order execution."
+          },
+          "orderRateHI" : {
+            "type" : "number",
+            "description" : "The high rate stipulated for order execution."
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessQueryErrorResponseBody"
+        }
+      },
+      "description" : "BusinessQueryErrorResponse"
+    },
+    "BusinessQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message for bad requests"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemQueryErrorResponseBody"
+        }
+      },
+      "description" : "SystemQueryErrorResponse"
+    },
+    "SystemQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message caused by server"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    },
+    "PayloadHeader" : {
+      "properties" : {
+        "override" : {
+          "type" : "object",
+          "properties" : {
+            "overrideDetails" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "id" : {
+                    "type" : "string",
+                    "description" : "The identifier of the override"
+                  },
+                  "description" : {
+                    "type" : "string",
+                    "description" : "The actual override message"
+                  },
+                  "responseCode" : {
+                    "type" : "string",
+                    "description" : "The user input to accept/reject the override."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            }
+          }
+        }
+      }
+    },
+    "ForexLimitOrder" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ForexLimitOrderBody"
+        }
+      },
+      "description" : "ForexLimitOrder",
+      "example" : {
+        "header" : {
+          "audit" : { },
+          "override" : {
+            "overrideDetails" : [ ]
+          }
+        },
+        "body" : {
+          "ourAccountPay" : "15377",
+          "contraCurrency" : "CHF",
+          "orderType" : "SINGLE",
+          "limitReference" : "11050.01",
+          "orderCurrency" : "GBP",
+          "buySellDetails" : [ {
+            "buySell" : "BUY",
+            "orderAmount" : "1000000.00",
+            "orderItemStatus" : "OPEN",
+            "orderItemType" : "SL",
+            "requiredHighRate" : "2.1"
+          } ],
+          "orderStatus" : "ACTIVE",
+          "valueDate" : "20190419",
+          "dealType" : "SP",
+          "baseCurrency" : "GBP",
+          "dealerDesk" : "00",
+          "ourAccountReceive" : "23701",
+          "counterparty" : "100492",
+          "dealDate" : "20190417",
+          "goodTillCancellation" : "YES"
+        }
+      }
+    },
+    "ForexLimitOrderBody" : {
+      "type" : "object",
+      "properties" : {
+        "orderCurrency" : {
+          "type" : "string",
+          "description" : "Currency to be bought or sold through the limit  order.",
+          "maxLength" : 25
+        },
+        "contraCurrency" : {
+          "type" : "string",
+          "description" : "Opposite to order currency. Currency of the amount paid or received against order amount bought/sold.",
+          "maxLength" : 25
+        },
+        "orderAmount" : {
+          "type" : "string",
+          "description" : "The amount of the order",
+          "maxLength" : 25
+        },
+        "cancelOrder" : {
+          "type" : "string",
+          "description" : "Option to cancel an order.",
+          "maxLength" : 25
+        },
+        "remarks" : {
+          "type" : "string",
+          "description" : "General comments / notes.",
+          "maxLength" : 25
+        }
+      }
+    },
+    "ScreenHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "ForexLimitOrderResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ForexLimitOrderResponseBody"
+        }
+      },
+      "description" : "ForexLimitOrderResponse"
+    },
+    "ForexLimitOrderResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "orderCurrency" : {
+          "type" : "string",
+          "description" : "Currency to be bought or sold through the limit  order.",
+          "maxLength" : 25
+        },
+        "contraCurrency" : {
+          "type" : "string",
+          "description" : "Opposite to order currency. Currency of the amount paid or received against order amount bought/sold.",
+          "maxLength" : 25
+        },
+        "orderAmount" : {
+          "type" : "string",
+          "description" : "The amount of the order",
+          "maxLength" : 25
+        },
+        "cancelOrder" : {
+          "type" : "string",
+          "description" : "Option to cancel an order.",
+          "maxLength" : 25
+        },
+        "remarks" : {
+          "type" : "string",
+          "description" : "General comments / notes.",
+          "maxLength" : 25
+        }
+      }
+    },
+    "overrideBody" : {
+      "properties" : {
+        "overrideDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "string",
+                "description" : "The identifier of the override"
+              },
+              "description" : {
+                "type" : "string",
+                "description" : "The actual override message"
+              },
+              "options" : {
+                "type" : "array",
+                "description" : "The usable options for the override",
+                "items" : {
+                  "type" : "string"
+                }
+              },
+              "type" : {
+                "type" : "string",
+                "description" : "The type of the override"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/ScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "ScreenErrorResponse"
+    },
+    "ScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message "
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "BusinessScreenErrorResponse"
+    },
+    "BusinessScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message for bad requests"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "SystemScreenErrorResponse"
+    },
+    "SystemScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message caused by server"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    },
+    "ForexLimitOrder1" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ForexLimitOrder1Body"
+        }
+      },
+      "description" : "ForexLimitOrder1"
+    },
+    "ForexLimitOrder1Body" : {
+      "type" : "object",
+      "properties" : {
+        "buyOrSells" : {
+          "type" : "array",
+          "description" : "Whether the transaction is a buy or a sell.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "buyOrSell" : {
+                "type" : "string",
+                "description" : "Whether the transaction is a buy or a sell.",
+                "maxLength" : 25
+              },
+              "orderItemType" : {
+                "type" : "string",
+                "description" : "Purpose of the order i.e. stop loss , take profit or one cancels the other.",
+                "maxLength" : 25
+              },
+              "orderAmount" : {
+                "type" : "string",
+                "description" : "The amount of the order",
+                "maxLength" : 25
+              },
+              "orderRateLow" : {
+                "type" : "string",
+                "description" : "The low rate stipulated for order execution.",
+                "maxLength" : 25
+              },
+              "orderRateHI" : {
+                "type" : "string",
+                "description" : "The high rate stipulated for order execution.",
+                "maxLength" : 25
+              }
+            }
+          }
+        },
+        "dealType" : {
+          "type" : "string",
+          "description" : "Foreign Exchange deal type. Allowed values: - SP(spot) - FW(forward) - SW(Swap)",
+          "maxLength" : 25
+        },
+        "customerId" : {
+          "type" : "string",
+          "description" : "Identifier of the customer",
+          "maxLength" : 25
+        },
+        "dealerDesk" : {
+          "type" : "string",
+          "description" : "The dealer/desk responsible for monitoring and managing the currency positions.",
+          "maxLength" : 25
+        },
+        "orderCurrency" : {
+          "type" : "string",
+          "description" : "Currency to be bought or sold through the limit  order.",
+          "maxLength" : 25
+        },
+        "contraCurrency" : {
+          "type" : "string",
+          "description" : "Opposite to order currency. Currency of the amount paid or received against order amount bought/sold.",
+          "maxLength" : 25
+        },
+        "valueDate" : {
+          "type" : "string",
+          "description" : "Indicates the value date on which the underlying accounting entry is to be given value (for interest purposes)",
+          "maxLength" : 25
+        },
+        "expiryDate" : {
+          "type" : "string",
+          "description" : "The date an agreement such as an arrangement, product, credit facility or limit is due to expire",
+          "maxLength" : 25
+        },
+        "expiryTime" : {
+          "type" : "string",
+          "description" : "The time when the order expires.",
+          "maxLength" : 25
+        },
+        "goodTillCancel" : {
+          "type" : "string",
+          "description" : "The  order does not expire until it is cancelled. ",
+          "maxLength" : 25
+        },
+        "orderType" : {
+          "type" : "string",
+          "description" : "Identifies the type of the order. Possible values are Single, Ifdone, Revol, oco. Single order - only one order item may be input. If done order -  If one order gets executed, the other order is also executed immediately. Revolving order -  based on the condition specified, it will wait for both the deals to be executed simultaneously. OCO -If one order gets executed, then the other order gets cancelled.",
+          "maxLength" : 25
+        },
+        "receiveAccount" : {
+          "type" : "string",
+          "description" : "The account used for payment received.",
+          "maxLength" : 14
+        },
+        "payAccount" : {
+          "type" : "string",
+          "description" : "The account used for payment made.",
+          "maxLength" : 10
+        },
+        "remarks" : {
+          "type" : "string",
+          "description" : "General comments / notes.",
+          "maxLength" : 25
+        }
+      }
+    },
+    "ForexLimitOrderResponse1" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ForexLimitOrderResponse1Body"
+        }
+      },
+      "description" : "ForexLimitOrderResponse1"
+    },
+    "ForexLimitOrderResponse1Body" : {
+      "type" : "object",
+      "properties" : {
+        "buyOrSells" : {
+          "type" : "array",
+          "description" : "Whether the transaction is a buy or a sell.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "buyOrSell" : {
+                "type" : "string",
+                "description" : "Whether the transaction is a buy or a sell.",
+                "maxLength" : 25
+              },
+              "orderItemType" : {
+                "type" : "string",
+                "description" : "Purpose of the order i.e. stop loss , take profit or one cancels the other.",
+                "maxLength" : 25
+              },
+              "orderAmount" : {
+                "type" : "string",
+                "description" : "The amount of the order",
+                "maxLength" : 25
+              },
+              "orderRateLow" : {
+                "type" : "string",
+                "description" : "The low rate stipulated for order execution.",
+                "maxLength" : 25
+              },
+              "orderRateHI" : {
+                "type" : "string",
+                "description" : "The high rate stipulated for order execution.",
+                "maxLength" : 25
+              }
+            }
+          }
+        },
+        "dealType" : {
+          "type" : "string",
+          "description" : "Foreign Exchange deal type. Allowed values: - SP(spot) - FW(forward) - SW(Swap)",
+          "maxLength" : 25
+        },
+        "customerId" : {
+          "type" : "string",
+          "description" : "Identifier of the customer",
+          "maxLength" : 25
+        },
+        "dealerDesk" : {
+          "type" : "string",
+          "description" : "The dealer/desk responsible for monitoring and managing the currency positions.",
+          "maxLength" : 25
+        },
+        "orderCurrency" : {
+          "type" : "string",
+          "description" : "Currency to be bought or sold through the limit  order.",
+          "maxLength" : 25
+        },
+        "contraCurrency" : {
+          "type" : "string",
+          "description" : "Opposite to order currency. Currency of the amount paid or received against order amount bought/sold.",
+          "maxLength" : 25
+        },
+        "valueDate" : {
+          "type" : "string",
+          "description" : "Indicates the value date on which the underlying accounting entry is to be given value (for interest purposes)",
+          "maxLength" : 25
+        },
+        "expiryDate" : {
+          "type" : "string",
+          "description" : "The date an agreement such as an arrangement, product, credit facility or limit is due to expire",
+          "maxLength" : 25
+        },
+        "expiryTime" : {
+          "type" : "string",
+          "description" : "The time when the order expires.",
+          "maxLength" : 25
+        },
+        "goodTillCancel" : {
+          "type" : "string",
+          "description" : "The  order does not expire until it is cancelled. ",
+          "maxLength" : 25
+        },
+        "orderType" : {
+          "type" : "string",
+          "description" : "Identifies the type of the order. Possible values are Single, Ifdone, Revol, oco. Single order - only one order item may be input. If done order -  If one order gets executed, the other order is also executed immediately. Revolving order -  based on the condition specified, it will wait for both the deals to be executed simultaneously. OCO -If one order gets executed, then the other order gets cancelled.",
+          "maxLength" : 25
+        },
+        "receiveAccount" : {
+          "type" : "string",
+          "description" : "The account used for payment received.",
+          "maxLength" : 14
+        },
+        "payAccount" : {
+          "type" : "string",
+          "description" : "The account used for payment made.",
+          "maxLength" : 10
+        },
+        "remarks" : {
+          "type" : "string",
+          "description" : "General comments / notes.",
+          "maxLength" : 25
+        }
+      }
+    },
+    "CustomerForexDealsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/CustomerForexDealsResponseBody"
+        }
+      },
+      "description" : "CustomerForexDealsResponse"
+    },
+    "CustomerForexDealsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "contractId" : {
+            "type" : "string",
+            "description" : "The identifier of the contract",
+            "maxLength" : 16
+          },
+          "dealDate" : {
+            "type" : "string",
+            "description" : "Date on which the deal was agreed. ",
+            "maxLength" : 11
+          },
+          "buyCurrency" : {
+            "type" : "string",
+            "description" : "ISO Currency code for the bought currency.  ",
+            "maxLength" : 3
+          },
+          "buyAmount" : {
+            "type" : "string",
+            "description" : "Amount bought in the FX deal.",
+            "maxLength" : 19
+          },
+          "sellCurrency" : {
+            "type" : "string",
+            "description" : "ISO Currency code for the sold currency.  ",
+            "maxLength" : 3
+          },
+          "sellAmount" : {
+            "type" : "string",
+            "description" : "Amount sold in the FX deal.",
+            "maxLength" : 19
+          },
+          "valueDate" : {
+            "type" : "string",
+            "description" : "Indicates the value date on which the underlying accounting entry is to be given value (for interest purposes)",
+            "maxLength" : 15
+          },
+          "customerRate" : {
+            "type" : "number",
+            "description" : "The exchange rate that is actually applied for currency conversion in case of transactions involving FX conversion. "
+          },
+          "limOrderReference" : {
+            "type" : "string",
+            "description" : "Transaction reference ID of the limit order.",
+            "maxLength" : 20
+          },
+          "dealType" : {
+            "type" : "string",
+            "description" : "Foreign Exchange deal type. Allowed values: - SP(spot) - FW(forward) - SW(Swap)",
+            "maxLength" : 2
+          }
+        }
+      }
+    },
+    "ForexOrder" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ForexOrderBody"
+        }
+      },
+      "description" : "ForexOrder",
+      "example" : {
+        "header" : {
+          "audit" : { },
+          "override" : {
+            "overrideDetails" : [ {
+              "description" : "Record in OC.CUSTOMER missing . Continue ?",
+              "id" : "FX-OC.CUSTOMER.RECORD.MISSING",
+              "type" : "Override"
+            }, {
+              "description" : "OC Customer record for MiFID processing is missing for the Customer 100492",
+              "id" : "LE-OC.CUSTOMER.MISSING",
+              "type" : "Override"
+            }, {
+              "description" : "Intraday limit is breached for C.JPY ccy by amount 351132737",
+              "id" : "TY-INTRADAY.LIMIT.BREACH",
+              "type" : "Override"
+            } ]
+          }
+        },
+        "body" : {
+          "valueDateSell" : "20190520",
+          "taxDetails" : [ ],
+          "equivalent2Details" : [ ],
+          "consolIndDetails" : [ ],
+          "currencyBought" : "EUR",
+          "additionalReportingInformationDetails" : [ ],
+          "forwardRate" : "0.9",
+          "optionRateDetails" : [ ],
+          "chargeDetails" : [ ],
+          "baseCurrency" : "EUR",
+          "interestFieldDetails" : [ ],
+          "dateTimeDetails" : [ ],
+          "termsAndConditions" : [ ],
+          "overrideDetails" : [ ],
+          "spotRate" : "0.88720",
+          "startOfDayMaturity" : "YES",
+          "dealDate" : "20190417",
+          "amountSold" : "1800.00",
+          "Notes" : [ ],
+          "valueDateBuy" : "20190520",
+          "inputterDetails" : [ ],
+          "equivalentDetails" : [ ],
+          "dealType" : "FW",
+          "currencySold" : "GBP",
+          "tyCounterpartyType" : "IB",
+          "dealerNotes" : [ ],
+          "fxBulkOrderIds" : [ ],
+          "additionalInformationMetalDetails" : [ ],
+          "amountBought" : "2000.00",
+          "accountDetails" : [ {
+            "ourAccountPay" : "23701",
+            "deliveryDateBuy" : "20190520",
+            "counterpartyAddDetails" : [ ],
+            "confirmationNarrativeDetails" : [ ],
+            "activitycodeDetails" : [ ],
+            "beneficiaryAddDetails" : [ ],
+            "deliveryDateSell" : "20190420",
+            "deliveryAmountBuy" : "2000.00",
+            "receiveAdvanceNarrativeDetails" : [ ],
+            "paymtNarrativeDetails" : [ ],
+            "deliveryChargeDetails" : [ ],
+            "intermediateAddDetails" : [ ],
+            "deliveryAmountSell" : "1800.00",
+            "ourAccountReceive" : "36668",
+            "bankToBankInformationDetails" : [ ]
+          } ],
+          "swapReferenceNumbers" : [ ],
+          "counterparty" : "100492",
+          "orginalValueDetails" : [ ]
+        }
+      }
+    },
+    "ForexOrderBody" : {
+      "type" : "object",
+      "properties" : {
+        "customerName" : {
+          "type" : "string",
+          "description" : "Name of the customer",
+          "maxLength" : 25
+        },
+        "dealDate" : {
+          "type" : "string",
+          "description" : "Date on which the deal was agreed. ",
+          "maxLength" : 25
+        },
+        "buyDate" : {
+          "type" : "string",
+          "description" : "Value date of the buy currency. ",
+          "maxLength" : 25
+        },
+        "buyCurrency" : {
+          "type" : "string",
+          "description" : "ISO Currency code for the bought currency.  ",
+          "maxLength" : 25
+        },
+        "sellCurrency" : {
+          "type" : "string",
+          "description" : "ISO Currency code for the sold currency.  ",
+          "maxLength" : 25
+        },
+        "baseCurrency" : {
+          "type" : "string",
+          "description" : "Currency against which exchange rate is quoted.",
+          "maxLength" : 25
+        },
+        "buyAmount" : {
+          "type" : "string",
+          "description" : "Amount bought in the FX deal.",
+          "maxLength" : 25
+        },
+        "sellAmount" : {
+          "type" : "string",
+          "description" : "Amount sold in the FX deal.",
+          "maxLength" : 25
+        },
+        "treasuryRate" : {
+          "type" : "string",
+          "description" : "The Treasury rate for the conversion between payment currency and the ordering currency",
+          "maxLength" : 25
+        },
+        "portfolioId" : {
+          "type" : "string",
+          "description" : "Id of the portfolio or security account",
+          "maxLength" : 25
+        },
+        "dealType" : {
+          "type" : "string",
+          "description" : "Foreign Exchange deal type. Allowed values: - SP(spot) - FW(forward) - SW(Swap)",
+          "maxLength" : 25
+        },
+        "dealerDesk" : {
+          "type" : "string",
+          "description" : "The dealer/desk responsible for monitoring and managing the currency positions.",
+          "maxLength" : 25
+        },
+        "treasuryCustomer" : {
+          "type" : "string",
+          "description" : "Identifies if the counterparty is a treasury customer or not in order to allocate the exchange earnings between treasury and marketing units",
+          "maxLength" : 25
+        },
+        "marginPercent" : {
+          "type" : "string",
+          "description" : "Field to state the percentage of provision to be taken",
+          "maxLength" : 25
+        },
+        "marginPips" : {
+          "type" : "string",
+          "description" : "The spread applied on the treasury rate to derive the customer rate.",
+          "maxLength" : 13
+        }
+      }
+    },
+    "ForexOrderResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ForexOrderResponseBody"
+        }
+      },
+      "description" : "ForexOrderResponse"
+    },
+    "ForexOrderResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "customerName" : {
+          "type" : "string",
+          "description" : "Name of the customer",
+          "maxLength" : 25
+        },
+        "dealDate" : {
+          "type" : "string",
+          "description" : "Date on which the deal was agreed. ",
+          "maxLength" : 25
+        },
+        "buyDate" : {
+          "type" : "string",
+          "description" : "Value date of the buy currency. ",
+          "maxLength" : 25
+        },
+        "buyCurrency" : {
+          "type" : "string",
+          "description" : "ISO Currency code for the bought currency.  ",
+          "maxLength" : 25
+        },
+        "sellCurrency" : {
+          "type" : "string",
+          "description" : "ISO Currency code for the sold currency.  ",
+          "maxLength" : 25
+        },
+        "baseCurrency" : {
+          "type" : "string",
+          "description" : "Currency against which exchange rate is quoted.",
+          "maxLength" : 25
+        },
+        "buyAmount" : {
+          "type" : "string",
+          "description" : "Amount bought in the FX deal.",
+          "maxLength" : 25
+        },
+        "sellAmount" : {
+          "type" : "string",
+          "description" : "Amount sold in the FX deal.",
+          "maxLength" : 25
+        },
+        "treasuryRate" : {
+          "type" : "string",
+          "description" : "The Treasury rate for the conversion between payment currency and the ordering currency",
+          "maxLength" : 25
+        },
+        "portfolioId" : {
+          "type" : "string",
+          "description" : "Id of the portfolio or security account",
+          "maxLength" : 25
+        },
+        "dealType" : {
+          "type" : "string",
+          "description" : "Foreign Exchange deal type. Allowed values: - SP(spot) - FW(forward) - SW(Swap)",
+          "maxLength" : 25
+        },
+        "dealerDesk" : {
+          "type" : "string",
+          "description" : "The dealer/desk responsible for monitoring and managing the currency positions.",
+          "maxLength" : 25
+        },
+        "treasuryCustomer" : {
+          "type" : "string",
+          "description" : "Identifies if the counterparty is a treasury customer or not in order to allocate the exchange earnings between treasury and marketing units",
+          "maxLength" : 25
+        },
+        "marginPercent" : {
+          "type" : "string",
+          "description" : "Field to state the percentage of provision to be taken",
+          "maxLength" : 25
+        },
+        "marginPips" : {
+          "type" : "string",
+          "description" : "The spread applied on the treasury rate to derive the customer rate.",
+          "maxLength" : 13
+        }
+      }
+    },
+    "OutstandingForexOrdersResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/OutstandingForexOrdersResponseBody"
+        }
+      },
+      "description" : "OutstandingForexOrdersResponse"
+    },
+    "OutstandingForexOrdersResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "transactionReference" : {
+            "type" : "string",
+            "description" : "Transaction reference identifier.",
+            "maxLength" : 16
+          },
+          "dealType" : {
+            "type" : "string",
+            "description" : "Foreign Exchange deal type. Allowed values: - SP(spot) - FW(forward) - SW(Swap)",
+            "maxLength" : 2
+          },
+          "counterparty" : {
+            "type" : "string",
+            "description" : "The counterparty ID  for the  deal.",
+            "maxLength" : 10
+          },
+          "counterpartyName" : {
+            "type" : "string",
+            "description" : "The counterparty name for the forex deal.",
+            "maxLength" : 35
+          },
+          "dealDate" : {
+            "type" : "string",
+            "description" : "Date on which the deal was agreed. ",
+            "maxLength" : 11
+          },
+          "buyCurrency" : {
+            "type" : "string",
+            "description" : "ISO Currency code for the bought currency.  ",
+            "maxLength" : 3
+          },
+          "buyAmount" : {
+            "type" : "string",
+            "description" : "Amount bought in the FX deal.",
+            "maxLength" : 19
+          },
+          "sellCurrency" : {
+            "type" : "string",
+            "description" : "ISO Currency code for the sold currency.  ",
+            "maxLength" : 3
+          },
+          "sellAmount" : {
+            "type" : "string",
+            "description" : "Amount sold in the FX deal.",
+            "maxLength" : 19
+          },
+          "valueDate" : {
+            "type" : "string",
+            "description" : "Indicates the value date on which the underlying accounting entry is to be given value (for interest purposes)",
+            "maxLength" : 11
+          },
+          "exchangeRate" : {
+            "type" : "string",
+            "description" : "Contains the exchange rate returned from the system. i.e. For entries over foreign currency accounts, this contains the rate which used to convert the currency amount to the local equivalent at the time of the originating transaction."
+          },
+          "seller" : {
+            "type" : "string",
+            "maxLength" : 36
+          },
+          "buyer" : {
+            "type" : "string",
+            "maxLength" : 36
+          },
+          "unevenSwap" : {
+            "type" : "string",
+            "description" : "Identifier for a FX uneven swap  (the swap base currency amount in near and far leg are not the same).",
+            "maxLength" : 1
+          },
+          "swapId" : {
+            "type" : "string",
+            "description" : "Swap contract identifier",
+            "maxLength" : 12
+          }
+        }
+      }
+    },
+    "ForexOrdersResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ForexOrdersResponseBody"
+        }
+      },
+      "description" : "ForexOrdersResponse"
+    },
+    "ForexOrdersResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "AL" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "assetLiabilityPosition" : {
+                  "type" : "array",
+                  "description" : "Foreign currency position corresponding to the assets and liabilities.",
+                  "items" : {
+                    "type" : "number"
+                  }
+                }
+              }
+            }
+          },
+          "SP" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "spotPosition" : {
+                  "type" : "array",
+                  "description" : "Currency position corresponding to spot period.",
+                  "items" : {
+                    "type" : "number"
+                  }
+                }
+              }
+            }
+          },
+          "FWD" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "forwardPosition" : {
+                  "type" : "array",
+                  "description" : "Currency position with value date greater than spot.",
+                  "items" : {
+                    "type" : "number"
+                  }
+                }
+              }
+            }
+          },
+          "currencyId" : {
+            "type" : "string",
+            "description" : "Identifier of the currency. This is the 3-letter ISO 4217 code of the currency."
+          },
+          "netPosition" : {
+            "type" : "number",
+            "description" : "Net of buy and sell positions."
+          },
+          "unapprovedPosition" : {
+            "type" : "number",
+            "description" : "Position amount for unauthorised transactions."
+          }
+        }
+      }
+    },
+    "createForexOrder" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ForexOrderBody"
+        }
+      },
+      "description" : "ForexOrder",
+      "example" : {
+        "header" : {
+          "audit" : { },
+          "override" : {
+            "overrideDetails" : [ {
+              "description" : "Record in OC.CUSTOMER missing . Continue ?",
+              "id" : "FX-OC.CUSTOMER.RECORD.MISSING",
+              "type" : "Override"
+            }, {
+              "description" : "OC Customer record for MiFID processing is missing for the Customer 100492",
+              "id" : "LE-OC.CUSTOMER.MISSING",
+              "type" : "Override"
+            }, {
+              "description" : "Intraday limit is breached for C.JPY ccy by amount 351132737",
+              "id" : "TY-INTRADAY.LIMIT.BREACH",
+              "type" : "Override"
+            } ]
+          }
+        },
+        "body" : {
+          "valueDateSell" : "20190520",
+          "taxDetails" : [ ],
+          "equivalent2Details" : [ ],
+          "consolIndDetails" : [ ],
+          "currencyBought" : "EUR",
+          "additionalReportingInformationDetails" : [ ],
+          "forwardRate" : "0.9",
+          "optionRateDetails" : [ ],
+          "chargeDetails" : [ ],
+          "baseCurrency" : "EUR",
+          "interestFieldDetails" : [ ],
+          "dateTimeDetails" : [ ],
+          "termsAndConditions" : [ ],
+          "overrideDetails" : [ ],
+          "spotRate" : "0.88720",
+          "startOfDayMaturity" : "YES",
+          "dealDate" : "20190417",
+          "amountSold" : "1800.00",
+          "Notes" : [ ],
+          "valueDateBuy" : "20190520",
+          "inputterDetails" : [ ],
+          "equivalentDetails" : [ ],
+          "dealType" : "FW",
+          "currencySold" : "GBP",
+          "tyCounterpartyType" : "IB",
+          "dealerNotes" : [ ],
+          "fxBulkOrderIds" : [ ],
+          "additionalInformationMetalDetails" : [ ],
+          "amountBought" : "2000.00",
+          "accountDetails" : [ {
+            "ourAccountPay" : "23701",
+            "deliveryDateBuy" : "20190520",
+            "counterpartyAddDetails" : [ ],
+            "confirmationNarrativeDetails" : [ ],
+            "activitycodeDetails" : [ ],
+            "beneficiaryAddDetails" : [ ],
+            "deliveryDateSell" : "20190420",
+            "deliveryAmountBuy" : "2000.00",
+            "receiveAdvanceNarrativeDetails" : [ ],
+            "paymtNarrativeDetails" : [ ],
+            "deliveryChargeDetails" : [ ],
+            "intermediateAddDetails" : [ ],
+            "deliveryAmountSell" : "1800.00",
+            "ourAccountReceive" : "36668",
+            "bankToBankInformationDetails" : [ ]
+          } ],
+          "swapReferenceNumbers" : [ ],
+          "counterparty" : "100492",
+          "orginalValueDetails" : [ ]
+        }
+      }
+    },
+    "createForexLimitOrder" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ForexLimitOrderBody"
+        }
+      },
+      "description" : "ForexLimitOrder",
+      "example" : {
+        "header" : {
+          "audit" : { },
+          "override" : {
+            "overrideDetails" : [ ]
+          }
+        },
+        "body" : {
+          "ourAccountPay" : "15377",
+          "contraCurrency" : "CHF",
+          "orderType" : "SINGLE",
+          "limitReference" : "11050.01",
+          "orderCurrency" : "GBP",
+          "buySellDetails" : [ {
+            "buySell" : "BUY",
+            "orderAmount" : "1000000.00",
+            "orderItemStatus" : "OPEN",
+            "orderItemType" : "SL",
+            "requiredHighRate" : "2.1"
+          } ],
+          "orderStatus" : "ACTIVE",
+          "valueDate" : "20190419",
+          "dealType" : "SP",
+          "baseCurrency" : "GBP",
+          "dealerDesk" : "00",
+          "ourAccountReceive" : "23701",
+          "counterparty" : "100492",
+          "dealDate" : "20190417",
+          "goodTillCancellation" : "YES"
+        }
+      }
+    }
+  }
+}

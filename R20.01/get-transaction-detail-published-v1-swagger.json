@@ -1,0 +1,421 @@
+{
+    "basePath": "/api/v1",
+    "paths":
+    {
+        "/accounts/{account-id}/transactions/{resourceId}":
+        {
+            "get":
+            {
+                "produces": ["application/json"],
+                "operationId": "getTransactionDetailPublished",
+                "description": "Get transaction detail for the account",
+                "responses":
+                {
+                    "200":
+                    {
+                        "schema":
+                        {
+                            "$ref": "#/definitions/getTransactionDetailPublishedResponse"
+                        },
+                        "description": "getTransactionDetailPublishedResponse"
+                    },
+                    "default":
+                    {
+                        "schema":
+                        {
+                            "$ref": "#/definitions/getTransactionDetailPublishedErrorResponse"
+                        },
+                        "description": "getTransactionDetailPublishedErrorResponse"
+                    }
+                }
+            },
+            "parameters": [
+            {
+                "in": "header",
+                "name": "X-Request-ID",
+                "format": "uuid",
+                "description": "ID of the request, unique to the call, as determined by the initiating party.",
+                "type": "string",
+                "required": true
+            },
+            {
+                "in": "path",
+                "name": "account-id",
+                "description": "This identification is denoting the addressed account. \nThe account-id is retrieved by using a \"Read Account List\" call. \nThe account-id is the \"id\" attribute of the account structure. \nIts value is constant at least throughout the lifecycle of a given consent.",
+                "type": "string",
+                "required": true
+            },
+            {
+                "in": "path",
+                "name": "resourceId",
+                "description": "This identification is given by the attribute resourceId of the corresponding entry of a transaction list.",
+                "type": "string",
+                "required": true
+            },
+            {
+                "in": "header",
+                "name": "Consent-ID",
+                "description": "ID of the request, unique to the call, as determined by the initiating party.",
+                "type": "string",
+                "required": true
+            },
+            {
+                "in": "query",
+                "name": "date",
+                "description": "Basde on this date the balances are returned.",
+                "type": "string",
+                "required": false
+            },
+            {
+                "in": "header",
+                "name": "Digest",
+                "description": "Is contained if and only if the \"Signature\" element is contained in the header of the request.",
+                "type": "string",
+                "required": false
+            },
+            {
+                "in": "header",
+                "name": "Signature",
+                "description": "A signature of the request by the TPP on application level. This might be mandated by ASPSP.",
+                "type": "string",
+                "required": false
+            },
+            {
+                "in": "header",
+                "name": "TPP-Signature-Certificate",
+                "description": "The certificate used for signing the request, in base64 encoding. \nMust be contained if a signature is contained.",
+                "type": "string",
+                "required": false
+            },
+            {
+                "in": "header",
+                "name": "PSU-IP-Port",
+                "description": "The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.",
+                "type": "string",
+                "required": false
+            },
+            {
+                "in": "header",
+                "name": "PSU-Accept",
+                "description": "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.",
+                "type": "string",
+                "required": false
+            },
+            {
+                "in": "header",
+                "name": "PSU-Accept-Charset",
+                "description": "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.",
+                "type": "string",
+                "required": false
+            },
+            {
+                "in": "header",
+                "name": "PSU-Accept-Encoding",
+                "description": "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.",
+                "type": "string",
+                "required": false
+            },
+            {
+                "in": "header",
+                "name": "PSU-Accept-Language",
+                "description": "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.",
+                "type": "string",
+                "required": false
+            },
+            {
+                "in": "header",
+                "name": "PSU-User-Agent",
+                "description": "The forwarded Agent header field of the HTTP request between PSU and TPP, if available.",
+                "type": "string",
+                "required": false
+            },
+            {
+                "in": "header",
+                "name": "PSU-Device-ID",
+                "format": "uuid",
+                "description": "UUID (Universally Unique Identifier) for a device, which is used by the PSU, if available.\nUUID identifies either a device or a device dependant application installation.\nIn case of an installation identification this ID need to be unaltered until removal from device.",
+                "type": "string",
+                "required": false
+            },
+            {
+                "in": "header",
+                "name": "PSU-Http-Method",
+                "description": "HTTP method used at the PSU ? TPP interface, if available.\nValid values are:\n* GET\n* POST\n* PUT\n* PATCH\n* DELETE",
+                "type": "string",
+                "required": false,
+                "enum": ["GET", "POST", "PUT", "PATCH", "DELETE"]
+            },
+            {
+                "in": "header",
+                "name": "PSU-Geo-Location",
+                "pattern": "(GEO:)[0-9]{1,3}\\.[-][0-9]{6}\\,[-][0-9]{1,3}\\.[0-9]{6}",
+                "description": "The forwarded Geo Location of the corresponding http request between PSU and TPP if available.",
+                "type": "string",
+                "required": false
+            },
+            {
+                "in": "header",
+                "name": "PSU-IP-Address",
+                "format": "ipv4",
+                "description": "HTTP request IP Address field between PSU and TPP",
+                "type": "string",
+                "required": false
+            },
+            {
+                "in": "header",
+                "name": "Authorization",
+                "description": "Is contained only, if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in the related consent authorisation",
+                "type": "string",
+                "required": false
+            }]
+        }
+    },
+    "definitions":
+    {
+        "getTransactionDetailPublishedErrorResponse":
+        {
+            "type": "object",
+            "properties":
+            {
+                "tppMessages":
+                {
+                    "description": "Messages to the TPP on operational issues.",
+                    "type": "array",
+                    "items":
+                    {
+                        "type": "object",
+                        "properties":
+                        {
+                            "code":
+                            {
+                                "type": "string"
+                            },
+                            "text":
+                            {
+                                "type": "string"
+                            },
+                            "category":
+                            {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "getTransactionDetailPublishedResponse":
+        {
+            "type": "object",
+            "properties":
+            {
+                "debtorAccount":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "bban":
+                        {
+                            "type": "string"
+                        },
+                        "maskedPan":
+                        {
+                            "type": "string"
+                        },
+                        "iban":
+                        {
+                            "type": "string"
+                        },
+                        "currency":
+                        {
+                            "type": "string"
+                        },
+                        "pan":
+                        {
+                            "type": "string"
+                        },
+                        "msisdn":
+                        {
+                            "type": "string"
+                        }
+                    }
+                },
+                "creditorName":
+                {
+                    "type": "string"
+                },
+                "remittanceInformationStructured":
+                {
+                    "type": "string"
+                },
+                "ultimateCreditor":
+                {
+                    "type": "string"
+                },
+                "bankTransactionCode":
+                {
+                    "type": "string"
+                },
+                "debtorName":
+                {
+                    "type": "string"
+                },
+                "valueDate":
+                {
+                    "format": "date",
+                    "description": "The Date at which assets become available to the account owner in case of a credit.",
+                    "type": "string"
+                },
+                "endToEndId":
+                {
+                    "description": "Unique end to end identity.",
+                    "type": "string",
+                    "maxLength": 35
+                },
+                "transactionId":
+                {
+                    "description": "the Transaction Id can be used as access-ID in the API, where more details on an transaction is offered. \nIf this data attribute is provided this shows that the AIS can get access on more details about this \ntransaction using the GET Transaction Details Request",
+                    "type": "string"
+                },
+                "ultimateDebtor":
+                {
+                    "type": "string"
+                },
+                "exchangeRate":
+                {
+                    "description": "Messages to the TPP on operational issues.",
+                    "type": "array",
+                    "items":
+                    {
+                        "type": "object",
+                        "properties":
+                        {
+                            "currencyTo":
+                            {
+                                "pattern": "[A-Z]{3}",
+                                "description": "ISO 4217 Alpha 3 currency code",
+                                "type": "string",
+                                "example": "EUR"
+                            },
+                            "rate":
+                            {
+                                "type": "string"
+                            },
+                           
+                            "currencyFrom":
+                            {
+                                "pattern": "[A-Z]{3}",
+                                "description": "ISO 4217 Alpha 3 currency code",
+                                "type": "string",
+                                "example": "EUR"
+                            },
+                            "rateDate":
+                            {
+                                "format": "date",
+                                "type": "string"
+                            },
+                            "rateContract":
+                            {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "mandateId":
+                {
+                    "description": "Identification of Mandates, e.g. a SEPA Mandate ID.",
+                    "type": "string",
+                    "maxLength": 35
+                },
+                "transactionAmount":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "amount":
+                        {
+                            "type": "string"
+                        },
+                        "currency":
+                        {
+                            "type": "string"
+                        }
+                    }
+                },
+                "creditorAccount":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "bban":
+                        {
+                            "type": "string"
+                        },
+                        "maskedPan":
+                        {
+                            "type": "string"
+                        },
+                        "iban":
+                        {
+                            "type": "string"
+                        },
+                        "currency":
+                        {
+                            "type": "string"
+                        },
+                        "pan":
+                        {
+                            "type": "string"
+                        },
+                        "msisdn":
+                        {
+                            "type": "string"
+                        }
+                    }
+                },
+                "purposeCode":
+                {
+                    "type": "string"
+                },
+                "proprietaryBankTransactionCode":
+                {
+                    "type": "string"
+                },
+                "bookingDate":
+                {
+                    "format": "date",
+                    "description": "The Date when an entry is posted to an account on the ASPSPs books.",
+                    "type": "string"
+                },
+                "remittanceInformationUnstructured":
+                {
+                    "type": "string"
+                },
+                "checkId":
+                {
+                    "description": "Identification of a Cheque.",
+                    "type": "string",
+                    "maxLength": 35
+                },
+                "entryReference":
+                {
+                    "description": "Is the identification of the transaction as used e.g. for reference for deltafunction on application level. \nThe same identification as for example used within camt.05x messages.",
+                    "type": "string",
+                    "maxLength": 35
+                },
+                "creditorId":
+                {
+                    "description": "Identification of Creditors, e.g. a SEPA Creditor ID.",
+                    "type": "string",
+                    "maxLength": 35
+                }
+            }
+        }
+    },
+    "swagger": "2.0",
+    "info":
+    {
+        "description": "Get the transaction details for an accountId.",
+        "title": "BG PSD2 ACCOUNT TRANSACTION DETAIL API",
+        "version": "v1.2.0"
+    }
+}

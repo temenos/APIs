@@ -1,0 +1,858 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "FATCA Customer Details",
+    "version" : "v1.0.0",
+    "title" : "FATCA Customer Details"
+  },
+  "host" : "api.server.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/party/customers/fatca/{customerId}" : {
+      "post" : {
+        "summary" : "Create FATCA Customer Supplementary Information details",
+        "description" : "To create a FATCA Customer Supplementary information record that stores the related FATCA details for the customer",
+        "operationId" : "createFatcaCustomer",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "customerId",
+          "in" : "path",
+          "description" : "The identifier of the customer",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/FatcaCustomer"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "FatcaCustomerResponse",
+            "schema" : {
+              "$ref" : "#/definitions/FatcaCustomerResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Update FATCA Customer Supplementary Information details",
+        "description" : "To update a FATCA Customer Supplementary information record that stores the related FATCA details for the customer",
+        "operationId" : "updateFatcaCustomer",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "customerId",
+          "in" : "path",
+          "description" : "The identifier of the customer",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/FatcaCustomer"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "FatcaCustomerResponse",
+            "schema" : {
+              "$ref" : "#/definitions/FatcaCustomerResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "PayloadHeader" : {
+      "properties" : {
+        "override" : {
+          "type" : "object",
+          "properties" : {
+            "overrideDetails" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "id" : {
+                    "type" : "string",
+                    "description" : "The identifier of the override"
+                  },
+                  "description" : {
+                    "type" : "string",
+                    "description" : "The actual override message"
+                  },
+                  "responseCode" : {
+                    "type" : "string",
+                    "description" : "The user input to accept/reject the override."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            }
+          }
+        }
+      }
+    },
+    "FatcaCustomer" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/FatcaCustomerBody"
+        }
+      },
+      "description" : "FatcaCustomer"
+    },
+    "FatcaCustomerBody" : {
+      "type" : "object",
+      "properties" : {
+        "citizenships" : {
+          "type" : "array",
+          "description" : "Identifies the citizenship details of Customer",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "citizenship" : {
+                "type" : "string",
+                "description" : "Identifies the citizenship details of Customer If blank it defaults to US."
+              }
+            }
+          }
+        },
+        "tinDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "tinCountry" : {
+                "type" : "string",
+                "description" : "Identifies the country that the associated Tax Identification Number relates to"
+              },
+              "tinId" : {
+                "type" : "string",
+                "description" : "Identifies the Tax Identification Number of the Customer"
+              }
+            }
+          }
+        },
+        "Owner" : {
+          "type" : "array",
+          "description" : "User who defines the Campaign",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "formOwner" : {
+                "type" : "string",
+                "description" : ""
+              },
+              "formDetails" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "formType" : {
+                      "type" : "string",
+                      "description" : "Identifies the type of the document that are expected from the customer"
+                    },
+                    "formId" : {
+                      "type" : "string",
+                      "description" : ""
+                    },
+                    "requestDate" : {
+                      "type" : "string",
+                      "format" : "date",
+                      "description" : "Date on which the client's request to be classified as professional has been received."
+                    },
+                    "receivedDate" : {
+                      "type" : "string",
+                      "format" : "date",
+                      "description" : "Identifies the date on which the document was received"
+                    },
+                    "cutOffDate" : {
+                      "type" : "string",
+                      "format" : "date",
+                      "description" : "Specifies the Cutoff date for document submission. Identifies the end date before which the document has to be submitted. "
+                    },
+                    "expiryDate" : {
+                      "type" : "string",
+                      "format" : "date",
+                      "description" : "The date an agreement such as an arrangement, product, credit facility or limit is due to expire"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "JointOwner" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "role" : {
+                "type" : "string",
+                "description" : ""
+              },
+              "customerId" : {
+                "type" : "string",
+                "description" : "The identifier of the customer"
+              },
+              "holderReference" : {
+                "type" : "string",
+                "description" : "Specifies the Unique Identifier for joint, substantial or beneficial owner. Uniquely identifies the owner of the client, must be defined in format <id of the Customer> - <Sequence number>"
+              },
+              "holderName" : {
+                "type" : "string",
+                "description" : "Identifies the Name of the  joint, substantial or beneficial owner"
+              },
+              "surname" : {
+                "type" : "string",
+                "description" : ""
+              },
+              "firstName" : {
+                "type" : "string",
+                "description" : ""
+              },
+              "ownershipParticipation" : {
+                "type" : "string",
+                "description" : "Specifies the ownership in percentage terms for the account mentioned"
+              },
+              "holderCountry" : {
+                "type" : "string",
+                "description" : "Identifies the Country of the joint, substantial or beneficial owner"
+              },
+              "holderTinCountry" : {
+                "type" : "string",
+                "description" : "Identifies the Tax Country of the joint, substantial or beneficial owner"
+              },
+              "legalEntityType" : {
+                "type" : "string",
+                "description" : "Identifies whether the legal entity is individual or corporate"
+              }
+            }
+          }
+        },
+        "fatcaClientType" : {
+          "type" : "string",
+          "description" : "Identifies the type of client.E.g Individual, Entity etc"
+        },
+        "isPlaceOfBirthUs" : {
+          "type" : "string",
+          "description" : "Identifies whether the client's country of birth is US.   Possible values YES or NO"
+        },
+        "domicile" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "greencardDetails" : {
+          "type" : "string",
+          "description" : "Identifies the greencard details of the client"
+        },
+        "residenceId" : {
+          "type" : "string",
+          "description" : "The identifier of the country of residence of a customer"
+        },
+        "isPoa" : {
+          "type" : "string",
+          "description" : "Specifies whether there is power of attorney(POA). Posible values YES or NO"
+        },
+        "standingInstructionOnUsAccount" : {
+          "type" : "string",
+          "description" : "Specifies whether there is any standing instruction to an account in US. Possible values YES/NO"
+        },
+        "accountInstructionfromUs" : {
+          "type" : "string",
+          "description" : "Specifies if account has any instructions from a US address. Possible values YES or NO"
+        },
+        "socialSecurityNumber" : {
+          "type" : "string",
+          "description" : "Identifies the Social Security number of the customer"
+        },
+        "phoneNumber" : {
+          "type" : "string",
+          "description" : "The phone number of the customer or prospect"
+        },
+        "isDormantAccount" : {
+          "type" : "string",
+          "description" : "Specifies whether there is no contact that could be established with the client. Possible values YES or NO"
+        },
+        "isKycChecked" : {
+          "type" : "string",
+          "description" : "Identifies if the KYC check has been done or not. Possible values YES or NO"
+        },
+        "entityStatus" : {
+          "type" : "string",
+          "description" : "Specifies the self-classification received from entities "
+        },
+        "currentStatusExpiry" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Specifies the date on which the current status got expired"
+        },
+        "fatcaStatus" : {
+          "type" : "string",
+          "description" : "Specifies the Fatca status or Account Classification of the client. "
+        },
+        "statusNarrative" : {
+          "type" : "string",
+          "description" : "Identifies any free format narrative related to the status"
+        },
+        "statusChangeDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Identifies the effective date of change of status"
+        },
+        "changeReason" : {
+          "type" : "string",
+          "description" : "Specifies the reason (if any) for any status change"
+        },
+        "giin" : {
+          "type" : "string",
+          "description" : "Specifies the Global Intermediary Identification Numbers of financial institutions"
+        }
+      }
+    },
+    "ScreenHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "parse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "FatcaCustomerResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/FatcaCustomerResponseBody"
+        }
+      },
+      "description" : "FatcaCustomerResponse"
+    },
+    "FatcaCustomerResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "citizenships" : {
+          "type" : "array",
+          "description" : "Identifies the citizenship details of Customer",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "citizenship" : {
+                "type" : "string",
+                "description" : "Identifies the citizenship details of Customer If blank it defaults to US."
+              }
+            }
+          }
+        },
+        "tinDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "tinCountry" : {
+                "type" : "string",
+                "description" : "Identifies the country that the associated Tax Identification Number relates to"
+              },
+              "tinId" : {
+                "type" : "string",
+                "description" : "Identifies the Tax Identification Number of the Customer"
+              }
+            }
+          }
+        },
+        "Owner" : {
+          "type" : "array",
+          "description" : "User who defines the Campaign",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "formOwner" : {
+                "type" : "string",
+                "description" : ""
+              },
+              "formDetails" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "formType" : {
+                      "type" : "string",
+                      "description" : "Identifies the type of the document that are expected from the customer"
+                    },
+                    "formId" : {
+                      "type" : "string",
+                      "description" : ""
+                    },
+                    "requestDate" : {
+                      "type" : "string",
+                      "format" : "date",
+                      "description" : "Date on which the client's request to be classified as professional has been received."
+                    },
+                    "receivedDate" : {
+                      "type" : "string",
+                      "format" : "date",
+                      "description" : "Identifies the date on which the document was received"
+                    },
+                    "cutOffDate" : {
+                      "type" : "string",
+                      "format" : "date",
+                      "description" : "Specifies the Cutoff date for document submission. Identifies the end date before which the document has to be submitted. "
+                    },
+                    "expiryDate" : {
+                      "type" : "string",
+                      "format" : "date",
+                      "description" : "The date an agreement such as an arrangement, product, credit facility or limit is due to expire"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "JointOwner" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "role" : {
+                "type" : "string",
+                "description" : ""
+              },
+              "customerId" : {
+                "type" : "string",
+                "description" : "The identifier of the customer"
+              },
+              "holderReference" : {
+                "type" : "string",
+                "description" : "Specifies the Unique Identifier for joint, substantial or beneficial owner. Uniquely identifies the owner of the client, must be defined in format <id of the Customer> - <Sequence number>"
+              },
+              "holderName" : {
+                "type" : "string",
+                "description" : "Identifies the Name of the  joint, substantial or beneficial owner"
+              },
+              "surname" : {
+                "type" : "string",
+                "description" : ""
+              },
+              "firstName" : {
+                "type" : "string",
+                "description" : ""
+              },
+              "ownershipParticipation" : {
+                "type" : "string",
+                "description" : "Specifies the ownership in percentage terms for the account mentioned"
+              },
+              "holderCountry" : {
+                "type" : "string",
+                "description" : "Identifies the Country of the joint, substantial or beneficial owner"
+              },
+              "holderTinCountry" : {
+                "type" : "string",
+                "description" : "Identifies the Tax Country of the joint, substantial or beneficial owner"
+              },
+              "legalEntityType" : {
+                "type" : "string",
+                "description" : "Identifies whether the legal entity is individual or corporate"
+              }
+            }
+          }
+        },
+        "fatcaClientType" : {
+          "type" : "string",
+          "description" : "Identifies the type of client.E.g Individual, Entity etc"
+        },
+        "isPlaceOfBirthUs" : {
+          "type" : "string",
+          "description" : "Identifies whether the client's country of birth is US.   Possible values YES or NO"
+        },
+        "domicile" : {
+          "type" : "string",
+          "description" : ""
+        },
+        "greencardDetails" : {
+          "type" : "string",
+          "description" : "Identifies the greencard details of the client"
+        },
+        "residenceId" : {
+          "type" : "string",
+          "description" : "The identifier of the country of residence of a customer"
+        },
+        "isPoa" : {
+          "type" : "string",
+          "description" : "Specifies whether there is power of attorney(POA). Posible values YES or NO"
+        },
+        "standingInstructionOnUsAccount" : {
+          "type" : "string",
+          "description" : "Specifies whether there is any standing instruction to an account in US. Possible values YES/NO"
+        },
+        "accountInstructionfromUs" : {
+          "type" : "string",
+          "description" : "Specifies if account has any instructions from a US address. Possible values YES or NO"
+        },
+        "socialSecurityNumber" : {
+          "type" : "string",
+          "description" : "Identifies the Social Security number of the customer"
+        },
+        "phoneNumber" : {
+          "type" : "string",
+          "description" : "The phone number of the customer or prospect"
+        },
+        "isDormantAccount" : {
+          "type" : "string",
+          "description" : "Specifies whether there is no contact that could be established with the client. Possible values YES or NO"
+        },
+        "isKycChecked" : {
+          "type" : "string",
+          "description" : "Identifies if the KYC check has been done or not. Possible values YES or NO"
+        },
+        "entityStatus" : {
+          "type" : "string",
+          "description" : "Specifies the self-classification received from entities "
+        },
+        "currentStatusExpiry" : {
+          "type" : "string",
+          "description" : "Specifies the date on which the current status got expired"
+        },
+        "fatcaStatus" : {
+          "type" : "string",
+          "description" : "Specifies the Fatca status or Account Classification of the client. "
+        },
+        "statusNarrative" : {
+          "type" : "string",
+          "description" : "Identifies any free format narrative related to the status"
+        },
+        "statusChangeDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Identifies the effective date of change of status"
+        },
+        "changeReason" : {
+          "type" : "string",
+          "description" : "Specifies the reason (if any) for any status change"
+        },
+        "giin" : {
+          "type" : "string",
+          "description" : "Specifies the Global Intermediary Identification Numbers of financial institutions"
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "parse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "overrideBody" : {
+      "properties" : {
+        "overrideDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "string",
+                "description" : "The identifier of the override"
+              },
+              "description" : {
+                "type" : "string",
+                "description" : "The actual override message"
+              },
+              "options" : {
+                "type" : "array",
+                "description" : "The usable options for the override",
+                "items" : {
+                  "type" : "string"
+                }
+              },
+              "type" : {
+                "type" : "string",
+                "description" : "The type of the override"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/ScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "ScreenErrorResponse"
+    },
+    "ScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message "
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "BusinessScreenErrorResponse"
+    },
+    "BusinessScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message for bad requests"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "SystemScreenErrorResponse"
+    },
+    "SystemScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message caused by server"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    }
+  }
+}

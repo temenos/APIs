@@ -1,0 +1,908 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Get and manage DirectDebits",
+    "version" : "v1.0.0",
+    "title" : "Order DirectDebits APIs"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/order/directDebits" : {
+      "get" : {
+        "summary" : "Retrieve the direct debit details",
+        "description" : "Retrieves the list of direct debits for specific account",
+        "operationId" : "getAccountDirectDebits",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "directDebitId",
+          "in" : "query",
+          "description" : "The unique identifier of the direct debit mandate. ",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "accountId",
+          "in" : "query",
+          "description" : "The identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "customerId",
+          "in" : "query",
+          "description" : "The identifier of the customer",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "AccountDirectDebitsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/AccountDirectDebitsResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/directDebits/{directDebitId}" : {
+      "put" : {
+        "summary" : "Update the direct debit record",
+        "description" : "Update the existing direct debit record for specific account",
+        "operationId" : "updateDirectDebits",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "directDebitId",
+          "in" : "path",
+          "description" : "The unique identifier of the direct debit mandate. ",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/DirectDebits"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "DirectDebitsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/DirectDebitsResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/directDebits/{accountId}" : {
+      "post" : {
+        "summary" : "Create direct debit for account",
+        "description" : "Creates a new direct debit record for a specific account",
+        "operationId" : "createDirectDebits",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "accountId",
+          "in" : "path",
+          "description" : "The identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/DirectDebits"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "DirectDebitsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/DirectDebitsResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "QueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "parse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records per page"
+        },
+        "page_start" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The record from which the response should be displayed"
+        },
+        "total_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records present"
+        },
+        "page_token" : {
+          "type" : "string",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request"
+        }
+      }
+    },
+    "AccountDirectDebitsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/AccountDirectDebitsResponseBody"
+        }
+      },
+      "description" : "AccountDirectDebitsResponse"
+    },
+    "AccountDirectDebitsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "directDebitId" : {
+            "type" : "string",
+            "description" : "The unique identifier of the direct debit mandate. ",
+            "maxLength" : 25
+          },
+          "customerId" : {
+            "type" : "string",
+            "description" : "The identifier of the customer",
+            "maxLength" : 10
+          },
+          "customerMnemonic" : {
+            "type" : "string",
+            "description" : "Specifies an alternative easy means of referencing the Customer",
+            "maxLength" : 10
+          },
+          "creditAccountId" : {
+            "type" : "string",
+            "description" : "This is the account which will be credited for the instruction",
+            "maxLength" : 35
+          },
+          "creditorName" : {
+            "type" : "string",
+            "description" : "The name of the creditor",
+            "maxLength" : 70
+          },
+          "sortCode" : {
+            "type" : "string",
+            "description" : "The bank identifier code which identifies both the bank and the branch where the account is held.",
+            "maxLength" : 35
+          },
+          "displayName" : {
+            "type" : "string",
+            "description" : "Name used for display or enrichment purposes",
+            "maxLength" : 35
+          },
+          "direction" : {
+            "type" : "string",
+            "description" : "Indicates the direction of the Direct debit claim for which mandate is received. The claim can be 'Outward' i.e. Claim is sent to the other bank or 'Inward'  i.e. other bank submit their claim to debit our customer's account. ",
+            "maxLength" : 10
+          },
+          "currency" : {
+            "type" : "string",
+            "description" : "Identifies the underlying currency used for the transaction.",
+            "maxLength" : 3
+          },
+          "standAloneDdi" : {
+            "type" : "string",
+            "description" : "Defines whether the direct debit mandate is for stand-alone purpose i.e. one-off instruction",
+            "maxLength" : 1
+          },
+          "amount" : {
+            "type" : "number",
+            "description" : "This is the payment amount"
+          },
+          "status" : {
+            "type" : "string",
+            "description" : "The status identifier",
+            "maxLength" : 35
+          },
+          "accountId" : {
+            "type" : "string",
+            "description" : "The identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId."
+          },
+          "frequency" : {
+            "type" : "string",
+            "description" : "Identifies the frequency of instruction execution. It specifies the next execution date and frequency i.e. daily, weekly, fortnightly, monthly, yearly or fortnightly. ",
+            "maxLength" : 50
+          },
+          "startDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "Specifies the start date when the instruction will be made active"
+          },
+          "nextPaymentDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "Indicates the next payment date or the next date when direct debit instruction will be executed"
+          },
+          "currencyName" : {
+            "type" : "string",
+            "description" : "The name that is displayed for the currency"
+          },
+          "accountName" : {
+            "type" : "string",
+            "description" : "The name of the account "
+          },
+          "versionNumber" : {
+            "type" : "string",
+            "description" : "Current number of the record",
+            "maxLength" : 4
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "parse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessQueryErrorResponseBody"
+        }
+      },
+      "description" : "BusinessQueryErrorResponse"
+    },
+    "BusinessQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message for bad requests"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemQueryErrorResponseBody"
+        }
+      },
+      "description" : "SystemQueryErrorResponse"
+    },
+    "SystemQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message caused by server"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    },
+    "PayloadHeader" : {
+      "properties" : {
+        "override" : {
+          "type" : "object",
+          "properties" : {
+            "overrideDetails" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "id" : {
+                    "type" : "string",
+                    "description" : "The identifier of the override"
+                  },
+                  "description" : {
+                    "type" : "string",
+                    "description" : "The actual override message"
+                  },
+                  "responseCode" : {
+                    "type" : "string",
+                    "description" : "The user input to accept/reject the override."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            }
+          }
+        }
+      }
+    },
+    "DirectDebits" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/DirectDebitsBody"
+        }
+      },
+      "description" : "DirectDebits"
+    },
+    "DirectDebitsBody" : {
+      "type" : "object",
+      "properties" : {
+        "overrides" : {
+          "type" : "array",
+          "description" : "The override message is captured  that was generated at the time of commitment of the transaction to the database.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "override" : {
+                "type" : "string",
+                "description" : "The override message is captured  that was generated at the time of commitment of the transaction to the database."
+              }
+            }
+          }
+        },
+        "customerId" : {
+          "type" : "string",
+          "description" : "The identifier of the customer"
+        },
+        "displayName" : {
+          "type" : "string",
+          "description" : "Name used for display or enrichment purposes"
+        },
+        "direction" : {
+          "type" : "string",
+          "description" : "Indicates the direction of the Direct debit claim for which mandate is received. The claim can be 'Outward' i.e. Claim is sent to the other bank or 'Inward'  i.e. other bank submit their claim to debit our customer's account. "
+        },
+        "parameterId" : {
+          "type" : "string",
+          "description" : "The id of the direct debit parameter which was used in the creation process of this record"
+        },
+        "sortCode" : {
+          "type" : "string",
+          "description" : "The bank identifier code which identifies both the bank and the branch where the account is held."
+        },
+        "requestType" : {
+          "type" : "string",
+          "description" : "This field will have the value as INTERNAL/EXTERNAL type of record"
+        },
+        "currencyId" : {
+          "type" : "string",
+          "description" : "Identifier of the currency. This is the 3-letter ISO 4217 code of the currency."
+        },
+        "currencyMarket" : {
+          "type" : "string",
+          "description" : "The Currency market as available in the statement entry is updated here"
+        },
+        "inwardAccountId" : {
+          "type" : "string",
+          "description" : "inward unique account details"
+        },
+        "creditAccountName" : {
+          "type" : "string",
+          "description" : "Creditor account name details"
+        },
+        "creditAccountId" : {
+          "type" : "string",
+          "description" : "This is the account which will be credited for the instruction"
+        },
+        "directDebitStatus" : {
+          "type" : "string",
+          "description" : "The status of direct debit mandate i.e. New, Advised, Hold, Active, Available, Returned or Cancelled. Only when the status is Active or Available, the instruction will be sent out for collecting funds"
+        },
+        "standaloneAmount" : {
+          "type" : "number",
+          "description" : "The amount of the stand-alone direct debit"
+        },
+        "frequency" : {
+          "type" : "string",
+          "description" : "Identifies the frequency of instruction execution. It specifies the next execution date and frequency i.e. daily, weekly, fortnightly, monthly, yearly or fortnightly. "
+        },
+        "terminationDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "This is the termination date of recurring direct debit"
+        }
+      }
+    },
+    "ScreenHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "parse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "DirectDebitsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/DirectDebitsResponseBody"
+        }
+      },
+      "description" : "DirectDebitsResponse"
+    },
+    "DirectDebitsResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "overrides" : {
+          "type" : "array",
+          "description" : "The override message is captured  that was generated at the time of commitment of the transaction to the database.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "override" : {
+                "type" : "string",
+                "description" : "The override message is captured  that was generated at the time of commitment of the transaction to the database."
+              }
+            }
+          }
+        },
+        "customerId" : {
+          "type" : "string",
+          "description" : "The identifier of the customer"
+        },
+        "displayName" : {
+          "type" : "string",
+          "description" : "Name used for display or enrichment purposes"
+        },
+        "direction" : {
+          "type" : "string",
+          "description" : "Indicates the direction of the Direct debit claim for which mandate is received. The claim can be 'Outward' i.e. Claim is sent to the other bank or 'Inward'  i.e. other bank submit their claim to debit our customer's account. "
+        },
+        "parameterId" : {
+          "type" : "string",
+          "description" : "The id of the direct debit parameter which was used in the creation process of this record"
+        },
+        "sortCode" : {
+          "type" : "string",
+          "description" : "The bank identifier code which identifies both the bank and the branch where the account is held."
+        },
+        "requestType" : {
+          "type" : "string",
+          "description" : "This field will have the value as INTERNAL/EXTERNAL type of record"
+        },
+        "currencyId" : {
+          "type" : "string",
+          "description" : "Identifier of the currency. This is the 3-letter ISO 4217 code of the currency."
+        },
+        "currencyMarket" : {
+          "type" : "string",
+          "description" : "The Currency market as available in the statement entry is updated here"
+        },
+        "inwardAccountId" : {
+          "type" : "string",
+          "description" : "Inward unique account details"
+        },
+        "creditAccountName" : {
+          "type" : "string",
+          "description" : "Creditor account name details"
+        },
+        "creditAccountId" : {
+          "type" : "string",
+          "description" : "This is the account which will be credited for the instruction"
+        },
+        "directDebitStatus" : {
+          "type" : "string",
+          "description" : "The status of direct debit mandate i.e. New, Advised, Hold, Active, Available, Returned or Cancelled. Only when the status is Active or Available, the instruction will be sent out for collecting funds"
+        },
+        "standaloneAmount" : {
+          "type" : "number",
+          "description" : "The amount of the stand-alone direct debit"
+        },
+        "frequency" : {
+          "type" : "string",
+          "description" : "Identifies the frequency of instruction execution. It specifies the next execution date and frequency i.e. daily, weekly, fortnightly, monthly, yearly or fortnightly. "
+        },
+        "terminationDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "This is the termination date of recurring direct debit"
+        }
+      }
+    },
+    "overrideBody" : {
+      "properties" : {
+        "overrideDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "string",
+                "description" : "The identifier of the override"
+              },
+              "description" : {
+                "type" : "string",
+                "description" : "The actual override message"
+              },
+              "options" : {
+                "type" : "array",
+                "description" : "The usable options for the override",
+                "items" : {
+                  "type" : "string"
+                }
+              },
+              "type" : {
+                "type" : "string",
+                "description" : "The type of the override"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/ScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "ScreenErrorResponse"
+    },
+    "ScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message "
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "BusinessScreenErrorResponse"
+    },
+    "BusinessScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message for bad requests"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "SystemScreenErrorResponse"
+    },
+    "SystemScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message caused by server"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    }
+  }
+}

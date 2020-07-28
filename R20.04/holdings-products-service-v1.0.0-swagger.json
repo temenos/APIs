@@ -1,0 +1,2780 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "API to create and update arrangement product related details",
+    "version": "v1.0.0",
+    "title": "Management of holdings Products"
+  },
+  "host": "api.temenos.com",
+  "basePath": "/api/v1.0.0/",
+  "schemes": [
+    "http"
+  ],
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "paths": {
+    "/holdings/products": {
+      "post": {
+        "operationId": "createProduct",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "payload",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Product"
+            }
+          },
+          {
+            "name": "companyId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "createProductResponse",
+            "schema": {
+              "$ref": "#/definitions/ProductResponse"
+            }
+          },
+          "default": {
+            "description": "ArrangementErrorResponse",
+            "schema": {
+              "$ref": "#/definitions/ArrangementErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/products/{arrangementId}": {
+      "put": {
+        "operationId": "updateProduct",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "arrangementId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "x-example": "AA19077R2VLK"
+          },
+          {
+            "in": "body",
+            "name": "payload",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Product"
+            }
+          },
+          {
+            "name": "companyId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "updateProductResponse",
+            "schema": {
+              "$ref": "#/definitions/ProductResponse"
+            }
+          },
+          "default": {
+            "description": "ArrangementErrorResponse",
+            "schema": {
+              "$ref": "#/definitions/ArrangementErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "basicAuth": {
+      "type": "basic"
+    }
+  },
+  "definitions": {
+    "PayloadHeader": {
+      "properties": {
+        "override": {
+          "type": "object",
+          "properties": {
+            "overrideDetails": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "The identifier of the override"
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "The actual override message"
+                  },
+                  "responseCode": {
+                    "type": "string",
+                    "description": "The user input to accept/reject the override."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "audit": {
+          "type": "object",
+          "properties": {
+            "versionNumber": {
+              "type": "string",
+              "description": "The CURR.NO. of the record"
+            }
+          }
+        }
+      }
+    },
+    "Product": {
+      "properties": {
+        "header": {
+          "$ref": "#/definitions/PayloadHeader"
+        },
+        "body": {
+          "$ref": "#/definitions/ProductBody"
+        }
+      },
+      "description": "Product",
+      "example": {
+        "header": {},
+        "body": {
+          "activityId": "ACCOUNTS-UPDATE-BALANCE",
+          "productId": "CURRENT.ACCOUNT",
+          "account": {
+            "accountName": "UPPDATE"
+          }
+        }
+      }
+    },
+    "ProductBody": {
+      "type": "object",
+      "properties": {
+        "customerIds": {
+          "type": "array",
+          "description": "The identifier of the customer",
+          "items": {
+            "type": "object",
+            "properties": {
+              "customerId": {
+                "type": "string",
+                "description": "The identifier of the customer"
+              }
+            }
+          }
+        },
+        "properties": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "propertyId": {
+                "type": "string",
+                "description": "The identifier of the property, being an instances of a property class, e.g. Interest is property class and Debit Interest is property"
+              },
+              "fields": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "fieldName": {
+                      "type": "string",
+                      "description": "The name of the field"
+                    },
+                    "fieldValue": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "overrides": {
+          "type": "array",
+          "description": "Records the override messages generated during processing of an activity. ",
+          "items": {
+            "type": "object",
+            "properties": {
+              "override": {
+                "type": "string",
+                "description": "Records the override messages generated during processing of an activity. "
+              }
+            }
+          }
+        },
+        "productId": {
+          "type": "string",
+          "description": "The identifier of the product"
+        },
+        "masterArrangementId": {
+          "type": "string"
+        },
+        "roleName": {
+          "type": "string"
+        },
+        "currencyId": {
+          "type": "string",
+          "description": "The identifier of the curreny. The is the 3 letter ISO 4217 code of the currency."
+        },
+        "effectiveDate": {
+          "type": "string",
+          "format": "date",
+          "description": "The date on which the principal movement is effected"
+        },
+        "activityId": {
+          "type": "string",
+          "description": "The identifier of the activity"
+        },
+        "transactionAmount": {
+          "type": "number",
+          "description": "The transaction amount"
+        },
+        "account": {
+          "type": "object",
+          "properties": {
+            "alternateIds": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "alternateIdType": {
+                    "type": "string"
+                  },
+                  "alternateId": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "accountType": {
+              "type": "string"
+            },
+            "accountName": {
+              "type": "string",
+              "description": "The name of the account that is displayed"
+            },
+            "accountId": {
+              "type": "string",
+              "description": "The identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId."
+            },
+            "portfolioId": {
+              "type": "string",
+              "description": "The identifier of the portfolio"
+            },
+            "anniversary": {
+              "type": "string"
+            },
+            "customerReference": {
+              "type": "string",
+              "description": "Account nickname"
+            }
+          }
+        },
+        "balance": {
+          "type": "object",
+          "properties": {
+            "alternateIds": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "alternateIdType": {
+                    "type": "string"
+                  },
+                  "alternateId": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "accountType": {
+              "type": "string"
+            },
+            "accountName": {
+              "type": "string",
+              "description": "The name of the account that is displayed"
+            },
+            "accountId": {
+              "type": "string",
+              "description": "The identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId."
+            },
+            "portfolioId": {
+              "type": "string",
+              "description": "The identifier of the portfolio"
+            },
+            "anniversary": {
+              "type": "string"
+            },
+            "customerReference": {
+              "type": "string",
+              "description": "Account nickname"
+            }
+          }
+        },
+        "customer": {
+          "type": "object",
+          "properties": {
+            "customers": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "customer": {
+                    "type": "string"
+                  },
+                  "customerRole": {
+                    "type": "string",
+                    "description": "Customer Role"
+                  },
+                  "taxLiabilityPercentage": {
+                    "type": "number"
+                  },
+                  "limitAllocactionPercentage": {
+                    "type": "number"
+                  },
+                  "GLAllocactionPercentage": {
+                    "type": "number"
+                  }
+                }
+              }
+            },
+            "jointLiability": {
+              "type": "string"
+            }
+          }
+        },
+        "schedule": {
+          "type": "object",
+          "properties": {
+            "payment": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "paymentType": {
+                    "type": "string",
+                    "description": "The payment type identifier"
+                  },
+                  "paymentMethod": {
+                    "type": "string",
+                    "description": "The type of method used for the payment"
+                  },
+                  "paymentFrequency": {
+                    "type": "string",
+                    "description": "The frequency at which a payment is required to be generated"
+                  },
+                  "billType": {
+                    "type": "string",
+                    "description": "This signifies the type of the bill generated"
+                  },
+                  "billProduced": {
+                    "type": "string"
+                  },
+                  "autoSettle": {
+                    "type": "string"
+                  },
+                  "property": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "propertyId": {
+                          "type": "string",
+                          "description": "The identifier of the property, being an instances of a property class, e.g. Interest is property class and Debit Interest is property"
+                        },
+                        "dueFrequency": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "payments": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "percentage": {
+                          "type": "number",
+                          "description": "The percentage of holdings redeemed/subscribed"
+                        },
+                        "startDate": {
+                          "type": "string",
+                          "format": "date",
+                          "description": "The start date"
+                        },
+                        "endDate": {
+                          "type": "string",
+                          "format": "date",
+                          "description": "The date an agreement or contract ceases - the opposite of start date"
+                        },
+                        "numberPayments": {
+                          "type": "string"
+                        },
+                        "calcAmount": {
+                          "type": "number"
+                        },
+                        "actualAmount": {
+                          "type": "number"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "amortisationTerm": {
+              "type": "string"
+            },
+            "residualAmount": {
+              "type": "number"
+            },
+            "billsCombined": {
+              "type": "string"
+            },
+            "recalcFrequency": {
+              "type": "string"
+            }
+          }
+        },
+        "settlement": {
+          "type": "object",
+          "properties": {
+            "settlement": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "payinSettlement": {
+                    "type": "string"
+                  },
+                  "payoutSettlement": {
+                    "type": "string"
+                  },
+                  "reference": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "ddMandateReference": {
+                          "type": "string",
+                          "format": "date"
+                        },
+                        "payinAccount": {
+                          "type": "string"
+                        },
+                        "payinBeneficiary": {
+                          "type": "string"
+                        },
+                        "payinPercentage": {
+                          "type": "number"
+                        },
+                        "payinPoProduct": {
+                          "type": "string"
+                        },
+                        "payoutPoProduct": {
+                          "type": "string"
+                        },
+                        "payinAmount": {
+                          "type": "number"
+                        },
+                        "payoutAccount": {
+                          "type": "string"
+                        },
+                        "payoutBeneficiary": {
+                          "type": "string"
+                        },
+                        "payoutPercentage": {
+                          "type": "number"
+                        },
+                        "payoutAmount": {
+                          "type": "number"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "assocSettlement": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "payinSettlement": {
+                    "type": "string"
+                  },
+                  "payinRule": {
+                    "type": "string"
+                  },
+                  "payinSettlementActivity": {
+                    "type": "string"
+                  },
+                  "payinRCType": {
+                    "type": "string"
+                  },
+                  "payinRCCondition": {
+                    "type": "string"
+                  },
+                  "reference": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "ddMandateReference": {
+                          "type": "string",
+                          "format": "date"
+                        },
+                        "payinAccount": {
+                          "type": "string"
+                        },
+                        "payinBeneficiary": {
+                          "type": "string"
+                        },
+                        "payinPOProduct": {
+                          "type": "string"
+                        },
+                        "payinPercentage": {
+                          "type": "number"
+                        },
+                        "payinAmount": {
+                          "type": "number"
+                        },
+                        "payinActivity": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "payout": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "payoutSettlement": {
+                    "type": "string"
+                  },
+                  "payoutSettlementActivity": {
+                    "type": "string"
+                  },
+                  "property": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "payoutPropertyClass": {
+                          "type": "string"
+                        },
+                        "payoutProperty": {
+                          "type": "string"
+                        },
+                        "payoutAccount": {
+                          "type": "string"
+                        },
+                        "payoutBeneficiary": {
+                          "type": "string"
+                        },
+                        "payoutPOProduct": {
+                          "type": "string"
+                        },
+                        "payoutPercentage": {
+                          "type": "number"
+                        },
+                        "payoutAmount": {
+                          "type": "number"
+                        },
+                        "payoutActivity": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "paymentType": {
+              "type": "string",
+              "description": "The payment type identifier"
+            },
+            "defaultSettlementAccount": {
+              "type": "string"
+            }
+          }
+        },
+        "accountConsent": {
+          "type": "object",
+          "properties": {
+            "consentTypes": {
+              "type": "array",
+              "description": "Consent Type for which the consent is given",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "consentType": {
+                    "type": "string",
+                    "description": "Consent Type for which the consent is given"
+                  }
+                }
+              }
+            },
+            "accountIBANs": {
+              "type": "array",
+              "description": "Indicates the consent type provided for a particular account. For example, If consent sub type for account 100100 is given as allPsd2, the account is given global consent.",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "accountIBAN": {
+                    "type": "string",
+                    "description": "Represents the International Bank Account Number (IBAN) of the account.  E.g. GB29 NWBK 6016 1331 9268 19"
+                  },
+                  "isConsentGiven": {
+                    "type": "string",
+                    "description": "Indicates whether the customer consents to adding this account to the TPP (third party provider) service they are signing up for or otherwise."
+                  },
+                  "accountBlock": {
+                    "type": "string",
+                    "description": "Indicates whether the consent account has been blocked or not. Holds YES/NO/Blank."
+                  },
+                  "blockFrom": {
+                    "type": "string",
+                    "description": "Specifies the date on which account consent is blocked."
+                  },
+                  "blockTill": {
+                    "type": "string",
+                    "description": "Specifies until which date account consent to be blocked."
+                  },
+                  "blockNotes": {
+                    "type": "string",
+                    "description": "Reason for blocking the account in the consent."
+                  },
+                  "consentSubTypes": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "consentSubType": {
+                          "type": "string",
+                          "description": "Indicates the consent type provided for a particular account. For example, If consent sub type for account 100100 is given as allPsd2, the account is given global consent."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "consentStatuses": {
+              "type": "array",
+              "description": "Status of the consent. This can be of received, valid, expired, terminatedByTpp or revokedByPsu.",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "consentStatus": {
+                    "type": "string",
+                    "description": "Status of the consent. This can be of received, valid, expired, terminatedByTpp or revokedByPsu."
+                  },
+                  "lastActionDate": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Indicates the date on which the status of the consent arrangement changed."
+                  }
+                }
+              }
+            },
+            "thirdpartyproviderId": {
+              "type": "string",
+              "description": "Unique TPP(third party provider) reference which is the global urn of the TPP. For example: PSDLU-CSSF-9db9074bf3be45550237a21cd2a11585"
+            },
+            "signUpService": {
+              "type": "string",
+              "description": "Indicates whether the signing up information is to be AISP(Accounts information service provider) or PISP(Payments information service provider)."
+            },
+            "recurringIndicator": {
+              "type": "string",
+              "description": "Indicates whether the expiry date to be recalculated for every duration of expiry period."
+            },
+            "validUntil": {
+              "type": "string",
+              "description": "Valid until date"
+            },
+            "frequencyPerDay": {
+              "type": "string",
+              "description": "Specifies the frequency in which the payment application executes the payment instruction"
+            },
+            "combinedServiceIndicator": {
+              "type": "string",
+              "description": "Specifies whether the payment initiation service will be addressed in the same session as account information consent request"
+            },
+            "scaStatus": {
+              "type": "string",
+              "description": "Contains the status of the strong customer authentication process for the payment or consent. Valid values are received, psuIdentified, scaMethodSelected, started, finalised or failed"
+            },
+            "link": {
+              "type": "string",
+              "description": "Contains the arrangement activity reference of the parent. This is used during secondary activity processing where child activities are generated at runtime during processing."
+            },
+            "thirdpartyprovider": {
+              "type": "string",
+              "description": "Contains the TPP (third party provider) name or text of the TPP reference"
+            },
+            "externalUserId": {
+              "type": "string",
+              "description": "Contains the external user identifier for which the consent is created."
+            },
+            "onlineArrangement": {
+              "type": "string",
+              "description": "Contains the arrangement identifier of the external user that contains the rights that the external user has access to."
+            }
+          }
+        },
+        "tax": {
+          "type": "object",
+          "properties": {
+            "property": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "propertyValue": {
+                    "type": "string"
+                  },
+                  "netTax": {
+                    "type": "string"
+                  },
+                  "tax": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "taxCondition": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "taxCondition": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "netTax": {
+              "type": "string"
+            }
+          }
+        },
+        "commitment": {
+          "type": "object",
+          "properties": {
+            "amount": {
+              "type": "number"
+            },
+            "changeAmount": {
+              "type": "number"
+            },
+            "term": {
+              "type": "string",
+              "description": "The period to which the rate applies"
+            },
+            "revolving": {
+              "type": "string",
+              "enum": [
+                "NO",
+                "PAYMENT",
+                "PREPAYMENT"
+              ]
+            },
+            "updateLimit": {
+              "type": "string",
+              "description": "Decision field, if the limits to be booked or not at the time of issuing the pre-advise LC",
+              "enum": [
+                "YES",
+                "NO"
+              ]
+            }
+          }
+        },
+        "cdpConsent": {
+          "type": "object",
+          "properties": {
+            "consentTypes": {
+              "type": "array",
+              "description": "Conset Type for which the consent is given.The pre-defined consent types are set at Product level and will default on to the arrangement.",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "consentType": {
+                    "type": "string",
+                    "description": "Conset Type for which the consent is given.The pre-defined consent types are set at Product level and will default on to the arrangement."
+                  },
+                  "consentGiven": {
+                    "type": "string"
+                  },
+                  "consentGivenDate": {
+                    "type": "string",
+                    "format": "date"
+                  },
+                  "consentExpiryDate": {
+                    "type": "string",
+                    "format": "date"
+                  },
+                  "consentWithdraw": {
+                    "type": "string"
+                  },
+                  "withdrawDate": {
+                    "type": "string",
+                    "format": "date"
+                  },
+                  "consentBlocks": {
+                    "type": "string"
+                  },
+                  "subTypes": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "consentSubType": {
+                          "type": "string",
+                          "description": "Consent types may have sub-types under it which may require explicit consent from the customer.These sub-types are set at Product level and will default on to the arrangement."
+                        },
+                        "subTypeConsentGiven": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "withdrawNotes": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "withdrawNote": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "blockNotes": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "blockNote": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "expiryDate": {
+              "type": "string",
+              "format": "date",
+              "description": "The date an agreement such as a credit facility or limit is due to expire"
+            }
+          }
+        },
+        "supplementaryAttirbs": {
+          "type": "object",
+          "properties": {
+            "totalPaymentAmount": {
+              "type": "number"
+            },
+            "statementCutDate": {
+              "type": "string",
+              "format": "date"
+            },
+            "nextPaymentAmount": {
+              "type": "number"
+            },
+            "nextPaymentDate": {
+              "type": "string",
+              "format": "date"
+            },
+            "sortCode": {
+              "type": "string",
+              "description": "The bank identifier code which identifies both the bank and the branch where the account is held"
+            },
+            "status": {
+              "type": "string",
+              "description": "Get a detail status of the specified service/services"
+            },
+            "clientName": {
+              "type": "string"
+            },
+            "swiftReference": {
+              "type": "string"
+            },
+            "cardType": {
+              "type": "string",
+              "description": "The type of the card, e.g. Visa, Mastercard, etc."
+            },
+            "accountId": {
+              "type": "string",
+              "description": "The identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId."
+            },
+            "blockedAmount": {
+              "type": "number"
+            },
+            "availableAmount": {
+              "type": "number"
+            },
+            "creditLimit": {
+              "type": "string"
+            },
+            "expiryDate": {
+              "type": "string",
+              "format": "date",
+              "description": "The date an agreement such as a credit facility or limit is due to expire"
+            },
+            "openDate": {
+              "type": "string",
+              "format": "date"
+            },
+            "cards": {
+              "type": "string"
+            },
+            "closingBalance": {
+              "type": "string",
+              "description": "Closing balance of the arrangement"
+            },
+            "openingBalance": {
+              "type": "string"
+            },
+            "ownBankIndicator": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "ArrangementHeader": {
+      "properties": {
+        "transactionStatus": {
+          "type": "string",
+          "description": "The status of the transaction"
+        },
+        "aaaId": {
+          "type": "string",
+          "description": "The Identifier of the aa record created"
+        },
+        "id": {
+          "type": "string",
+          "description": "The Identifier of the record created"
+        },
+        "status": {
+          "type": "string",
+          "description": "The status of the record"
+        },
+        "audit": {
+          "type": "object",
+          "properties": {
+            "T24_time": {
+              "type": "integer",
+              "format": "int32",
+              "description": "Time taken to response by T24"
+            },
+            "versionNumber": {
+              "type": "string",
+              "description": "The CURR.NO. of the record"
+            },
+            "parse_time": {
+              "type": "integer",
+              "format": "int32",
+              "description": "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "ProductResponse": {
+      "properties": {
+        "header": {
+          "$ref": "#/definitions/ArrangementHeader"
+        },
+        "body": {
+          "$ref": "#/definitions/ProductResponseBody"
+        }
+      },
+      "description": "ProductResponse"
+    },
+    "ProductResponseBody": {
+      "type": "object",
+      "properties": {
+        "arrangementActivity": {
+          "type": "object",
+          "properties": {
+            "customerIds": {
+              "type": "array",
+              "description": "The identifier of the customer",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "customerId": {
+                    "type": "string",
+                    "description": "The identifier of the customer"
+                  }
+                }
+              }
+            },
+            "properties": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "propertyId": {
+                    "type": "string",
+                    "description": "The identifier of the property, being an instances of a property class, e.g. Interest is property class and Debit Interest is property"
+                  },
+                  "fields": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "fieldName": {
+                          "type": "string",
+                          "description": "The name of the field"
+                        },
+                        "fieldValue": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "overrides": {
+              "type": "array",
+              "description": "Records the override messages generated during processing of an activity. ",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "override": {
+                    "type": "string",
+                    "description": "Records the override messages generated during processing of an activity. "
+                  }
+                }
+              }
+            },
+            "arrangementId": {
+              "type": "string",
+              "description": "The unique identifiier of an arrangement contract. The format of the ID is YYDDDXXXXX prefixed with AA. YYDDD is the year and date of input in julian date format, XXXXX - is a random generated string."
+            },
+            "productId": {
+              "type": "string",
+              "description": "The identifier of the product"
+            },
+            "masterArrangementId": {
+              "type": "string"
+            },
+            "roleName": {
+              "type": "string"
+            },
+            "currencyId": {
+              "type": "string",
+              "description": "The identifier of the curreny. The is the 3 letter ISO 4217 code of the currency."
+            },
+            "effectiveDate": {
+              "type": "string",
+              "format": "date",
+              "description": "The date on which the principal movement is effected"
+            },
+            "activityId": {
+              "type": "string",
+              "description": "The identifier of the activity"
+            },
+            "transactionAmount": {
+              "type": "number",
+              "description": "The transaction amount"
+            }
+          }
+        },
+        "activities": {
+          "type": "object",
+          "properties": {
+            "{activityName}": {
+              "type": "object",
+              "properties": {
+                "activity": {
+                  "type": "string"
+                },
+                "transactionStatus": {
+                  "type": "string",
+                  "description": "The status of the transaction"
+                },
+                "id": {
+                  "type": "string",
+                  "description": "The Identifier of the record created"
+                }
+              }
+            }
+          }
+        },
+        "properties": {
+          "type": "object",
+          "properties": {
+            "account": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "properties": {
+                    "transactionStatus": {
+                      "type": "string",
+                      "description": "The status of the transaction"
+                    },
+                    "audit": {
+                      "type": "object",
+                      "properties": {
+                        "parseTime": {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "Time taken to parse the response by IRIS"
+                        }
+                      }
+                    },
+                    "id": {
+                      "type": "string",
+                      "description": "The Identifier of the record created"
+                    },
+                    "status": {
+                      "type": "string",
+                      "description": "The status of the record"
+                    }
+                  }
+                },
+                "body": {
+                  "type": "object",
+                  "properties": {
+                    "alternateIds": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "alternateIdType": {
+                            "type": "string"
+                          },
+                          "alternateId": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "accountType": {
+                      "type": "string"
+                    },
+                    "accountName": {
+                      "type": "string",
+                      "description": "The name of the account that is displayed"
+                    },
+                    "accountId": {
+                      "type": "string",
+                      "description": "The identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId."
+                    },
+                    "portfolioId": {
+                      "type": "string",
+                      "description": "The identifier of the portfolio"
+                    },
+                    "anniversary": {
+                      "type": "string"
+                    },
+                    "customerReference": {
+                      "type": "string",
+                      "description": "Account nickname"
+                    }
+                  }
+                }
+              }
+            },
+            "balance": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "properties": {
+                    "transactionStatus": {
+                      "type": "string",
+                      "description": "The status of the transaction"
+                    },
+                    "audit": {
+                      "type": "object",
+                      "properties": {
+                        "parseTime": {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "Time taken to parse the response by IRIS"
+                        }
+                      }
+                    },
+                    "id": {
+                      "type": "string",
+                      "description": "The Identifier of the record created"
+                    },
+                    "status": {
+                      "type": "string",
+                      "description": "The status of the record"
+                    }
+                  }
+                },
+                "body": {
+                  "type": "object",
+                  "properties": {
+                    "alternateIds": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "alternateIdType": {
+                            "type": "string"
+                          },
+                          "alternateId": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "accountType": {
+                      "type": "string"
+                    },
+                    "accountName": {
+                      "type": "string",
+                      "description": "The name of the account that is displayed"
+                    },
+                    "accountId": {
+                      "type": "string",
+                      "description": "The identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId."
+                    },
+                    "portfolioId": {
+                      "type": "string",
+                      "description": "The identifier of the portfolio"
+                    },
+                    "anniversary": {
+                      "type": "string"
+                    },
+                    "customerReference": {
+                      "type": "string",
+                      "description": "Account nickname"
+                    }
+                  }
+                }
+              }
+            },
+            "activityCharges": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "properties": {
+                    "transactionStatus": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "messaging": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "properties": {
+                    "transactionStatus": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "arrangementRules": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "properties": {
+                    "transactionStatus": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "agentCommission": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "properties": {
+                    "transactionStatus": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "rewardsPoints": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "properties": {
+                    "transactionStatus": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "alerts": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "properties": {
+                    "transactionStatus": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "adminfees": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "properties": {
+                    "transactionStatus": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "redemptionfee": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "properties": {
+                    "transactionStatus": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "withdrawalfees": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "properties": {
+                    "transactionStatus": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "insurance": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "properties": {
+                    "transactionStatus": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "bonus": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "properties": {
+                    "transactionStatus": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "dormancyfees": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "properties": {
+                    "transactionStatus": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "mgmtfees": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "properties": {
+                    "transactionStatus": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "closure": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "properties": {
+                    "transactionStatus": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "customer": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "properties": {
+                    "transactionStatus": {
+                      "type": "string",
+                      "description": "The status of the transaction"
+                    },
+                    "audit": {
+                      "type": "object",
+                      "properties": {
+                        "parseTime": {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "Time taken to parse the response by IRIS"
+                        }
+                      }
+                    },
+                    "id": {
+                      "type": "string",
+                      "description": "The Identifier of the record created"
+                    },
+                    "status": {
+                      "type": "string",
+                      "description": "The status of the record"
+                    }
+                  }
+                },
+                "body": {
+                  "type": "object",
+                  "properties": {
+                    "customers": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "customer": {
+                            "type": "string"
+                          },
+                          "customerRole": {
+                            "type": "string",
+                            "description": "Customer Role"
+                          },
+                          "taxLiabilityPercentage": {
+                            "type": "number"
+                          },
+                          "limitAllocactionPercentage": {
+                            "type": "number"
+                          },
+                          "GLAllocactionPercentage": {
+                            "type": "number"
+                          }
+                        }
+                      }
+                    },
+                    "jointLiability": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "depositint": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "properties": {
+                    "transactionStatus": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "officers": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "properties": {
+                    "transactionStatus": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "prDeposit": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "properties": {
+                    "transactionStatus": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "prCurrentBalances": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "properties": {
+                    "transactionStatus": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "schedule": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "properties": {
+                    "transactionStatus": {
+                      "type": "string",
+                      "description": "The status of the transaction"
+                    },
+                    "audit": {
+                      "type": "object",
+                      "properties": {
+                        "parseTime": {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "Time taken to parse the response by IRIS"
+                        }
+                      }
+                    },
+                    "id": {
+                      "type": "string",
+                      "description": "The Identifier of the record created"
+                    },
+                    "status": {
+                      "type": "string",
+                      "description": "The status of the record"
+                    }
+                  }
+                },
+                "body": {
+                  "type": "object",
+                  "properties": {
+                    "payment": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "paymentType": {
+                            "type": "string",
+                            "description": "The payment type identifier"
+                          },
+                          "paymentMethod": {
+                            "type": "string",
+                            "description": "The type of method used for the payment"
+                          },
+                          "paymentFrequency": {
+                            "type": "string",
+                            "description": "The frequency at which a payment is required to be generated"
+                          },
+                          "billType": {
+                            "type": "string",
+                            "description": "This signifies the type of the bill generated"
+                          },
+                          "billProduced": {
+                            "type": "string"
+                          },
+                          "autoSettle": {
+                            "type": "string"
+                          },
+                          "property": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "propertyId": {
+                                  "type": "string",
+                                  "description": "The identifier of the property, being an instances of a property class, e.g. Interest is property class and Debit Interest is property"
+                                },
+                                "dueFrequency": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          },
+                          "payments": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "percentage": {
+                                  "type": "number",
+                                  "description": "The percentage of holdings redeemed/subscribed"
+                                },
+                                "startDate": {
+                                  "type": "string",
+                                  "format": "date",
+                                  "description": "The start date"
+                                },
+                                "endDate": {
+                                  "type": "string",
+                                  "format": "date",
+                                  "description": "The date an agreement or contract ceases - the opposite of start date"
+                                },
+                                "numberPayments": {
+                                  "type": "string"
+                                },
+                                "calcAmount": {
+                                  "type": "number"
+                                },
+                                "actualAmount": {
+                                  "type": "number"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "amortisationTerm": {
+                      "type": "string"
+                    },
+                    "residualAmount": {
+                      "type": "number"
+                    },
+                    "billsCombined": {
+                      "type": "string"
+                    },
+                    "recalcFrequency": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "poEarlyWithdrawal": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "properties": {
+                    "transactionStatus": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "poWithdrawal": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "properties": {
+                    "transactionStatus": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "periodiccharge": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "properties": {
+                    "transactionStatus": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "deppricing": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "properties": {
+                    "transactionStatus": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "renewal": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "properties": {
+                    "transactionStatus": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "reporting": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "properties": {
+                    "transactionStatus": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "settlement": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "properties": {
+                    "transactionStatus": {
+                      "type": "string",
+                      "description": "The status of the transaction"
+                    },
+                    "audit": {
+                      "type": "object",
+                      "properties": {
+                        "parseTime": {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "Time taken to parse the response by IRIS"
+                        }
+                      }
+                    },
+                    "id": {
+                      "type": "string",
+                      "description": "The Identifier of the record created"
+                    },
+                    "status": {
+                      "type": "string",
+                      "description": "The status of the record"
+                    }
+                  }
+                },
+                "body": {
+                  "type": "object",
+                  "properties": {
+                    "settlement": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "payinSettlement": {
+                            "type": "string"
+                          },
+                          "payoutSettlement": {
+                            "type": "string"
+                          },
+                          "reference": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "ddMandateReference": {
+                                  "type": "string",
+                                  "format": "date"
+                                },
+                                "payinAccount": {
+                                  "type": "string"
+                                },
+                                "payinBeneficiary": {
+                                  "type": "string"
+                                },
+                                "payinPercentage": {
+                                  "type": "number"
+                                },
+                                "payinPoProduct": {
+                                  "type": "string"
+                                },
+                                "payoutPoProduct": {
+                                  "type": "string"
+                                },
+                                "payinAmount": {
+                                  "type": "number"
+                                },
+                                "payoutAccount": {
+                                  "type": "string"
+                                },
+                                "payoutBeneficiary": {
+                                  "type": "string"
+                                },
+                                "payoutPercentage": {
+                                  "type": "number"
+                                },
+                                "payoutAmount": {
+                                  "type": "number"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "assocSettlement": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "payinSettlement": {
+                            "type": "string"
+                          },
+                          "payinRule": {
+                            "type": "string"
+                          },
+                          "payinSettlementActivity": {
+                            "type": "string"
+                          },
+                          "payinRCType": {
+                            "type": "string"
+                          },
+                          "payinRCCondition": {
+                            "type": "string"
+                          },
+                          "reference": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "ddMandateReference": {
+                                  "type": "string",
+                                  "format": "date"
+                                },
+                                "payinAccount": {
+                                  "type": "string"
+                                },
+                                "payinBeneficiary": {
+                                  "type": "string"
+                                },
+                                "payinPOProduct": {
+                                  "type": "string"
+                                },
+                                "payinPercentage": {
+                                  "type": "number"
+                                },
+                                "payinAmount": {
+                                  "type": "number"
+                                },
+                                "payinActivity": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "payout": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "payoutSettlement": {
+                            "type": "string"
+                          },
+                          "payoutSettlementActivity": {
+                            "type": "string"
+                          },
+                          "property": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "payoutPropertyClass": {
+                                  "type": "string"
+                                },
+                                "payoutProperty": {
+                                  "type": "string"
+                                },
+                                "payoutAccount": {
+                                  "type": "string"
+                                },
+                                "payoutBeneficiary": {
+                                  "type": "string"
+                                },
+                                "payoutPOProduct": {
+                                  "type": "string"
+                                },
+                                "payoutPercentage": {
+                                  "type": "number"
+                                },
+                                "payoutAmount": {
+                                  "type": "number"
+                                },
+                                "payoutActivity": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "paymentType": {
+                      "type": "string",
+                      "description": "The payment type identifier"
+                    },
+                    "defaultSettlementAccount": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "accountConsent": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "properties": {
+                    "transactionStatus": {
+                      "type": "string",
+                      "description": "The status of the transaction"
+                    },
+                    "audit": {
+                      "type": "object",
+                      "properties": {
+                        "parseTime": {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "Time taken to parse the response by IRIS"
+                        }
+                      }
+                    },
+                    "id": {
+                      "type": "string",
+                      "description": "The Identifier of the record created"
+                    },
+                    "status": {
+                      "type": "string",
+                      "description": "The status of the record"
+                    }
+                  }
+                },
+                "body": {
+                  "type": "object",
+                  "properties": {
+                    "consentTypes": {
+                      "type": "array",
+                      "description": "Consent Type for which the consent is given",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "consentType": {
+                            "type": "string",
+                            "description": "Consent Type for which the consent is given"
+                          }
+                        }
+                      }
+                    },
+                    "accountIBANs": {
+                      "type": "array",
+                      "description": "Indicates the consent type provided for a particular account. For example, If consent sub type for account 100100 is given as allPsd2, the account is given global consent.",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "accountIBAN": {
+                            "type": "string",
+                            "description": "Represents the International Bank Account Number (IBAN) of the account.  E.g. GB29 NWBK 6016 1331 9268 19"
+                          },
+                          "isConsentGiven": {
+                            "type": "string",
+                            "description": "Indicates whether the customer consents to adding this account to the TPP (third party provider) service they are signing up for or otherwise."
+                          },
+                          "accountBlock": {
+                            "type": "string",
+                            "description": "Indicates whether the consent account has been blocked or not. Holds YES/NO/Blank."
+                          },
+                          "blockFrom": {
+                            "type": "string",
+                            "description": "Specifies the date on which account consent is blocked."
+                          },
+                          "blockTill": {
+                            "type": "string",
+                            "description": "Specifies until which date account consent to be blocked."
+                          },
+                          "blockNotes": {
+                            "type": "string",
+                            "description": "Reason for blocking the account in the consent."
+                          },
+                          "consentSubTypes": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "consentSubType": {
+                                  "type": "string",
+                                  "description": "Indicates the consent type provided for a particular account. For example, If consent sub type for account 100100 is given as allPsd2, the account is given global consent."
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "consentStatuses": {
+                      "type": "array",
+                      "description": "Status of the consent. This can be of received, valid, expired, terminatedByTpp or revokedByPsu.",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "consentStatus": {
+                            "type": "string",
+                            "description": "Status of the consent. This can be of received, valid, expired, terminatedByTpp or revokedByPsu."
+                          },
+                          "lastActionDate": {
+                            "type": "string",
+                            "format": "date",
+                            "description": "Indicates the date on which the status of the consent arrangement changed."
+                          }
+                        }
+                      }
+                    },
+                    "thirdpartyproviderId": {
+                      "type": "string",
+                      "description": "Unique TPP(third party provider) reference which is the global urn of the TPP. For example: PSDLU-CSSF-9db9074bf3be45550237a21cd2a11585"
+                    },
+                    "signUpService": {
+                      "type": "string",
+                      "description": "Indicates whether the signing up information is to be AISP(Accounts information service provider) or PISP(Payments information service provider)."
+                    },
+                    "recurringIndicator": {
+                      "type": "string",
+                      "description": "Indicates whether the expiry date to be recalculated for every duration of expiry period."
+                    },
+                    "validUntil": {
+                      "type": "string",
+                      "description": "Valid until date"
+                    },
+                    "frequencyPerDay": {
+                      "type": "string",
+                      "description": "Specifies the frequency in which the payment application executes the payment instruction"
+                    },
+                    "combinedServiceIndicator": {
+                      "type": "string",
+                      "description": "Specifies whether the payment initiation service will be addressed in the same session as account information consent request"
+                    },
+                    "scaStatus": {
+                      "type": "string",
+                      "description": "Contains the status of the strong customer authentication process for the payment or consent. Valid values are received, psuIdentified, scaMethodSelected, started, finalised or failed"
+                    },
+                    "link": {
+                      "type": "string",
+                      "description": "Contains the arrangement activity reference of the parent. This is used during secondary activity processing where child activities are generated at runtime during processing."
+                    },
+                    "thirdpartyprovider": {
+                      "type": "string",
+                      "description": "Contains the TPP (third party provider) name or text of the TPP reference"
+                    },
+                    "externalUserId": {
+                      "type": "string",
+                      "description": "Contains the external user identifier for which the consent is created."
+                    },
+                    "onlineArrangement": {
+                      "type": "string",
+                      "description": "Contains the arrangement identifier of the external user that contains the rights that the external user has access to."
+                    }
+                  }
+                }
+              }
+            },
+            "tax": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "properties": {
+                    "transactionStatus": {
+                      "type": "string",
+                      "description": "The status of the transaction"
+                    },
+                    "audit": {
+                      "type": "object",
+                      "properties": {
+                        "parseTime": {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "Time taken to parse the response by IRIS"
+                        }
+                      }
+                    },
+                    "id": {
+                      "type": "string",
+                      "description": "The Identifier of the record created"
+                    },
+                    "status": {
+                      "type": "string",
+                      "description": "The status of the record"
+                    }
+                  }
+                },
+                "body": {
+                  "type": "object",
+                  "properties": {
+                    "property": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "propertyValue": {
+                            "type": "string"
+                          },
+                          "netTax": {
+                            "type": "string"
+                          },
+                          "tax": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "code": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          },
+                          "taxCondition": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "taxCondition": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "netTax": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "commitment": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "properties": {
+                    "transactionStatus": {
+                      "type": "string",
+                      "description": "The status of the transaction"
+                    },
+                    "audit": {
+                      "type": "object",
+                      "properties": {
+                        "parseTime": {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "Time taken to parse the response by IRIS"
+                        }
+                      }
+                    },
+                    "id": {
+                      "type": "string",
+                      "description": "The Identifier of the record created"
+                    },
+                    "status": {
+                      "type": "string",
+                      "description": "The status of the record"
+                    }
+                  }
+                },
+                "body": {
+                  "type": "object",
+                  "properties": {
+                    "amount": {
+                      "type": "number"
+                    },
+                    "changeAmount": {
+                      "type": "number"
+                    },
+                    "term": {
+                      "type": "string",
+                      "description": "The period to which the rate applies"
+                    },
+                    "revolving": {
+                      "type": "string",
+                      "enum": [
+                        "NO",
+                        "PAYMENT",
+                        "PREPAYMENT"
+                      ]
+                    },
+                    "updateLimit": {
+                      "type": "string",
+                      "description": "Decision field, if the limits to be booked or not at the time of issuing the pre-advise LC",
+                      "enum": [
+                        "YES",
+                        "NO"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "cdpConsent": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "properties": {
+                    "transactionStatus": {
+                      "type": "string",
+                      "description": "The status of the transaction"
+                    },
+                    "audit": {
+                      "type": "object",
+                      "properties": {
+                        "parseTime": {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "Time taken to parse the response by IRIS"
+                        }
+                      }
+                    },
+                    "id": {
+                      "type": "string",
+                      "description": "The Identifier of the record created"
+                    },
+                    "status": {
+                      "type": "string",
+                      "description": "The status of the record"
+                    }
+                  }
+                },
+                "body": {
+                  "type": "object",
+                  "properties": {
+                    "consentTypes": {
+                      "type": "array",
+                      "description": "Conset Type for which the consent is given.The pre-defined consent types are set at Product level and will default on to the arrangement.",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "consentType": {
+                            "type": "string",
+                            "description": "Conset Type for which the consent is given.The pre-defined consent types are set at Product level and will default on to the arrangement."
+                          },
+                          "consentGiven": {
+                            "type": "string"
+                          },
+                          "consentGivenDate": {
+                            "type": "string",
+                            "format": "date"
+                          },
+                          "consentExpiryDate": {
+                            "type": "string",
+                            "format": "date"
+                          },
+                          "consentWithdraw": {
+                            "type": "string"
+                          },
+                          "withdrawDate": {
+                            "type": "string",
+                            "format": "date"
+                          },
+                          "consentBlocks": {
+                            "type": "string"
+                          },
+                          "subTypes": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "consentSubType": {
+                                  "type": "string",
+                                  "description": "Consent types may have sub-types under it which may require explicit consent from the customer.These sub-types are set at Product level and will default on to the arrangement."
+                                },
+                                "subTypeConsentGiven": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          },
+                          "withdrawNotes": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "withdrawNote": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          },
+                          "blockNotes": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "blockNote": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "expiryDate": {
+                      "type": "string",
+                      "format": "date",
+                      "description": "The date an agreement such as a credit facility or limit is due to expire"
+                    }
+                  }
+                }
+              }
+            },
+            "dormancy": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "properties": {
+                    "transactionStatus": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "statement": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "properties": {
+                    "transactionStatus": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "supplementaryAttirbs": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "properties": {
+                    "transactionStatus": {
+                      "type": "string",
+                      "description": "The status of the transaction"
+                    },
+                    "audit": {
+                      "type": "object",
+                      "properties": {
+                        "parseTime": {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "Time taken to parse the response by IRIS"
+                        }
+                      }
+                    },
+                    "id": {
+                      "type": "string",
+                      "description": "The Identifier of the record created"
+                    },
+                    "status": {
+                      "type": "string",
+                      "description": "The status of the record"
+                    }
+                  }
+                },
+                "body": {
+                  "type": "object",
+                  "properties": {
+                    "totalPaymentAmount": {
+                      "type": "number"
+                    },
+                    "statementCutDate": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "nextPaymentAmount": {
+                      "type": "number"
+                    },
+                    "nextPaymentDate": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "sortCode": {
+                      "type": "string",
+                      "description": "The bank identifier code which identifies both the bank and the branch where the account is held"
+                    },
+                    "status": {
+                      "type": "string",
+                      "description": "Get a detail status of the specified service/services"
+                    },
+                    "clientName": {
+                      "type": "string"
+                    },
+                    "swiftReference": {
+                      "type": "string"
+                    },
+                    "cardType": {
+                      "type": "string",
+                      "description": "The type of the card, e.g. Visa, Mastercard, etc."
+                    },
+                    "accountId": {
+                      "type": "string",
+                      "description": "The identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId."
+                    },
+                    "blockedAmount": {
+                      "type": "number"
+                    },
+                    "availableAmount": {
+                      "type": "number"
+                    },
+                    "creditLimit": {
+                      "type": "string"
+                    },
+                    "expiryDate": {
+                      "type": "string",
+                      "format": "date",
+                      "description": "The date an agreement such as a credit facility or limit is due to expire"
+                    },
+                    "openDate": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "cards": {
+                      "type": "string"
+                    },
+                    "closingBalance": {
+                      "type": "string",
+                      "description": "Closing balance of the arrangement"
+                    },
+                    "openingBalance": {
+                      "type": "string"
+                    },
+                    "ownBankIndicator": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "overrideBody": {
+      "properties": {
+        "overrideDetails": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "The identifier of the override"
+              },
+              "description": {
+                "type": "string",
+                "description": "The actual override message"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ArrangementErrorResponse": {
+      "properties": {
+        "header": {
+          "$ref": "#/definitions/ArrangementHeader"
+        },
+        "error": {
+          "$ref": "#/definitions/ArrangementErrorResponseBody"
+        },
+        "override": {
+          "$ref": "#/definitions/overrideBody"
+        }
+      },
+      "description": "ArrangementErrorResponse"
+    },
+    "ArrangementErrorResponseBody": {
+      "type": "object",
+      "properties": {
+        "errorDetails": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "fieldName": {
+                "type": "string",
+                "description": "The name of the field"
+              },
+              "code": {
+                "type": "string",
+                "description": "The identifier of the error message"
+              },
+              "message": {
+                "type": "string",
+                "description": "The actual t24 error message"
+              },
+              "property": {
+                "type": "string",
+                "description": "The corresponding property"
+              }
+            }
+          }
+        },
+        "type": {
+          "type": "string",
+          "description": "The identifier of error type"
+        }
+      }
+    },
+    "updateProduct": {
+      "properties": {
+        "header": {
+          "$ref": "#/definitions/PayloadHeader"
+        },
+        "body": {
+          "$ref": "#/definitions/ProductBody"
+        }
+      },
+      "description": "Product",
+      "example": {
+        "header": {},
+        "body": {
+          "activityId": "ACCOUNTS-UPDATE-BALANCE",
+          "productId": "CURRENT.ACCOUNT",
+          "account": {
+            "accountName": "UPPDATE"
+          }
+        }
+      }
+    }
+  }
+}

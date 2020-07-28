@@ -1,0 +1,1288 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Retrieve position information of different currency pairs",
+    "version" : "v1.0.0",
+    "title" : "API to retrieve position information of different currency pair "
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/holdings/currencyPairs/{currencyPair}/positions" : {
+      "get" : {
+        "summary" : "Retrieves position information for the given currency pair ",
+        "description" : "Retrieves the position in the given currency pair and the revalued(marked-to market) profit/loss ",
+        "operationId" : "getCurrencyPairPositions",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "currencyPair",
+          "in" : "path",
+          "description" : "Identifies the currency pair. Ex: USDCHF, USDGBP",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "query",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "positionType",
+          "in" : "query",
+          "description" : "Identifies the position type. Possible values are CAS(cash position), GAP(Interest mismatch position), FXP(Foreign exchange position)",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "dealerDesk",
+          "in" : "query",
+          "description" : "The dealer/desk responsible for monitoring and managing the currency positions.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "buyDate",
+          "in" : "query",
+          "description" : "Value date of the buy currency. ",
+          "required" : false,
+          "type" : "string",
+          "format" : "date"
+        }, {
+          "name" : "dealDate",
+          "in" : "query",
+          "description" : "Date on which the deal was agreed. ",
+          "required" : false,
+          "type" : "string",
+          "format" : "date"
+        }, {
+          "name" : "positionPeriod",
+          "in" : "query",
+          "description" : "Identifies the period for which position is retrieved. Possible values are SPOT, FORWARD",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "counterpartyName",
+          "in" : "query",
+          "description" : "The counterparty name for the forex deal.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "CurrencyPairPositionsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/CurrencyPairPositionsResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/currencyPairs/{currencyPair}/calendarPositions" : {
+      "get" : {
+        "summary" : "Retrieves the position details for the given currency pair and calender",
+        "description" : "Retrieves the position in the currency pair and the revalued(marked-to market) profit/loss ",
+        "operationId" : "getCurrencyPairCalendarPositions",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "currencyPair",
+          "in" : "path",
+          "description" : "Identifies the currency pair. Ex: USDCHF, USDGBP",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "query",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "positionType",
+          "in" : "query",
+          "description" : "Identifies the position type. Possible values are CAS(cash position), GAP(Interest mismatch position), FXP(Foreign exchange position)",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "dealerDesk",
+          "in" : "query",
+          "description" : "The dealer/desk responsible for monitoring and managing the currency positions.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "buyDate",
+          "in" : "query",
+          "description" : "Value date of the buy currency. ",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "buyDateFrom",
+          "in" : "query",
+          "description" : "Contains the from value date in a range while retrieving the position.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "buyDateTo",
+          "in" : "query",
+          "description" : "Contains the to value date in a range while retrieving the position.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "dealDate",
+          "in" : "query",
+          "description" : "Date on which the deal was agreed. ",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "dealDateFrom",
+          "in" : "query",
+          "description" : "Date on which the deal was agreed. ",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "dealDateTo",
+          "in" : "query",
+          "description" : "Date on which the deal was agreed. ",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "positionPeriod",
+          "in" : "query",
+          "description" : "Identifies the period for which position is retrieved. Possible values are SPOT, FORWARD",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "counterpartyName",
+          "in" : "query",
+          "description" : "The counterparty name for the forex deal.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "calendar",
+          "in" : "query",
+          "description" : "Identifies the calendar to be used for the spreading of different position data into different time buckets. Ex: CAL-Standard calendar and DE1-Deutsche calendar",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "CurrencyPairCalendarPositionsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/CurrencyPairCalendarPositionsResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/currencyPairs/{currencyPair}/rates" : {
+      "get" : {
+        "summary" : "Retrieves the live market rate from a given rate feed",
+        "description" : "Retrieves the live market rate from a given rate feed and displays the rate provider for a given currency pair",
+        "operationId" : "getCurrencyPairMarketRates",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "currencyPair",
+          "in" : "path",
+          "description" : "Identifies the currency pair. Ex: USDCHF, USDGBP",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "rateSource",
+          "in" : "query",
+          "description" : "The market rates source in general. In the case of currency rate, whether rate is to be sourced from  currency table (front office) or from market rates table (back office).",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "rateProvider",
+          "in" : "query",
+          "description" : "The market rate provider, e.g. Bloomberg, Reuters, etc.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "assetType",
+          "in" : "query",
+          "description" : "Type of the asset, e.g. FX, equity, etc.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "dateOrPeriod",
+          "in" : "query",
+          "description" : "Refers to a date or a given period.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "rateIndicator",
+          "in" : "query",
+          "description" : "Market rate indicator as per the asset class. For currency, it  will be buy rate(B) , sell rate(S) or mid rate(M).",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "interpolationMethod",
+          "in" : "query",
+          "description" : "Identifies whether forward exchange rates are to be interpolated or not. Possible values are 'Blank' - Rate will be interpolated '1' - Takes the next available rate '2' - Takes the closest rate",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "CurrencyPairMarketRatesResponse",
+            "schema" : {
+              "$ref" : "#/definitions/CurrencyPairMarketRatesResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/currencyPairs/positions" : {
+      "get" : {
+        "summary" : "Retrieves position information for the currency pair outstanding deals",
+        "description" : "Retrieves the position of all the currency pairs and the revalued(marked-to market) profit/loss ",
+        "operationId" : "getAllCurrencyPairPositions",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "currencyPair",
+          "in" : "query",
+          "description" : "Identifies the currency pair. Ex: USDCHF, USDGBP",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "query",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "positionType",
+          "in" : "query",
+          "description" : "Identifies the position type. Possible values are CAS(cash position), GAP(Interest mismatch position), FXP(Foreign exchange position)",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "dealerDesk",
+          "in" : "query",
+          "description" : "The dealer/desk responsible for monitoring and managing the currency positions.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "buyDate",
+          "in" : "query",
+          "description" : "Value date of the buy currency. ",
+          "required" : false,
+          "type" : "string",
+          "format" : "date"
+        }, {
+          "name" : "buyDateFrom",
+          "in" : "query",
+          "description" : "Contains the from value date in a range while retrieving the position.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "buyDateTo",
+          "in" : "query",
+          "description" : "Contains the to value date in a range while retrieving the position.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "dealDate",
+          "in" : "query",
+          "description" : "Date on which the deal was agreed. ",
+          "required" : false,
+          "type" : "string",
+          "format" : "date"
+        }, {
+          "name" : "dealDateFrom",
+          "in" : "query",
+          "description" : "Date on which the deal was agreed. ",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "dealDateTo",
+          "in" : "query",
+          "description" : "Date on which the deal was agreed. ",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "positionPeriod",
+          "in" : "query",
+          "description" : "Identifies the period for which position is retrieved. Possible values are SPOT, FORWARD",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "counterpartyName",
+          "in" : "query",
+          "description" : "The counterparty name for the forex deal.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "AllCurrencyPairPositionsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/CurrencyPairPositionsResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/currencyPairs/{currencyPair}/deals" : {
+      "get" : {
+        "summary" : "Retrieves the underlying deal responsible for the positions in the given currency pair",
+        "description" : "Retrieves the deals because of which positions have been created for the given currency pair",
+        "operationId" : "getCurrencyPairPositionDeals",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "currencyPair",
+          "in" : "path",
+          "description" : "Identifies the currency pair. Ex: USDCHF, USDGBP",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "query",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "positionType",
+          "in" : "query",
+          "description" : "Identifies the position type. Possible values are CAS(cash position), GAP(Interest mismatch position), FXP(Foreign exchange position)",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "dealerDesk",
+          "in" : "query",
+          "description" : "The dealer/desk responsible for monitoring and managing the currency positions.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "buyDate",
+          "in" : "query",
+          "description" : "Value date of the buy currency. ",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "buyDateFrom",
+          "in" : "query",
+          "description" : "Contains the from value date in a range while retrieving the position.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "buyDateTo",
+          "in" : "query",
+          "description" : "Contains the to value date in a range while retrieving the position.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "dealDate",
+          "in" : "query",
+          "description" : "Date on which the deal was agreed. ",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "dealDateFrom",
+          "in" : "query",
+          "description" : "Date on which the deal was agreed. ",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "dealDateTo",
+          "in" : "query",
+          "description" : "Date on which the deal was agreed. ",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "positionPeriod",
+          "in" : "query",
+          "description" : "Identifies the period for which position is retrieved. Possible values are SPOT, FORWARD",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "counterpartyName",
+          "in" : "query",
+          "description" : "The counterparty name for the forex deal.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "CurrencyPairPositionDealsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/CurrencyPairPositionDealsResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/currencyPairs/" : {
+      "get" : {
+        "summary" : "Retrieves all the currency pairs ",
+        "description" : "Retrieves all the currency pairs ",
+        "operationId" : "getCurrencyPairs",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "CurrencyPairsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/CurrencyPairsResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/currencyPairs/{currencyPair}" : {
+      "get" : {
+        "summary" : "Retrieves the given currency pair ",
+        "description" : "Retrieves the given currency pair ",
+        "operationId" : "getCurrencyPair",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "currencyPair",
+          "in" : "path",
+          "description" : "Identifies the currency pair. Ex: USDCHF, USDGBP",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "CurrencyPairResponse",
+            "schema" : {
+              "$ref" : "#/definitions/CurrencyPairsResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "QueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records per page"
+        },
+        "page_start" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The record from which the response should be displayed"
+        },
+        "total_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records present"
+        },
+        "page_token" : {
+          "type" : "string",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request"
+        }
+      }
+    },
+    "CurrencyPairPositionsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/CurrencyPairPositionsResponseBody"
+        }
+      },
+      "description" : "CurrencyPairPositionsResponse"
+    },
+    "CurrencyPairPositionsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "currencyPair" : {
+            "type" : "string",
+            "description" : "Identifies the currency pair. Ex: USDCHF, USDGBP",
+            "maxLength" : 6
+          },
+          "currency1" : {
+            "type" : "string",
+            "description" : "The base currency",
+            "maxLength" : 3
+          },
+          "currecy1Amount" : {
+            "type" : "string",
+            "description" : "In the transaction, there may be two currencies involved. Amount of the currency one.",
+            "maxLength" : 35
+          },
+          "currency2" : {
+            "type" : "string",
+            "description" : "The quote currency",
+            "maxLength" : 3
+          },
+          "currency2Amount" : {
+            "type" : "string",
+            "description" : "In the transaction, there may be two currencies involved. Amount of the currency two.",
+            "maxLength" : 35
+          },
+          "averageRate" : {
+            "type" : "string",
+            "description" : "The weighted average rate.",
+            "maxLength" : 19
+          },
+          "revaluationRate" : {
+            "type" : "string",
+            "description" : "The rate used to revalue the currency positions.",
+            "maxLength" : 19
+          },
+          "profitAndLossInCurrency2" : {
+            "type" : "string",
+            "description" : "Currency (other than local currency) in which profit and loss is expressed.",
+            "maxLength" : 35
+          },
+          "profitAndLossInLocalCurrency" : {
+            "type" : "string",
+            "description" : "The local currency in which profit and loss is expressed.",
+            "maxLength" : 35
+          },
+          "profitAndLossInRevaluationCurrency" : {
+            "type" : "string",
+            "description" : "Currency (other than local currency) in which profit and loss is expressed.",
+            "maxLength" : 35
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessQueryErrorResponseBody"
+        }
+      },
+      "description" : "BusinessQueryErrorResponse"
+    },
+    "BusinessQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message for bad requests"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemQueryErrorResponseBody"
+        }
+      },
+      "description" : "SystemQueryErrorResponse"
+    },
+    "SystemQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message caused by server"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    },
+    "CurrencyPairCalendarPositionsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/CurrencyPairCalendarPositionsResponseBody"
+        }
+      },
+      "description" : "CurrencyPairCalendarPositionsResponse"
+    },
+    "CurrencyPairCalendarPositionsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "calendarPeriod" : {
+            "type" : "string",
+            "description" : "The calendar period used for consolidating the data into different time buckets.",
+            "maxLength" : 5
+          },
+          "currency1" : {
+            "type" : "string",
+            "description" : "The base currency",
+            "maxLength" : 3
+          },
+          "currecy1Amount" : {
+            "type" : "string",
+            "description" : "In the transaction, there may be two currencies involved. Amount of the currency one.",
+            "maxLength" : 20
+          },
+          "currency2" : {
+            "type" : "string",
+            "description" : "The quote currency",
+            "maxLength" : 3
+          },
+          "currency2Amount" : {
+            "type" : "string",
+            "description" : "In the transaction, there may be two currencies involved. Amount of the currency two.",
+            "maxLength" : 20
+          },
+          "averageRate" : {
+            "type" : "string",
+            "description" : "The weighted average rate.",
+            "maxLength" : 15
+          },
+          "revaluationRate" : {
+            "type" : "string",
+            "description" : "The rate used to revalue the currency positions.",
+            "maxLength" : 15
+          },
+          "profitLossCurrency2" : {
+            "type" : "string",
+            "description" : "Currency (other than local currency) in which profit and loss is expressed.",
+            "maxLength" : 20
+          },
+          "profitLossLocalCurrency" : {
+            "type" : "string",
+            "description" : "The local currency in which profit and loss is expressed.",
+            "maxLength" : 20
+          },
+          "profitLossInRevaluationCurrency" : {
+            "type" : "string",
+            "description" : "Currency (other than local currency) in which profit and loss is expressed.",
+            "maxLength" : 20
+          }
+        }
+      }
+    },
+    "CurrencyPairMarketRatesResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/CurrencyPairMarketRatesResponseBody"
+        }
+      },
+      "description" : "CurrencyPairMarketRatesResponse"
+    },
+    "CurrencyPairMarketRatesResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "rateSource" : {
+            "type" : "string",
+            "description" : "The market rates source in general. In the case of currency rate, whether rate is to be sourced from  currency table (front office) or from market rates table (back office).",
+            "maxLength" : 20
+          },
+          "rateProvider" : {
+            "type" : "string",
+            "description" : "The market rate provider, e.g. Bloomberg, Reuters, etc.",
+            "maxLength" : 2
+          },
+          "currencyOrPair" : {
+            "type" : "string",
+            "description" : "A single currency or a currency pair.",
+            "maxLength" : 6
+          },
+          "assetType" : {
+            "type" : "string",
+            "description" : "Type of the asset, e.g. FX, equity, etc.",
+            "maxLength" : 20
+          },
+          "dateOrPeriod" : {
+            "type" : "string",
+            "description" : "Refers to a date or a given period.",
+            "maxLength" : 20
+          },
+          "rateIndicator" : {
+            "type" : "string",
+            "description" : "Market rate indicator as per the asset class. For currency, it  will be buy rate(B) , sell rate(S) or mid rate(M).",
+            "maxLength" : 1
+          },
+          "interpolationMarker" : {
+            "type" : "string",
+            "description" : "The method used for interpolation to derive currency forward rates.",
+            "maxLength" : 1
+          },
+          "marketRate" : {
+            "type" : "string",
+            "description" : "Prevailing rate in the market.",
+            "maxLength" : 10
+          },
+          "daysSinceToday" : {
+            "type" : "string",
+            "description" : "Number of days from today.",
+            "maxLength" : 20
+          }
+        }
+      }
+    },
+    "CurrencyPairPositionDealsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/CurrencyPairPositionDealsResponseBody"
+        }
+      },
+      "description" : "CurrencyPairPositionDealsResponse"
+    },
+    "CurrencyPairPositionDealsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "transactionReference" : {
+            "type" : "string",
+            "description" : "Transaction reference identifier.",
+            "maxLength" : 12
+          },
+          "dealType" : {
+            "type" : "string",
+            "description" : "Foreign Exchange deal type. Allowed values: - SP(spot) - FW(forward) - SW(Swap)",
+            "maxLength" : 2
+          },
+          "counterparty" : {
+            "type" : "string",
+            "description" : "The counterparty ID  for the  deal.",
+            "maxLength" : 10
+          },
+          "currency1" : {
+            "type" : "string",
+            "description" : "The base currency",
+            "maxLength" : 3
+          },
+          "currecy1Amount" : {
+            "type" : "string",
+            "description" : "In the transaction, there may be two currencies involved. Amount of the currency one.",
+            "maxLength" : 35
+          },
+          "currency2" : {
+            "type" : "string",
+            "description" : "The quote currency",
+            "maxLength" : 3
+          },
+          "currency2Amount" : {
+            "type" : "string",
+            "description" : "In the transaction, there may be two currencies involved. Amount of the currency two.",
+            "maxLength" : 35
+          },
+          "rate" : {
+            "type" : "string",
+            "description" : "The rate applied",
+            "maxLength" : 19
+          },
+          "valueDate" : {
+            "type" : "string",
+            "description" : "Indicates the value date on which the underlying accounting entry is to be given value (for interest purposes)",
+            "maxLength" : 8
+          },
+          "dealer" : {
+            "type" : "string",
+            "description" : "The dealer/desk responsible for monitoring and managing the currency position ",
+            "maxLength" : 2
+          },
+          "status" : {
+            "type" : "string",
+            "description" : "Status identifier of the account. The values are 'DELETED' if the account is closed, 'BLOCKED' is there are any posting restrictions & 'ENABLED' for active accounts.",
+            "maxLength" : 5
+          },
+          "companyId" : {
+            "type" : "string",
+            "description" : "The identifier of the underlying Entity/Company/Branch.",
+            "maxLength" : 12
+          }
+        }
+      }
+    },
+    "CurrencyPairsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/CurrencyPairsResponseBody"
+        }
+      },
+      "description" : "CurrencyPairsResponse"
+    },
+    "CurrencyPairsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "currencyPair" : {
+            "type" : "string",
+            "description" : "Identifies the currency pair. Ex: USDCHF, USDGBP",
+            "maxLength" : 10
+          },
+          "quotationPips" : {
+            "type" : "string",
+            "description" : "Identifies the decimal displacement of percentage in points for a currency."
+          },
+          "baseCurrencyDecimal" : {
+            "type" : "string",
+            "description" : "Identifies the decimal places of the base currency."
+          },
+          "counterCurrencyDecimal" : {
+            "type" : "string",
+            "description" : "Identifies the decimal places of the counter currency."
+          },
+          "preciousMetal" : {
+            "type" : "string",
+            "description" : "Identifies if the currency is a precious metal or not."
+          },
+          "ndAllowedCcy" : {
+            "type" : "string",
+            "description" : "Identifies if the currency is allowed for NDF transaction as deal currency."
+          },
+          "splitValueCcy" : {
+            "type" : "string",
+            "description" : "Identifies whether split value dated contracts are allowed for the currency or not."
+          }
+        }
+      }
+    }
+  }
+}

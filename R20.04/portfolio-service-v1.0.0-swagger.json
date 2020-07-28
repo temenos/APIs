@@ -1,0 +1,717 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Portfolio",
+    "version" : "v1.0.0",
+    "title" : "Portfolio"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0",
+  "schemes" : [ "http", "https" ],
+  "paths" : {
+    "/holdings/portfolio" : {
+      "post" : {
+        "operationId" : "createPortfolio",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/createPortfolio"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "createPortfolioResponse",
+            "schema" : {
+              "$ref" : "#/definitions/createPortfolioResponse"
+            }
+          },
+          "default" : {
+            "description" : "createPortfolioErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/createPortfolioErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/portfolio/{portfolioId}" : {
+      "get" : {
+        "operationId" : "getPortfolio",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "portfolioId",
+          "in" : "path",
+          "description" : "The identifier of the portfolio",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "getPortfolioResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getPortfolioResponse"
+            }
+          },
+          "default" : {
+            "description" : "getPortfolioErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getPortfolioErrorResponse"
+            }
+          }
+        }
+      },
+      "put" : {
+        "operationId" : "updatePortfolio",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "portfolioId",
+          "in" : "path",
+          "description" : "The identifier of the portfolio",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/updatePortfolio"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "updatePortfolioResponse",
+            "schema" : {
+              "$ref" : "#/definitions/updatePortfolioResponse"
+            }
+          },
+          "default" : {
+            "description" : "updatePortfolioErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/updatePortfolioErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "PayloadHeader" : {
+      "type" : "object",
+      "properties" : {
+        "override_acceptId" : {
+          "type" : "string",
+          "description" : "pass the record Id to accept all its overrides"
+        }
+      }
+    },
+    "createPortfolio" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/createPortfolioBody"
+        }
+      },
+      "description" : "createPortfolio"
+    },
+    "createPortfolioBody" : {
+      "type" : "object",
+      "properties" : {
+        "accountIds" : {
+          "type" : "array",
+          "description" : "The identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "account" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "jointHolder" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "jointHolderId" : {
+                "type" : "string",
+                "description" : "The identifier of the joint holder"
+              },
+              "jointRelationCode" : {
+                "type" : "string"
+              },
+              "additionalDetail" : {
+                "type" : "string",
+                "description" : "Additional details provided to add context"
+              }
+            }
+          }
+        },
+        "customerId" : {
+          "type" : "string",
+          "description" : "The identifier of the customer"
+        },
+        "referenceCurrency" : {
+          "type" : "string",
+          "description" : "The reference currency"
+        },
+        "valuationCurrency" : {
+          "type" : "string",
+          "description" : "The currency in which the account or portfolio is valued"
+        },
+        "portfolioName" : {
+          "type" : "string",
+          "description" : "The name that is displayed for the portfolio"
+        },
+        "accountOfficer" : {
+          "type" : "string"
+        },
+        "investmentProgram" : {
+          "type" : "string"
+        },
+        "managedAccount" : {
+          "type" : "string",
+          "description" : "The type of managed account- discretionary or otherwise"
+        },
+        "safekeepChargeAccount" : {
+          "type" : "string",
+          "description" : "The cash account to which safe custody charges need to be posted"
+        },
+        "startDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "The start date"
+        }
+      }
+    },
+    "ScreenHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "parse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "createPortfolioResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/createPortfolioResponseBody"
+        }
+      },
+      "description" : "createPortfolioResponse"
+    },
+    "createPortfolioResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "accountIds" : {
+          "type" : "array",
+          "description" : "The identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "account" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "jointHolder" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "jointHolderId" : {
+                "type" : "string",
+                "description" : "The identifier of the joint holder"
+              },
+              "jointRelationCode" : {
+                "type" : "string"
+              },
+              "additionalDetail" : {
+                "type" : "string",
+                "description" : "Additional details provided to add context"
+              }
+            }
+          }
+        },
+        "customerId" : {
+          "type" : "string",
+          "description" : "The identifier of the customer"
+        },
+        "referenceCurrency" : {
+          "type" : "string",
+          "description" : "The reference currency"
+        },
+        "valuationCurrency" : {
+          "type" : "string",
+          "description" : "The currency in which the account or portfolio is valued"
+        },
+        "portfolioName" : {
+          "type" : "string",
+          "description" : "The name that is displayed for the portfolio"
+        },
+        "accountOfficer" : {
+          "type" : "string"
+        },
+        "investmentProgram" : {
+          "type" : "string"
+        },
+        "managedAccount" : {
+          "type" : "string",
+          "description" : "The type of managed account- discretionary or otherwise"
+        },
+        "safekeepChargeAccount" : {
+          "type" : "string",
+          "description" : "The cash account to which safe custody charges need to be posted"
+        },
+        "startDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "The start date"
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "parse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "createPortfolioErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/createPortfolioErrorResponseBody"
+        }
+      },
+      "description" : "createPortfolioErrorResponse"
+    },
+    "createPortfolioErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type"
+        }
+      }
+    },
+    "updatePortfolio" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/updatePortfolioBody"
+        }
+      },
+      "description" : "updatePortfolio"
+    },
+    "updatePortfolioBody" : {
+      "type" : "object",
+      "properties" : {
+        "accountIds" : {
+          "type" : "array",
+          "description" : "The identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "account" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "jointHolder" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "jointHolderId" : {
+                "type" : "string",
+                "description" : "The identifier of the joint holder"
+              },
+              "jointRelationCode" : {
+                "type" : "string"
+              },
+              "additionalDetail" : {
+                "type" : "string",
+                "description" : "Additional details provided to add context"
+              }
+            }
+          }
+        },
+        "customerId" : {
+          "type" : "string",
+          "description" : "The identifier of the customer"
+        },
+        "referenceCurrency" : {
+          "type" : "string",
+          "description" : "The reference currency"
+        },
+        "valuationCurrency" : {
+          "type" : "string",
+          "description" : "The currency in which the account or portfolio is valued"
+        },
+        "portfolioName" : {
+          "type" : "string",
+          "description" : "The name that is displayed for the portfolio"
+        },
+        "accountOfficer" : {
+          "type" : "string"
+        },
+        "investmentProgram" : {
+          "type" : "string"
+        },
+        "managedAccount" : {
+          "type" : "string",
+          "description" : "The type of managed account- discretionary or otherwise"
+        },
+        "safekeepChargeAccount" : {
+          "type" : "string",
+          "description" : "The cash account to which safe custody charges need to be posted"
+        },
+        "startDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "The start date"
+        }
+      }
+    },
+    "updatePortfolioResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/updatePortfolioResponseBody"
+        }
+      },
+      "description" : "updatePortfolioResponse"
+    },
+    "updatePortfolioResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "accountIds" : {
+          "type" : "array",
+          "description" : "The identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "account" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "jointHolder" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "jointHolderId" : {
+                "type" : "string",
+                "description" : "The identifier of the joint holder"
+              },
+              "jointRelationCode" : {
+                "type" : "string"
+              },
+              "additionalDetail" : {
+                "type" : "string",
+                "description" : "Additional details provided to add context"
+              }
+            }
+          }
+        },
+        "customerId" : {
+          "type" : "string",
+          "description" : "The identifier of the customer"
+        },
+        "referenceCurrency" : {
+          "type" : "string",
+          "description" : "The reference currency"
+        },
+        "valuationCurrency" : {
+          "type" : "string",
+          "description" : "The currency in which the account or portfolio is valued"
+        },
+        "portfolioName" : {
+          "type" : "string",
+          "description" : "The name that is displayed for the portfolio"
+        },
+        "accountOfficer" : {
+          "type" : "string"
+        },
+        "investmentProgram" : {
+          "type" : "string"
+        },
+        "managedAccount" : {
+          "type" : "string",
+          "description" : "The type of managed account- discretionary or otherwise"
+        },
+        "safekeepChargeAccount" : {
+          "type" : "string",
+          "description" : "The cash account to which safe custody charges need to be posted"
+        },
+        "startDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "The start date"
+        }
+      }
+    },
+    "updatePortfolioErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/updatePortfolioErrorResponseBody"
+        }
+      },
+      "description" : "updatePortfolioErrorResponse"
+    },
+    "updatePortfolioErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type"
+        }
+      }
+    },
+    "getPortfolioResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/getPortfolioResponseBody"
+        }
+      },
+      "description" : "getPortfolioResponse"
+    },
+    "getPortfolioResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "accountIds" : {
+          "type" : "array",
+          "description" : "The identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "account" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "jointHolder" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "jointHolderId" : {
+                "type" : "string",
+                "description" : "The identifier of the joint holder"
+              },
+              "jointRelationCode" : {
+                "type" : "string"
+              },
+              "additionalDetail" : {
+                "type" : "string",
+                "description" : "Additional details provided to add context"
+              }
+            }
+          }
+        },
+        "customerId" : {
+          "type" : "string",
+          "description" : "The identifier of the customer"
+        },
+        "referenceCurrency" : {
+          "type" : "string",
+          "description" : "The reference currency"
+        },
+        "valuationCurrency" : {
+          "type" : "string",
+          "description" : "The currency in which the account or portfolio is valued"
+        },
+        "portfolioName" : {
+          "type" : "string",
+          "description" : "The name that is displayed for the portfolio"
+        },
+        "accountOfficer" : {
+          "type" : "string"
+        },
+        "investmentProgram" : {
+          "type" : "string"
+        },
+        "managedAccount" : {
+          "type" : "string",
+          "description" : "The type of managed account- discretionary or otherwise"
+        },
+        "safekeepChargeAccount" : {
+          "type" : "string",
+          "description" : "The cash account to which safe custody charges need to be posted"
+        },
+        "startDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "The start date"
+        }
+      }
+    },
+    "getPortfolioErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/getPortfolioErrorResponseBody"
+        }
+      },
+      "description" : "getPortfolioErrorResponse"
+    },
+    "getPortfolioErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type"
+        }
+      }
+    }
+  }
+}

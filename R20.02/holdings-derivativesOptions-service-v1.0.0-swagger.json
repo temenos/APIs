@@ -1,0 +1,1705 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Allows the viewing and creation of option contracts to assign/exercise/expire based on either the trade reference selected or the trades filtered based on - Derivatives Contract, Maturity Date, Options(Call / Put) and Strike Price",
+    "version" : "v1.0.0",
+    "title" : "API for derivative events"
+  },
+  "host" : "api.server.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/holdings/instruments/options/assigns" : {
+      "get" : {
+        "summary" : "Retrieves sell option trades",
+        "description" : "Retrieves the sell option contracts",
+        "operationId" : "getSellOptionTrades",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "portfolioId",
+          "in" : "query",
+          "description" : "Id of the portfolio or security account",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "contractId",
+          "in" : "query",
+          "description" : "The identifier of the contract",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "maturityDate",
+          "in" : "query",
+          "description" : "Indicates maturity date of the contract",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "strikePrice",
+          "in" : "query",
+          "description" : "The price at which the option holder has the right to buy (Call Options) or sell (Put Options) the underlying instrument, or to cash-settle the option if appropriate",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "callOrPut",
+          "in" : "query",
+          "description" : "Indicates whether the transaction is a call or put.  Allowed values: - CALL  - PUT",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "tradeCurrency",
+          "in" : "query",
+          "description" : "The trade currency is the settlement currency for the trade",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "currencyId",
+          "in" : "query",
+          "description" : "Identifier of the currency. This is the 3-letter ISO 4217 code of the currency.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "optionStyle",
+          "in" : "query",
+          "description" : "The type of settlement rule that should be applied on the option. AMERICAN: An option that may be exercised at any time prior to its expiry date. EUROPEAN: An option that may only be exercised on its expiry date. ",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "referenceId",
+          "in" : "query",
+          "description" : "",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "SellOptionTradesResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SellOptionTradesResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Creates manual assign contract",
+        "description" : "Creates the manual assign contract to assign the lots based on either the trade reference selected or the trades filtered based on - Derivatives Contract, Maturity Date, Options(Call / Put) and Strike Price",
+        "operationId" : "createManualAssignOptionTrades",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/ManualAssignOptionTrades"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "ManualAssignOptionTradesResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ManualAssignOptionTradesResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/instruments/options/exercises" : {
+      "get" : {
+        "summary" : "Retrieves buy option trades",
+        "description" : "Retrieves the buy option contracts",
+        "operationId" : "getBuyOptionTrades",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "portfolioId",
+          "in" : "query",
+          "description" : "Id of the portfolio or security account",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "contactId",
+          "in" : "query",
+          "description" : "",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "maturityDate",
+          "in" : "query",
+          "description" : "Indicates maturity date of the contract",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "strikePrice",
+          "in" : "query",
+          "description" : "The price at which the option holder has the right to buy (Call Options) or sell (Put Options) the underlying instrument, or to cash-settle the option if appropriate",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "callOrPut",
+          "in" : "query",
+          "description" : "Indicates whether the transaction is a call or put.  Allowed values: - CALL  - PUT",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "tradeCurrency",
+          "in" : "query",
+          "description" : "The trade currency is the settlement currency for the trade",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "currencyId",
+          "in" : "query",
+          "description" : "Identifier of the currency. This is the 3-letter ISO 4217 code of the currency.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "optionStyle",
+          "in" : "query",
+          "description" : "The type of settlement rule that should be applied on the option. AMERICAN: An option that may be exercised at any time prior to its expiry date. EUROPEAN: An option that may only be exercised on its expiry date. ",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "referenceId",
+          "in" : "query",
+          "description" : "",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "BuyOptionTradesResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BuyOptionTradesResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Creates manual exercise contract",
+        "description" : "Creates manual exercise to exercise the lots based on either the trade reference selected or the trades filtered based on - Derivatives Contract, Maturity Date, Options(Call / Put) and Strike Price",
+        "operationId" : "createManualExerciseOptionTrades",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/ManualExerciseOptionTrades"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "ManualExerciseOptionTradesResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ManualExerciseOptionTradesResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/instruments/options/expires" : {
+      "get" : {
+        "summary" : "Retrieves option trades",
+        "description" : "Retrieves the option contracts",
+        "operationId" : "getActiveOptionTrades",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "portfolioId",
+          "in" : "query",
+          "description" : "Id of the portfolio or security account",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "contactId",
+          "in" : "query",
+          "description" : "",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "maturityDate",
+          "in" : "query",
+          "description" : "Indicates maturity date of the contract",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "strikePrice",
+          "in" : "query",
+          "description" : "The price at which the option holder has the right to buy (Call Options) or sell (Put Options) the underlying instrument, or to cash-settle the option if appropriate",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "callOrPut",
+          "in" : "query",
+          "description" : "Indicates whether the transaction is a call or put.  Allowed values: - CALL  - PUT",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "tradeCurrency",
+          "in" : "query",
+          "description" : "The trade currency is the settlement currency for the trade",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "currencyId",
+          "in" : "query",
+          "description" : "Identifier of the currency. This is the 3-letter ISO 4217 code of the currency.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "optionStyle",
+          "in" : "query",
+          "description" : "The type of settlement rule that should be applied on the option. AMERICAN: An option that may be exercised at any time prior to its expiry date. EUROPEAN: An option that may only be exercised on its expiry date. ",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "referenceId",
+          "in" : "query",
+          "description" : "",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "ActiveOptionTradesResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ActiveOptionTradesResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Creates manual expire contract",
+        "description" : "Creates manual expire to expire the lots based on either the trade reference selected or the trades filtered based on - Derivatives Contract, Maturity Date, Options(Call / Put) and Strike Price",
+        "operationId" : "createManualExpireOptionTrades",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/ManualExpireOptionTrades"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "ManualExpireOptionTradesResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ManualExpireOptionTradesResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "QueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records per page"
+        },
+        "page_start" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The record from which the response should be displayed"
+        },
+        "total_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records present"
+        },
+        "page_token" : {
+          "type" : "string",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request"
+        }
+      }
+    },
+    "SellOptionTradesResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/SellOptionTradesResponseBody"
+        }
+      },
+      "description" : "SellOptionTradesResponse"
+    },
+    "SellOptionTradesResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "transactionId" : {
+            "type" : "number",
+            "description" : "Unique transaction identifier for retrieving the details of the transaction. For example: FT0102030333 etc."
+          },
+          "tradeDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "Standard date field which records trade date of the account"
+          },
+          "callOrPut" : {
+            "type" : "string",
+            "description" : "Indicates whether the transaction is a call or put.  Allowed values: - CALL  - PUT",
+            "maxLength" : 4
+          },
+          "originalLots" : {
+            "type" : "number",
+            "description" : "Original number of lots of the transaction"
+          },
+          "lots" : {
+            "type" : "number",
+            "description" : "Open number of lots of the transaction"
+          },
+          "price" : {
+            "type" : "number",
+            "description" : "The Price at which the nominal amount of the Security is to be valued for the transaction."
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessQueryErrorResponseBody"
+        }
+      },
+      "description" : "BusinessQueryErrorResponse"
+    },
+    "BusinessQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message for bad requests"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemQueryErrorResponseBody"
+        }
+      },
+      "description" : "SystemQueryErrorResponse"
+    },
+    "SystemQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message caused by server"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    },
+    "PayloadHeader" : {
+      "properties" : {
+        "override" : {
+          "type" : "object",
+          "properties" : {
+            "overrideDetails" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "id" : {
+                    "type" : "string",
+                    "description" : "The identifier of the override"
+                  },
+                  "description" : {
+                    "type" : "string",
+                    "description" : "The actual override message"
+                  },
+                  "responseCode" : {
+                    "type" : "string",
+                    "description" : "The user input to accept/reject the override."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            }
+          }
+        }
+      }
+    },
+    "ManualAssignOptionTrades" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ManualAssignOptionTradesBody"
+        }
+      },
+      "description" : "ManualAssignOptionTrades"
+    },
+    "ManualAssignOptionTradesBody" : {
+      "type" : "object",
+      "properties" : {
+        "transactionDetails" : {
+          "type" : "array",
+          "description" : "Commission/Tax charged for Seller side of the transaction",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "transactionId" : {
+                "type" : "string",
+                "description" : "Unique transaction identifier for retrieving the details of the transaction. For example: FT0102030333 etc.",
+                "maxLength" : 35
+              },
+              "lots" : {
+                "type" : "number",
+                "description" : "Open number of lots of the transaction"
+              },
+              "settlementAmount" : {
+                "type" : "number",
+                "description" : "Amount of settlement"
+              },
+              "valueDate" : {
+                "type" : "string",
+                "format" : "date",
+                "description" : "Indicates the value date on which the underlying accounting entry is to be given value (for interest purposes)"
+              },
+              "transactionAmount" : {
+                "type" : "number",
+                "description" : "Contains the transaction amount. This is based on the currency, either local or foreign currency"
+              },
+              "buyerCommissions" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "buyerCommission" : {
+                      "type" : "number",
+                      "description" : "Commission/Tax charged for Buyer side of the transaction"
+                    }
+                  }
+                }
+              },
+              "sellerCommission" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "sellerCommission" : {
+                      "type" : "number",
+                      "description" : "Commission/Tax charged for Seller side of the transaction"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "closeoutIds" : {
+          "type" : "array",
+          "description" : "Identifier of the Derivatives closeout record",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "closeoutId" : {
+                "type" : "string",
+                "description" : "Identifier of the Derivatives closeout record",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status identifier of the account. The values are 'DELETED' if the account is closed, 'BLOCKED' is there are any posting restrictions & 'ENABLED' for active accounts.",
+          "maxLength" : 35
+        },
+        "marketPrice" : {
+          "type" : "number",
+          "description" : "Current Market Price of the Security"
+        },
+        "exchangeRate" : {
+          "type" : "number",
+          "description" : "Contains the exchange rate returned from the system. i.e. For entries over foreign currency accounts, this contains the rate which used to convert the currency amount to the local equivalent at the time of the originating transaction."
+        },
+        "contractSize" : {
+          "type" : "number",
+          "description" : "Trading units of the contract e.g. 3-month Short Sterling (LIFFE) ; Trading unit of 500,000 per lot"
+        },
+        "price" : {
+          "type" : "number",
+          "description" : "The Price at which the nominal amount of the Security is to be valued for the transaction."
+        },
+        "quoteCurrency" : {
+          "type" : "string",
+          "description" : "The currency in which the spot exchange rate is quoted",
+          "maxLength" : 35
+        },
+        "spotRate" : {
+          "type" : "number",
+          "description" : "Exchange rate applicable for spot trades."
+        },
+        "spotPayoutRate" : {
+          "type" : "string",
+          "description" : "Exchange rate applicable between the Strike Quote Ccy and Payout Ccy. ",
+          "maxLength" : 35
+        },
+        "payoutCurrency" : {
+          "type" : "number",
+          "description" : "Currency in which the payout is to be made"
+        }
+      }
+    },
+    "ScreenHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "ManualAssignOptionTradesResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ManualAssignOptionTradesResponseBody"
+        }
+      },
+      "description" : "ManualAssignOptionTradesResponse"
+    },
+    "ManualAssignOptionTradesResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "transactionDetails" : {
+          "type" : "array",
+          "description" : "Commission/Tax charged for Seller side of the transaction",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "transactionId" : {
+                "type" : "string",
+                "description" : "Unique transaction identifier for retrieving the details of the transaction. For example: FT0102030333 etc.",
+                "maxLength" : 35
+              },
+              "lots" : {
+                "type" : "number",
+                "description" : "Open number of lots of the transaction"
+              },
+              "settlementAmount" : {
+                "type" : "number",
+                "description" : "Amount of settlement"
+              },
+              "valueDate" : {
+                "type" : "string",
+                "format" : "date",
+                "description" : "Indicates the value date on which the underlying accounting entry is to be given value (for interest purposes)"
+              },
+              "transactionAmount" : {
+                "type" : "number",
+                "description" : "Contains the transaction amount. This is based on the currency, either local or foreign currency"
+              },
+              "buyerCommissions" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "buyerCommission" : {
+                      "type" : "number",
+                      "description" : "Commission/Tax charged for Buyer side of the transaction"
+                    }
+                  }
+                }
+              },
+              "sellerCommission" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "sellerCommission" : {
+                      "type" : "number",
+                      "description" : "Commission/Tax charged for Seller side of the transaction"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "closeoutIds" : {
+          "type" : "array",
+          "description" : "Identifier of the Derivatives closeout record",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "closeoutId" : {
+                "type" : "string",
+                "description" : "Identifier of the Derivatives closeout record",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status identifier of the account. The values are 'DELETED' if the account is closed, 'BLOCKED' is there are any posting restrictions & 'ENABLED' for active accounts.",
+          "maxLength" : 35
+        },
+        "marketPrice" : {
+          "type" : "number",
+          "description" : "Current Market Price of the Security"
+        },
+        "exchangeRate" : {
+          "type" : "number",
+          "description" : "Contains the exchange rate returned from the system. i.e. For entries over foreign currency accounts, this contains the rate which used to convert the currency amount to the local equivalent at the time of the originating transaction."
+        },
+        "contractSize" : {
+          "type" : "number",
+          "description" : "Trading units of the contract e.g. 3-month Short Sterling (LIFFE) ; Trading unit of 500,000 per lot"
+        },
+        "price" : {
+          "type" : "number",
+          "description" : "The Price at which the nominal amount of the Security is to be valued for the transaction."
+        },
+        "quoteCurrency" : {
+          "type" : "string",
+          "description" : "The currency in which the spot exchange rate is quoted",
+          "maxLength" : 35
+        },
+        "spotRate" : {
+          "type" : "number",
+          "description" : "Exchange rate applicable for spot trades."
+        },
+        "spotPayoutRate" : {
+          "type" : "string",
+          "description" : "Exchange rate applicable between the Strike Quote Ccy and Payout Ccy. ",
+          "maxLength" : 35
+        },
+        "payoutCurrency" : {
+          "type" : "number",
+          "description" : "Currency in which the payout is to be made"
+        }
+      }
+    },
+    "overrideBody" : {
+      "properties" : {
+        "overrideDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "string",
+                "description" : "The identifier of the override"
+              },
+              "description" : {
+                "type" : "string",
+                "description" : "The actual override message"
+              },
+              "options" : {
+                "type" : "array",
+                "description" : "The usable options for the override",
+                "items" : {
+                  "type" : "string"
+                }
+              },
+              "type" : {
+                "type" : "string",
+                "description" : "The type of the override"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/ScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "ScreenErrorResponse"
+    },
+    "ScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message "
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "BusinessScreenErrorResponse"
+    },
+    "BusinessScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message for bad requests"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "SystemScreenErrorResponse"
+    },
+    "SystemScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message caused by server"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    },
+    "BuyOptionTradesResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/BuyOptionTradesResponseBody"
+        }
+      },
+      "description" : "BuyOptionTradesResponse"
+    },
+    "BuyOptionTradesResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "transactionId" : {
+            "type" : "number",
+            "description" : "Unique transaction identifier for retrieving the details of the transaction. For example: FT0102030333 etc."
+          },
+          "tradeDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "Standard date field which records trade date of the account"
+          },
+          "callOrPut" : {
+            "type" : "string",
+            "description" : "Indicates whether the transaction is a call or put.  Allowed values: - CALL  - PUT",
+            "maxLength" : 4
+          },
+          "originalLots" : {
+            "type" : "number",
+            "description" : "Original number of lots of the transaction"
+          },
+          "lots" : {
+            "type" : "number",
+            "description" : "Open number of lots of the transaction"
+          },
+          "price" : {
+            "type" : "number",
+            "description" : "The Price at which the nominal amount of the Security is to be valued for the transaction."
+          }
+        }
+      }
+    },
+    "ManualExerciseOptionTrades" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ManualExerciseOptionTradesBody"
+        }
+      },
+      "description" : "ManualExerciseOptionTrades"
+    },
+    "ManualExerciseOptionTradesBody" : {
+      "type" : "object",
+      "properties" : {
+        "transactionDetails" : {
+          "type" : "array",
+          "description" : "Commission/Tax charged for Seller side of the transaction",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "transactionId" : {
+                "type" : "string",
+                "description" : "Unique transaction identifier for retrieving the details of the transaction. For example: FT0102030333 etc.",
+                "maxLength" : 35
+              },
+              "lots" : {
+                "type" : "number",
+                "description" : "Open number of lots of the transaction"
+              },
+              "settlementAmount" : {
+                "type" : "number",
+                "description" : "Amount of settlement"
+              },
+              "valueDate" : {
+                "type" : "string",
+                "format" : "date",
+                "description" : "Indicates the value date on which the underlying accounting entry is to be given value (for interest purposes)"
+              },
+              "transactionAmount" : {
+                "type" : "number",
+                "description" : "Contains the transaction amount. This is based on the currency, either local or foreign currency"
+              },
+              "buyerCommissions" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "buyerCommission" : {
+                      "type" : "number",
+                      "description" : "Commission/Tax charged for Buyer side of the transaction"
+                    }
+                  }
+                }
+              },
+              "sellerCommission" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "sellerCommission" : {
+                      "type" : "number",
+                      "description" : "Commission/Tax charged for Seller side of the transaction"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "closeoutIds" : {
+          "type" : "array",
+          "description" : "Identifier of the Derivatives closeout record",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "closeoutId" : {
+                "type" : "string",
+                "description" : "Identifier of the Derivatives closeout record",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status identifier of the account. The values are 'DELETED' if the account is closed, 'BLOCKED' is there are any posting restrictions & 'ENABLED' for active accounts.",
+          "maxLength" : 35
+        },
+        "marketPrice" : {
+          "type" : "number",
+          "description" : "Current Market Price of the Security"
+        },
+        "exchangeRate" : {
+          "type" : "number",
+          "description" : "Contains the exchange rate returned from the system. i.e. For entries over foreign currency accounts, this contains the rate which used to convert the currency amount to the local equivalent at the time of the originating transaction."
+        },
+        "contractSize" : {
+          "type" : "number",
+          "description" : "Trading units of the contract e.g. 3-month Short Sterling (LIFFE) ; Trading unit of 500,000 per lot"
+        },
+        "price" : {
+          "type" : "number",
+          "description" : "The Price at which the nominal amount of the Security is to be valued for the transaction."
+        },
+        "quoteCurrency" : {
+          "type" : "string",
+          "description" : "The currency in which the spot exchange rate is quoted",
+          "maxLength" : 35
+        },
+        "spotRate" : {
+          "type" : "number",
+          "description" : "Exchange rate applicable for spot trades."
+        },
+        "spotPayoutRate" : {
+          "type" : "string",
+          "description" : "Exchange rate applicable between the Strike Quote Ccy and Payout Ccy. ",
+          "maxLength" : 35
+        },
+        "payoutCurrency" : {
+          "type" : "number",
+          "description" : "Currency in which the payout is to be made"
+        }
+      }
+    },
+    "ManualExerciseOptionTradesResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ManualExerciseOptionTradesResponseBody"
+        }
+      },
+      "description" : "ManualExerciseOptionTradesResponse"
+    },
+    "ManualExerciseOptionTradesResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "transactionDetails" : {
+          "type" : "array",
+          "description" : "Commission/Tax charged for Seller side of the transaction",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "transactionId" : {
+                "type" : "string",
+                "description" : "Unique transaction identifier for retrieving the details of the transaction. For example: FT0102030333 etc.",
+                "maxLength" : 35
+              },
+              "lots" : {
+                "type" : "number",
+                "description" : "Open number of lots of the transaction"
+              },
+              "settlementAmount" : {
+                "type" : "number",
+                "description" : "Amount of settlement"
+              },
+              "valueDate" : {
+                "type" : "string",
+                "format" : "date",
+                "description" : "Indicates the value date on which the underlying accounting entry is to be given value (for interest purposes)"
+              },
+              "transactionAmount" : {
+                "type" : "number",
+                "description" : "Contains the transaction amount. This is based on the currency, either local or foreign currency"
+              },
+              "buyerCommissions" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "buyerCommission" : {
+                      "type" : "number",
+                      "description" : "Commission/Tax charged for Buyer side of the transaction"
+                    }
+                  }
+                }
+              },
+              "sellerCommission" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "sellerCommission" : {
+                      "type" : "number",
+                      "description" : "Commission/Tax charged for Seller side of the transaction"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "closeoutIds" : {
+          "type" : "array",
+          "description" : "Identifier of the Derivatives closeout record",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "closeoutId" : {
+                "type" : "string",
+                "description" : "Identifier of the Derivatives closeout record",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status identifier of the account. The values are 'DELETED' if the account is closed, 'BLOCKED' is there are any posting restrictions & 'ENABLED' for active accounts.",
+          "maxLength" : 35
+        },
+        "marketPrice" : {
+          "type" : "number",
+          "description" : "Current Market Price of the Security"
+        },
+        "exchangeRate" : {
+          "type" : "number",
+          "description" : "Contains the exchange rate returned from the system. i.e. For entries over foreign currency accounts, this contains the rate which used to convert the currency amount to the local equivalent at the time of the originating transaction."
+        },
+        "contractSize" : {
+          "type" : "number",
+          "description" : "Trading units of the contract e.g. 3-month Short Sterling (LIFFE) ; Trading unit of 500,000 per lot"
+        },
+        "price" : {
+          "type" : "number",
+          "description" : "The Price at which the nominal amount of the Security is to be valued for the transaction."
+        },
+        "quoteCurrency" : {
+          "type" : "string",
+          "description" : "The currency in which the spot exchange rate is quoted",
+          "maxLength" : 35
+        },
+        "spotRate" : {
+          "type" : "number",
+          "description" : "Exchange rate applicable for spot trades."
+        },
+        "spotPayoutRate" : {
+          "type" : "string",
+          "description" : "Exchange rate applicable between the Strike Quote Ccy and Payout Ccy. ",
+          "maxLength" : 35
+        },
+        "payoutCurrency" : {
+          "type" : "number",
+          "description" : "Currency in which the payout is to be made"
+        }
+      }
+    },
+    "ActiveOptionTradesResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ActiveOptionTradesResponseBody"
+        }
+      },
+      "description" : "ActiveOptionTradesResponse"
+    },
+    "ActiveOptionTradesResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "transactionId" : {
+            "type" : "number",
+            "description" : "Unique transaction identifier for retrieving the details of the transaction. For example: FT0102030333 etc."
+          },
+          "tradeDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "Standard date field which records trade date of the account"
+          },
+          "callOrPut" : {
+            "type" : "string",
+            "description" : "Indicates whether the transaction is a call or put.  Allowed values: - CALL  - PUT",
+            "maxLength" : 4
+          },
+          "originalLots" : {
+            "type" : "number",
+            "description" : "Original number of lots of the transaction"
+          },
+          "lots" : {
+            "type" : "number",
+            "description" : "Open number of lots of the transaction"
+          },
+          "price" : {
+            "type" : "number",
+            "description" : "The Price at which the nominal amount of the Security is to be valued for the transaction."
+          }
+        }
+      }
+    },
+    "ManualExpireOptionTrades" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ManualExpireOptionTradesBody"
+        }
+      },
+      "description" : "ManualExpireOptionTrades"
+    },
+    "ManualExpireOptionTradesBody" : {
+      "type" : "object",
+      "properties" : {
+        "transactionDetails" : {
+          "type" : "array",
+          "description" : "Commission/Tax charged for Seller side of the transaction",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "transactionId" : {
+                "type" : "string",
+                "description" : "Unique transaction identifier for retrieving the details of the transaction. For example: FT0102030333 etc.",
+                "maxLength" : 35
+              },
+              "lots" : {
+                "type" : "number",
+                "description" : "Open number of lots of the transaction"
+              },
+              "buyerCommissions" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "buyerCommission" : {
+                      "type" : "number",
+                      "description" : "Commission/Tax charged for Buyer side of the transaction"
+                    }
+                  }
+                }
+              },
+              "sellerCommissions" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "sellerCommission" : {
+                      "type" : "number",
+                      "description" : "Commission/Tax charged for Seller side of the transaction"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "closeoutId" : {
+          "type" : "string",
+          "description" : "Identifier of the Derivatives closeout record",
+          "maxLength" : 35
+        }
+      }
+    },
+    "ManualExpireOptionTradesResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ManualExpireOptionTradesResponseBody"
+        }
+      },
+      "description" : "ManualExpireOptionTradesResponse"
+    },
+    "ManualExpireOptionTradesResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "transactionDetails" : {
+          "type" : "array",
+          "description" : "Commission/Tax charged for Seller side of the transaction",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "transactionId" : {
+                "type" : "string",
+                "description" : "Unique transaction identifier for retrieving the details of the transaction. For example: FT0102030333 etc.",
+                "maxLength" : 35
+              },
+              "lots" : {
+                "type" : "number",
+                "description" : "Open number of lots of the transaction"
+              },
+              "buyerCommissions" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "buyerCommission" : {
+                      "type" : "number",
+                      "description" : "Commission/Tax charged for Buyer side of the transaction"
+                    }
+                  }
+                }
+              },
+              "sellerCommissions" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "sellerCommission" : {
+                      "type" : "number",
+                      "description" : "Commission/Tax charged for Seller side of the transaction"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "closeoutId" : {
+          "type" : "string",
+          "description" : "Identifier of the Derivatives closeout record",
+          "maxLength" : 35
+        }
+      }
+    }
+  }
+}

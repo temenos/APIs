@@ -1,0 +1,1169 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "CbctPaymentInitiation",
+    "version" : "v1.0.0",
+    "title" : "CbctPaymentInitiation"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/order/PSD2/paymentOrderInitiation/crossBorder" : {
+      "post" : {
+        "summary" : "To initiate cross border payments",
+        "description" : "To initiate cross border payments",
+        "operationId" : "createCbctPaymentOrder",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/CbctPaymentOrder"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "CbctPaymentOrderResponse",
+            "schema" : {
+              "$ref" : "#/definitions/CbctPaymentOrderResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "PayloadHeader" : {
+      "properties" : {
+        "override" : {
+          "type" : "object",
+          "properties" : {
+            "overrideDetails" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "id" : {
+                    "type" : "string",
+                    "description" : "The identifier of the override"
+                  },
+                  "description" : {
+                    "type" : "string",
+                    "description" : "The actual override message"
+                  },
+                  "responseCode" : {
+                    "type" : "string",
+                    "description" : "The user input to accept/reject the override."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            }
+          }
+        }
+      }
+    },
+    "CbctPaymentOrder" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/CbctPaymentOrderBody"
+        }
+      },
+      "description" : "CbctPaymentOrder",
+      "example" : {
+        "header" : {
+          "audit" : {
+            "versionNumber" : ""
+          },
+          "override" : {
+            "overrideDetails" : [ {
+              "description" : "Account 14095 unauthorised overdraft of 110, available 0, Requested 110 GBP",
+              "id" : "PI-UNAUTH.OVERDRAFT",
+              "type" : "Override"
+            } ]
+          }
+        },
+        "body" : {
+          "chargeBearer" : "",
+          "chargeInfo" : [ {
+            "chargeName" : ""
+          } ],
+          "creditorName" : "TEST",
+          "purpose" : "",
+          "ultimateCreditor" : "",
+          "executionDate" : "",
+          "creditValueDate" : "",
+          "totalDebitAmount" : "",
+          "chargeDetails" : [ {
+            "chargeType" : ""
+          } ],
+          "orderingPaymentFxCustomerRate" : "",
+          "benPostAddressLine" : [ {
+            "beneficiaryAddressLine1" : ""
+          } ],
+          "benPostSwiftAddr" : [ {
+            "beneficiarySWIFTAddress" : ""
+          } ],
+          "debitAccountIBAN" : "",
+          "accountWithBankIBAN" : "",
+          "transactionAmount" : "110",
+          "contextFieldValue" : [ {
+            "contextValue" : ""
+          } ],
+          "beneficiaryAddressArea" : "",
+          "accountWithBankClearingCode" : "",
+          "chargeAmt" : [ {
+            "chargeAmount" : ""
+          } ],
+          "contextField" : [ {
+            "contextName" : ""
+          } ],
+          "endToEndReference" : "",
+          "beneficiaryIBAN" : "",
+          "structuredCreditorReference" : "",
+          "debitAccountId" : "14095",
+          "accountWithBankBIC" : "",
+          "cutOffTime" : "",
+          "ultimateDebtor" : "",
+          "simulatedAt" : "",
+          "creditorAddress" : "",
+          "creditorAgentCountryId" : "",
+          "chargeAccCurr" : [ {
+            "chargeAccountCurrencyId" : ""
+          } ],
+          "chargeCurr" : [ {
+            "chargeCurrency" : ""
+          } ],
+          "PSDCompliant" : "",
+          "creditAccountId" : "14044",
+          "creditorAgentBIC" : "",
+          "instructionIdReference" : "",
+          "remittanceInfo" : [ {
+            "remittanceInformation" : ""
+          } ],
+          "paymentCurrency" : "GBP",
+          "chargeAcc" : [ {
+            "chargeAccountId" : ""
+          } ],
+          "chargeAccountAmt" : [ {
+            "chargeAcctAmount" : ""
+          } ],
+          "indicativeRate" : ""
+        }
+      }
+    },
+    "CbctPaymentOrderBody" : {
+      "type" : "object",
+      "required" : [ "creditorName", "paymentCurrency", "transactionAmount" ],
+      "properties" : {
+        "benPostSwiftAddr" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "beneficiarySWIFTAddress" : {
+                "type" : "string",
+                "description" : "Address of the beneficiary which will be included as part of outgoing payment instruction",
+                "maxLength" : 70
+              }
+            }
+          }
+        },
+        "benPostAddressLine" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "beneficiaryAddressLine1" : {
+                "type" : "string",
+                "description" : "Address of the beneficiary or credit account.",
+                "maxLength" : 70
+              }
+            }
+          }
+        },
+        "remittanceInfo" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "remittanceInformation" : {
+                "type" : "string",
+                "description" : "Indicates the remittance information that is supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
+                "maxLength" : 70
+              }
+            }
+          }
+        },
+        "contextField" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "contextName" : {
+                "type" : "string",
+                "description" : "Field name returned by the payment engine (TPH) for information or further processing.",
+                "maxLength" : 70
+              }
+            }
+          }
+        },
+        "contextFieldValue" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "contextValue" : {
+                "type" : "string",
+                "description" : "Field value returned by the payment engine (TPH) for information or further processing.",
+                "maxLength" : 70
+              }
+            }
+          }
+        },
+        "chargeDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "chargeType" : {
+                "type" : "string",
+                "description" : "Indicates the charge types which are applicable for the transaction. Example: CORRBKCHG",
+                "maxLength" : 70
+              }
+            }
+          }
+        },
+        "chargeInfo" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "chargeName" : {
+                "type" : "string",
+                "description" : "The description of the charge to be taken for payment",
+                "maxLength" : 70
+              }
+            }
+          }
+        },
+        "chargeAmt" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "chargeAmount" : {
+                "type" : "string",
+                "description" : "Retrieves the Charge Amount after redeem",
+                "maxLength" : 70
+              }
+            }
+          }
+        },
+        "chargeCurr" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "chargeCurrency" : {
+                "type" : "string",
+                "description" : "Indicates the currency code of the charge account from where the fee is deducted",
+                "maxLength" : 70
+              }
+            }
+          }
+        },
+        "chargeAccountAmt" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "chargeAcctAmount" : {
+                "type" : "string",
+                "maxLength" : 70
+              }
+            }
+          }
+        },
+        "chargeAcc" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "chargeAccountId" : {
+                "type" : "string",
+                "description" : "Indicates the account to which the charges has to be levied. Used when charges are to be taken from a separate account",
+                "maxLength" : 70
+              }
+            }
+          }
+        },
+        "chargeAccCurr" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "chargeAccountCurrencyId" : {
+                "type" : "string",
+                "description" : "When a charge account is specified, this field indicates the currency of the charge account",
+                "maxLength" : 70
+              }
+            }
+          }
+        },
+        "debitAccountId" : {
+          "type" : "string",
+          "description" : "Indicates the debit account number of the payment or transaction.",
+          "maxLength" : 70
+        },
+        "debitAccountIBAN" : {
+          "type" : "string",
+          "description" : "International Bank Account Number (IBAN) of the debtor account, required only for International transfers/payments outside the Bank. For example: GB98 MIDL07009312345678, FR7630006000011234567890189",
+          "maxLength" : 70
+        },
+        "creditorName" : {
+          "type" : "string",
+          "description" : "Name or short title of the credit account",
+          "maxLength" : 70
+        },
+        "creditAccountId" : {
+          "type" : "string",
+          "description" : "Credit account identifier of the payment or transaction",
+          "maxLength" : 70
+        },
+        "beneficiaryIBAN" : {
+          "type" : "string",
+          "description" : "International Bank Account Number (IBAN) of the beneficiary account, required only for International transfers/payments outside the Bank. For example: GB98 MIDL07009312345678, FR7630006000011234567890189",
+          "maxLength" : 70
+        },
+        "creditorAgentBIC" : {
+          "type" : "string",
+          "description" : "BIC(Business Identifier Code) code used by an agent in a payment transaction. The BIC consists of 8 or 11 alphanumeric characters, comprising a Business party prefix (previous institution code), country code, business party suffix and branch identifier. The BIC Code structure is defined by the international standard under ISO 9362:2014 and country code ISO 3166-1. BIC Codes Examples: BARCGB22XXX or DEUTDEFFXXX or BNPAFRPPXXX",
+          "maxLength" : 70
+        },
+        "beneficiaryAddressArea" : {
+          "type" : "string",
+          "maxLength" : 70
+        },
+        "accountWithBankBIC" : {
+          "type" : "string",
+          "description" : "This is the BIC code of the institution where beneficiary holds an account",
+          "maxLength" : 70
+        },
+        "accountWithBankIBAN" : {
+          "type" : "string",
+          "description" : "This is the IBAN of the institution where beneficiary holds an account",
+          "maxLength" : 70
+        },
+        "accountWithBankClearingCode" : {
+          "type" : "string",
+          "description" : "This is the national clearing code or sort code of the institution where beneficiary holds an account",
+          "maxLength" : 70
+        },
+        "creditorAgentCountryId" : {
+          "type" : "string",
+          "description" : "The country of the beneficiary institution i.e. where the final creditor holds an account",
+          "maxLength" : 70
+        },
+        "transactionAmount" : {
+          "type" : "string",
+          "description" : "Contains the transaction amount. This is based on the currency, either local or foreign currency",
+          "maxLength" : 70
+        },
+        "paymentCurrency" : {
+          "type" : "string",
+          "description" : "This field holds the transaction currency or currency in which payment is initiated. ",
+          "maxLength" : 70,
+          "enum" : [ "Payment Currency" ]
+        },
+        "executionDate" : {
+          "type" : "string",
+          "description" : "Date on which the transaction or payment gets processed, i.e. the processing date of the transaction.",
+          "maxLength" : 70
+        },
+        "instructionIdReference" : {
+          "type" : "string",
+          "description" : "Indicates the SEPA purpose of the SEPA Payment",
+          "maxLength" : 70
+        },
+        "endToEndReference" : {
+          "type" : "string",
+          "description" : "Indicates the end to end reference for the payment. This field can be provided by the person who instructs the payment and this flows through the lifecycle of the payment.",
+          "maxLength" : 70
+        },
+        "chargeBearer" : {
+          "type" : "string",
+          "description" : "Bearer of the charges of the order. For example: BEN(All transaction charges are to be borne by the beneficiary customer.), OUR(All transaction charges are to be borne by the ordering customer.), SHA(Transaction charges on the Sender's side are to be borne by the ordering customer, transaction charges on the Receiver's side are to be borne by the beneficiary customer.)",
+          "maxLength" : 70
+        },
+        "cutOffTime" : {
+          "type" : "string",
+          "description" : "The Cut off time when all executions for the day are consolidated to create a trade",
+          "maxLength" : 70
+        },
+        "PSDCompliant" : {
+          "type" : "string",
+          "description" : "Defines whether the transaction is PSD (Payment Services Directive) compliant or not.",
+          "maxLength" : 70
+        },
+        "simulatedAt" : {
+          "type" : "string",
+          "maxLength" : 70
+        },
+        "creditValueDate" : {
+          "type" : "string",
+          "description" : "Reference quoted by the credit account for a payment",
+          "maxLength" : 70
+        },
+        "orderingPaymentFxCustomerRate" : {
+          "type" : "string",
+          "description" : "The customer rate for the conversion between payment currency and ordering currency",
+          "maxLength" : 70
+        },
+        "indicativeRate" : {
+          "type" : "string",
+          "description" : "The indicative rate at the time of submitting a payment initiation request. Actual rate with which the payment will be processed will be calculated/ fetched during payment processing. ",
+          "maxLength" : 70
+        },
+        "totalDebitAmount" : {
+          "type" : "string",
+          "description" : "The total debit amount including the charges associated for the payment",
+          "maxLength" : 70
+        },
+        "ultimateDebtor" : {
+          "type" : "string",
+          "description" : "Contains the actual debitor account number",
+          "maxLength" : 70
+        },
+        "ultimateCreditor" : {
+          "type" : "string",
+          "description" : "Contains the actual creditor account number",
+          "maxLength" : 70
+        },
+        "purpose" : {
+          "type" : "string",
+          "description" : "Purpose identifier of the payment or transaction, for SEPA payments in general.",
+          "maxLength" : 70
+        },
+        "structuredCreditorReference" : {
+          "type" : "string",
+          "description" : "Contains description of the credit account reference",
+          "maxLength" : 70
+        },
+        "creditorAddress" : {
+          "type" : "string",
+          "description" : "Address of the creditor or beneficiary account",
+          "maxLength" : 70
+        }
+      }
+    },
+    "ScreenHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "CbctPaymentOrderResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/CbctPaymentOrderResponseBody"
+        }
+      },
+      "description" : "CbctPaymentOrderResponse"
+    },
+    "CbctPaymentOrderResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "benPostSwiftAddr" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "beneficiarySWIFTAddress" : {
+                "type" : "string",
+                "description" : "Address of the beneficiary which will be included as part of outgoing payment instruction",
+                "maxLength" : 70
+              }
+            }
+          }
+        },
+        "benPostAddressLine" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "beneficiaryAddressLine1" : {
+                "type" : "string",
+                "description" : "Address of the beneficiary or credit account.",
+                "maxLength" : 70
+              }
+            }
+          }
+        },
+        "remittanceInfo" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "remittanceInformation" : {
+                "type" : "string",
+                "description" : "Indicates the remittance information that is supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
+                "maxLength" : 70
+              }
+            }
+          }
+        },
+        "contextField" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "contextName" : {
+                "type" : "string",
+                "description" : "Field name returned by the payment engine (TPH) for information or further processing.",
+                "maxLength" : 70
+              }
+            }
+          }
+        },
+        "contextFieldValue" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "contextValue" : {
+                "type" : "string",
+                "description" : "Field value returned by the payment engine (TPH) for information or further processing.",
+                "maxLength" : 70
+              }
+            }
+          }
+        },
+        "chargeDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "chargeType" : {
+                "type" : "string",
+                "description" : "Indicates the charge types which are applicable for the transaction. Example: CORRBKCHG",
+                "maxLength" : 70
+              }
+            }
+          }
+        },
+        "chargeInfo" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "chargeName" : {
+                "type" : "string",
+                "description" : "The description of the charge to be taken for payment",
+                "maxLength" : 70
+              }
+            }
+          }
+        },
+        "chargeAmt" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "chargeAmount" : {
+                "type" : "string",
+                "description" : "Retrieves the Charge Amount after redeem",
+                "maxLength" : 70
+              }
+            }
+          }
+        },
+        "chargeCurr" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "chargeCurrency" : {
+                "type" : "string",
+                "description" : "Indicates the currency code of the charge account from where the fee is deducted",
+                "maxLength" : 70
+              }
+            }
+          }
+        },
+        "chargeAccountAmt" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "chargeAcctAmount" : {
+                "type" : "string",
+                "maxLength" : 70
+              }
+            }
+          }
+        },
+        "chargeAcc" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "chargeAccountId" : {
+                "type" : "string",
+                "description" : "Indicates the account to which the charges has to be levied. Used when charges are to be taken from a separate account",
+                "maxLength" : 70
+              }
+            }
+          }
+        },
+        "chargeAccCurr" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "chargeAccountCurrencyId" : {
+                "type" : "string",
+                "description" : "When a charge account is specified, this field indicates the currency of the charge account",
+                "maxLength" : 70
+              }
+            }
+          }
+        },
+        "debitAccountId" : {
+          "type" : "string",
+          "description" : "Indicates the debit account number of the payment or transaction.",
+          "maxLength" : 70
+        },
+        "debitAccountIBAN" : {
+          "type" : "string",
+          "description" : "International Bank Account Number (IBAN) of the debtor account, required only for International transfers/payments outside the Bank. For example: GB98 MIDL07009312345678, FR7630006000011234567890189",
+          "maxLength" : 70
+        },
+        "creditorName" : {
+          "type" : "string",
+          "description" : "Name or short title of the credit account",
+          "maxLength" : 70
+        },
+        "creditAccountId" : {
+          "type" : "string",
+          "description" : "Credit account identifier of the payment or transaction",
+          "maxLength" : 70
+        },
+        "beneficiaryIBAN" : {
+          "type" : "string",
+          "description" : "International Bank Account Number (IBAN) of the beneficiary account, required only for International transfers/payments outside the Bank. For example: GB98 MIDL07009312345678, FR7630006000011234567890189",
+          "maxLength" : 70
+        },
+        "creditorAgentBIC" : {
+          "type" : "string",
+          "description" : "BIC(Business Identifier Code) code used by an agent in a payment transaction. The BIC consists of 8 or 11 alphanumeric characters, comprising a Business party prefix (previous institution code), country code, business party suffix and branch identifier. The BIC Code structure is defined by the international standard under ISO 9362:2014 and country code ISO 3166-1. BIC Codes Examples: BARCGB22XXX or DEUTDEFFXXX or BNPAFRPPXXX",
+          "maxLength" : 70
+        },
+        "beneficiaryAddressArea" : {
+          "type" : "string",
+          "maxLength" : 70
+        },
+        "accountWithBankBIC" : {
+          "type" : "string",
+          "description" : "This is the BIC code of the institution where beneficiary holds an account",
+          "maxLength" : 70
+        },
+        "accountWithBankIBAN" : {
+          "type" : "string",
+          "description" : "This is the IBAN of the institution where beneficiary holds an account",
+          "maxLength" : 70
+        },
+        "accountWithBankClearingCode" : {
+          "type" : "string",
+          "description" : "This is the national clearing code or sort code of the institution where beneficiary holds an account",
+          "maxLength" : 70
+        },
+        "creditorAgentCountryId" : {
+          "type" : "string",
+          "description" : "The country of the beneficiary institution i.e. where the final creditor holds an account",
+          "maxLength" : 70
+        },
+        "transactionAmount" : {
+          "type" : "string",
+          "description" : "Contains the transaction amount. This is based on the currency, either local or foreign currency",
+          "maxLength" : 70
+        },
+        "paymentCurrency" : {
+          "type" : "string",
+          "description" : "This field holds the transaction currency or currency in which payment is initiated. ",
+          "maxLength" : 70,
+          "enum" : [ "Payment Currency" ]
+        },
+        "executionDate" : {
+          "type" : "string",
+          "description" : "Date on which the transaction or payment gets processed, i.e. the processing date of the transaction.",
+          "maxLength" : 70
+        },
+        "instructionIdReference" : {
+          "type" : "string",
+          "description" : "Indicates the SEPA purpose of the SEPA Payment",
+          "maxLength" : 70
+        },
+        "endToEndReference" : {
+          "type" : "string",
+          "description" : "Indicates the end to end reference for the payment. This field can be provided by the person who instructs the payment and this flows through the lifecycle of the payment.",
+          "maxLength" : 70
+        },
+        "paymentProduct" : {
+          "type" : "string",
+          "description" : "Preferred payment product can be specified for Beneficiary. This will be used for defaulting the payment product for specific beneficiary. ",
+          "maxLength" : 70
+        },
+        "chargeBearer" : {
+          "type" : "string",
+          "description" : "Bearer of the charges of the order. For example: BEN(All transaction charges are to be borne by the beneficiary customer.), OUR(All transaction charges are to be borne by the ordering customer.), SHA(Transaction charges on the Sender's side are to be borne by the ordering customer, transaction charges on the Receiver's side are to be borne by the beneficiary customer.)",
+          "maxLength" : 70
+        },
+        "cutOffTime" : {
+          "type" : "string",
+          "description" : "The Cut off time when all executions for the day are consolidated to create a trade",
+          "maxLength" : 70
+        },
+        "PSDCompliant" : {
+          "type" : "string",
+          "description" : "Defines whether the transaction is PSD (Payment Services Directive) compliant or not.",
+          "maxLength" : 70
+        },
+        "simulatedAt" : {
+          "type" : "string",
+          "maxLength" : 70
+        },
+        "simulationChecked" : {
+          "type" : "string",
+          "description" : "Indicates if simulation is performed for the payment order",
+          "maxLength" : 70
+        },
+        "creditValueDate" : {
+          "type" : "string",
+          "description" : "Reference quoted by the credit account for a payment",
+          "maxLength" : 70
+        },
+        "orderingPaymentFxCustomerRate" : {
+          "type" : "string",
+          "description" : "The customer rate for the conversion between payment currency and ordering currency",
+          "maxLength" : 70
+        },
+        "indicativeRate" : {
+          "type" : "string",
+          "description" : "The indicative rate at the time of submitting a payment initiation request. Actual rate with which the payment will be processed will be calculated/ fetched during payment processing. ",
+          "maxLength" : 70
+        },
+        "totalDebitAmount" : {
+          "type" : "string",
+          "description" : "The total debit amount including the charges associated for the payment",
+          "maxLength" : 70
+        },
+        "ultimateDebtor" : {
+          "type" : "string",
+          "description" : "Contains the actual debitor account number",
+          "maxLength" : 70
+        },
+        "ultimateCreditor" : {
+          "type" : "string",
+          "description" : "Contains the actual creditor account number",
+          "maxLength" : 70
+        },
+        "purpose" : {
+          "type" : "string",
+          "description" : "Purpose identifier of the payment or transaction, for SEPA payments in general.",
+          "maxLength" : 70
+        },
+        "structuredCreditorReference" : {
+          "type" : "string",
+          "description" : "Contains description of the credit account reference",
+          "maxLength" : 70
+        },
+        "creditorAddress" : {
+          "type" : "string",
+          "description" : "Address of the creditor or beneficiary account",
+          "maxLength" : 70
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "overrideBody" : {
+      "properties" : {
+        "overrideDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "string",
+                "description" : "The identifier of the override"
+              },
+              "description" : {
+                "type" : "string",
+                "description" : "The actual override message"
+              },
+              "options" : {
+                "type" : "array",
+                "description" : "The usable options for the override",
+                "items" : {
+                  "type" : "string"
+                }
+              },
+              "type" : {
+                "type" : "string",
+                "description" : "The type of the override"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/ScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "ScreenErrorResponse"
+    },
+    "ScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message "
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "BusinessScreenErrorResponse"
+    },
+    "BusinessScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message for bad requests"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "SystemScreenErrorResponse"
+    },
+    "SystemScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message caused by server"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    },
+    "createCbctPaymentOrder" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/CbctPaymentOrderBody"
+        }
+      },
+      "description" : "CbctPaymentOrder",
+      "example" : {
+        "header" : {
+          "audit" : {
+            "versionNumber" : ""
+          },
+          "override" : {
+            "overrideDetails" : [ {
+              "description" : "Account 14095 unauthorised overdraft of 110, available 0, Requested 110 GBP",
+              "id" : "PI-UNAUTH.OVERDRAFT",
+              "type" : "Override"
+            } ]
+          }
+        },
+        "body" : {
+          "chargeBearer" : "",
+          "chargeInfo" : [ {
+            "chargeName" : ""
+          } ],
+          "creditorName" : "TEST",
+          "purpose" : "",
+          "ultimateCreditor" : "",
+          "executionDate" : "",
+          "creditValueDate" : "",
+          "totalDebitAmount" : "",
+          "chargeDetails" : [ {
+            "chargeType" : ""
+          } ],
+          "orderingPaymentFxCustomerRate" : "",
+          "benPostAddressLine" : [ {
+            "beneficiaryAddressLine1" : ""
+          } ],
+          "benPostSwiftAddr" : [ {
+            "beneficiarySWIFTAddress" : ""
+          } ],
+          "debitAccountIBAN" : "",
+          "accountWithBankIBAN" : "",
+          "transactionAmount" : "110",
+          "contextFieldValue" : [ {
+            "contextValue" : ""
+          } ],
+          "beneficiaryAddressArea" : "",
+          "accountWithBankClearingCode" : "",
+          "chargeAmt" : [ {
+            "chargeAmount" : ""
+          } ],
+          "contextField" : [ {
+            "contextName" : ""
+          } ],
+          "endToEndReference" : "",
+          "beneficiaryIBAN" : "",
+          "structuredCreditorReference" : "",
+          "debitAccountId" : "14095",
+          "accountWithBankBIC" : "",
+          "cutOffTime" : "",
+          "ultimateDebtor" : "",
+          "simulatedAt" : "",
+          "creditorAddress" : "",
+          "creditorAgentCountryId" : "",
+          "chargeAccCurr" : [ {
+            "chargeAccountCurrencyId" : ""
+          } ],
+          "chargeCurr" : [ {
+            "chargeCurrency" : ""
+          } ],
+          "PSDCompliant" : "",
+          "creditAccountId" : "14044",
+          "creditorAgentBIC" : "",
+          "instructionIdReference" : "",
+          "remittanceInfo" : [ {
+            "remittanceInformation" : ""
+          } ],
+          "paymentCurrency" : "GBP",
+          "chargeAcc" : [ {
+            "chargeAccountId" : ""
+          } ],
+          "chargeAccountAmt" : [ {
+            "chargeAcctAmount" : ""
+          } ],
+          "indicativeRate" : ""
+        }
+      }
+    }
+  }
+}

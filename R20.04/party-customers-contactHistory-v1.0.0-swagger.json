@@ -1,0 +1,749 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "API to create, update and retrieve Customer contact history log details",
+    "version": "v1.0.0",
+    "title": "Customer Contact log"
+  },
+  "host": "api.temenos.com",
+  "basePath": "/api/v1.0.0/",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "paths": {
+    "/party/customers/contactHistory": {
+      "post": {
+        "operationId": "createCustomerContactLog",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "payload",
+            "description": "body Payload",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CustomerContactLog"
+            }
+          },
+          {
+            "name": "validate_only",
+            "in": "query",
+            "description": "The identifier to indicate if it is set to only validate or not.",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "companyId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "CustomerContactLogResponse",
+            "schema": {
+              "$ref": "#/definitions/CustomerContactLogResponse"
+            }
+          },
+          "default": {
+            "description": "ScreenErrorResponse",
+            "schema": {
+              "$ref": "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/party/customers/contactHistory/{contactHistoryId}": {
+      "get": {
+        "operationId": "getCustomerContactLog",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "contactHistoryId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "companyId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "CustomerContactLogResponse",
+            "schema": {
+              "$ref": "#/definitions/CustomerContactLogResponse"
+            }
+          },
+          "default": {
+            "description": "ScreenErrorResponse",
+            "schema": {
+              "$ref": "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "updateCustomerContactLog",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "contactHistoryId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "payload",
+            "description": "body Payload",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CustomerContactLog"
+            }
+          },
+          {
+            "name": "validate_only",
+            "in": "query",
+            "description": "The identifier to indicate if it is set to only validate or not.",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "companyId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "CustomerContactLogResponse",
+            "schema": {
+              "$ref": "#/definitions/CustomerContactLogResponse"
+            }
+          },
+          "default": {
+            "description": "ScreenErrorResponse",
+            "schema": {
+              "$ref": "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/party/customers/{customerId}/contactHistory": {
+      "get": {
+        "operationId": "getCustomerContactHistory",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "path",
+            "description": "The identifier of the customer",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "staffId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "date",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "Activity Type",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "The total number of records per page",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "page_start",
+            "in": "query",
+            "description": "The record from which the response should be displayed",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "page_token",
+            "in": "query",
+            "description": "Unique id expected to get as part of response from t24 on every enquiry request.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "companyId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "CustomerContactHistoryResponse",
+            "schema": {
+              "$ref": "#/definitions/CustomerContactHistoryResponse"
+            }
+          },
+          "default": {
+            "description": "QueryErrorResponse",
+            "schema": {
+              "$ref": "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "basicAuth": {
+      "type": "basic"
+    }
+  },
+  "definitions": {
+    "PayloadHeader": {
+      "properties": {
+        "override": {
+          "type": "object",
+          "properties": {
+            "overrideDetails": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "The identifier of the override"
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "The actual override message"
+                  },
+                  "responseCode": {
+                    "type": "string",
+                    "description": "The user input to accept/reject the override."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "audit": {
+          "type": "object",
+          "properties": {
+            "versionNumber": {
+              "type": "string",
+              "description": "The CURR.NO. of the record"
+            }
+          }
+        }
+      }
+    },
+    "CustomerContactLog": {
+      "properties": {
+        "header": {
+          "$ref": "#/definitions/PayloadHeader"
+        },
+        "body": {
+          "$ref": "#/definitions/CustomerContactLogBody"
+        }
+      },
+      "description": "CustomerContactLog"
+    },
+    "CustomerContactLogBody": {
+      "type": "object",
+      "properties": {
+        "notes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "contactNote": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "staffs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "contactStaff": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "overrides": {
+          "type": "array",
+          "description": "Records the override messages generated during processing of an activity. ",
+          "items": {
+            "type": "object",
+            "properties": {
+              "override": {
+                "type": "string",
+                "description": "Records the override messages generated during processing of an activity. "
+              }
+            }
+          }
+        },
+        "customerId": {
+          "type": "string",
+          "description": "The identifier of the customer"
+        },
+        "contactType": {
+          "type": "string"
+        },
+        "contactStatus": {
+          "type": "string"
+        },
+        "contactDescription": {
+          "type": "string"
+        },
+        "contactChannel": {
+          "type": "string"
+        },
+        "contactDate": {
+          "type": "string",
+          "format": "date",
+          "description": "Date that first contact was made with the Customer."
+        },
+        "contactTime": {
+          "type": "string"
+        },
+        "companyId": {
+          "type": "string",
+          "description": "The identifier of the company, following the format CCGGGLLLL, where: CC is the country code, GGG is Company Group Code and LLLL is the Local Code. Country Code must be a valid countryCode, Company Group Code must be 3 numeric characters in the range 001-999 and must be a valid companyGroup. The Local Code is 4 numeric characters in the range 0001-9999, e.g. GB0010001"
+        },
+        "contactDirection": {
+          "type": "string"
+        },
+        "customerMood": {
+          "type": "string"
+        },
+        "isWalkInCustomer": {
+          "type": "string"
+        },
+        "currNo": {
+          "type": "string",
+          "description": "Current Number which indicates how many times the record is modified"
+        }
+      }
+    },
+    "ScreenHeader": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The Identifier of the record created"
+        },
+        "status": {
+          "type": "string",
+          "description": "The status of the record"
+        },
+        "transactionStatus": {
+          "type": "string",
+          "description": "The status of the transaction"
+        },
+        "audit": {
+          "type": "object",
+          "properties": {
+            "T24_time": {
+              "type": "integer",
+              "format": "int32",
+              "description": "Time taken to response by T24"
+            },
+            "versionNumber": {
+              "type": "string",
+              "description": "The CURR.NO. of the record"
+            },
+            "parse_time": {
+              "type": "integer",
+              "format": "int32",
+              "description": "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "CustomerContactLogResponse": {
+      "properties": {
+        "header": {
+          "$ref": "#/definitions/ScreenHeader"
+        },
+        "body": {
+          "$ref": "#/definitions/CustomerContactLogResponseBody"
+        }
+      },
+      "description": "CustomerContactLogResponse"
+    },
+    "CustomerContactLogResponseBody": {
+      "type": "object",
+      "properties": {
+        "notes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "contactNote": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "staffs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "contactStaff": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "overrides": {
+          "type": "array",
+          "description": "Records the override messages generated during processing of an activity. ",
+          "items": {
+            "type": "object",
+            "properties": {
+              "override": {
+                "type": "string",
+                "description": "Records the override messages generated during processing of an activity. "
+              }
+            }
+          }
+        },
+        "customerId": {
+          "type": "string",
+          "description": "The identifier of the customer"
+        },
+        "contactType": {
+          "type": "string"
+        },
+        "contactStatus": {
+          "type": "string"
+        },
+        "contactDescription": {
+          "type": "string"
+        },
+        "contactChannel": {
+          "type": "string"
+        },
+        "contactDate": {
+          "type": "string",
+          "format": "date",
+          "description": "Date that first contact was made with the Customer."
+        },
+        "contactTime": {
+          "type": "string"
+        },
+        "companyId": {
+          "type": "string",
+          "description": "The identifier of the company, following the format CCGGGLLLL, where: CC is the country code, GGG is Company Group Code and LLLL is the Local Code. Country Code must be a valid countryCode, Company Group Code must be 3 numeric characters in the range 001-999 and must be a valid companyGroup. The Local Code is 4 numeric characters in the range 0001-9999, e.g. GB0010001"
+        },
+        "contactDirection": {
+          "type": "string"
+        },
+        "customerMood": {
+          "type": "string"
+        },
+        "isWalkInCustomer": {
+          "type": "string"
+        },
+        "currNo": {
+          "type": "string",
+          "description": "Current Number which indicates how many times the record is modified"
+        }
+      }
+    },
+    "ErrorHeader": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The Identifier of the record created"
+        },
+        "status": {
+          "type": "string",
+          "description": "The status of the record"
+        },
+        "transactionStatus": {
+          "type": "string",
+          "description": "The status of the transaction"
+        },
+        "audit": {
+          "type": "object",
+          "properties": {
+            "T24_time": {
+              "type": "integer",
+              "format": "int32",
+              "description": "Time taken to response by T24"
+            },
+            "versionNumber": {
+              "type": "string",
+              "description": "The CURR.NO. of the record"
+            },
+            "parse_time": {
+              "type": "integer",
+              "format": "int32",
+              "description": "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "overrideBody": {
+      "properties": {
+        "overrideDetails": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "The identifier of the override"
+              },
+              "description": {
+                "type": "string",
+                "description": "The actual override message"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ScreenErrorResponse": {
+      "properties": {
+        "header": {
+          "$ref": "#/definitions/ErrorHeader"
+        },
+        "error": {
+          "$ref": "#/definitions/ScreenErrorResponseBody"
+        },
+        "override": {
+          "$ref": "#/definitions/overrideBody"
+        }
+      },
+      "description": "ScreenErrorResponse"
+    },
+    "ScreenErrorResponseBody": {
+      "type": "object",
+      "properties": {
+        "errorDetails": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "fieldName": {
+                "type": "string",
+                "description": "The name of the field"
+              },
+              "code": {
+                "type": "string",
+                "description": "The identifier of the error message"
+              },
+              "message": {
+                "type": "string",
+                "description": "The actual t24 error message"
+              }
+            }
+          }
+        },
+        "type": {
+          "type": "string",
+          "description": "The identifier of error type"
+        }
+      }
+    },
+    "QueryHeader": {
+      "properties": {
+        "audit": {
+          "type": "object",
+          "properties": {
+            "T24_time": {
+              "type": "integer",
+              "format": "int32",
+              "description": "Time taken to response by T24"
+            },
+            "versionNumber": {
+              "type": "string",
+              "description": "The CURR.NO. of the record"
+            },
+            "parse_time": {
+              "type": "integer",
+              "format": "int32",
+              "description": "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "page_size": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The total number of records per page"
+        },
+        "page_start": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The record from which the response should be displayed"
+        },
+        "total_size": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The total number of records present"
+        },
+        "page_token": {
+          "type": "string",
+          "description": "Unique id expected to get as part of response from t24 on every enquiry request"
+        }
+      }
+    },
+    "CustomerContactHistoryResponse": {
+      "properties": {
+        "header": {
+          "$ref": "#/definitions/QueryHeader"
+        },
+        "body": {
+          "$ref": "#/definitions/CustomerContactHistoryResponseBody"
+        }
+      },
+      "description": "CustomerContactHistoryResponse"
+    },
+    "CustomerContactHistoryResponseBody": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "notes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "note": {
+                  "type": "string",
+                  "maxLength": 40
+                }
+              }
+            }
+          },
+          "staffs": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "contactStaff": {
+                  "type": "string",
+                  "maxLength": 40
+                }
+              }
+            }
+          },
+          "contactHistoryId": {
+            "type": "string",
+            "maxLength": 35
+          },
+          "customerShortName": {
+            "type": "string",
+            "maxLength": 10
+          },
+          "contactType": {
+            "type": "string",
+            "maxLength": 20
+          },
+          "contactStatus": {
+            "type": "string",
+            "maxLength": 20
+          },
+          "displayName": {
+            "type": "string",
+            "description": "The name used for display purposes",
+            "maxLength": 45
+          },
+          "contactChannel": {
+            "type": "string",
+            "maxLength": 20
+          },
+          "contactDate": {
+            "type": "string",
+            "format": "date",
+            "description": "Date that first contact was made with the Customer."
+          },
+          "contactTime": {
+            "type": "string",
+            "maxLength": 5
+          },
+          "isWalkInCustomer": {
+            "type": "string",
+            "maxLength": 5
+          },
+          "customerMood": {
+            "type": "string",
+            "maxLength": 35
+          }
+        }
+      }
+    },
+    "QueryErrorResponse": {
+      "properties": {
+        "header": {
+          "$ref": "#/definitions/ErrorHeader"
+        },
+        "error": {
+          "$ref": "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description": "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "The identifier of the error message"
+        },
+        "message": {
+          "type": "string",
+          "description": "The actual t24 error message"
+        },
+        "type": {
+          "type": "string",
+          "description": "The identifier of error type"
+        }
+      }
+    }
+  }
+}

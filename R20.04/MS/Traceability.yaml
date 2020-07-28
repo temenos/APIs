@@ -1,0 +1,266 @@
+openapi: "3.0.0"
+info:
+  title: Traceability
+  description: API to provide non-repudiation capability for all api services processed. API provides details on request and response messages of services executed.
+  version: 1.0.0
+
+tags:
+- name: Traceability
+  description: Collection of endpoints provides traceability for the services executed.
+servers:
+- url: http://localhost:8086/ms-traceability-api/api/v1.0.0
+
+paths:
+  /system/traceLogs:
+    get:
+      summary: Retrieves the trace logs details for a specified catagory  and a message type
+      description: Retrieves the details of trace logs based on given category and tracetype.
+      operationId: getTraceLog
+      tags:
+        - Traceability
+      parameters:
+      - name: category
+        in: query
+        description: Indicates the category of a trace log. It is a used to identify group of trace logs gathered across applications. 
+        required: true
+        schema:
+          type: string
+      - name: traceType
+        in: query
+        description: Indicates the name of Application which creates trace log.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Retrieved trace log details successfully.
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/TraceLogs"
+                
+  /system/traceLogs/signature:
+    get:
+      summary: Provides the computed signed value of the log message
+      description: Compute the signed value based on given message, configurationid, mode and returns signed value of the message. Same api can be used to verify an already signed log message. 
+      operationId: getSignature
+      tags:
+        - Traceability
+      parameters:
+      - name: message
+        in: query
+        description: Indicates the message to be signed
+        required: true
+        schema:
+          type: string
+      - name: configurationId
+        in: query
+        description: Indicates the identifier of configuration
+        required: false
+        schema:
+          type: string
+      - name: mode
+        in: query
+        description: Indicates the mode of execution. The values can be sign or verify. 
+        required: true
+        schema:
+          type: string
+          enum: [S, V]
+      - name: signValue
+        in: query
+        description: Indicates the signed content of the log message. It is mandatory when mode is verify  and not applicable for sign mode.
+        required: false
+        schema:
+          type: string    
+      responses:
+        '200':
+          description: Retrieved the signed value successfully
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/Signature"  
+  /system/traceLogs/evidences:
+    get:
+      summary: Returns evidence values if there are any tampering evidences  found for the log message maintained in Traceability Microservice
+      description: Retrieves the evidences collected if any tampering happened on the traceability log message maintained in Traceability Microservice
+      operationId: getEvidence
+      tags:
+        - Traceability
+      parameters:
+      - name: category
+        in: query
+        description: Indicates the category of a trace log. It is a used to identify group of trace logs gathered across applications. 
+        required: true
+        schema:
+          type: string
+      - name: traceType
+        in: query
+        description: The identifier to indicate the name of Application which creates trace log.It indicates the type of the request logged in the traceability service.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Retrived the evidences successfully
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/Evidence"
+                
+  /system/traceLogs/{traceLogId}/{traceType}:
+    put:
+      summary: Adds a new trace log to the existing trace log collections
+      description: Adds a new trace log entry to the existing trace log collection matained in traceability microservice for a specified Log identifier and trace type.
+      operationId: createTraceLogs
+      tags:
+        - Traceability
+      parameters:
+      - name: traceLogId
+        in: path
+        description: Indicates the unique id of trace log.
+        required: true
+        schema:
+          type: string
+      - name: traceType
+        in: path
+        description: The identifier to indicate the name of Application which creates trace log.
+        required: true
+        schema:
+          type: string
+      - name: configurationId
+        in: query
+        description: Indicates the identifier of a configuration
+        required: false
+        schema:
+          type: string
+      requestBody:
+        description: |
+                    # The Message Field in Request Body should Contain Following fields
+                    * encoding
+                    * payLoad-sign
+                    * requestMessage
+                    * content
+                    * payload_publickey
+                    * url
+                    * uuid
+                    
+                    Example Request Body
+                    
+                    ```
+                    {
+                      "categories": [""],
+                      "message": "{\"encoding\":\"\",\"content\":{ \"requestMessage\":\"\",\"payload_Sign\":\"\",\"payload_publickey\":\"\",\"uuid\":\"\",\"url\":\"\"}}"
+                    }
+                    
+                    ```
+        content:
+          application/json:
+            schema:
+                $ref: "#/components/schemas/TraceLogEntry"
+      responses:
+        '200':
+          description: New trace log created successfully
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/ResponseTrace"
+components:
+   schemas:
+     Signature:
+      properties:
+        result :
+          type: string
+          description: Indicates the Signed value of message
+     TraceLog:
+      properties:
+        categories:
+           type: array
+           description: Indicates list of categories
+           items:
+             type: string
+             description: Indicates the category of a trace log.It is a used to identify group of trace logs gathered across applications. 
+        message:
+           type: string
+           description: Indicates the log message
+        id:
+          type: string
+          description: Indicates the unique id of trace log
+        hash:
+          type: string
+          description: Indicates the hash value of trace log
+     TraceLogs:
+       type: array
+       description: Indicates the list of tracelog
+       items:
+        $ref: "#/components/schemas/TraceLog"
+     TraceLogEntry:
+       properties:
+        categories:
+           type: array
+           description: Indicates the list of categories
+           items:
+             type: string
+             description: Indicates the list of Items
+        message:
+             type: string
+             description: Indicates the log message
+     ResponseTrace:
+        properties:
+          status:
+            type: string
+            description: Identifies the status of response
+          id: 
+            type: string
+            description: Indicates the unique id of trace log
+     Transaction:
+        properties:
+          id:
+            type: string
+            description: Indicates the unique id of trace log
+          traceType:
+            type: string
+            description: The identifier to indicate the name of Application which creates trace log.
+          timestamp:
+            type: string
+            description: Indicates the current datetime
+            format: timestamp
+          status:
+            type: number
+            description: Indicates the signed status of trace log
+            format: integer
+          payload:
+            type: string
+            description: Indicates the message
+          payloadReference:
+            type: string
+            description: Indicates the reference of message
+     HashChain:
+        properties:
+          direction:
+            type: string
+            description: Indicates the merkle tree direction
+          siblingHash:
+            type: string
+            description: Indicates the sibiling nodes of merkle tree
+          levelCorrection:
+            type: number
+            description: Indicates the level of merkle tree
+            format: integer
+     VerifiableLogMessage:
+        properties:
+          merkleTreeRoot:
+            type: string
+            description: Indicates the root hash of merkle
+          logMessage:
+            allOf:
+            - $ref: "#/components/schemas/Transaction"
+          hashChain:
+            type: array
+            description: Indicates the list of hashchain
+            items:
+              $ref: "#/components/schemas/HashChain"
+     Evidence:
+          type: array
+          description: Indicates the list of evidences
+          items:
+            $ref: "#/components/schemas/VerifiableLogMessage"

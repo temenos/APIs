@@ -1,0 +1,419 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Retrieves the list of received guarantees paid/cancelled for the specified guarantee reference",
+    "version" : "v1.0.0",
+    "title" : "getReceivedClaimsUnderGuarantees"
+  },
+  "host" : "api.server.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/holdings/guarantees/{guaranteeId}/receivedClaims" : {
+      "get" : {
+        "summary" : "Retrieves paid/cancelled information of received guarantees",
+        "description" : "Retrieves the list of received guarantees paid/cancelled for the specified guarantee reference",
+        "operationId" : "getReceivedClaimsUnderGuarantees",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "guaranteeId",
+          "in" : "path",
+          "description" : "Identifier of the guarantee",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "beneficiary",
+          "in" : "query",
+          "description" : "",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "debitAccountId",
+          "in" : "query",
+          "description" : "",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "creditAccountId",
+          "in" : "query",
+          "description" : "",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "amount",
+          "in" : "query",
+          "description" : "",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "debitValueDate",
+          "in" : "query",
+          "description" : "",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "creditValueDate",
+          "in" : "query",
+          "description" : "",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "correspondentBank",
+          "in" : "query",
+          "description" : "",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "ReceivedClaimsUnderGuaranteesResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ReceivedClaimsUnderGuaranteesResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "QueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records per page"
+        },
+        "page_start" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The record from which the response should be displayed"
+        },
+        "total_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records present"
+        },
+        "page_token" : {
+          "type" : "string",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request"
+        }
+      }
+    },
+    "ReceivedClaimsUnderGuaranteesResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ReceivedClaimsUnderGuaranteesResponseBody"
+        }
+      },
+      "description" : "ReceivedClaimsUnderGuaranteesResponse"
+    },
+    "ReceivedClaimsUnderGuaranteesResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "beneficiaries" : {
+            "type" : "array",
+            "description" : "Identifies the Beneficiary name and address of the Standing Order",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "beneficiary" : {
+                  "type" : "string",
+                  "description" : "Identifies the Beneficiary name and address of the Standing Order",
+                  "maxLength" : 50
+                }
+              }
+            }
+          },
+          "debitValueDates" : {
+            "type" : "array",
+            "description" : "Date on which the amount will be debited for settlement",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "debitValueDate" : {
+                  "type" : "string",
+                  "description" : "Date on which the amount will be debited for settlement",
+                  "maxLength" : 12
+                }
+              }
+            }
+          },
+          "debitAccountIds" : {
+            "type" : "array",
+            "description" : "Indicates the debit account number of the payment or transaction.",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "debitAccountId" : {
+                  "type" : "string",
+                  "description" : "Indicates the debit account number of the payment or transaction."
+                }
+              }
+            }
+          },
+          "creditValueDates" : {
+            "type" : "array",
+            "description" : "Reference quoted by the credit account for a payment",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "creditValueDate" : {
+                  "type" : "string",
+                  "description" : "Reference quoted by the credit account for a payment",
+                  "maxLength" : 11
+                }
+              }
+            }
+          },
+          "creditAccountIds" : {
+            "type" : "array",
+            "description" : "Credit account identifier of the payment or transaction",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "creditAccountId" : {
+                  "type" : "string",
+                  "description" : "Credit account identifier of the payment or transaction"
+                }
+              }
+            }
+          },
+          "amounts" : {
+            "type" : "array",
+            "description" : "This is the payment amount",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "amount" : {
+                  "type" : "string",
+                  "description" : "This is the payment amount"
+                }
+              }
+            }
+          },
+          "correspondentBanks" : {
+            "type" : "array",
+            "description" : "Correspondent bank, where our nostro account is held.",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "correspondentBank" : {
+                  "type" : "string",
+                  "description" : "Correspondent bank, where our nostro account is held.",
+                  "maxLength" : 10
+                }
+              }
+            }
+          },
+          "transactionReference" : {
+            "type" : "string",
+            "description" : "Transaction reference identifier.",
+            "maxLength" : 16
+          },
+          "invocationStatus" : {
+            "type" : "string",
+            "description" : "Indicates the status of Invocation received under a guarantee.  Allowed values: - PROCESS - EXECUTE - CANCEL",
+            "maxLength" : 7
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessQueryErrorResponseBody"
+        }
+      },
+      "description" : "BusinessQueryErrorResponse"
+    },
+    "BusinessQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message for bad requests"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemQueryErrorResponseBody"
+        }
+      },
+      "description" : "SystemQueryErrorResponse"
+    },
+    "SystemQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message caused by server"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    }
+  }
+}

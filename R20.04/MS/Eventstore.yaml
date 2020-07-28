@@ -1,0 +1,122 @@
+openapi: 3.0.0
+info:
+  title: Event Store
+  description: API to retrieve all business and systems events raised from transact and infinity products.
+  version: 1.0.0
+
+tags:
+- name: Event Store
+  description: APIs to retrieve all events raised from different  products
+servers:
+- url: http://localhost:8090/ms-eventstore/api/v1.0.0
+
+paths:
+  /events/{eventType}:
+    get:
+      summary: Retrieves all details of the events stored in eventstore for a specified event type.
+      description: Retrieves the details of events based on the specified  event attributes.
+      operationId: GetEventsByType
+      parameters:
+        - name: eventType
+          in: path
+          description: Indicates the type of event. Event type helps application to identify the type of  events and process accordingly. Based on the Event Type, Event store microservice  publishes to the approperiate system. 
+          example: ms-paymentorder.CreatePayment, CommandProcessed
+          required: true
+          schema:
+            type: string
+        - name: eventSourceId
+          in: query
+          description: Indicates the source system which creates the event.
+          required: true
+          schema:
+            type: string
+        - name: fromDate
+          in: query
+          description: Indicates the date used to filter only events occured after specified date.
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: toDate
+          in: query
+          description: Indicates he date used to filter only events occured before specified date.
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: commandType
+          in: query
+          description: Indicates the type of business command executed in the application.
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: Indicates current status of the event in the event store.The values can be "NEW", "PROCESSED". "NEW" means events are not delivered to the respective application by the event store service. "PROCESSED" means events are delviered to the respective application.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Retrieved the set of events successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventList'
+
+components:
+  schemas:
+    Event:
+      properties:
+        eventId:
+          type: string
+          description: Indicates the Unique id of event.
+        eventType:
+          type: string
+          description: Indicates the type of event.
+        eventDetails:
+          type: string
+          description: Indicates the additional event meta data.
+        eventSourceId:
+          type: string
+          description: Indicates the source system which creates the event.
+        userId:
+          type: string
+          description: Indicates the user who creates event.
+        tenantId:
+          type: string
+          description: Indicates the tenant Id of generated event.
+        organizationId:
+          type: string
+          description: Indicates the organization Id of generated event.
+        priority:
+          type: number
+          description: Indicates the event Priority for delivery.
+        payload:
+          type: string
+          description: Indicates the event data payload.
+        status:
+          type: string
+          description: Indicates the status of event.
+        creationTime:
+          type: string
+          description: Indicates the event creation date time.
+        processedTime:
+          type: string
+          description: Indicates the event processed date time.
+      example: 
+        eventId: "4316e8-3ca-9-b-8727"
+        eventType: "PaymentOrder.CreateNewPaymentOrder"
+        eventDetails: "Create new Payment order command event"
+        eventSourceId: "Transact"
+        userId: "ROLF GARLING"
+        tenantId: "4316e8-3ca-9-b-8727"
+        organizationId: "ABC INC"
+        priority: 1
+        payload: {"\"body\":{\"fromAccount\":\"1733\",\"toAccount\":\"3621\",\"paymentReference\":\"hello\",\"paymentDetails\":\"test\",\"currency\":\"USD\",\"amount\":901,\"expires\":0"}
+        status: "PROCESSED"
+        creationTime: "2019-10-21T00:49:14"
+        processedTime: "2019-10-21T00:49:35"
+    EventList:
+      type: array
+      description: Indicates the List of events
+      items:
+       $ref: '#/components/schemas/Event'

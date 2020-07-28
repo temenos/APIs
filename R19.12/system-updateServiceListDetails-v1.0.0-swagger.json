@@ -1,0 +1,669 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Service Automation Phase 2",
+    "version" : "v1.0.0",
+    "title" : "Serviceautomation"
+  },
+  "host" : "api.server.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/system/tsaservice/{serviceId}/jobs" : {
+      "put" : {
+        "summary" : "start or stop service with correlation id",
+        "description" : "start or stop service with correlation id",
+        "operationId" : "updateService",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "serviceId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Service"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "ServiceResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ServiceResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/system/jobtimes" : {
+      "get" : {
+        "summary" : "Get all job times report",
+        "description" : "Get all job times report",
+        "operationId" : "getAllJobTimes",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "AllJobTimesResponse",
+            "schema" : {
+              "$ref" : "#/definitions/AllJobTimesResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/system/reportTimes/{batchDate}" : {
+      "get" : {
+        "summary" : "Get all report times",
+        "description" : "Get all report times",
+        "operationId" : "getAllReportTimes",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "batchDate",
+          "in" : "path",
+          "description" : "The bank date on which the particular report was generated.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "AllReportTimesResponse",
+            "schema" : {
+              "$ref" : "#/definitions/AllReportTimesResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "PayloadHeader" : {
+      "properties" : {
+        "override" : {
+          "type" : "object",
+          "properties" : {
+            "overrideDetails" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "id" : {
+                    "type" : "string",
+                    "description" : "The identifier of the override"
+                  },
+                  "description" : {
+                    "type" : "string",
+                    "description" : "The actual override message"
+                  },
+                  "responseCode" : {
+                    "type" : "string",
+                    "description" : "The user input to accept/reject the override."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            }
+          }
+        }
+      }
+    },
+    "Service" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ServiceBody"
+        }
+      },
+      "description" : "Service"
+    },
+    "ServiceBody" : {
+      "type" : "object",
+      "properties" : {
+        "jobServerProfiles" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "jobProfileId" : {
+                "type" : "string",
+                "description" : ""
+              },
+              "serverName" : {
+                "type" : "string",
+                "description" : "Hostname of the Server on which the service will run."
+              },
+              "jobServerStatus" : {
+                "type" : "string",
+                "description" : "Status of Server  POSSIBLE VALUES: ACTIVE: To set the server as active INACTIVE: To set the server as inactive"
+              }
+            }
+          }
+        },
+        "userId" : {
+          "type" : "string",
+          "description" : "The user name to be loaded for reporting jobs during Close of Business If no user name is entered in this field then the default profile for the user 'operator' is used."
+        },
+        "jobOperation" : {
+          "type" : "string",
+          "description" : "",
+          "enum" : [ "START", "STOP", "AUTO" ]
+        },
+        "correlationId" : {
+          "type" : "string",
+          "description" : ""
+        }
+      }
+    },
+    "ScreenHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "parse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "ServiceResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ServiceResponseBody"
+        }
+      },
+      "description" : "ServiceResponse"
+    },
+    "ServiceResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "jobServerProfiles" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "jobProfileId" : {
+                "type" : "string",
+                "description" : ""
+              },
+              "serverName" : {
+                "type" : "string",
+                "description" : "Hostname of the Server on which the service will run."
+              },
+              "jobServerStatus" : {
+                "type" : "string",
+                "description" : "Status of Server  POSSIBLE VALUES: ACTIVE: To set the server as active INACTIVE: To set the server as inactive"
+              }
+            }
+          }
+        },
+        "userId" : {
+          "type" : "string",
+          "description" : "The user name to be loaded for reporting jobs during Close of Business If no user name is entered in this field then the default profile for the user 'operator' is used."
+        },
+        "jobOperation" : {
+          "type" : "string",
+          "description" : "",
+          "enum" : [ "START", "STOP", "AUTO" ]
+        },
+        "correlationId" : {
+          "type" : "string",
+          "description" : ""
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "parse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "overrideBody" : {
+      "properties" : {
+        "overrideDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "string",
+                "description" : "The identifier of the override"
+              },
+              "description" : {
+                "type" : "string",
+                "description" : "The actual override message"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/ScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "ScreenErrorResponse"
+    },
+    "ScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type"
+        }
+      }
+    },
+    "QueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "parse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records per page"
+        },
+        "page_start" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The record from which the response should be displayed"
+        },
+        "total_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records present"
+        },
+        "page_token" : {
+          "type" : "string",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request"
+        }
+      }
+    },
+    "AllJobTimesResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/AllJobTimesResponseBody"
+        }
+      },
+      "description" : "AllJobTimesResponse"
+    },
+    "AllJobTimesResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "group" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "controlList" : {
+                  "type" : "string",
+                  "description" : "Control List value.",
+                  "maxLength" : 70
+                },
+                "processedJob" : {
+                  "type" : "string",
+                  "description" : "The total number of records/contracts that was processed.",
+                  "maxLength" : 70
+                },
+                "completed" : {
+                  "type" : "string",
+                  "description" : "The number of contracts completed processing.",
+                  "maxLength" : 70
+                },
+                "correlationId" : {
+                  "type" : "string",
+                  "description" : "",
+                  "maxLength" : 70
+                },
+                "utcDate" : {
+                  "type" : "string",
+                  "format" : "date",
+                  "description" : ""
+                }
+              }
+            }
+          },
+          "serviceId" : {
+            "type" : "string",
+            "description" : "Provides the id of the service that has to be run.",
+            "maxLength" : 70
+          },
+          "startTime" : {
+            "type" : "string",
+            "format" : "date-time",
+            "description" : "The time job was started"
+          },
+          "endTime" : {
+            "type" : "string",
+            "format" : "date-time",
+            "description" : "The time the job was ended.  "
+          },
+          "throughPut" : {
+            "type" : "string",
+            "description" : "The number of records processed per minute.   Calculated as:  keys processed / elapsed time * 60",
+            "maxLength" : 70
+          },
+          "lastTime" : {
+            "type" : "string",
+            "format" : "date-time",
+            "description" : "The time taken to run the job.  Indicates the time taken to Select the job plus the time difference of Start time and End time."
+          }
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type"
+        }
+      }
+    },
+    "AllReportTimesResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/AllReportTimesResponseBody"
+        }
+      },
+      "description" : "AllReportTimesResponse"
+    },
+    "AllReportTimesResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "group" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "batchDate" : {
+                  "type" : "string",
+                  "format" : "date-time",
+                  "description" : "The bank date on which the particular report was generated."
+                },
+                "sessionNo" : {
+                  "type" : "number",
+                  "description" : "The session number in which agent is running"
+                },
+                "startTime" : {
+                  "type" : "string",
+                  "format" : "date-time",
+                  "description" : "The time job was started"
+                },
+                "endTime" : {
+                  "type" : "string",
+                  "format" : "date-time",
+                  "description" : "The time the job was ended.  "
+                },
+                "elapsedTime" : {
+                  "type" : "string",
+                  "format" : "date-time",
+                  "description" : "The elapsed time of the report in seconds."
+                },
+                "correlationId" : {
+                  "type" : "string",
+                  "description" : "",
+                  "maxLength" : 80
+                },
+                "utcDate" : {
+                  "type" : "string",
+                  "format" : "date",
+                  "description" : ""
+                }
+              }
+            }
+          },
+          "processReport" : {
+            "type" : "string",
+            "description" : "Key to the Report Times, containing Process Name and Report Type name ",
+            "maxLength" : 70
+          }
+        }
+      }
+    }
+  }
+}

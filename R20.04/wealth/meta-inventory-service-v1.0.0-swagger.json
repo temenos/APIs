@@ -1,0 +1,260 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This is the inventory service for create an API on top of Triple'a",
+    "version": "1.0.0",
+    "title": "Inventory Enterprise API"
+  },
+  "basePath" : "/triplea/api/v1.0.0/meta",
+  "tags": [
+    {
+      "name": "Inventory"
+    }
+  ],
+  "schemes": [],
+  "paths": {
+    "/inventories": {
+      "post": {
+        "tags": [
+          "Inventory"
+        ],
+        "summary": "create iris service from inventory in input",
+        "operationId": "createService",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Inventory"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "link": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/inventories/{archiveLinkName}": {
+      "get": {
+        "tags": [
+          "Inventory"
+        ],
+        "summary": "Get Zip file generated",
+        "operationId": "getInventory",
+        "produces": [
+          "application/zip"
+        ],
+        "parameters": [
+          {
+            "name": "archiveLinkName",
+            "description": "name of link",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "a Zip file",
+            "schema": {
+              "type": "file"
+            }
+          },
+          "404": {
+            "description": "archive not found"
+          },
+          "500": {
+            "description": "Server Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Inventory": {
+      "type": "object",
+      "properties": {
+        "basePath": {
+          "type": "string",
+          "description": "base path of service"
+        },
+        "key": {
+          "type": "string",
+          "description": "id of the service"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^v\\d{1}\\.\\d{1}\\.\\d{1}$",
+          "description": "version number, ex v1.0.0"
+        },
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "inventoryType": {
+          "type": "string",
+          "enum": [
+            "Public",
+            "Provider"
+          ]
+        },
+        "paths": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Path"
+          }
+        }
+      }
+    },
+    "Path": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "enum": [
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE"
+          ]
+        },
+        "url": {
+          "type": "string"
+        },
+        "operationId": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "resources": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "resourceType": {
+                "type": "string",
+                "enum": [
+                  "Format",
+                  "Dataset",
+                  "SearchDataset",
+                  "SpecialService"
+                ],
+                "description": "type of resource"
+              },
+              "key": {
+                "type": "string",
+                "description": "depends of resourceType. Format name or dataset name"
+              },
+              "formatDomain": {
+                "type": "string",
+                "description": "dataset on domain, used when resourceType = Format"
+              },
+              "specialService": {
+                "type": "object",
+                "description": "Special service definition",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "serviceInputDataset": {
+                    "type": "string",
+                    "description": "input dataset of service"
+                  },
+                  "serviceOutputDataset": {
+                    "type": "string",
+                    "description": "ouptut dataset of service"
+                  }
+                }
+              },
+              "selections": {
+                "description": "description of fields",
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/SelectionField"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "SelectionField": {
+      "description": "field definition",
+      "type": "object",
+      "properties": {
+        "field": {
+          "type": "string",
+          "description": "field of dataset"
+        },
+        "parameterName": {
+          "type": "string",
+          "description": "name of parameter, param from path ,query"
+        },
+        "operand": {
+          "type": "string",
+          "enum": [
+            "EQUALS",
+            "GREATER_THAN",
+            "GREATER_THAN_OR_EQUALS",
+            "LESS_THAN",
+            "LESS_THAN_OR_EQUALS",
+            "BETWEEN",
+            "STARTS_WITH",
+            "ENDS_WITH",
+            "CONTAINS",
+            "IN",
+            "NOT_IN",
+            "IS_NULL",
+            "IS_NOT_NULL"
+          ]
+        },
+        "constant": {
+          "type": "string"
+        }
+      }
+    },
+    "ErrorResponse": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

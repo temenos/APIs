@@ -1,0 +1,342 @@
+{
+    "swagger": "2.0",
+    "info":
+    {
+        "description": "Enquiry for claims outstanding under guarantees",
+        "version": "v1.0.0",
+        "title": "getClaimOutstandingUnderGuarantees"
+    },
+    "host": "api.server.com",
+    "basePath": "/api/v1.0.0/",
+    "schemes": ["http", "https"],
+    "security": [
+    {
+        "basicAuth": []
+    }],
+    "paths":
+    {
+        "/holdings/customer/{customerId}/guarantees/outstandingClaims":
+        {
+            "get":
+            {
+                "operationId": "getClaimOutstandingUnderGuarantees",
+                "produces": ["application/json"],
+                "parameters": [
+                {
+                    "name": "customerId",
+                    "in": "path",
+                    "description": "The identifier of the customer",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "name": "transactionReference",
+                    "in": "query",
+                    "description": "The transaction reference identifier",
+                    "required": false,
+                    "type": "string"
+                },
+                {
+                    "name": "currency",
+                    "in": "query",
+                    "description": "",
+                    "required": false,
+                    "type": "string"
+                },
+                {
+                    "name": "amount",
+                    "in": "query",
+                    "description": "",
+                    "required": false,
+                    "type": "string"
+                },
+                {
+                    "name": "page_size",
+                    "in": "query",
+                    "description": "The total number of records per page",
+                    "required": false,
+                    "type": "integer",
+                    "format": "int32"
+                },
+                {
+                    "name": "page_start",
+                    "in": "query",
+                    "description": "The record from which the response should be displayed",
+                    "required": false,
+                    "type": "integer",
+                    "format": "int32"
+                },
+                {
+                    "name": "page_token",
+                    "in": "query",
+                    "description": "Unique id expected to get as part of response from t24 on every enquiry request.",
+                    "required": false,
+                    "type": "string"
+                },
+                {
+                    "name": "credentials",
+                    "in": "query",
+                    "required": false,
+                    "type": "string"
+                },
+                {
+                    "name": "companyId",
+                    "in": "query",
+                    "required": false,
+                    "type": "string"
+                }],
+                "responses":
+                {
+                    "200":
+                    {
+                        "description": "getClaimOutstandingUnderGuaranteesResponse",
+                        "schema":
+                        {
+                            "$ref": "#/definitions/getClaimOutstandingUnderGuaranteesResponse"
+                        }
+                    },
+                    "default":
+                    {
+                        "description": "getClaimOutstandingUnderGuaranteesErrorResponse",
+                        "schema":
+                        {
+                            "$ref": "#/definitions/getClaimOutstandingUnderGuaranteesErrorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "securityDefinitions":
+    {
+        "basicAuth":
+        {
+            "type": "basic"
+        }
+    },
+    "definitions":
+    {
+        "QueryHeader":
+        {
+            "properties":
+            {
+                "audit":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "T24_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to response by T24"
+                        },
+                        "versionNumber":
+                        {
+                            "type": "string",
+                            "description": "The CURR.NO. of the record"
+                        },
+                        "parse_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to parse the response by IRIS"
+                        }
+                    }
+                },
+                "page_size":
+                {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "The total number of records per page"
+                },
+                "page_start":
+                {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "The record from which the response should be displayed"
+                },
+                "total_size":
+                {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "The total number of records present"
+                },
+                "page_token":
+                {
+                    "type": "string",
+                    "description": "Unique id expected to get as part of response from t24 on every enquiry request"
+                }
+            }
+        },
+        "getClaimOutstandingUnderGuaranteesResponse":
+        {
+            "properties":
+            {
+                "header":
+                {
+                    "$ref": "#/definitions/QueryHeader"
+                },
+                "body":
+                {
+                    "$ref": "#/definitions/getClaimOutstandingUnderGuaranteesResponseBody"
+                }
+            },
+            "description": "getClaimOutstandingUnderGuaranteesResponse"
+        },
+        "getClaimOutstandingUnderGuaranteesResponseBody":
+        {
+            "type": "array",
+            "items":
+            {
+                "type": "object",
+                "properties":
+                {
+                    "beneficiaries":
+                    {
+                        "type": "array",
+                        "description": "",
+                        "items":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "beneficiary":
+                                {
+                                    "type": "string",
+                                    "description": "",
+                                    "maxLength": 35
+                                }
+                            }
+                        }
+                    },
+                    "transactionReference":
+                    {
+                        "type": "string",
+                        "description": "The transaction reference identifier",
+                        "maxLength": 17
+                    },
+                    "customer":
+                    {
+                        "type": "string",
+                        "description": "",
+                        "maxLength": 30
+                    },
+                    "guaranteeType":
+                    {
+                        "type": "string",
+                        "description": "Refers to the type of the contract that is being issued",
+                        "maxLength": 10
+                    },
+                    "issueDate":
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "The date the item was issued."
+                    },
+                    "currency":
+                    {
+                        "type": "string",
+                        "description": "",
+                        "maxLength": 4
+                    },
+                    "amount":
+                    {
+                        "type": "number",
+                        "description": ""
+                    },
+                    "expiryDate":
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "The date an agreement such as a credit facility or limit is due to expire"
+                    },
+                    "maturityDate":
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "The delivery period or maturity date of the contract transacted"
+                    },
+                    "invocationAmount":
+                    {
+                        "type": "number",
+                        "description": "Amount of invocation received under a guarantee"
+                    },
+                    "invocationStatus":
+                    {
+                        "type": "string",
+                        "description": "Indicaties the status of Invocation recived under a guarantee",
+                        "maxLength": 10
+                    }
+                }
+            }
+        },
+        "ErrorHeader":
+        {
+            "properties":
+            {
+                "audit":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "T24_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to response by T24"
+                        },
+                        "versionNumber":
+                        {
+                            "type": "string",
+                            "description": "The CURR.NO. of the record"
+                        },
+                        "parse_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to parse the response by IRIS"
+                        }
+                    }
+                }
+            }
+        },
+        "getClaimOutstandingUnderGuaranteesErrorResponse":
+        {
+            "properties":
+            {
+                "header":
+                {
+                    "$ref": "#/definitions/ErrorHeader"
+                },
+                "error":
+                {
+                    "$ref": "#/definitions/getClaimOutstandingUnderGuaranteesErrorResponseBody"
+                }
+            },
+            "description": "getClaimOutstandingUnderGuaranteesErrorResponse"
+        },
+        "getClaimOutstandingUnderGuaranteesErrorResponseBody":
+        {
+            "type": "object",
+            "properties":
+            {
+                "code":
+                {
+                    "type": "string",
+                    "description": "The identifier of the error message"
+                },
+                "message":
+                {
+                    "type": "string",
+                    "description": "The actual t24 error message"
+                },
+                "type":
+                {
+                    "type": "string",
+                    "description": "The identifier of error type"
+                }
+            }
+        }
+    }
+}

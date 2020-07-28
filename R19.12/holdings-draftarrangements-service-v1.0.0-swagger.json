@@ -1,0 +1,310 @@
+{
+    "swagger": "2.0",
+    "info":
+    {
+        "description": "List of draft bundle arrangements",
+        "version": "v1.0.0",
+        "title": "Product Draft Arrangement List"
+    },
+    "host": "api.server.com",
+    "basePath": "/api/v1.0.0/",
+    "schemes": ["http", "https"],
+    "security": [
+    {
+        "basicAuth": []
+    }],
+    "paths":
+    {
+        "/holdings/cashManagement/customers/{customerId}/bundles/drafts":
+        {
+            "get":
+            {
+                "description": "List of Draft Bundle Arrangement details",
+                "operationId": "getDraftArrangements",
+                "produces": ["application/json"],
+                "parameters": [
+                {
+                    "name": "customerId",
+                    "in": "path",
+                    "description": "The identifier of the customer",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "name": "page_size",
+                    "in": "query",
+                    "description": "The total number of records per page",
+                    "required": false,
+                    "type": "integer",
+                    "format": "int32"
+                },
+                {
+                    "name": "page_start",
+                    "in": "query",
+                    "description": "The record from which the response should be displayed",
+                    "required": false,
+                    "type": "integer",
+                    "format": "int32"
+                },
+                {
+                    "name": "page_token",
+                    "in": "query",
+                    "description": "Unique id expected to get as part of response from t24 on every enquiry request.",
+                    "required": false,
+                    "type": "string"
+                },
+                {
+                    "name": "credentials",
+                    "in": "header",
+                    "required": false,
+                    "type": "string"
+                },
+                {
+                    "name": "companyId",
+                    "in": "header",
+                    "required": false,
+                    "type": "string"
+                }],
+                "responses":
+                {
+                    "200":
+                    {
+                        "description": "DraftArrangementsResponse",
+                        "schema":
+                        {
+                            "$ref": "#/definitions/DraftArrangementsResponse"
+                        }
+                    },
+                    "default":
+                    {
+                        "description": "QueryErrorResponse",
+                        "schema":
+                        {
+                            "$ref": "#/definitions/QueryErrorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "securityDefinitions":
+    {
+        "basicAuth":
+        {
+            "type": "basic"
+        }
+    },
+    "definitions":
+    {
+        "QueryHeader":
+        {
+            "properties":
+            {
+                "audit":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "T24_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to response by T24"
+                        },
+                        "versionNumber":
+                        {
+                            "type": "string",
+                            "description": "The CURR.NO. of the record"
+                        },
+                        "parse_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to parse the response by IRIS"
+                        }
+                    }
+                },
+                "page_size":
+                {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "The total number of records per page"
+                },
+                "page_start":
+                {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "The record from which the response should be displayed"
+                },
+                "total_size":
+                {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "The total number of records present"
+                },
+                "page_token":
+                {
+                    "type": "string",
+                    "description": "Unique id expected to get as part of response from t24 on every enquiry request"
+                }
+            }
+        },
+        "DraftArrangementsResponse":
+        {
+            "properties":
+            {
+                "header":
+                {
+                    "$ref": "#/definitions/QueryHeader"
+                },
+                "body":
+                {
+                    "$ref": "#/definitions/DraftArrangementsResponseBody"
+                }
+            },
+            "description": "DraftArrangementsResponse"
+        },
+        "DraftArrangementsResponseBody":
+        {
+            "type": "array",
+            "items":
+            {
+                "type": "object",
+                "properties":
+                {
+                    "arrangementId":
+                    {
+                        "type": "string",
+                        "description": "The identifier of the arrangement",
+                        "maxLength": 20
+                    },
+                    "activityId":
+                    {
+                        "type": "string",
+                        "description": "Id of the activity, e.g. ACCOUNTS-CAPITALISE-ACCHARGE*CARDISSUEFEE"
+                    },
+                    "productId":
+                    {
+                        "type": "string",
+                        "description": "Id of the product.",
+                        "maxLength": 30
+                    },
+                    "productName":
+                    {
+                        "type": "string",
+                        "description": "Name of the product, which is also its Id."
+                    },
+                    "customerId":
+                    {
+                        "type": "number",
+                        "description": "The identifier of the customer"
+                    },
+                    "customerName":
+                    {
+                        "type": "string",
+                        "description": "Name of the customer"
+                    },
+                    "countryId":
+                    {
+                        "type": "string",
+                        "description": "ISO country code of the financial institution. ",
+                        "maxLength": 11
+                    },
+                    "companyCode":
+                    {
+                        "type": "string",
+                        "description": "Company code in audit details",
+                        "maxLength": 11
+                    },
+                    "referenceCurrency":
+                    {
+                        "type": "string",
+                        "description": "The reference currency"
+                    },
+                    "structureName":
+                    {
+                        "type": "string",
+                        "description": ""
+                    },
+                    "status":
+                    {
+                        "type": "string",
+                        "description": "The status identifier"
+                    },
+                    "title":
+                    {
+                        "type": "string",
+                        "description": "Main menu title or header which the user wants to display on the screen when requesting the display of this main menu. This field can be expanded to allow the user to enter the description of the main menu in various languages."
+                    }
+                }
+            }
+        },
+        "ErrorHeader":
+        {
+            "properties":
+            {
+                "audit":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "T24_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to response by T24"
+                        },
+                        "versionNumber":
+                        {
+                            "type": "string",
+                            "description": "The CURR.NO. of the record"
+                        },
+                        "parse_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to parse the response by IRIS"
+                        }
+                    }
+                }
+            }
+        },
+        "QueryErrorResponse":
+        {
+            "properties":
+            {
+                "header":
+                {
+                    "$ref": "#/definitions/ErrorHeader"
+                },
+                "error":
+                {
+                    "$ref": "#/definitions/QueryErrorResponseBody"
+                }
+            },
+            "description": "QueryErrorResponse"
+        },
+        "QueryErrorResponseBody":
+        {
+            "type": "object",
+            "properties":
+            {
+                "code":
+                {
+                    "type": "string",
+                    "description": "The identifier of the error message"
+                },
+                "message":
+                {
+                    "type": "string",
+                    "description": "The actual t24 error message"
+                },
+                "type":
+                {
+                    "type": "string",
+                    "description": "The identifier of error type"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,444 @@
+openapi: "3.0.0"
+info:
+  title: Entitlements
+  description: API for the management of user entitlements. The API can be used to assign the required user roles for each specific product in the record keeping system based on the entitlements policies.
+  version: 1.0.0
+
+tags:
+- name: Entitlements
+  description: A collection of api end points used to manage user entitlements for a specified userid
+- name: Entitlements Mangement
+  description: A collection of api end points used  to manage entitlements for a specified  user and a resource identifier.
+- name: Entitlements Mangement by Resource
+  description: A collection of api end points used to manage entitlements for a specified resource identifier.
+servers:
+- url: http://localhost:8095/ms-entitlement-api/api/v1.0.0
+paths:
+  /party/customers/userIds/{userId}/entitlements:
+    get:
+      summary: Retrieves the entitlements for a specified userid
+      description: Fetches the list of entitlements assigned for a specified  userid  
+      operationId: getEntitlements
+      tags:
+        - Entitlements
+      parameters:
+      - name: userId
+        in: path
+        description: Identifier of an user.
+        required: true
+        schema:
+          type: string
+          example: 2900086473289
+      responses:
+        '200':
+          description: List of Entitlements with resource details for the specified userId.
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/Entitlements"
+  /system/entitlements/users/{userId}/roles:
+    get:
+      summary: Retrieves the entitlements with role details, for a specified userid
+      description: Retreives the entitlements data along with role details, for a specified userid.  
+      operationId: getUserEntitlements
+      tags:
+        - Entitlements
+      parameters:
+        - name: userId
+          in: path
+          description: Identifier of an user. 
+          required: true
+          schema:
+            type: string
+            example: 2900086473289  
+      responses:
+        '200':
+          description: List of entitled roles for the specified user in all entitled resources.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EntitlementsRolesList"
+  /system/entitlements/users/{userId}/actions:
+    get:
+      summary: Retrieves the entitlements with actions for a specified userid
+      description: Retrieve the entitlements with resource id and entitled user actions  for the specified userid.
+      operationId: getEntitlementsWithActions
+      tags:
+        - Entitlements
+      parameters:
+        - name: userId
+          in: path
+          description: Identifier of an user.
+          required: true
+          schema:
+            type: string
+            example: 2900086473289
+      responses:
+        '200':
+          description: List of Entitlements with entitled privilege actions for a specified userid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntitlementsWithActions'
+  /system/entitlements/{userId}/resources/{resourceId}/roles:
+    post:
+      summary: Creates the user entitlement record for a specified userid  and resourceid 
+      description: Creates the user entitlements record for a specified  userid and resourceid.  
+      operationId: addEntitlements
+      tags:
+        - Entitlements Mangement
+        
+      parameters:
+        - name: userId
+          in: path
+          description: Identifier of an user.
+          required: true
+          schema:
+            type: string
+            example: 2900086473289
+        - name: resourceId
+          in: path
+          description: Indentifier of product. Example AccountId, ArrangemenId, CustomerId
+          required: true
+          schema:
+            type: string
+            example: 78746  
+      requestBody:
+        description: List of roles to assigned to an user
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Roles'
+      responses:
+        '200':
+          description: List of roles defined as a part of entitlement for a specified userid and resourceid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntitlementData'
+    get:
+      summary: Retrieves the entitlements for a specified userid  and resourceid
+      description: Retrieves the user entitlements for a specified resourceid and userid
+      operationId: getUserEntitlementsOnResource
+      tags:
+        - Entitlements Mangement
+      parameters:
+        - name: userId
+          in: path
+          description: Identifier of an user.
+          required: true
+          schema:
+            type: string
+            example: 2900086473289
+        - name: resourceId
+          in: path
+          description: Indentifier of product which entitlements are defined.
+          required: true
+          schema:
+            type: string
+            example: 78746
+        
+      responses:
+        '200':
+          description: List of Entitlements data retrived by user and resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntitlementData'
+    put:
+        summary: Updates the user entitlements for a specified userid and a resourceid.
+        description: Modifies the user entitlements for a specified resourceId and userid.  
+        operationId: updateEntitlements
+        tags:
+          - Entitlements Mangement
+        parameters:
+          - name: userId
+            in: path
+            description: Identifier of an user.
+            required: true
+            schema:
+              type: string
+              example: 2900086473289
+          - name: resourceId
+            in: path
+            description: Indentifier of product which entitlements are defined.
+            required: true
+            schema:
+              type: string
+              example: 78746
+          
+        requestBody:
+          description: List of entitlements need to be updated for a specified resourceid and userid.
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntitlementsDataForModification'
+        responses:
+          '200':
+            description: List of updated entitlements for a specified userid and resourceid.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/EntitlementsDataForModification'
+    delete:
+        summary: Deletes the user entitlements for a specified userid and resourceid
+        description: Removes the entitlements for a specified userid and resourceid.  
+        operationId: deleteEntitlements
+        tags:
+          - Entitlements Mangement
+        parameters:
+          - name: userId
+            in: path
+            description: Identifier of an user.
+            required: true
+            schema:
+              type: string
+              example: 2900086473289
+          - name: resourceId
+            in: path
+            description: Indentifier of product.
+            required: true
+            schema:
+              type: string
+              example: 78746
+          
+        responses:
+          '200':
+            description: List of deleted entitlements by resource and user.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/EntitlementData'
+  '/system/entitlements/resources/{resourceId}':
+    post:
+      summary: creates the user entitlements for a specified resourceid
+      description: Creates the collection of user entitlements for a specified resource.  
+      operationId: addEntitlementsByResource
+      tags:
+          - Entitlements Mangement by Resource
+      parameters:
+        
+        - name: resourceId
+          in: path
+          description: Indentifier of product.Example AccountId, ArrangemenId, CustomerId.
+          required: true
+          schema:
+            type: string
+            example: 2900086473289
+      requestBody:
+          description: collection of user entitlements.
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRoleMappingDataList'
+      responses:
+        '200':
+          description: Array of Entitlement data created by using resourceId.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRoleMappingDataList'
+    put:
+      summary: Updates the user entitlements for a specified resourceid   
+      description: updates the collection of user entitlements for a specified resourceid.
+      operationId: updateEntitlementsByResource
+      tags:
+          - Entitlements Mangement by Resource
+      parameters:
+        
+        - name: resourceId
+          in: path
+          description: Indentifier of product.Example AccountId, ArrangemenId, CustomerId
+          required: true
+          schema:
+            type: string
+            example: 2900086473289
+      requestBody:
+          description: Payload data to update entitlements user roles record by resource Id.
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntitlementListData'
+      responses:
+        '200':
+          description: returns list of updated entitlements data.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntitlementListData'
+    delete:
+      summary: Deletes user entitlements for a specified resourceid.
+      description: Removes all existing users entitlements for a sepcified resourceid. 
+      operationId: deleteEntitlementsByResource
+      tags:
+          - Entitlements Mangement by Resource
+      parameters:
+        
+        - name: resourceId
+          in: path
+          description: Indentifier of product which entitlements are defined.
+          required: true
+          schema:
+            type: string
+      
+      responses:
+        '200':
+          description: List of removed entitlement data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntitlementListData'
+    get:
+      summary: Retrieves all the entitlements for a specified resourceid  
+      description: Retereives collection of user entitlements for a specified resourceid   
+      operationId: getEntitlementsByResource
+      tags:
+          - Entitlements Mangement by Resource
+      parameters:
+        - name: resourceId
+          in: path
+          description: Indentifier of product which entitlements are defined.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: returns array of the entitlements for the given resource id.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRoleMappingDataList'
+
+components:
+  schemas:
+    Entitlement:
+      properties:
+        resourceName:
+          type: string
+          description: Indicates entitlement product name.
+        entitlements:
+          type: array
+          description: Indicates list of indentifier for given product.
+          items:
+            type: string
+      example:
+        resourceName: "loanAccount"
+        entitlements: ["78746","78747"]
+    Entitlements:
+      type: array
+      items:
+        $ref: "#/components/schemas/Entitlement"
+    EntitlementWithRoles:
+      properties:
+        resourceId:
+          type: string
+          description: Indentifier of product which entitlements are defined.
+        roles:
+          type: array
+          description: List of entitled roles which user have on the particular resource/products. 
+          items:
+            type: string
+      example:
+        resourceid: "78746"
+        roles: ["BalanceViewer","StatementsViewer"]
+    EntitleddActions:
+      properties:
+        resourceId:
+          type: string
+          description: Indentifier of product which entitlements are defined.
+        actions:
+          type: array
+          description: List of entitled actions assigned for user. 
+          items:
+            type: string
+      example:
+        resourceid: "78746"
+        actions: ["ViewBalance", "ViewStatement"]
+    UserRoleMappingData:
+      properties:
+        userId:
+          type: string
+          description: Identifier of an user.
+        roles:
+          type: array
+          description: List of entitled roles which user have on the particular resource.
+          items:
+            type: string
+      example:
+        userid: 1234
+        roles: ["BalanceViewer","StatementsViewer"]
+    EntitlementData:
+      properties:        
+        roles:
+          type: array
+          description: List of entitled roles which user have on the particular resource.
+          items:
+            type: string
+      example: 
+        roles: ["BalanceViewer","StatementsViewer"]   
+    EntitlementsList:
+      properties:
+        mode:
+          type: string
+          description: 'A -add provided role to existing entitlements , D -Delete the provided roles, if exsits'
+          enum: ['A','D']
+        roles:
+          type: array
+          description: List of entitled roles which user have on the particular resource.
+          items:
+            type: string
+      example:
+        mode: "A"
+        roles: ["BalanceViewer","StatementsViewer"]
+    Roles:
+      properties:
+        roles:
+          type: array
+          description: List of entitled roles which user have on the particular resource.
+          items:
+            type: string
+      example:
+        roles: ["BalanceViewer","StatementsViewer"]
+    EntitlementsDataForModifybyUser:
+      properties:
+        userId:
+          type: string
+          description: Identifier that indicate an user.
+        roles:
+          $ref: '#/components/schemas/EntitlementsList'
+      example:
+        useId: 1234
+        roles: ["BalanceViewer","StatementsViewer"]
+    EntitlementListData:
+     properties:
+        entitlements:
+          type: array
+          description: List of entitlement resource Id with privilege roles assigned for user.
+          items:
+            $ref: '#/components/schemas/EntitlementsDataForModifybyUser'
+    EntitlementsDataForModification:
+      properties:
+        entitlements:
+          type: array
+          description: List of modes and privilege roles assigned for user.
+          items:
+           $ref: '#/components/schemas/EntitlementsList'
+    UserRoleMappingDataList:
+       properties:
+        entitlements:
+          type: array
+          items:
+              $ref: "#/components/schemas/UserRoleMappingData"
+    EntitlementsRolesList:
+      type: array
+      description: List of entitlement resource Id with privilege roles assigned for user.
+      items:
+        $ref: "#/components/schemas/EntitlementWithRoles"
+    EntitlementsWithActions:
+      type: array
+      items:
+        $ref: "#/components/schemas/EntitleddActions"

@@ -1,0 +1,177 @@
+{
+    "basePath": "/api/v1",
+    "paths":
+    {
+        "/accounts/balances":
+        {
+            "get":
+            {
+                "produces": ["application/json"],
+                "operationId": "getAvailableAccountsListBalance",
+                "description": "Get the balances of all the accounts for a customer",
+                "responses":
+                {
+                    "200":
+                    {
+                        "schema":
+                        {
+                            "$ref": "#/definitions/getAvailableAccountsListBalanceResponse"
+                        },
+                        "description": "getAvailableAccountsListBalanceResponse"
+                    },
+                    "default":
+                    {
+                        "schema":
+                        {
+                            "$ref": "#/definitions/getAvailableAccountsListBalanceErrorResponse"
+                        },
+                        "description": "getAvailableAccountsListBalanceErrorResponse"
+                    }
+                }
+            },
+            "parameters": [
+           
+            {
+                "in": "header",
+                "name": "X-Request-ID",
+                "format": "uuid",
+                "description": "ID of the request, unique to the call, as determined by the initiating party.",
+                "type": "string",
+                "required": true
+            },
+             {
+                "in": "header",
+                "name": "PSU-ID",
+                "description": "Client ID of the payment service user (PSU) in the ASPSP interface; T24 customer number",
+                "type":"string",
+                "required": true
+            },
+            {
+                "in": "header",
+                "name": "PSU-ID-Type",
+                "description": "Type of PSU-ID where different types of ID are used.",
+                "type": "string",
+                "required": false
+            },
+            {
+                "in": "header",
+                "name": "PSU-Corporate-ID",
+                "description": " Identification of a corporate",
+                "type": "string",
+                "required": false
+            },
+             {
+                "in": "header",
+                "name": "PSU-Corporate-ID-Type",
+                "description": " Type of identification required by an ASPSP to identify a corporate",
+                "type": "string",
+                "required": false
+            },
+            {
+                "in": "header",
+                "name": "PSU-IP-Address",
+                "format": "ipv4",
+                "description": "HTTP request IP Address field between PSU and TPP",
+                "type": "string",
+                "required": true
+            },
+            {
+                "in": "header",
+                "name": "TPP-Redirect-Preferred",
+                "description": "Equals “true” if TPP prefers a redirect over an embedded SCA",
+                "type": "boolean",
+                "required": false
+            },
+            {
+                "in": "header",
+                "name": "TPP-Redirect-URI",
+                "format": "uri",
+                "description": "URl of the TPP where the transaction flow shall be redirected to after a Redirect.",
+                "type": "string",
+                "required": false
+            },
+            {
+                "in": "header",
+                "name": "TPP-Nok-Redirect-URI",
+                "format": "uri",
+                "description": "The URl to be used after the redirect if the SCA is not okay. This field is optional and can be ignored by the ASPSP.",
+                "type": "string",
+                "required": false
+            }
+            
+            ]
+        }
+    },
+    "definitions":
+    {
+        "getAvailableAccountsListBalanceErrorResponse":
+        {
+            "type": "object",
+            "properties":
+            {
+                "tppMessages":
+                {
+                    "description": "Messages to the TPP on operational issues.",
+                    "type": "array",
+                    "items":
+                    {
+                        "type": "object",
+                        "properties":
+                        {
+                            "code":
+                            {
+                                "type": "string"
+                            },
+                            "text":
+                            {
+                                "type": "string"
+                            },
+                            "category":
+                            {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "getAvailableAccountsListBalanceResponse":
+        {
+            "type": "array",
+            "items":
+            {
+                "type": "object",
+                "properties":
+                {
+                    "accountIBAN":
+                    {
+                        "type": "string",
+                        "description": "The International Bank Account Number (IBAN) is an internationally agreed system of identifying bank accounts across national borders. The current standard is ISO 13616:2007. The IBAN consists of up to 34 alphanumeric characters comprising: a country code; two check digits; and a number that includes the domestic bank account number, branch identifier, and potential routing information. The check digits enable a check of the bank account number to confirm its integrity before submitting a transaction."
+                    },
+                        "account":
+                    {
+                        "type": "string",
+                        "description": ""
+                    },
+                      "currency":
+                    {
+                        "type": "string",
+                        "description": ""
+                    },
+                    "balance":
+                    {
+                        "type": "string",
+                        "description": ""
+                    }
+                }
+            }
+        }
+    },
+    "swagger": "2.0",
+    "info":
+    {
+        "description": "Get the account balances for a customer.",
+        "title": "BG PSD2 AVAILABLE ACCOUNT BALANCES API",
+        "version": "v1.2.0"
+    }
+}

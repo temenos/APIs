@@ -1,0 +1,391 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "API to retrieve the charge of balance details of an arrangement",
+    "version": "v2.0.0",
+    "title": "Retrieves the balances of an arrangement account"
+  },
+  "host": "api.temenos.com",
+  "basePath": "/api/v2.0.0/",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "paths": {
+    "/holdings/arrangements/{arrangementId}/chargeOffBalances": {
+      "get": {
+        "summary": "Retrieves the Charge Off balances of an arrangement account",
+        "description": "Retrieves the Charge Off balances of an arrangement account",
+        "operationId": "getChargeOffDetails",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "arrangementId",
+            "in": "path",
+            "description": "Indicates an unique identifier of an account",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "The total number of records per page",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "page_start",
+            "in": "query",
+            "description": "The record from which the response should be displayed",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "page_token",
+            "in": "query",
+            "description": "Unique id expected to get as part of response from t24 on every enquiry request.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "companyId",
+            "in": "header",
+            "description": "The identifier of the underlying Entity/Company/Branch.",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ChargeOffDetailsResponse",
+            "schema": {
+              "$ref": "#/definitions/ChargeOffDetailsResponse"
+            }
+          },
+          "400": {
+            "description": "BusinessQueryErrorResponse",
+            "schema": {
+              "$ref": "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500": {
+            "description": "SystemQueryErrorResponse",
+            "schema": {
+              "$ref": "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default": {
+            "description": "QueryErrorResponse",
+            "schema": {
+              "$ref": "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/arrangements/{arrangementId}/consolidatedBalances": {
+      "get": {
+        "summary": "Retrieves the virtual balances for a balance type of an account",
+        "description": "Retrieves the virtual balances for a balance type of an account",
+        "operationId": "getVirtualBalances",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "arrangementId",
+            "in": "path",
+            "description": "Indicates an unique identifier of an account",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "The total number of records per page",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "page_start",
+            "in": "query",
+            "description": "The record from which the response should be displayed",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "page_token",
+            "in": "query",
+            "description": "Unique id expected to get as part of response from t24 on every enquiry request.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "companyId",
+            "in": "header",
+            "description": "The identifier of the underlying Entity/Company/Branch.",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "VirtualBalancesResponse",
+            "schema": {
+              "$ref": "#/definitions/VirtualBalancesResponse"
+            }
+          },
+          "400": {
+            "description": "BusinessQueryErrorResponse",
+            "schema": {
+              "$ref": "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500": {
+            "description": "SystemQueryErrorResponse",
+            "schema": {
+              "$ref": "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default": {
+            "description": "QueryErrorResponse",
+            "schema": {
+              "$ref": "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "basicAuth": {
+      "type": "basic"
+    }
+  },
+  "definitions": {
+    "QueryHeader": {
+      "properties": {
+        "audit": {
+          "type": "object",
+          "properties": {
+            "T24_time": {
+              "type": "integer",
+              "format": "int32",
+              "description": "Time taken to response by T24"
+            },
+            "versionNumber": {
+              "type": "string",
+              "description": "The CURR.NO. of the record"
+            },
+            "requestParse_time": {
+              "type": "number",
+              "description": "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time": {
+              "type": "number",
+              "description": "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "page_size": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The total number of records per page"
+        },
+        "page_start": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The record from which the response should be displayed"
+        },
+        "total_size": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The total number of records present"
+        },
+        "page_token": {
+          "type": "string",
+          "description": "Unique id expected to get as part of response from t24 on every enquiry request"
+        }
+      }
+    },
+    "ChargeOffDetailsResponse": {
+      "properties": {
+        "header": {
+          "$ref": "#/definitions/QueryHeader"
+        },
+        "body": {
+          "$ref": "#/definitions/ChargeOffDetailsResponseBody"
+        }
+      },
+      "description": "ChargeOffDetailsResponse"
+    },
+    "ChargeOffDetailsResponseBody": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "balanceName": {
+            "type": "string",
+            "description": "Balance name"
+          },
+          "balanceAmount": {
+            "type": "string",
+            "description": "Amount of the balance",
+            "maxLength": 19
+          }
+        }
+      }
+    },
+    "ErrorHeader": {
+      "properties": {
+        "audit": {
+          "type": "object",
+          "properties": {
+            "T24_time": {
+              "type": "integer",
+              "format": "int32",
+              "description": "Time taken to response by T24"
+            },
+            "versionNumber": {
+              "type": "string",
+              "description": "The CURR.NO. of the record"
+            },
+            "requestParse_time": {
+              "type": "number",
+              "description": "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time": {
+              "type": "number",
+              "description": "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "QueryErrorResponse": {
+      "properties": {
+        "header": {
+          "$ref": "#/definitions/ErrorHeader"
+        },
+        "error": {
+          "$ref": "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description": "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "The identifier of the error message"
+        },
+        "message": {
+          "type": "string",
+          "description": "The actual t24 error message "
+        },
+        "type": {
+          "type": "string",
+          "description": "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessQueryErrorResponse": {
+      "properties": {
+        "header": {
+          "$ref": "#/definitions/ErrorHeader"
+        },
+        "error": {
+          "$ref": "#/definitions/BusinessQueryErrorResponseBody"
+        }
+      },
+      "description": "BusinessQueryErrorResponse"
+    },
+    "BusinessQueryErrorResponseBody": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "The identifier of the error message"
+        },
+        "message": {
+          "type": "string",
+          "description": "The actual t24 error message for bad requests"
+        },
+        "type": {
+          "type": "string",
+          "description": "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemQueryErrorResponse": {
+      "properties": {
+        "header": {
+          "$ref": "#/definitions/ErrorHeader"
+        },
+        "error": {
+          "$ref": "#/definitions/SystemQueryErrorResponseBody"
+        }
+      },
+      "description": "SystemQueryErrorResponse"
+    },
+    "SystemQueryErrorResponseBody": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "The identifier of the error message"
+        },
+        "message": {
+          "type": "string",
+          "description": "The actual t24 error message caused by server"
+        },
+        "type": {
+          "type": "string",
+          "description": "The identifier of error type: System"
+        }
+      }
+    },
+    "VirtualBalancesResponse": {
+      "properties": {
+        "header": {
+          "$ref": "#/definitions/QueryHeader"
+        },
+        "body": {
+          "$ref": "#/definitions/VirtualBalancesResponseBody"
+        }
+      },
+      "description": "VirtualBalancesResponse"
+    },
+    "VirtualBalancesResponseBody": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "virtualBalance": {
+            "type": "string"
+          },
+          "balanceType": {
+            "type": "string",
+            "description": "Type of balance (e.g. current balance, credit interest accrued, deferred commission, etc.) as defined in the institution's accounting schemas."
+          },
+          "balanceAmount": {
+            "type": "string",
+            "description": "Amount of the balance"
+          }
+        }
+      }
+    }
+  }
+}

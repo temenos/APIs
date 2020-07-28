@@ -1,0 +1,2189 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Creates, Amends and Retrieves Service Automation details",
+    "version" : "v2.0.2",
+    "title" : "APIs for Service Automation"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v2.0.2/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/system/services/processes/{processId}" : {
+      "post" : {
+        "summary" : "Create new process in system",
+        "description" : "Create new process in system with details such as process identifier , environment, frequency ,stage and operator which runs the process.",
+        "operationId" : "createNewProcess",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "processId",
+          "in" : "path",
+          "description" : "Process ID",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/NewProcess"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "NewProcessResponse",
+            "schema" : {
+              "$ref" : "#/definitions/NewProcessResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Update process in system",
+        "description" : "Updates process information such as process identifier , environment, frequency ,stage and operator which runs the process in the system",
+        "operationId" : "amendNewProcess",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "processId",
+          "in" : "path",
+          "description" : "Process ID",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/NewProcess"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "NewProcessResponse",
+            "schema" : {
+              "$ref" : "#/definitions/NewProcessResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/system/services/{serviceId}" : {
+      "get" : {
+        "summary" : "Retrieves the details of a specific service ",
+        "description" : "Retrieves the details of a specific service with details of status of the process, identifier for the job, verification job identifier, service control status and the time at which the job started and stopped.",
+        "operationId" : "getService",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "serviceId",
+          "in" : "path",
+          "description" : "Provides the id of the service that has to be run.",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "BNK/RD.COPY.DE.BIC"
+        }, {
+          "name" : "serverName",
+          "in" : "query",
+          "description" : "Hostname of the Server on which the service will run.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "serverStatus",
+          "in" : "query",
+          "description" : "Status of Server  POSSIBLE VALUES: ACTIVE: To set the server as active INACTIVE: To set the server as inactive",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "workProfileId",
+          "in" : "query",
+          "description" : "Contains the reference to the record in service workload profiles for services.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "processStatus",
+          "in" : "query",
+          "description" : "The current process status.   Allowed values: - 0: Ready - 1: Running  - 2: Completed successfully  - 3: On hold or in error",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "ServiceResponse",
+            "schema" : {
+              "$ref" : "#/definitions/AvailableServicesResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Create new service in system",
+        "description" : "Create new service in system with information such as service identifier, the work profile for the service, the server details on which the service is run including the operator and the service control for the service.",
+        "operationId" : "createNewService",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "serviceId",
+          "in" : "path",
+          "description" : "Provides the id of the service that has to be run.",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "BNK/RD.COPY.DE.BIC"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/NewService"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "NewServiceResponse",
+            "schema" : {
+              "$ref" : "#/definitions/NewServiceResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Update a service in the system ",
+        "description" : "Update a service with information such as service identifier, the work profile for the service, the server details on which the service is run including the operator and the service control for the service in the system.",
+        "operationId" : "amendService",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "serviceId",
+          "in" : "path",
+          "description" : "Provides the id of the service that has to be run.",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "BNK/RD.COPY.DE.BIC"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/NewService"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "ServiceResponse",
+            "schema" : {
+              "$ref" : "#/definitions/NewServiceResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/system/services/workProfiles/{workProfileId}" : {
+      "get" : {
+        "summary" : "Retrieves a specific workload profile ",
+        "description" : "Retrieves a specific workload profile with details such as identifier ,number of agents and time of all the work profile.",
+        "operationId" : "getServiceWorkProfile",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "workProfileId",
+          "in" : "path",
+          "description" : "Contains the reference to the record in service workload profiles for services.",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "ONE"
+        }, {
+          "name" : "agentsRequired",
+          "in" : "query",
+          "description" : "The number of agents required",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "workProfileTime",
+          "in" : "query",
+          "description" : "Contains the time a multithreaded process takes.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "ServiceWorkProfileResponse",
+            "schema" : {
+              "$ref" : "#/definitions/AllServiceWorkProfilesResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Create service work load profile",
+        "description" : "Create service work load profile with information such as identifier for work profile, the number of agents when using this work profile and the start time of the work profile.",
+        "operationId" : "createServiceWorkProfile",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "workProfileId",
+          "in" : "path",
+          "description" : "Contains the reference to the record in service workload profiles for services.",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "ONE"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/ServiceWorkProfile"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "ServiceWorkProfileResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ServiceWorkProfileResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Update a service work load profile",
+        "description" : "Update a service work load profile with information such as identifier for work profile, the number of agents when using this work profile and the start time of the work profile in the system.",
+        "operationId" : "amendServiceWorkProfile",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "workProfileId",
+          "in" : "path",
+          "description" : "Contains the reference to the record in service workload profiles for services.",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "ONE"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/ServiceWorkProfile"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "ServiceWorkProfileResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ServiceWorkProfileResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/system/services" : {
+      "get" : {
+        "summary" : "Retrieves a list of all available services in system.",
+        "description" : "Retrieves a list of all available services in system including details of status of the process, identifier for the job, verification job identifier, service control status and the time at which the job started and stopped.",
+        "operationId" : "getAvailableServices",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "serviceId",
+          "in" : "query",
+          "description" : "Provides the id of the service that has to be run.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "serverName",
+          "in" : "query",
+          "description" : "Hostname of the Server on which the service will run.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "serverStatus",
+          "in" : "query",
+          "description" : "Status of Server  POSSIBLE VALUES: ACTIVE: To set the server as active INACTIVE: To set the server as inactive",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "workProfileId",
+          "in" : "query",
+          "description" : "Contains the reference to the record in service workload profiles for services.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "processStatus",
+          "in" : "query",
+          "description" : "The current process status.   Allowed values: - 0: Ready - 1: Running  - 2: Completed successfully  - 3: On hold or in error",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "AvailableServicesResponse",
+            "schema" : {
+              "$ref" : "#/definitions/AvailableServicesResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/system/services/{serviceId}/status" : {
+      "get" : {
+        "summary" : "Retrieves a detailed status of the specified service",
+        "description" : "Retrieves a detailed status of the specified service including details such as status, reference of the agent,port identifier , session number and the last contact time of the agent.",
+        "operationId" : "getServiceStatus",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "serviceId",
+          "in" : "path",
+          "description" : "Provides the id of the service that has to be run.",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "BNK/AC.HVT.MERGE.SERVICE"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "ServiceStatusResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ServiceStatusResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/system/services/status" : {
+      "get" : {
+        "summary" : "Retrieves  status of all the services",
+        "description" : "Retrieves status of all the services with details including details such as status, reference of the agent,port identifier , session number and the last contact time of the agent.",
+        "operationId" : "getAllServicesStatus",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "serviceId",
+          "in" : "query",
+          "description" : "Provides the id of the service that has to be run.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "AllServicesStatusResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ServiceStatusResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/system/services/processTimes" : {
+      "get" : {
+        "summary" : "Retrieves a list of all available executed process times in system",
+        "description" : "Retrieves aRetrieves a list of all available executed process times in system with details including the job start end time and elapsed time. the throughput, the status of the job  and the control list details list of all available executed process times in system",
+        "operationId" : "getServiceProcessTimes",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "ServiceProcessTimesResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ServiceProcessTimesResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/system/reports/{businessClosureDate}/elapsedTimes" : {
+      "get" : {
+        "summary" : "Retrieves a list of elapsed times for reports generated during close of business processing",
+        "description" : "Retrieves a list of elapsed times for reports generated during close of business processing with information such as name of the report process, time taken to process the report and session number details.",
+        "operationId" : "getReportTimes",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "businessClosureDate",
+          "in" : "path",
+          "description" : "Contains the business closure time and date on which the error occurred.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "reportName",
+          "in" : "query",
+          "description" : "Contains the name of the process that produces the report.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "ReportTimesResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ReportTimesResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/system/services/workProfiles" : {
+      "get" : {
+        "summary" : "Retrieves list of all service workload profiles available in system",
+        "description" : "Retrieves list of all service workload profiles available in system with details such as identifier ,number of agents and time of all the work profile",
+        "operationId" : "getAllServiceWorkProfiles",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "workProfileId",
+          "in" : "query",
+          "description" : "Contains the reference to the record in service workload profiles for services.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "agentsRequired",
+          "in" : "query",
+          "description" : "The number of agents required",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "workProfileTime",
+          "in" : "query",
+          "description" : "Contains the time a multithreaded process takes.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "AllServiceWorkProfilesResponse",
+            "schema" : {
+              "$ref" : "#/definitions/AllServiceWorkProfilesResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/system/companies/{companyId}/errorMessages" : {
+      "get" : {
+        "summary" : "Retrieves any logged error messages for a company during the Close of Business processing",
+        "description" : "Retrieves any logged error messages for a company during the Close of Business processing with detailed information on the error message, the date on which the error occurred, whether a fix is required for the error faced, if fix is resolved the date on which fix is resolved etc.",
+        "operationId" : "getBusinessClosureErrorForCompany",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "companyId",
+          "in" : "path",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "businessClosureDate",
+          "in" : "query",
+          "description" : "Contains the business closure time and date on which the error occurred.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "BusinessClosureErrorForCompanyResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessClosureErrorForCompanyResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "PayloadHeader" : {
+      "properties" : {
+        "override" : {
+          "type" : "object",
+          "properties" : {
+            "overrideDetails" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "id" : {
+                    "type" : "string",
+                    "description" : "The identifier of the override"
+                  },
+                  "description" : {
+                    "type" : "string",
+                    "description" : "The actual override message"
+                  },
+                  "responseCode" : {
+                    "type" : "string",
+                    "description" : "The user input to accept/reject the override."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            }
+          }
+        }
+      }
+    },
+    "NewProcess" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/NewProcessBody"
+        }
+      },
+      "description" : "NewProcess"
+    },
+    "NewProcessBody" : {
+      "type" : "object",
+      "properties" : {
+        "processStage" : {
+          "type" : "string",
+          "description" : "Indicates the close of business stage in which the process is executed. The processes are grouped into four distinct stages. The first character is used to define the stage, which must be one of the following: A: Application D: Start of Day R: Reporting S: System O: Online. The system verifies that all the processes in the previous stage have completed successfully before continuing. The remaining 3 characters are process sequence number. Modifications to the sequence number should adhere to the following guidelines: Range 000 to 099: should not be modified. Range 100 to 899: only the last two digits should be modified. Range 900 - 999: should not be modified. If no sequence number (process dependency) has been appended to the process stage, then this process can be run concurrently within the stage. However if a sequence number (e.g. A009) has been specified then the process can be run only when all other processes with sequence numbers lower than this have completed successfully. Processes with the same sequence number can be run concurrently.",
+          "minLength" : 0,
+          "maxLength" : 32
+        },
+        "processEnvironment" : {
+          "type" : "string",
+          "description" : "Environment where the process will run. Typically this should be set to 'F'",
+          "minLength" : 0,
+          "maxLength" : 32,
+          "enum" : [ "B", "F" ]
+        },
+        "jobId" : {
+          "type" : "string",
+          "description" : "The job name entered must be an entry on the main program file.",
+          "minLength" : 0,
+          "maxLength" : 32
+        },
+        "verificationJobId" : {
+          "type" : "string",
+          "description" : "Same as jobID, but functionally it does the verification as to whether a job is completed before the jobID is executed.",
+          "minLength" : 0,
+          "maxLength" : 32
+        },
+        "jobFrequency" : {
+          "type" : "string",
+          "description" : "Defines the frequency at which the job is processed next.  POSSIBLE VALUES: - D: Every working day.  - Dnn: Every nn'th working day. - W: Weekly every Friday.  - M: Last working day of every month. - Mnn: nn represents the offset added to the first day of every month to arrive at Next Run date. When the resultant date is a holiday, previous Working day is considered. - A: The job is picked on the any ad-hoc date. The next run date has to be updated manually.  - Y: Last working day of the year.  - Ynn: Last working day of the nn'th month.  - Jxxx: Always run with job name xxx.",
+          "minLength" : 0,
+          "maxLength" : 32
+        },
+        "nextRunDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Specifies bank date on which the job is to be next run"
+        },
+        "data" : {
+          "type" : "string",
+          "description" : "Input parameter",
+          "minLength" : 0,
+          "maxLength" : 32
+        },
+        "operatorName" : {
+          "type" : "string",
+          "description" : "Contains the operator name to be loaded for reporting jobs during Close of Business",
+          "minLength" : 0,
+          "maxLength" : 32
+        }
+      }
+    },
+    "ScreenHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "uniqueIdentifier" : {
+          "type" : "string",
+          "description" : "The unique identifier/Message Reference of the record created."
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "NewProcessResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/NewProcessResponseBody"
+        }
+      },
+      "description" : "NewProcessResponse"
+    },
+    "NewProcessResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "processStage" : {
+          "type" : "string",
+          "description" : "Indicates the close of business stage in which the process is executed. The processes are grouped into four distinct stages. The first character is used to define the stage, which must be one of the following: A: Application D: Start of Day R: Reporting S: System O: Online. The system verifies that all the processes in the previous stage have completed successfully before continuing. The remaining 3 characters are process sequence number. Modifications to the sequence number should adhere to the following guidelines: Range 000 to 099: should not be modified. Range 100 to 899: only the last two digits should be modified. Range 900 - 999: should not be modified. If no sequence number (process dependency) has been appended to the process stage, then this process can be run concurrently within the stage. However if a sequence number (e.g. A009) has been specified then the process can be run only when all other processes with sequence numbers lower than this have completed successfully. Processes with the same sequence number can be run concurrently.",
+          "minLength" : 0,
+          "maxLength" : 32
+        },
+        "processEnvironment" : {
+          "type" : "string",
+          "description" : "Environment where the process will run. Typically this should be set to 'F'",
+          "minLength" : 0,
+          "maxLength" : 32,
+          "enum" : [ "B", "F" ]
+        },
+        "jobId" : {
+          "type" : "string",
+          "description" : "The job name entered must be an entry on the main program file.",
+          "minLength" : 0,
+          "maxLength" : 32
+        },
+        "verificationJobId" : {
+          "type" : "string",
+          "description" : "Same as jobID, but functionally it does the verification as to whether a job is completed before the jobID is executed.",
+          "minLength" : 0,
+          "maxLength" : 32
+        },
+        "jobFrequency" : {
+          "type" : "string",
+          "description" : "Defines the frequency at which the job is processed next.  POSSIBLE VALUES: - D: Every working day.  - Dnn: Every nn'th working day. - W: Weekly every Friday.  - M: Last working day of every month. - Mnn: nn represents the offset added to the first day of every month to arrive at Next Run date. When the resultant date is a holiday, previous Working day is considered. - A: The job is picked on the any ad-hoc date. The next run date has to be updated manually.  - Y: Last working day of the year.  - Ynn: Last working day of the nn'th month.  - Jxxx: Always run with job name xxx.",
+          "minLength" : 0,
+          "maxLength" : 32
+        },
+        "nextRunDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Specifies bank date on which the job is to be next run"
+        },
+        "data" : {
+          "type" : "string",
+          "description" : "Input parameter",
+          "minLength" : 0,
+          "maxLength" : 32
+        },
+        "operatorName" : {
+          "type" : "string",
+          "description" : "Contains the operator name to be loaded for reporting jobs during Close of Business",
+          "minLength" : 0,
+          "maxLength" : 32
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "uniqueIdentifier" : {
+          "type" : "string",
+          "description" : "The unique identifier/Message Reference of the record created."
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "overrideBody" : {
+      "properties" : {
+        "overrideDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "string",
+                "description" : "The identifier of the override"
+              },
+              "description" : {
+                "type" : "string",
+                "description" : "The actual override message"
+              },
+              "options" : {
+                "type" : "array",
+                "description" : "The usable options for the override",
+                "items" : {
+                  "type" : "string"
+                }
+              },
+              "type" : {
+                "type" : "string",
+                "description" : "The type of the override"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/ScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "ScreenErrorResponse"
+    },
+    "ScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message "
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "BusinessScreenErrorResponse"
+    },
+    "BusinessScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message for bad requests"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "SystemScreenErrorResponse"
+    },
+    "SystemScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message caused by server"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    },
+    "NewService" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/NewServiceBody"
+        }
+      },
+      "description" : "NewService"
+    },
+    "NewServiceBody" : {
+      "type" : "object",
+      "properties" : {
+        "jobServerProfiles" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "workProfileId" : {
+                "type" : "string",
+                "description" : "Contains the reference to the record in service workload profiles for services.",
+                "minLength" : 0,
+                "maxLength" : 25
+              },
+              "serverName" : {
+                "type" : "string",
+                "description" : "Hostname of the Server on which the service will run.",
+                "minLength" : 0,
+                "maxLength" : 25
+              },
+              "jobServerStatus" : {
+                "type" : "string",
+                "description" : "Status of Server  POSSIBLE VALUES: ACTIVE: To set the server as active INACTIVE: To set the server as inactive",
+                "minLength" : 0,
+                "maxLength" : 25
+              }
+            }
+          }
+        },
+        "serviceDescription" : {
+          "type" : "string",
+          "description" : "Description of the Service",
+          "minLength" : 0,
+          "maxLength" : 25
+        },
+        "operatorName" : {
+          "type" : "string",
+          "description" : "Contains the operator name to be loaded for reporting jobs during Close of Business",
+          "minLength" : 0,
+          "maxLength" : 25
+        },
+        "instruction" : {
+          "type" : "string",
+          "description" : "Used in the generation of messages/advices, this field can be used to stiputate any special or additional instructions to the Paying/Accepting/Negotiating Bank.",
+          "minLength" : 0,
+          "maxLength" : 25,
+          "enum" : [ "START", "STOP", "AUTO" ]
+        },
+        "correlationId" : {
+          "type" : "string",
+          "description" : "Unique reference to be used in service execution.",
+          "minLength" : 0,
+          "maxLength" : 13
+        }
+      }
+    },
+    "NewServiceResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/NewServiceResponseBody"
+        }
+      },
+      "description" : "NewServiceResponse"
+    },
+    "NewServiceResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "jobServerProfiles" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "workProfileId" : {
+                "type" : "string",
+                "description" : "Contains the reference to the record in service workload profiles for services.",
+                "minLength" : 0,
+                "maxLength" : 25
+              },
+              "serverName" : {
+                "type" : "string",
+                "description" : "Hostname of the Server on which the service will run.",
+                "minLength" : 0,
+                "maxLength" : 25
+              },
+              "jobServerStatus" : {
+                "type" : "string",
+                "description" : "Status of Server  POSSIBLE VALUES: ACTIVE: To set the server as active INACTIVE: To set the server as inactive",
+                "minLength" : 0,
+                "maxLength" : 25
+              }
+            }
+          }
+        },
+        "serviceDescription" : {
+          "type" : "string",
+          "description" : "Description of the Service",
+          "minLength" : 0,
+          "maxLength" : 25
+        },
+        "operatorName" : {
+          "type" : "string",
+          "description" : "Contains the operator name to be loaded for reporting jobs during Close of Business",
+          "minLength" : 0,
+          "maxLength" : 25
+        },
+        "instruction" : {
+          "type" : "string",
+          "description" : "Used in the generation of messages/advices, this field can be used to stiputate any special or additional instructions to the Paying/Accepting/Negotiating Bank.",
+          "minLength" : 0,
+          "maxLength" : 25,
+          "enum" : [ "START", "STOP", "AUTO" ]
+        },
+        "correlationId" : {
+          "type" : "string",
+          "description" : "Unique reference to be used in service execution.",
+          "minLength" : 0,
+          "maxLength" : 13
+        }
+      }
+    },
+    "ServiceWorkProfile" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ServiceWorkProfileBody"
+        }
+      },
+      "description" : "ServiceWorkProfile"
+    },
+    "ServiceWorkProfileBody" : {
+      "type" : "object",
+      "properties" : {
+        "displayName" : {
+          "type" : "string",
+          "description" : "Name used for display or enrichment purposes",
+          "minLength" : 0,
+          "maxLength" : 25
+        },
+        "startTime" : {
+          "type" : "string",
+          "description" : "The time job was started",
+          "minLength" : 0,
+          "maxLength" : 25
+        },
+        "agentsRequired" : {
+          "type" : "string",
+          "description" : "The number of agents required",
+          "minLength" : 0,
+          "maxLength" : 25
+        }
+      }
+    },
+    "ServiceWorkProfileResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ServiceWorkProfileResponseBody"
+        }
+      },
+      "description" : "ServiceWorkProfileResponse"
+    },
+    "ServiceWorkProfileResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "displayName" : {
+          "type" : "string",
+          "description" : "Name used for display or enrichment purposes",
+          "minLength" : 0,
+          "maxLength" : 25
+        },
+        "startTime" : {
+          "type" : "string",
+          "description" : "The time job was started",
+          "minLength" : 0,
+          "maxLength" : 25
+        },
+        "agentsRequired" : {
+          "type" : "string",
+          "description" : "The number of agents required",
+          "minLength" : 0,
+          "maxLength" : 25
+        }
+      }
+    },
+    "QueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records per page"
+        },
+        "page_start" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The record from which the response should be displayed"
+        },
+        "total_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records present"
+        },
+        "page_token" : {
+          "type" : "string",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request"
+        }
+      }
+    },
+    "AvailableServicesResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/AvailableServicesResponseBody"
+        }
+      },
+      "description" : "AvailableServicesResponse"
+    },
+    "AvailableServicesResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "serverDetails" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "serverName" : {
+                  "type" : "string",
+                  "description" : "Hostname of the Server on which the service will run.",
+                  "maxLength" : 50
+                },
+                "serverStatus" : {
+                  "type" : "string",
+                  "description" : "Status of Server  POSSIBLE VALUES: ACTIVE: To set the server as active INACTIVE: To set the server as inactive",
+                  "maxLength" : 7
+                },
+                "workProfileId" : {
+                  "type" : "string",
+                  "description" : "Contains the reference to the record in service workload profiles for services.",
+                  "maxLength" : 25
+                }
+              }
+            }
+          },
+          "jobs" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "jobId" : {
+                  "type" : "string",
+                  "description" : "The job name entered must be an entry on the main program file."
+                },
+                "jobStatus" : {
+                  "type" : "string",
+                  "description" : "The current status of the job.  POSSIBLE VALUES: 0: Ready  1: Running  2: Completed successfully  3: On hold or in error",
+                  "maxLength" : 2
+                },
+                "verificationJobId" : {
+                  "type" : "string",
+                  "description" : "Same as jobID, but functionally it does the verification as to whether a job is completed before the jobID is executed.",
+                  "maxLength" : 50
+                },
+                "jobFrequency" : {
+                  "type" : "string",
+                  "description" : "Defines the frequency at which the job is processed next.  POSSIBLE VALUES: - D: Every working day.  - Dnn: Every nn'th working day. - W: Weekly every Friday.  - M: Last working day of every month. - Mnn: nn represents the offset added to the first day of every month to arrive at Next Run date. When the resultant date is a holiday, previous Working day is considered. - A: The job is picked on the any ad-hoc date. The next run date has to be updated manually.  - Y: Last working day of the year.  - Ynn: Last working day of the nn'th month.  - Jxxx: Always run with job name xxx.",
+                  "maxLength" : 50
+                }
+              }
+            }
+          },
+          "serviceId" : {
+            "type" : "string",
+            "description" : "Provides the id of the service that has to be run.",
+            "maxLength" : 50
+          },
+          "instruction" : {
+            "type" : "string",
+            "description" : "Used in the generation of messages/advices, this field can be used to stiputate any special or additional instructions to the Paying/Accepting/Negotiating Bank."
+          },
+          "processStatus" : {
+            "type" : "string",
+            "description" : "The current process status.   Allowed values: - 0: Ready - 1: Running  - 2: Completed successfully  - 3: On hold or in error",
+            "maxLength" : 2
+          },
+          "jobLastStartedAt" : {
+            "type" : "string",
+            "description" : "The time on which the service was started."
+          },
+          "jobLastStoppedAt" : {
+            "type" : "string",
+            "description" : "The time on which the service was stopped."
+          }
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessQueryErrorResponseBody"
+        }
+      },
+      "description" : "BusinessQueryErrorResponse"
+    },
+    "BusinessQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message for bad requests"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemQueryErrorResponseBody"
+        }
+      },
+      "description" : "SystemQueryErrorResponse"
+    },
+    "SystemQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message caused by server"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    },
+    "ServiceStatusResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ServiceStatusResponseBody"
+        }
+      },
+      "description" : "ServiceStatusResponse"
+    },
+    "ServiceStatusResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "serviceId" : {
+            "type" : "string",
+            "description" : "Provides the id of the service that has to be run.",
+            "maxLength" : 30
+          },
+          "agentReference" : {
+            "type" : "string",
+            "description" : "Contains the agent reference number.",
+            "maxLength" : 10
+          },
+          "serverName" : {
+            "type" : "string",
+            "description" : "Hostname of the Server on which the service will run.",
+            "maxLength" : 35
+          },
+          "agentStatus" : {
+            "type" : "string",
+            "description" : "The status of the agent.  Possible values: - RUNNING - STOPPED",
+            "maxLength" : 35
+          },
+          "portId" : {
+            "type" : "string",
+            "description" : "The port in which agent is running",
+            "maxLength" : 12
+          },
+          "sessionNo" : {
+            "type" : "number",
+            "description" : "The session number in which agent is running",
+            "maximum" : 10
+          },
+          "lastContactTime" : {
+            "type" : "string",
+            "format" : "date-time",
+            "description" : "The Last contact time of agent."
+          }
+        }
+      }
+    },
+    "ServiceProcessTimesResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ServiceProcessTimesResponseBody"
+        }
+      },
+      "description" : "ServiceProcessTimesResponse"
+    },
+    "ServiceProcessTimesResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "group" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "controlList" : {
+                  "type" : "string",
+                  "description" : "Control List value.",
+                  "maxLength" : 70
+                },
+                "processedJob" : {
+                  "type" : "string",
+                  "description" : "The total number of records/contracts that was processed.",
+                  "maxLength" : 70
+                },
+                "completed" : {
+                  "type" : "string",
+                  "description" : "The number of contracts completed processing.",
+                  "maxLength" : 70
+                },
+                "correlationId" : {
+                  "type" : "string",
+                  "description" : "Unique reference to be used in service execution.",
+                  "maxLength" : 70
+                },
+                "utcDate" : {
+                  "type" : "string",
+                  "format" : "date",
+                  "description" : "Co-ordinated Universal Date."
+                }
+              }
+            }
+          },
+          "serviceId" : {
+            "type" : "string",
+            "description" : "Provides the id of the service that has to be run.",
+            "maxLength" : 70
+          },
+          "startTime" : {
+            "type" : "string",
+            "format" : "date-time",
+            "description" : "The time job was started"
+          },
+          "endTime" : {
+            "type" : "string",
+            "format" : "date-time",
+            "description" : "The time the job was ended.  "
+          },
+          "throughPut" : {
+            "type" : "string",
+            "description" : "The number of records processed per minute.   Calculated as:  keys processed / elapsed time * 60",
+            "maxLength" : 70
+          },
+          "lastTime" : {
+            "type" : "string",
+            "format" : "date-time",
+            "description" : "The time taken to run the job.  Indicates the time taken to Select the job plus the time difference of Start time and End time."
+          }
+        }
+      }
+    },
+    "ReportTimesResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ReportTimesResponseBody"
+        }
+      },
+      "description" : "ReportTimesResponse"
+    },
+    "ReportTimesResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "group" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "businessClosureDate" : {
+                  "type" : "string",
+                  "format" : "date-time",
+                  "description" : "Contains the business closure time and date on which the error occurred."
+                },
+                "sessionNo" : {
+                  "type" : "number",
+                  "description" : "The session number in which agent is running",
+                  "maximum" : 3
+                },
+                "startTime" : {
+                  "type" : "string",
+                  "format" : "date-time",
+                  "description" : "The time job was started"
+                },
+                "endTime" : {
+                  "type" : "string",
+                  "format" : "date-time",
+                  "description" : "The time the job was ended.  "
+                },
+                "elapsedTime" : {
+                  "type" : "string",
+                  "format" : "date-time",
+                  "description" : "The elapsed time of the report in seconds."
+                },
+                "correlationId" : {
+                  "type" : "string",
+                  "description" : "Unique reference to be used in service execution.",
+                  "maxLength" : 80
+                },
+                "utcDate" : {
+                  "type" : "string",
+                  "format" : "date",
+                  "description" : "Co-ordinated Universal Date."
+                }
+              }
+            }
+          },
+          "reportName" : {
+            "type" : "string",
+            "description" : "Contains the name of the process that produces the report.",
+            "maxLength" : 70
+          }
+        }
+      }
+    },
+    "AllServiceWorkProfilesResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/AllServiceWorkProfilesResponseBody"
+        }
+      },
+      "description" : "AllServiceWorkProfilesResponse"
+    },
+    "AllServiceWorkProfilesResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "group" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "agentsRequired" : {
+                  "type" : "number",
+                  "description" : "The number of agents required",
+                  "maximum" : 2
+                },
+                "workProfileTime" : {
+                  "type" : "string",
+                  "format" : "date-time",
+                  "description" : "Contains the time a multithreaded process takes."
+                }
+              }
+            }
+          },
+          "workProfileId" : {
+            "type" : "string",
+            "description" : "Contains the reference to the record in service workload profiles for services.",
+            "maxLength" : 30
+          }
+        }
+      }
+    },
+    "BusinessClosureErrorForCompanyResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/BusinessClosureErrorForCompanyResponseBody"
+        }
+      },
+      "description" : "BusinessClosureErrorForCompanyResponse"
+    },
+    "BusinessClosureErrorForCompanyResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "businessClosureDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "Contains the business closure time and date on which the error occurred."
+          },
+          "companyId" : {
+            "type" : "string",
+            "description" : "The identifier of the underlying Entity/Company/Branch.",
+            "maxLength" : 3
+          },
+          "detailKey" : {
+            "type" : "string",
+            "description" : "The keys to those records that were saved at the time the error was reported.",
+            "maxLength" : 30
+          },
+          "dateTime" : {
+            "type" : "string",
+            "format" : "date-time",
+            "description" : "Date and time separated by '-'"
+          },
+          "errorMessage" : {
+            "type" : "string",
+            "description" : "Description of the error.",
+            "maxLength" : 30
+          },
+          "applicationId" : {
+            "type" : "string",
+            "description" : "Application id.",
+            "maxLength" : 2
+          },
+          "isFixRequired" : {
+            "type" : "string",
+            "description" : "Indicates if error is considered to be a critical error or not. For Critical Error, the batch control application will not be able to be invoked until this error has been resolved. For a Non Critical Error, the batch control application may be invoked even when this error is unresolved, by overriding it.  Allowed values: - YES: Critical Error - NO: Non Critical Error",
+            "maxLength" : 3
+          },
+          "dateResolved" : {
+            "type" : "string",
+            "format" : "date-time",
+            "description" : "The date on which error has been resolved."
+          }
+        }
+      }
+    }
+  }
+}

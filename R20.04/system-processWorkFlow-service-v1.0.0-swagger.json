@@ -1,0 +1,784 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Retrieves information related to activities, participants and tasks assigned them.",
+    "version" : "v1.0.0",
+    "title" : "API to retrieve information related to workflows"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/system/workflows/processes" : {
+      "get" : {
+        "summary" : "Retrieves information on work item assigned to the logged in user. ",
+        "description" : "Retrieves information on work item assigned to the logged in user like approval or reassigning of the work item.",
+        "operationId" : "getPendingWorkflows",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "data",
+          "in" : "query",
+          "description" : "Input parameter",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "processNumber",
+          "in" : "query",
+          "description" : "Identifies the process which involves multiple task for Ex: Enrolling the new customer",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "PendingWorkflowsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/PendingWorkflowsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/system/workflows/activities" : {
+      "get" : {
+        "summary" : "Retrieve information on which participant's work list the activity is residing currently.",
+        "description" : "Retrieve information on which participant's work list the activity is residing currently. It also specifies status of the activity.",
+        "operationId" : "getWorkflowPendingActivities",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "activityTransaction",
+          "in" : "query",
+          "description" : "Process Workflow Activity Transactions",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "user",
+          "in" : "query",
+          "description" : "The user who created the project",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "transactionReference",
+          "in" : "query",
+          "description" : "Transaction reference identifier.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "process",
+          "in" : "query",
+          "description" : "Process",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "pwActivityStatus",
+          "in" : "query",
+          "description" : "Process workflow activity status  POSSIBLE VALUES: COMPLETED APPROVED AUTHORISED",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "WorkflowPendingActivitiesResponse",
+            "schema" : {
+              "$ref" : "#/definitions/WorkflowPendingActivitiesResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/system/workflows/transactions" : {
+      "get" : {
+        "summary" : "Process workflow transactions associated to a role",
+        "description" : "Process workflow transactions initiated by a parent process which contains a sequence of workflow steps associated with it. This Api returns all the role associated transactions for the provided originate process. ",
+        "operationId" : "getTransactions",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "userRole",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "originateProcess",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "processId",
+          "in" : "query",
+          "description" : "Process ID",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "TransactionsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/TransactionsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/system/workflows/roleless/transactions" : {
+      "get" : {
+        "summary" : "Process workflow transactions not associated to a role ",
+        "description" : "Process workflow transactions initiated by a parent process which contains a sequence of workflow steps associated with it. This Api returns all the roleless transactions for the provided originate process.",
+        "operationId" : "getRolelessTransactions",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "processId",
+          "in" : "query",
+          "description" : "Process ID",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "RolelessTransactionsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/TransactionsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/system/workflows/participants" : {
+      "get" : {
+        "summary" : "Retrieves information related to different participants and the users attached those participants.",
+        "description" : "Retrieves information related to different participants like Dealer, Chief dealer,etc. and the users attached to those participants.",
+        "operationId" : "getWorkflowParticipants",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "participantId",
+          "in" : "query",
+          "description" : "Process Workflow Participant ID",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "accountOfficer",
+          "in" : "query",
+          "description" : "Identifier of Department Account Officer",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "user",
+          "in" : "query",
+          "description" : "The user who created the project",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "WorkflowParticipantsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/WorkflowParticipantsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "QueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records per page"
+        },
+        "page_start" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The record from which the response should be displayed"
+        },
+        "total_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records present"
+        },
+        "page_token" : {
+          "type" : "string",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request"
+        }
+      }
+    },
+    "PendingWorkflowsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/PendingWorkflowsResponseBody"
+        }
+      },
+      "description" : "PendingWorkflowsResponse"
+    },
+    "PendingWorkflowsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "dueDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "Identifies the date on which the activity is due."
+          },
+          "type" : {
+            "type" : "string",
+            "description" : "The product condition has an activity type associated that drives an action."
+          },
+          "clientName" : {
+            "type" : "string",
+            "description" : "Identifies the name of the client."
+          },
+          "displayName" : {
+            "type" : "string",
+            "description" : "Name used for display or enrichment purposes"
+          },
+          "owner" : {
+            "type" : "string",
+            "description" : "User who defines the Campaign"
+          },
+          "referenceId" : {
+            "type" : "string",
+            "description" : "Identifies the unique identifier of the activity."
+          },
+          "transactionReference" : {
+            "type" : "string",
+            "description" : "Transaction reference identifier."
+          },
+          "status" : {
+            "type" : "string",
+            "description" : "Status identifier of the account. The values are 'DELETED' if the account is closed, 'BLOCKED' is there are any posting restrictions & 'ENABLED' for active accounts."
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessQueryErrorResponseBody"
+        }
+      },
+      "description" : "BusinessQueryErrorResponse"
+    },
+    "BusinessQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message for bad requests"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemQueryErrorResponseBody"
+        }
+      },
+      "description" : "SystemQueryErrorResponse"
+    },
+    "SystemQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message caused by server"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    },
+    "WorkflowPendingActivitiesResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/WorkflowPendingActivitiesResponseBody"
+        }
+      },
+      "description" : "WorkflowPendingActivitiesResponse"
+    },
+    "WorkflowPendingActivitiesResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "processId" : {
+            "type" : "string",
+            "description" : "Process ID",
+            "maxLength" : 35
+          },
+          "activityId" : {
+            "type" : "string",
+            "description" : "Id of the activity, e.g. ACCOUNTS-CAPITALISE-ACCHARGE*CARDISSUEFEE",
+            "maxLength" : 15
+          },
+          "activityName" : {
+            "type" : "string",
+            "description" : "Id of the selected activity",
+            "maxLength" : 35
+          },
+          "activityStatus" : {
+            "type" : "string",
+            "description" : "Business Activity Status  POSSIBLE VALUES: 0: Ready  1: Running  2: Completed successfully  3: On hold or in error",
+            "maxLength" : 15
+          },
+          "transactionReference" : {
+            "type" : "string",
+            "description" : "Transaction reference identifier.",
+            "maxLength" : 35
+          },
+          "user" : {
+            "type" : "string",
+            "description" : "The user who created the project",
+            "maxLength" : 35
+          },
+          "owner" : {
+            "type" : "string",
+            "description" : "User who defines the Campaign",
+            "maxLength" : 35
+          },
+          "launch" : {
+            "type" : "string",
+            "description" : "Application Version or the enquiry name to be launched.",
+            "maxLength" : 99
+          }
+        }
+      }
+    },
+    "TransactionsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/TransactionsResponseBody"
+        }
+      },
+      "description" : "TransactionsResponse"
+    },
+    "TransactionsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "displayName" : {
+            "type" : "string",
+            "description" : "Name used for display or enrichment purposes",
+            "maxLength" : 15
+          },
+          "processId" : {
+            "type" : "string",
+            "description" : "Process ID",
+            "maxLength" : 35
+          },
+          "activity" : {
+            "type" : "string",
+            "description" : "Defines the activity to be processed against the Arrangement. The activity may be a user activity or a system generated activity.",
+            "maxLength" : 20
+          },
+          "participantGroup" : {
+            "type" : "string",
+            "description" : "The department / user group who is responsible for this transaction.",
+            "maxLength" : 34
+          },
+          "transactionReference" : {
+            "type" : "string",
+            "description" : "Transaction reference identifier.",
+            "maxLength" : 24
+          },
+          "target" : {
+            "type" : "string",
+            "description" : "Specifies how the Customer is considered by the bank and how he fits in with the Account Officer's overall marketing strategy",
+            "maxLength" : 99
+          },
+          "targetId" : {
+            "type" : "string",
+            "description" : "The target activity to be done from this transaction. It can either be a transaction or a query.",
+            "maxLength" : 99
+          },
+          "activityStatus" : {
+            "type" : "string",
+            "description" : "Business Activity Status  POSSIBLE VALUES: 0: Ready  1: Running  2: Completed successfully  3: On hold or in error",
+            "maxLength" : 35
+          }
+        }
+      }
+    },
+    "WorkflowParticipantsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/WorkflowParticipantsResponseBody"
+        }
+      },
+      "description" : "WorkflowParticipantsResponse"
+    },
+    "WorkflowParticipantsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "accountOfficers" : {
+            "type" : "array",
+            "description" : "Identifier of Department Account Officer",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "accountOfficer" : {
+                  "type" : "array",
+                  "description" : "Identifier of Department Account Officer",
+                  "items" : {
+                    "type" : "number"
+                  }
+                }
+              }
+            }
+          },
+          "participantId" : {
+            "type" : "string",
+            "description" : "Process Workflow Participant ID",
+            "maxLength" : 35
+          },
+          "displayName" : {
+            "type" : "string",
+            "description" : "Name used for display or enrichment purposes",
+            "maxLength" : 35
+          },
+          "user" : {
+            "type" : "string",
+            "description" : "The user who created the project",
+            "maxLength" : 35
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,1178 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Get and management of account sweep services",
+    "version" : "v1.0.1",
+    "title" : "Sweep APIs"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.1/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/order/sweeps" : {
+      "get" : {
+        "summary" : "Retrieves the sweep transactions",
+        "description" : "Retrieves the list of sweep transactions for a specific account",
+        "operationId" : "getSweeps",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "toAccountId",
+          "in" : "query",
+          "description" : "Creditor unique account id detail",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "fromAccountId",
+          "in" : "query",
+          "description" : "Debitor unique account id detail",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "SweepsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SweepsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Initiate a sweep transaction",
+        "description" : "Initiate  a new sweep transaction for a specific account",
+        "operationId" : "createSweep",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Sweep"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "SweepResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SweepResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/sweeps/{sweepId}" : {
+      "get" : {
+        "summary" : "Overview of sweep transaction",
+        "description" : "Retrieves the details of specific sweep transaction",
+        "operationId" : "getSweep",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "sweepId",
+          "in" : "path",
+          "description" : "Identifier of the Retail account sweep",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "SweepResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SweepResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Update a sweep transaction",
+        "description" : "Updates an existing sweep transaction for specific account",
+        "operationId" : "updateSweep",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "sweepId",
+          "in" : "path",
+          "description" : "Identifier of the Retail account sweep",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Sweep"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "SweepResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SweepResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Remove a sweep transaction",
+        "description" : "Remove an existing sweep transaction for specific account",
+        "operationId" : "deleteSweep",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "sweepId",
+          "in" : "path",
+          "description" : "Identifier of the Retail account sweep",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/SweepDelete"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "SweepResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SweepResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/sweeps/cancellations/{sweepId}" : {
+      "delete" : {
+        "summary" : "Cancel a sweep transaction",
+        "description" : "Cancel a sweep transaction for specific account",
+        "operationId" : "rejectSweep",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "sweepId",
+          "in" : "path",
+          "description" : "Identifier of the Retail account sweep",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/SweepDelete"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "SweepResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SweepResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/sweepsApprovals/{sweepId}" : {
+      "put" : {
+        "summary" : "Approve a sweep transaction ",
+        "description" : "Approves a sweep transaction for specific account ",
+        "operationId" : "approveSweep",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "sweepId",
+          "in" : "path",
+          "description" : "Identifier of the Retail account sweep",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "SweepResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SweepResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "PayloadHeader" : {
+      "properties" : {
+        "override" : {
+          "type" : "object",
+          "properties" : {
+            "overrideDetails" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "id" : {
+                    "type" : "string",
+                    "description" : "The identifier of the override"
+                  },
+                  "description" : {
+                    "type" : "string",
+                    "description" : "The actual override message"
+                  },
+                  "responseCode" : {
+                    "type" : "string",
+                    "description" : "The user input to accept/reject the override."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            }
+          }
+        }
+      }
+    },
+    "Sweep" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/SweepBody"
+        }
+      },
+      "description" : "Sweep"
+    },
+    "SweepBody" : {
+      "type" : "object",
+      "properties" : {
+        "fromAccountDetails" : {
+          "type" : "array",
+          "description" : "Debitor unique account details",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fromAccountId" : {
+                "type" : "string",
+                "description" : "For surplus this refers to the account which will be credited and for maintenance this account from where the funds are debited.",
+                "maxLength" : 26
+              },
+              "fromAccountBalanceType" : {
+                "type" : "string",
+                "description" : "Debitor account balance type details",
+                "maxLength" : 25
+              },
+              "fromAccountCurrency" : {
+                "type" : "string",
+                "description" : "Is the currency of the account which funds will be transferred from.",
+                "maxLength" : 28
+              },
+              "fromAccountMinimumBalance" : {
+                "type" : "number",
+                "description" : "Debitor account minimum balance details"
+              }
+            }
+          }
+        },
+        "toAccountDetails" : {
+          "type" : "array",
+          "description" : "Creditor unique account details",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "toAccountId" : {
+                "type" : "string",
+                "description" : "Account number of the Payee or Beneficiary of the transaction",
+                "maxLength" : 25
+              },
+              "toAccountBalanceType" : {
+                "type" : "string",
+                "description" : "Creditor account balance type details",
+                "maxLength" : 25
+              },
+              "toAccountCurrency" : {
+                "type" : "string",
+                "description" : "For Surplus sweep this refers to the account which will be debited and funds moved out. For maintenance sweep, this will be the account where funds are credited to maintain the account.",
+                "maxLength" : 28
+              },
+              "maximumRequiredBalance" : {
+                "type" : "number",
+                "description" : "Maximum required balance details for sweep record"
+              },
+              "minimumRequiredBalance" : {
+                "type" : "number",
+                "description" : "Minimum required balance details for sweep record"
+              }
+            }
+          }
+        },
+        "overrides" : {
+          "type" : "array",
+          "description" : "The override message is captured  that was generated at the time of commitment of the transaction to the database.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "override" : {
+                "type" : "string",
+                "description" : "The override message is captured  that was generated at the time of commitment of the transaction to the database.",
+                "maxLength" : 25
+              }
+            }
+          }
+        },
+        "sweepType" : {
+          "type" : "string",
+          "description" : "Sweep types defined to the user",
+          "maxLength" : 26
+        },
+        "sweepName" : {
+          "type" : "string",
+          "description" : "Reference name of sweep record",
+          "maxLength" : 26
+        },
+        "frequency" : {
+          "type" : "string",
+          "description" : "Specifies the frequency in which the payment application(periodic payments) execute the payment instruction.",
+          "maxLength" : 26
+        },
+        "nextRunDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Specifies bank date on which the job is to be next run"
+        },
+        "recordStatus" : {
+          "type" : "string",
+          "description" : "General status of the record. Possible values: - null - authorised - IHLD - input, on hold - INAU - input, not authorised - INA2 - input, authorised, pending second authorisation - INAO - input, not authorised with blocking overrides - RNAU - reversed, not authorised - RNAO - reversed, not authorised with blocking overrides",
+          "maxLength" : 13
+        }
+      }
+    },
+    "ScreenHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "SweepResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/SweepResponseBody"
+        }
+      },
+      "description" : "SweepResponse"
+    },
+    "SweepResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "fromAccountDetails" : {
+          "type" : "array",
+          "description" : "Debit account details for sweep record",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fromAccountId" : {
+                "type" : "string",
+                "description" : "For surplus this refers to the account which will be credited and for maintenance this account from where the funds are debited.",
+                "maxLength" : 26
+              },
+              "fromAccountBalanceType" : {
+                "type" : "string",
+                "description" : "Debitor account balance type details",
+                "maxLength" : 25
+              },
+              "fromAccountCurrency" : {
+                "type" : "string",
+                "description" : "Is the currency of the account which funds will be transferred from.",
+                "maxLength" : 28
+              },
+              "fromAccountMinimumBalance" : {
+                "type" : "number",
+                "description" : "Debitor account minimum balance details"
+              }
+            }
+          }
+        },
+        "toAccountDetails" : {
+          "type" : "array",
+          "description" : "Creditor unique account details",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "toAccountId" : {
+                "type" : "string",
+                "description" : "Account number of the Payee or Beneficiary of the transaction",
+                "maxLength" : 25
+              },
+              "toAccountBalanceType" : {
+                "type" : "string",
+                "description" : "Creditor account balance type details",
+                "maxLength" : 25
+              },
+              "toAccountCurrency" : {
+                "type" : "string",
+                "description" : "For Surplus sweep this refers to the account which will be debited and funds moved out. For maintenance sweep, this will be the account where funds are credited to maintain the account.",
+                "maxLength" : 28
+              },
+              "maximumRequiredBalance" : {
+                "type" : "number",
+                "description" : "Maximum required balance details for sweep record"
+              },
+              "minimumRequiredBalance" : {
+                "type" : "number",
+                "description" : "Minimum required balance details for sweep record"
+              }
+            }
+          }
+        },
+        "overrides" : {
+          "type" : "array",
+          "description" : "The override message is captured  that was generated at the time of commitment of the transaction to the database.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "override" : {
+                "type" : "string",
+                "description" : "The override message is captured  that was generated at the time of commitment of the transaction to the database.",
+                "maxLength" : 25
+              }
+            }
+          }
+        },
+        "sweepType" : {
+          "type" : "string",
+          "description" : "Sweep types defined to the user",
+          "maxLength" : 26
+        },
+        "sweepName" : {
+          "type" : "string",
+          "description" : "Reference name of sweep record",
+          "maxLength" : 26
+        },
+        "frequency" : {
+          "type" : "string",
+          "description" : "Specifies the frequency in which the payment application(periodic payments) execute the payment instruction.",
+          "maxLength" : 26
+        },
+        "nextRunDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Specifies bank date on which the job is to be next run"
+        },
+        "recordStatus" : {
+          "type" : "string",
+          "description" : "General status of the record. Possible values: - null - authorised - IHLD - input, on hold - INAU - input, not authorised - INA2 - input, authorised, pending second authorisation - INAO - input, not authorised with blocking overrides - RNAU - reversed, not authorised - RNAO - reversed, not authorised with blocking overrides",
+          "maxLength" : 13
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "overrideBody" : {
+      "properties" : {
+        "overrideDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "string",
+                "description" : "The identifier of the override"
+              },
+              "description" : {
+                "type" : "string",
+                "description" : "The actual override message"
+              },
+              "options" : {
+                "type" : "array",
+                "description" : "The usable options for the override",
+                "items" : {
+                  "type" : "string"
+                }
+              },
+              "type" : {
+                "type" : "string",
+                "description" : "The type of the override"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/ScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "ScreenErrorResponse"
+    },
+    "ScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message "
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "BusinessScreenErrorResponse"
+    },
+    "BusinessScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message for bad requests"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "SystemScreenErrorResponse"
+    },
+    "SystemScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message caused by server"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    },
+    "SweepDelete" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        }
+      },
+      "description" : "SweepDelete"
+    },
+    "QueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records per page"
+        },
+        "page_start" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The record from which the response should be displayed"
+        },
+        "total_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records present"
+        },
+        "page_token" : {
+          "type" : "string",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request"
+        }
+      }
+    },
+    "SweepsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/SweepsResponseBody"
+        }
+      },
+      "description" : "SweepsResponse"
+    },
+    "SweepsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "fromAccountDetails" : {
+            "type" : "array",
+            "description" : "Debit account details for sweep record",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "fromAccountId" : {
+                  "type" : "array",
+                  "description" : "For surplus this refers to the account which will be credited and for maintenance this account from where the funds are debited.",
+                  "items" : {
+                    "type" : "string"
+                  }
+                },
+                "fromAccountMinimumBalance" : {
+                  "type" : "array",
+                  "description" : "Debitor account minimum balance details",
+                  "items" : {
+                    "type" : "number"
+                  }
+                },
+                "fromAccountBalanceType" : {
+                  "type" : "array",
+                  "description" : "Debitor account balance type details",
+                  "items" : {
+                    "type" : "string"
+                  }
+                }
+              }
+            }
+          },
+          "toAccountDetails" : {
+            "type" : "array",
+            "description" : "Creditor unique account details",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "toAccountId" : {
+                  "type" : "array",
+                  "description" : "Account number of the Payee or Beneficiary of the transaction",
+                  "items" : {
+                    "type" : "string"
+                  }
+                },
+                "minimumRequiredBalance" : {
+                  "type" : "array",
+                  "description" : "Minimum required balance details for sweep record",
+                  "items" : {
+                    "type" : "number"
+                  }
+                },
+                "maximumRequiredBalance" : {
+                  "type" : "array",
+                  "description" : "Maximum required balance details for sweep record",
+                  "items" : {
+                    "type" : "number"
+                  }
+                },
+                "toAccountBalanceType" : {
+                  "type" : "array",
+                  "description" : "Creditor account balance type details",
+                  "items" : {
+                    "type" : "string"
+                  }
+                }
+              }
+            }
+          },
+          "sweepLinkId" : {
+            "type" : "string",
+            "description" : "Link to refer the sweep account details",
+            "maxLength" : 14
+          },
+          "sweepName" : {
+            "type" : "string",
+            "description" : "Reference name of sweep record",
+            "maxLength" : 35
+          },
+          "sweepType" : {
+            "type" : "string",
+            "description" : "Sweep types defined to the user",
+            "maxLength" : 35
+          },
+          "nextRunDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "Specifies bank date on which the job is to be next run"
+          },
+          "frequency" : {
+            "type" : "string",
+            "description" : "Specifies the frequency in which the payment application(periodic payments) execute the payment instruction.",
+            "maxLength" : 18
+          },
+          "versionNumber" : {
+            "type" : "string",
+            "description" : "Current number of the record",
+            "maxLength" : 6
+          }
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessQueryErrorResponseBody"
+        }
+      },
+      "description" : "BusinessQueryErrorResponse"
+    },
+    "BusinessQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message for bad requests"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemQueryErrorResponseBody"
+        }
+      },
+      "description" : "SystemQueryErrorResponse"
+    },
+    "SystemQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message caused by server"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    }
+  }
+}

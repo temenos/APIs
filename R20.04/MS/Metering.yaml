@@ -1,0 +1,501 @@
+openapi: "3.0.0"
+info:
+  title: Application Metering
+  description: API to store the consumed business values and api usage metrics in Transact and Infinity systems. The api collection includes metering configuration apis for managing metering configurations.
+  version: 1.0.0
+
+tags:
+- name: Metering configuration apis
+  description: The collection of apis used to manage the metering collection configuration.
+servers:
+- url: http://localhost:8090/ms-metering-api/api/v1.0.0  
+paths:
+  /metrics/configurations/applications/{applicationId}:
+    get:
+      summary: Retrieves metering configuration details for a specified application
+      description: Retrieves metering configuration details for a specified application
+      operationId: getAppMetricConfig
+      tags:
+        - Metering configuration
+      parameters:
+        - name: applicationId
+          in: path
+          description: Indicates unique identifier of an application
+          required: true
+          schema:
+            type: string
+        - name: resourceId
+          in: query
+          description: Indicates optional Unique identifier for the resource usage measured in order to filter records
+          schema:
+            type: string
+        
+      responses:
+        '200':
+          description: Searches and retrieves the metric data logged for the given application
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/MeteringAppConfigurationList"
+    post:
+      summary: Creates configuration details for  metering an application
+      description: Creates configuration details for metering an specified application
+      operationId: createAppMeteringConfig
+      tags:
+        - Metering configuration
+      parameters:
+        - name: applicationId
+          in: path
+          description: Indicates Unique identifier of the application
+          required: true
+          schema:
+            type: string
+        
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MeteringAppConfiguration"
+        description:
+            Request body for the metering app configuration details consisting of resourceId, metricType, statisticsType and additional properties
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MeteringAppConfigurationResponse'
+          description: 
+              Displays the response object which contains configId, applicationId, metricResourceId and status
+              
+  /metering/configurations/{configurationId}:
+    get:
+      summary: Retrieves the metering configuration details of metering application for a specified configuration id.
+      description: Retrieves the configuration details of metering application based on the configuration id
+      operationId: getApplicationMetricsConfig
+      tags:
+        - Metering configuration
+      parameters:
+        - name: configurationId
+          in: path
+          required: true
+          description: Indicates unique identifier of a configuration of a metered resource in an application
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MeteringAppConfiguration"
+          description: Array of metric data logged which consists of configId, resourceId, metricType, statisticsType and addtional properties
+    put:
+      summary: Updates an application Metering Configuration for a specified configuration id
+      description: Updates an application Metering Configuration based on the configId 
+      operationId: updateAppMeteringConfig
+      tags:
+        - Metering configuration
+      parameters:
+        - name: configurationId
+          in: path
+          description: Indicates unique identifier of a configuration of a metered resource in an application
+          required: true
+          schema:
+            type: string
+        
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MeteringUpdateConfiguration"
+        description:
+          Request body of metering update configuration consisting of applicationId, resourceId, metricType, statisticsType and addtional properties. 
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MeteringAppConfigurationResponse'
+          description: Response object for Metering App Configuration consisting of configId, applicationId, metricResourceId and the status
+    delete:
+      summary: Deletes an application metric configuration for a specified configuration id 
+      description: Deletes an application metric configuration based on the provided configuration id 
+      operationId: deleteAppMeteringConfig
+      tags:
+        - Metering configuration
+      parameters:
+        - name: configurationId
+          in: path
+          description: Indicates unique identifier of a configuration for a metered resource in an application
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MeteringDeleteConfigurationResponse'
+          description: Response object for Metering Delete Configuration consisting of configurationId and the status
+                
+  /metrics/applications/{applicationId}/:
+    get:
+      summary: Retrieves  metrics entries logged for an application
+      description: Retrieves  metrics entries logged for an application based on the applicationId and between the given dates 
+      operationId: getMetricLogData
+      tags:
+        - Metering logging
+      parameters:
+        - name: applicationId
+          in: path
+          description: Indicates the unique identifier of an application
+          required: true
+          schema:
+            type: string
+        - name: resourceId
+          in: query
+          description: Indicates Unique identifier for the resource usage measured
+          required: false
+          schema:
+            type: string
+        - name: metricId
+          in: query
+          description: Indicates the identifier to identify the catagory of Metrics data
+          example: ACTIVE-USERS, TOTAL-USERS,MORTGAGES,TOTAL-CUSTOMERS,getAccountBalances
+          required: false
+          schema:
+            type: string
+        - name: fromDate
+          in: query
+          description:  Indicates the date from which metric data is requested 
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: toDate
+          in: query
+          description:  Indicates the date upto which metric data is requested 
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Array of metric data logged consisting of resouceId, metricId, meteredDate, usage count and some addtional data
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/MetricDataLogList"
+                
+    post:
+      summary: Add metered meterics data in the Metering service
+      description: Add collection of business value metrics data and  api usage metrics data in the Metering service from transact and infinity products.
+      operationId: addMetricData
+      tags:
+        - Metering logging
+      parameters:
+        - in: query 
+          name: requestId
+          description: Indicates the identifier of request
+          schema:
+            type: string
+            format: uuid
+          required: true
+        - name: applicationId
+          in: path
+          description: Indicates the Unique identifier of an application
+          required: true
+          schema:
+            type: string
+        
+      requestBody:
+        description:
+          Request body of Metric Data Log consisting of resourceId, metricId, meteredDate, usage count and addittional data
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MetricDataLogList"
+      responses:
+        '200':
+          description: Response object of Metric Data Response consisting of applicationId, metricId, resourceId, usage count and status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddMetricDataResponse'
+          
+  /metrics/applications/{applicationId}/statistics/:
+    get:
+      summary: Retrieves statistics report on business values and api usage metrics data.
+      description: Retrieves business values and API  usage statistics details collected from an application between two given dates.
+      operationId: getUsageStatistics
+      tags:
+        - Metering logging
+      parameters:
+        - name: applicationId
+          in: path
+          description: Indicates Unique identifier of the application
+          required: true
+          schema:
+            type: string
+        - name: fromDate
+          in: query
+          description:  Indicates the date from which metric data is requested 
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: toDate
+          in: query
+          description:  Indicates the date upto which metric data is requested 
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Array of metric statistics data for the given application consisting of applicationId, resourceId, metricId, meteredDate and usage count total
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/UsageStatisticsDataList"
+        '400':
+          description: Error schema which indicates invalid date range
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/errorschema" 
+
+  /metering/evidences:
+    get:
+      summary: Retrieves tamper evidence report for a specific applicationid and metric id.
+      description: Retrieves evidence report for an application metered data. it will return empty response if there are no tampered evidence found.
+      operationId: getEvidence
+      tags:
+        - Metering Tamper
+      parameters:
+      - name: appId
+        in: query
+        description: Indicates Unique identifier of the application
+        required: true
+        schema:
+          type: string
+      - name: resourceId
+        in: query
+        description: Indicates Unique identifier for the resource usage measured.
+        required: true
+        schema:
+          type: string
+      - name: metricId
+        in: query
+        description: Indicates identifier to get the catagory of Metrics data
+        example: ACTIVE-USERS, TOTAL-USERS,MORTGAGES,TOTAL-CUSTOMERS,getAccountBalances
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response object of Evidence consisting of data logs and request logs along with algorithm used and the corresponsing hash.
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/Evidence"
+components:
+  schemas:
+    AddMetricDataResponse:
+      properties:
+       applicationId:
+          type: string
+          description: Identifier of an application
+       metricId:
+          type: string
+          description: Indicates identifier of the metric
+       resourceId:
+          type: string
+          description: Indicates identifier of the resouce
+       usedCount:
+          type: number
+          format: int64
+          description: Indicates the usage count of the metrics
+       status:
+          type: string
+          description: Indicates success or failure status
+    MeteringDeleteConfigurationResponse:
+      properties:    
+       configId:
+          type: string
+          description: Identifier of a metric configuration
+       status:
+          type: string 
+          description: Indicates success or failure status
+    MeteringAppConfigurationResponse:
+      properties:
+        configId:
+          type: string
+          description: Identifier of a metric configuration
+        applicationId:
+          type: string
+          description: Indicates the identifier of an application
+        metricResourceId:
+          type: string   
+          description: Indicates the identifier of a metric resource
+        status:
+          type: string 
+          description: Indicates success or failure status
+    MeteringAppConfiguration:
+      properties:
+        configId:
+          type: integer
+          description: Identifier of a metric configuration
+        resourceId:
+          type: string
+          description: Indicates the identifier of a resource
+          example: ACCOUNTS,CONTRACTS
+        metricType:
+          type: string
+          description: Indicates the type of the metric captured.
+          enum: [COUNT]
+        statisticsType:
+          type: string
+          description: Indicates the usage count calculation method C-cumulative, D-Daily
+          enum: [C, D]
+        description:
+          type: string
+          description: Indicates the description of the metric configuration
+        additionaldata:
+          type: object
+          description: Indicates the place holder to capture additional data in the key value format
+          additionalProperties:
+            type: string
+    MeteringUpdateConfiguration:
+      properties:
+        applicationId:
+          type: string
+          description: Indicates the identifier of the application
+        resourceId:
+          type: string
+          description: Indicates the identifier of the resource
+          example: ACCOUNTS,CONTRACTS
+        metricType:
+          type: string
+          description: Indicates the type of metrics captured.
+          enum: [COUNT]
+        statisticsType:
+          type: string
+          description: Indicates the usage count calculation method C-cumulative, D-Daily
+          enum: [C, D]
+        description:
+          type: string
+          description: Indicates the description of the metric configuration
+        additionaldata:
+          type: object
+          description: Indicates the place holder to capture additional data in the key value format
+          additionalProperties:
+            type: string
+                  
+    MeteringAppConfigurationList:
+      type: array
+      description: List of Metering App Configuration
+      items:
+        $ref: "#/components/schemas/MeteringAppConfiguration"
+        
+    MetricDataLog:
+      properties:
+        resourceId:
+          type: string
+          description: Indicates the  identifier of the resource and domain id of the API in case of IRIS-API
+          example: holdings-accounts-holdings-currentaccounts,holdings-customers-holdings-customers
+        metricId:
+          type: string
+          description: Indicates the identifier of the api metrics measured and route Id in case of IRIS API
+          example: direct-vm.holdings-accounts.createCurrentAccount, direct-vm:party-customers.getArrangementAccounts
+        meteredDate:
+          type: string
+          format: date
+          description: Indicates the metered date in UTC timezone. 
+        usedCount:
+          type: number
+          format: int64
+          description: Indicates the usage count of the metric
+        isIncremental:
+          type: boolean
+          description: Indicates if the measured usage count is incremental or total count for the specified metric.
+        additionaldata:
+          type: object
+          description: Indicates the place holder to capture additional data in the key value format
+          additionalProperties:
+            type: string
+          
+    MetricDataLogList:
+      type: array
+      description: List of Metric Data Log
+      items:
+        $ref: "#/components/schemas/MetricDataLog"
+          
+    UsageStatisticsData:
+      properties:
+        applicationId:
+          type: string
+          description: Indicates the identifier of application
+        resourceId:
+          type: string
+          description: Indicates the  identifier of the resource usage measured. 
+        metricId:
+          type: string
+          description: Indicates the measured metrics identifier 
+        meteredDate:
+          type: string
+          format: date
+          description: Indicates the metered date
+        totalUsageCount:
+          type: number
+          format: int64
+          description: Indicates total usage count measured for the speficied metric
+    UsageStatisticsDataList:
+      type: array
+      description: List of Usage Statistics Data
+      items:
+        $ref: "#/components/schemas/UsageStatisticsData"
+        
+    HashChain:
+        properties:
+          direction:
+            type: string
+          siblingHash:
+            type: string
+          levelCorrection:
+            type: number
+            format: integer
+
+    VerifiableDataLog:
+        description: Contains Metric Data Log, request log, merkle tree root and hashchain
+        properties:
+          datalog:
+            allOf:
+            - $ref: "#/components/schemas/MetricDataLog"
+          requestLog:
+            type: string
+          merkleTreeRoot:
+            type: string
+          hashChain:
+            type: array
+            items:
+              $ref: "#/components/schemas/HashChain"
+
+    Evidence:
+          type: array
+          description: List of Veriable Data Log
+          items:
+            $ref: "#/components/schemas/VerifiableDataLog"
+
+    errorDetails:
+      description: Contains the error code along with the error message
+      properties:
+        errorcode:
+          type: string
+        errorstring:
+          type: string
+          
+    errorschema:
+      type: array
+      description: List of Error Details
+      items:
+        $ref: "#/components/schemas/errorDetails"

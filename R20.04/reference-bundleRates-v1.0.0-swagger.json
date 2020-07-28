@@ -1,0 +1,407 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Retrieves the Exchange and Internal Rate mapped for a bundle master account",
+    "version" : "v1.0.0",
+    "title" : "Retrieves the Exchange and Internal Rate mapped for a bundle master account"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/reference/cashManagement/bundles/{bundleId}/currencies/rates" : {
+      "get" : {
+        "summary" : "Retrieves the Exchange Rate mapped against the given currency for a bundle master account",
+        "description" : "Retrieves the Exchange Rate mapped against the given currency for a bundle master account",
+        "operationId" : "getBundleExchangeRates",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "bundleId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "currency",
+          "in" : "query",
+          "description" : "Identifies the currency. E.g. USD, GBP etc",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "date",
+          "in" : "query",
+          "description" : "Date in the format YYYYMMDD. E.g. 20191231",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "BundleExchangeRatesResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BundleExchangeRatesResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/reference/cashManagement/bundles/{bundleId}/currencies/cashpoolrates" : {
+      "get" : {
+        "summary" : "Retrieves the Rate defined in Relationship accounts Preferential Pricing condition for the master account",
+        "description" : "Retrieves the Rate defined in Relationship accounts Preferential Pricing condition for the master account",
+        "operationId" : "getBundleInternalRates",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "bundleId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "currency",
+          "in" : "query",
+          "description" : "Identifies the currency. E.g. USD, GBP etc",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "date",
+          "in" : "query",
+          "description" : "Date in the format YYYYMMDD. E.g. 20191231",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "BundleInternalRatesResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BundleInternalRatesResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "QueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records per page"
+        },
+        "page_start" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The record from which the response should be displayed"
+        },
+        "total_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records present"
+        },
+        "page_token" : {
+          "type" : "string",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request"
+        }
+      }
+    },
+    "BundleExchangeRatesResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/BundleExchangeRatesResponseBody"
+        }
+      },
+      "description" : "BundleExchangeRatesResponse"
+    },
+    "BundleExchangeRatesResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "currency" : {
+            "type" : "string",
+            "description" : "Identifies the currency. E.g. USD, GBP etc"
+          },
+          "currencyName" : {
+            "type" : "string",
+            "description" : "The name that is displayed for the currency"
+          },
+          "midRate" : {
+            "type" : "string",
+            "description" : "Indicates the Mid rate for the currency pair. System derived if Rate type is choosen as Buy/Sell or User entered if Rate type Mid.Rate"
+          },
+          "exchangeRate" : {
+            "type" : "string",
+            "description" : "Contains the exchange rate returned from the system. i.e. For entries over foreign currency accounts, this contains the rate which used to convert the currency amount to the local equivalent at the time of the originating transaction."
+          },
+          "allowedCurrency" : {
+            "type" : "string",
+            "description" : "Field denotes the currency set as allowed currency in Master account conditions."
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessQueryErrorResponseBody"
+        }
+      },
+      "description" : "BusinessQueryErrorResponse"
+    },
+    "BusinessQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message for bad requests"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemQueryErrorResponseBody"
+        }
+      },
+      "description" : "SystemQueryErrorResponse"
+    },
+    "SystemQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message caused by server"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    },
+    "BundleInternalRatesResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/BundleInternalRatesResponseBody"
+        }
+      },
+      "description" : "BundleInternalRatesResponse"
+    },
+    "BundleInternalRatesResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "baseCurrency" : {
+            "type" : "string",
+            "description" : "Currency against which exchange rate is quoted.",
+            "maxLength" : 3
+          },
+          "quoteCurrency" : {
+            "type" : "string",
+            "description" : "The currency in which the spot exchange rate is quoted"
+          },
+          "midRate" : {
+            "type" : "string",
+            "description" : "Indicates the Mid rate for the currency pair. System derived if Rate type is choosen as Buy/Sell or User entered if Rate type Mid.Rate"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,215 @@
+openapi: 3.0.0
+info:
+  title: Configuration Management
+  description: API to manage application configurations in the configuration microservice. The generic configuration microservice provides a centralized configuration service for applications to manage their respective configurations under specific configuration groups.
+  version: "1.0.0"
+servers:
+  - 
+    url: http://localhost:8095/ms-genericconfig-api/api/v1.0.0 
+  
+paths:
+    
+  /system/configurationGroups/{groupId}/configuration/{configName}:
+    get:
+      operationId: getConfigByName
+      summary: Retrieves the details of application configuration
+      description: |
+        Retrieves the application configuration details for provided group Id and configuration name.
+      parameters:
+        - in: path
+          name: configName
+          description: Indicates unique config name present inside the configuration group
+          example: 'Party.basicDetails,Account.postingRestriction'
+          schema:
+            type: string
+          required: true
+        - in: path
+          name: groupId
+          description: Indicates unique identifier of the configuration group
+          example: mdal.masterdata.registry,xacml.T24Transact.policies
+          schema:
+            type: string
+          required: true
+
+        - in: query
+          name: versionId
+          description: Indicates optional search string to retrieve the selected version of artefact. If version id is not sent, retrieves the latest version of the configuration
+          required: false
+          schema:
+            type: string
+      
+      responses:
+        '200':
+          description: Searches and retrieves the configuration schema based on the groupId and configuration name
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Configuration"
+        
+    put:
+      operationId: modifyConfiguration
+      summary: Updates the configuration details
+      description: 
+            Updates application configurations for a specified configuration group Id
+      parameters:
+        - in: path
+          name: groupId
+          description: Indicates unique identifier represents a unique configuration group.
+          schema:
+            type: string
+          required: true
+        - in: path
+          name: configName
+          description: Indicates unique config name of the configuration maintained under the specified configuration group
+          example: 'Party.basicDetails,Account.postingRestriction'
+          schema:
+            type: string
+          required: true
+        
+      responses:
+        '200':
+          description: 
+              Displays the updated record as response which consists of ID, name, version and the updated record details. 
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ConfigurationRecord"
+        
+          
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ConfigurationInput"
+        description: 
+            Request body consisting of the ConfigurationInput details along with the version
+    post:
+      operationId: addconfiguration
+      summary: Creates a new application configuration 
+      description: 
+          Creates / adds a new application configuration for a configuration group
+      parameters:
+        - in: path
+          name: groupId
+          description: Indicates unique identifier of the configuration group
+          schema:
+            type: string
+          required: true
+        - in: path
+          name: configName
+          description: Indicates unique config name present inside the configuration group
+          example: mdal.masterdata.registry,xacml.T24Transact.policies
+          schema:
+            type: string
+          required: true
+      responses:
+        '201':
+          description: 
+              Displays the created record as response which consists of ID, name, version and the updated record details.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ConfigurationRecord"
+        
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Configuration"
+        description: 
+            Request body consisting of the Configuration details
+  
+  /system/configurationGroups/{groupId}/configuration/:
+    get:
+        operationId: getConfigurations
+        summary: Retrieves the application configuration details for a specified configuration groupid.
+        description: Retrieves collection of all application configurations details for a specified group id
+        parameters:
+          - in: path
+            name: groupId
+            description: Indicates unique identifier of the configuration group
+            example: mdal.masterdata.registry,xacml.T24Transact.policies
+            schema:
+              type: string
+            required: true
+  
+          - in: query
+            name: versionId
+            description: Indicates optional search string to retrieve the selected version of artefact. If version id is not sent, retrieves the latest version of the document
+            required: false
+            schema:
+              type: string
+        
+        responses:
+          '200':
+            description: Searches and retrieves the configuration schema of all the configNames present inside a group based on the groupId
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/ConfigruationRecords"
+  
+          
+components:
+  schemas:
+    ConfigurationData:
+      properties:
+        data:
+          type: string
+          format: binary
+          description: Base64-encoded contents of the configuration data
+        configType:
+          type: string
+          enum: [properties, json, xml]
+          description: Configuration format
+    ConfigurationRecord:
+      properties:
+        id:
+          type: string
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+          description: Idenfier to indicate the configuration record.
+        name:
+          type: string
+          example:  Party.basicDetails,Account.postingRestriction
+          description: Indicates the name of the configuration
+        version:
+          type: string
+          example: '1.0.0'
+          description: Indicates the version of the configuration 
+        configData:
+          allOf: 
+          - $ref: "#/components/schemas/ConfigurationData"
+          description: Consists of entire details of configuration data
+    
+    Configuration:
+      properties:
+        id:
+          type: string
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+          description: Idenfier to indicate the configuration
+        name:
+          type: string
+          example:  Party.basicDetails,Account.postingRestriction
+          description: Indicates the name of the configuration
+        version:
+          type: string
+          example: '1.0.0'
+          description: Indicates the version of the configuration 
+        configData:
+          allOf: 
+          - $ref: "#/components/schemas/ConfigurationData"
+          description: Consists of entire details of configuration data 
+    ConfigurationInput:
+      properties:
+        version:
+          type: string
+          example: '1.0.0'
+          description: Indicates the version of the configuration 
+        configData:
+          allOf: 
+          - $ref: "#/components/schemas/ConfigurationData"
+          description: Consists of entire details of configuration data 
+    ConfigruationRecords:
+      type: array
+      items:
+        $ref: "#/components/schemas/ConfigurationRecord"
+      description: List of configuration records

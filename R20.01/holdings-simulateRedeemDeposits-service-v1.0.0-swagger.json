@@ -1,0 +1,1075 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Simulate to Redeem a Deposit Account",
+    "version" : "v1.0.0",
+    "title" : "Simulate to Redeem a Deposit Account"
+  },
+  "host" : "api.server.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/holdings/deposits/redeemDeposits/{arrangementId}" : {
+      "post" : {
+        "summary" : "Simulate to Redeem a Deposit Account",
+        "description" : "Simulate to Redeem a Deposit Account",
+        "operationId" : "simulateRedeemDeposits",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/RedeemDeposits"
+          }
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "simulateRedeemDepositsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/RedeemDepositsResponse"
+            }
+          },
+          "default" : {
+            "description" : "ArrangementErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ArrangementErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessArrangementErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessArrangementErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemArrangementErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemArrangementErrorResponse"
+            }
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "arrangementId",
+        "in" : "path",
+        "required" : true,
+        "type" : "string"
+      } ]
+    },
+    "/holdings/deposits/{arrangementId}/chargeAmount" : {
+      "get" : {
+        "summary" : "Retrieves the Charge amount for a given Charge Property",
+        "description" : "Retrieves the Charge amount for a given Charge Property",
+        "operationId" : "getChargeAmount",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "arrangementId",
+          "in" : "path",
+          "description" : "The identifier of the arrangement",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "chargeProperty",
+          "in" : "query",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "simulationReference",
+          "in" : "query",
+          "description" : "Indicates the Reference ID for simulation activity",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "ChargeAmountResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ChargeAmountResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "PayloadHeader" : {
+      "properties" : {
+        "override" : {
+          "type" : "object",
+          "properties" : {
+            "overrideDetails" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "id" : {
+                    "type" : "string",
+                    "description" : "The identifier of the override"
+                  },
+                  "description" : {
+                    "type" : "string",
+                    "description" : "The actual override message"
+                  },
+                  "responseCode" : {
+                    "type" : "string",
+                    "description" : "The user input to accept/reject the override."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            }
+          }
+        }
+      }
+    },
+    "RedeemDeposits" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/RedeemDepositsBody"
+        }
+      },
+      "description" : "RedeemDeposits"
+    },
+    "RedeemDepositsBody" : {
+      "type" : "object",
+      "properties" : {
+        "closureNotes" : {
+          "type" : "array",
+          "description" : "This field is used to hold the notes for the reason of account closure",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "closureNote" : {
+                "type" : "string",
+                "description" : "",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "activityId" : {
+          "type" : "string",
+          "description" : "Id of the activity, e.g. ACCOUNTS-CAPITALISE-ACCHARGE*CARDISSUEFEE",
+          "maxLength" : 80
+        },
+        "automaticRun" : {
+          "type" : "string",
+          "description" : "",
+          "maxLength" : 35
+        },
+        "simulationRunReference" : {
+          "type" : "string",
+          "description" : "Indicates the Reference ID for simulation activity",
+          "maxLength" : 30
+        },
+        "effectiveDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "The date on which the principal movement is effected"
+        },
+        "currencyId" : {
+          "type" : "string",
+          "description" : "Identifier of the currency. This is the 3-letter ISO 4217 code of the currency.",
+          "maxLength" : 10
+        },
+        "transactionAmount" : {
+          "type" : "number",
+          "description" : "The transaction amount"
+        },
+        "closureReason" : {
+          "type" : "string",
+          "description" : "This field contains the reason for closing the account",
+          "maxLength" : 35
+        },
+        "settlement" : {
+          "type" : "object",
+          "properties" : {
+            "payinSettlement1" : {
+              "type" : "string",
+              "description" : "",
+              "enum" : [ "Payin Settlement" ]
+            },
+            "ddMandateRef11" : {
+              "type" : "string",
+              "format" : "date",
+              "description" : ""
+            },
+            "payinAccount11" : {
+              "type" : "string",
+              "description" : "",
+              "enum" : [ "Payin Account" ]
+            },
+            "payinBeneficiary11" : {
+              "type" : "string",
+              "description" : "",
+              "enum" : [ "Payin Beneficiary" ]
+            },
+            "payinPercentage11" : {
+              "type" : "number",
+              "description" : ""
+            },
+            "payinAmount11" : {
+              "type" : "number",
+              "description" : ""
+            },
+            "payoutSettlement1" : {
+              "type" : "string",
+              "description" : "",
+              "enum" : [ "Payout Settlement" ]
+            },
+            "payoutAccount11" : {
+              "type" : "string",
+              "description" : "",
+              "enum" : [ "Payout Account" ]
+            },
+            "payoutBeneficiary11" : {
+              "type" : "string",
+              "description" : "",
+              "enum" : [ "Payout Beneficiary" ]
+            },
+            "payoutPercentage11" : {
+              "type" : "number",
+              "description" : ""
+            },
+            "payoutAmount11" : {
+              "type" : "number",
+              "description" : ""
+            },
+            "paymentType11" : {
+              "type" : "string",
+              "description" : "",
+              "enum" : [ "Payment Type" ]
+            },
+            "payinPoProduct11" : {
+              "type" : "string",
+              "description" : "",
+              "enum" : [ "Payin Product" ]
+            },
+            "payinActivity11" : {
+              "type" : "string",
+              "description" : "",
+              "enum" : [ "Payin Activity" ]
+            },
+            "payinAcDbRule1" : {
+              "type" : "string",
+              "description" : "",
+              "enum" : [ "Payin Account Debit Rule" ]
+            },
+            "payinSettleActivity1" : {
+              "type" : "string",
+              "description" : "",
+              "enum" : [ "Payin Settle Activity" ]
+            },
+            "payinRcType1" : {
+              "type" : "string",
+              "description" : "",
+              "enum" : [ "Payin RC Type" ]
+            },
+            "payinRcCondition1" : {
+              "type" : "string",
+              "description" : "",
+              "enum" : [ "Payin RC Condition" ]
+            },
+            "defaultSettlementAccount" : {
+              "type" : "string",
+              "description" : "",
+              "maxLength" : 26,
+              "enum" : [ "Default Settlement Account" ]
+            },
+            "payoutPptyClass11" : {
+              "type" : "string",
+              "description" : "",
+              "enum" : [ "Property Class" ]
+            },
+            "payoutProperty11" : {
+              "type" : "string",
+              "description" : "",
+              "enum" : [ "Payout Property" ]
+            },
+            "payoutPoProduct11" : {
+              "type" : "string",
+              "description" : "",
+              "enum" : [ "Payout Product" ]
+            },
+            "payoutActivity11" : {
+              "type" : "string",
+              "description" : "",
+              "enum" : [ "Payout Activity" ]
+            },
+            "payoutAcCrRule1" : {
+              "type" : "string",
+              "description" : "",
+              "enum" : [ "Payout Account Credit Rule" ]
+            },
+            "payoutSettleActivity1" : {
+              "type" : "string",
+              "description" : "",
+              "enum" : [ "Payout Settle Activity" ]
+            },
+            "payoutRcType1" : {
+              "type" : "string",
+              "description" : "",
+              "enum" : [ "Payout RC Type" ]
+            },
+            "payoutRcCondition1" : {
+              "type" : "string",
+              "description" : "",
+              "enum" : [ "Payout RC Condition" ]
+            }
+          }
+        }
+      }
+    },
+    "ArrangementHeader" : {
+      "properties" : {
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "aaaId" : {
+          "type" : "string",
+          "description" : "The Identifier of the aa record created"
+        },
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "parse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "RedeemDepositsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ArrangementHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/RedeemDepositsResponseBody"
+        }
+      },
+      "description" : "RedeemDepositsResponse"
+    },
+    "RedeemDepositsResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "arrangementActivity" : {
+          "type" : "object",
+          "properties" : {
+            "closureNotes" : {
+              "type" : "array",
+              "description" : "This field is used to hold the notes for the reason of account closure",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "closureNote" : {
+                    "type" : "string",
+                    "description" : "",
+                    "maxLength" : 35
+                  }
+                }
+              }
+            },
+            "arrangementId" : {
+              "type" : "string",
+              "description" : "The identifier of the arrangement",
+              "maxLength" : 25
+            },
+            "activityId" : {
+              "type" : "string",
+              "description" : "Id of the activity, e.g. ACCOUNTS-CAPITALISE-ACCHARGE*CARDISSUEFEE",
+              "maxLength" : 80
+            },
+            "automaticRun" : {
+              "type" : "string",
+              "description" : "",
+              "maxLength" : 35
+            },
+            "simulationRunReference" : {
+              "type" : "string",
+              "description" : "",
+              "maxLength" : 30
+            },
+            "effectiveDate" : {
+              "type" : "string",
+              "format" : "date",
+              "description" : "The date on which the principal movement is effected"
+            },
+            "currencyId" : {
+              "type" : "string",
+              "description" : "Identifier of the currency. This is the 3-letter ISO 4217 code of the currency.",
+              "maxLength" : 10
+            },
+            "transactionAmount" : {
+              "type" : "number",
+              "description" : "The transaction amount"
+            },
+            "closureReason" : {
+              "type" : "string",
+              "description" : "This field contains the reason for closing the account",
+              "maxLength" : 35
+            }
+          }
+        },
+        "activities" : {
+          "type" : "object",
+          "properties" : {
+            "{activityName}" : {
+              "type" : "object",
+              "properties" : {
+                "activity" : {
+                  "type" : "string"
+                },
+                "transactionStatus" : {
+                  "type" : "string",
+                  "description" : "The status of the transaction"
+                },
+                "id" : {
+                  "type" : "string",
+                  "description" : "The Identifier of the record created"
+                }
+              }
+            }
+          }
+        },
+        "properties" : {
+          "type" : "object",
+          "properties" : {
+            "settlement" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string",
+                      "description" : "The status of the transaction"
+                    },
+                    "audit" : {
+                      "type" : "object",
+                      "properties" : {
+                        "parseTime" : {
+                          "type" : "integer",
+                          "format" : "int32",
+                          "description" : "Time taken to parse the response by IRIS"
+                        }
+                      }
+                    },
+                    "id" : {
+                      "type" : "string",
+                      "description" : "The Identifier of the record created"
+                    },
+                    "status" : {
+                      "type" : "string",
+                      "description" : "The status of the record"
+                    }
+                  }
+                },
+                "body" : {
+                  "type" : "object",
+                  "properties" : {
+                    "payinSettlement1" : {
+                      "type" : "string",
+                      "description" : "",
+                      "enum" : [ "Payin Settlement" ]
+                    },
+                    "ddMandateRef11" : {
+                      "type" : "string",
+                      "format" : "date",
+                      "description" : ""
+                    },
+                    "payinAccount11" : {
+                      "type" : "string",
+                      "description" : "",
+                      "enum" : [ "Payin Account" ]
+                    },
+                    "payinBeneficiary11" : {
+                      "type" : "string",
+                      "description" : "",
+                      "enum" : [ "Payin Beneficiary" ]
+                    },
+                    "payinPercentage11" : {
+                      "type" : "number",
+                      "description" : ""
+                    },
+                    "payinAmount11" : {
+                      "type" : "number",
+                      "description" : ""
+                    },
+                    "payoutSettlement1" : {
+                      "type" : "string",
+                      "description" : "",
+                      "enum" : [ "Payout Settlement" ]
+                    },
+                    "payoutAccount11" : {
+                      "type" : "string",
+                      "description" : "",
+                      "enum" : [ "Payout Account" ]
+                    },
+                    "payoutBeneficiary11" : {
+                      "type" : "string",
+                      "description" : "",
+                      "enum" : [ "Payout Beneficiary" ]
+                    },
+                    "payoutPercentage11" : {
+                      "type" : "number",
+                      "description" : ""
+                    },
+                    "payoutAmount11" : {
+                      "type" : "number",
+                      "description" : ""
+                    },
+                    "paymentType11" : {
+                      "type" : "string",
+                      "description" : "",
+                      "enum" : [ "Payment Type" ]
+                    },
+                    "payinPoProduct11" : {
+                      "type" : "string",
+                      "description" : "",
+                      "enum" : [ "Payin Product" ]
+                    },
+                    "payinActivity11" : {
+                      "type" : "string",
+                      "description" : "",
+                      "enum" : [ "Payin Activity" ]
+                    },
+                    "payinAcDbRule1" : {
+                      "type" : "string",
+                      "description" : "",
+                      "enum" : [ "Payin Account Debit Rule" ]
+                    },
+                    "payinSettleActivity1" : {
+                      "type" : "string",
+                      "description" : "",
+                      "enum" : [ "Payin Settle Activity" ]
+                    },
+                    "payinRcType1" : {
+                      "type" : "string",
+                      "description" : "",
+                      "enum" : [ "Payin RC Type" ]
+                    },
+                    "payinRcCondition1" : {
+                      "type" : "string",
+                      "description" : "",
+                      "enum" : [ "Payin RC Condition" ]
+                    },
+                    "defaultSettlementAccount" : {
+                      "type" : "string",
+                      "description" : "",
+                      "maxLength" : 26,
+                      "enum" : [ "Default Settlement Account" ]
+                    },
+                    "payoutPptyClass11" : {
+                      "type" : "string",
+                      "description" : "",
+                      "enum" : [ "Property Class" ]
+                    },
+                    "payoutProperty11" : {
+                      "type" : "string",
+                      "description" : "",
+                      "enum" : [ "Payout Property" ]
+                    },
+                    "payoutPoProduct11" : {
+                      "type" : "string",
+                      "description" : "",
+                      "enum" : [ "Payout Product" ]
+                    },
+                    "payoutActivity11" : {
+                      "type" : "string",
+                      "description" : "",
+                      "enum" : [ "Payout Activity" ]
+                    },
+                    "payoutAcCrRule1" : {
+                      "type" : "string",
+                      "description" : "",
+                      "enum" : [ "Payout Account Credit Rule" ]
+                    },
+                    "payoutSettleActivity1" : {
+                      "type" : "string",
+                      "description" : "",
+                      "enum" : [ "Payout Settle Activity" ]
+                    },
+                    "payoutRcType1" : {
+                      "type" : "string",
+                      "description" : "",
+                      "enum" : [ "Payout RC Type" ]
+                    },
+                    "payoutRcCondition1" : {
+                      "type" : "string",
+                      "description" : "",
+                      "enum" : [ "Payout RC Condition" ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "overrideBody" : {
+      "properties" : {
+        "overrideDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "string",
+                "description" : "The identifier of the override"
+              },
+              "description" : {
+                "type" : "string",
+                "description" : "The actual override message"
+              },
+              "options" : {
+                "type" : "array",
+                "description" : "The usable options for the override",
+                "items" : {
+                  "type" : "string"
+                }
+              },
+              "type" : {
+                "type" : "string",
+                "description" : "The type of the override"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ArrangementErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ArrangementHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/ArrangementErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "ArrangementErrorResponse"
+    },
+    "ArrangementErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message "
+              },
+              "property" : {
+                "type" : "string",
+                "description" : "The corresponding property"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessArrangementErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ArrangementHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessArrangementErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "BusinessArrangementErrorResponse"
+    },
+    "BusinessArrangementErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message for bad requests"
+              },
+              "property" : {
+                "type" : "string",
+                "description" : "The corresponding property"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemArrangementErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ArrangementHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemArrangementErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "SystemArrangementErrorResponse"
+    },
+    "SystemArrangementErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message caused by server"
+              },
+              "property" : {
+                "type" : "string",
+                "description" : "The corresponding property"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    },
+    "QueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "parse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records per page"
+        },
+        "page_start" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The record from which the response should be displayed"
+        },
+        "total_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records present"
+        },
+        "page_token" : {
+          "type" : "string",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request"
+        }
+      }
+    },
+    "ChargeAmountResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ChargeAmountResponseBody"
+        }
+      },
+      "description" : "ChargeAmountResponse"
+    },
+    "ChargeAmountResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "arrangementId" : {
+            "type" : "string",
+            "description" : "The identifier of the arrangement"
+          },
+          "chargeProperty" : {
+            "type" : "string",
+            "description" : "",
+            "maxLength" : 30
+          },
+          "simulationReference" : {
+            "type" : "string",
+            "description" : "Indicates the Reference ID for simulation activity",
+            "maxLength" : 40
+          },
+          "chargeAmount" : {
+            "type" : "string",
+            "description" : "Indicates the charge amount in the charge currency which is to be applied for instruction for e.g. charge to be taken for payment stop instruction",
+            "maxLength" : 20
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "parse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessQueryErrorResponseBody"
+        }
+      },
+      "description" : "BusinessQueryErrorResponse"
+    },
+    "BusinessQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message for bad requests"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemQueryErrorResponseBody"
+        }
+      },
+      "description" : "SystemQueryErrorResponse"
+    },
+    "SystemQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message caused by server"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    }
+  }
+}

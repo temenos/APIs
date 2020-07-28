@@ -1,0 +1,458 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Retrieves exchange rate for currency or currency pair",
+    "version" : "v1.0.0",
+    "title" : "API to retrieve exchange rate for currency or currency pair"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/holdings/currencies/{currencyId}/rates" : {
+      "get" : {
+        "summary" : "Retrieves the live market rate from  rate feeds",
+        "description" : "Retrieves the live market rate from a given rate feed and displays the rate provider for a given currency ",
+        "operationId" : "getCurrencyMarketRates",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "currencyId",
+          "in" : "path",
+          "description" : "Identifier of the currency. This is the 3-letter ISO 4217 code of the currency.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "rateSource",
+          "in" : "query",
+          "description" : "The market rates source in general. In the case of currency rate, whether rate is to be sourced from  currency table (front office) or from market rates table (back office).",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "rateProvider",
+          "in" : "query",
+          "description" : "The market rate provider, e.g. Bloomberg, Reuters, etc.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "assetType",
+          "in" : "query",
+          "description" : "Type of the asset, e.g. FX, equity, etc.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "dateOrPeriod",
+          "in" : "query",
+          "description" : "Refers to a date or a given period.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "rateIndicator",
+          "in" : "query",
+          "description" : "Market rate indicator as per the asset class. For currency, it  will be buy rate(B) , sell rate(S) or mid rate(M).",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "interpolationMethod",
+          "in" : "query",
+          "description" : "Identifies whether forward exchange rates are to be interpolated or not. Possible values are 'Blank' - Rate will be interpolated '1' - Takes the next available rate '2' - Takes the closest rate",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "CurrencyMarketRatesResponse",
+            "schema" : {
+              "$ref" : "#/definitions/CurrencyMarketRatesResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/currencies/revaluationRates" : {
+      "get" : {
+        "summary" : "Retrieves the exchange rate(used in revaluation) of a foreign currency with respect to local currency",
+        "description" : "Retrieves the exchange rate(market middle rate) of a foreign currency with respect to local currency, which is stored in the system. This middle rate is used in revaluation to revalue the  foreign exchange contracts.",
+        "operationId" : "getCurrencyRevaluationRates",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "currency",
+          "in" : "query",
+          "description" : "Indicates the type of currency to which the account belongs",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "CurrencyRevaluationRatesResponse",
+            "schema" : {
+              "$ref" : "#/definitions/CurrencyRevaluationRatesResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "QueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records per page"
+        },
+        "page_start" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The record from which the response should be displayed"
+        },
+        "total_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records present"
+        },
+        "page_token" : {
+          "type" : "string",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request"
+        }
+      }
+    },
+    "CurrencyMarketRatesResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/CurrencyMarketRatesResponseBody"
+        }
+      },
+      "description" : "CurrencyMarketRatesResponse"
+    },
+    "CurrencyMarketRatesResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "rateSource" : {
+            "type" : "string",
+            "description" : "The market rates source in general. In the case of currency rate, whether rate is to be sourced from  currency table (front office) or from market rates table (back office).",
+            "maxLength" : 20
+          },
+          "rateProvider" : {
+            "type" : "string",
+            "description" : "The market rate provider, e.g. Bloomberg, Reuters, etc.",
+            "maxLength" : 2
+          },
+          "currencyOrPair" : {
+            "type" : "string",
+            "description" : "A single currency or a currency pair.",
+            "maxLength" : 6
+          },
+          "assetType" : {
+            "type" : "string",
+            "description" : "Type of the asset, e.g. FX, equity, etc.",
+            "maxLength" : 20
+          },
+          "dateOrPeriod" : {
+            "type" : "string",
+            "description" : "Refers to a date or a given period.",
+            "maxLength" : 20
+          },
+          "rateIndicator" : {
+            "type" : "string",
+            "description" : "Market rate indicator as per the asset class. For currency, it  will be buy rate(B) , sell rate(S) or mid rate(M).",
+            "maxLength" : 1
+          },
+          "interpolationMarker" : {
+            "type" : "string",
+            "description" : "The method used for interpolation to derive currency forward rates.",
+            "maxLength" : 1
+          },
+          "marketRate" : {
+            "type" : "string",
+            "description" : "Prevailing rate in the market.",
+            "maxLength" : 10
+          },
+          "daysSinceToday" : {
+            "type" : "string",
+            "description" : "Number of days from today.",
+            "maxLength" : 20
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessQueryErrorResponseBody"
+        }
+      },
+      "description" : "BusinessQueryErrorResponse"
+    },
+    "BusinessQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message for bad requests"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemQueryErrorResponseBody"
+        }
+      },
+      "description" : "SystemQueryErrorResponse"
+    },
+    "SystemQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message caused by server"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    },
+    "CurrencyRevaluationRatesResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/CurrencyRevaluationRatesResponseBody"
+        }
+      },
+      "description" : "CurrencyRevaluationRatesResponse"
+    },
+    "CurrencyRevaluationRatesResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "currency" : {
+            "type" : "string",
+            "description" : "Indicates the type of currency to which the account belongs",
+            "maxLength" : 3
+          },
+          "midRevalRate" : {
+            "type" : "string",
+            "description" : "Indicates the mid rate of the currency.",
+            "maxLength" : 16
+          },
+          "quotationCode" : {
+            "type" : "string",
+            "description" : "Identifies the method of quotation of the exchange rate for the currency.",
+            "maxLength" : 10
+          }
+        }
+      }
+    }
+  }
+}

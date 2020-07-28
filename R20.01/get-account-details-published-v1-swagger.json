@@ -1,0 +1,228 @@
+{
+    "basePath": "/api/v1",
+    "paths":
+    {
+        "/accounts/{accountId}":
+        {
+            "get":
+            {
+                "produces": ["application/json"],
+                "operationId": "getAccountDetailsPublished",
+                "description": "Get the details of the account",
+                "responses":
+                {
+                    "200":
+                    {
+                        "schema":
+                        {
+                            "$ref": "#/definitions/getAccountDetailsPublishedResponse"
+                        },
+                        "description": "getAccountDetailsPublishedResponse"
+                    },
+                    "default":
+                    {
+                        "schema":
+                        {
+                            "$ref": "#/definitions/getAccountDetailsPublishedErrorResponse"
+                        },
+                        "description": "getAccountDetailsPublishedErrorResponse"
+                    }
+                }
+            },
+            "parameters": [
+            {
+                "in": "header",
+                "name": "X-Request-ID",
+                "format": "uuid",
+                "description": "ID of the request, unique to the call, as determined by the initiating party.",
+                "type": "string",
+                "required": true
+            },
+            {
+                "in": "path",
+                "name": "accountId",
+                "description": "The identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId.",
+                "type": "string",
+                "required": true
+            },
+            {
+                "in": "query",
+                "name": "withBalance",
+                "description": "Generally used in delinking with balance when one account is being delinked with some balance",
+                "type": "string",
+                "required": false
+            },
+            {
+                "in": "header",
+                "name": "Consent-ID",
+                "description": "Shall be contained since Establish Consent Transaction was performed via this API before.",
+                "type": "string",
+                "required": true
+            },
+            {
+                "in": "header",
+                "name": "Authorization",
+                "description": "Shall be contained since Establish Consent Transaction was performed via this API before.",
+                "type": "string",
+                "required": false
+            },
+            {
+                "in": "header",
+                "name": "PSU-ID",
+                "description": "Client ID of the payment service user (PSU) in the ASPSP interface; T24 customer number",
+                "type": "string",
+                "required": false
+            },
+            {
+                "in": "header",
+                "name": "PSU-ID-Type",
+                "description": "Type of PSU-ID where different types of ID are used.",
+                "type": "string",
+                "required": false
+            },
+            {
+                "in": "header",
+                "name": "PSU-Corporate-ID",
+                "description": " Identification of a corporate",
+                "type": "string",
+                "required": false
+            },
+            {
+                "in": "header",
+                "name": "PSU-Corporate-ID-Type",
+                "description": " Type of identification required by an ASPSP to identify a corporate",
+                "type": "string",
+                "required": false
+            },
+            {
+                "in": "header",
+                "name": "PSU-IP-Address",
+                "format": "ipv4",
+                "description": "HTTP request IP Address field between PSU and TPP",
+                "type": "string",
+                "required": false
+            },
+            {
+                "in": "header",
+                "name": "TPP-Redirect-Preferred",
+                "description": "Equals â\u0080\u009ctrueâ\u0080\u009d if TPP prefers a redirect over an embedded SCA",
+                "type": "boolean",
+                "required": false
+            },
+            {
+                "in": "header",
+                "name": "TPP-Redirect-URI",
+                "format": "uri",
+                "description": "URl of the TPP where the transaction flow shall be redirected to after a Redirect.",
+                "type": "string",
+                "required": false
+            },
+            {
+                "in": "header",
+                "name": "TPP-Nok-Redirect-URI",
+                "format": "uri",
+                "description": "The URl to be used after the redirect if the SCA is not okay. This field is optional and can be ignored by the ASPSP.",
+                "type": "string",
+                "required": false
+            }]
+        }
+    },
+    "definitions":
+    {
+        "getAccountDetailsPublishedResponse":
+        {
+            "type": "array",
+            "items":
+            {
+                "type": "object",
+                "properties":
+                {
+                    "status":
+                    {
+                        "description": "The status identifier",
+                        "type": "string",
+                        "maxLength": 25
+                    },
+                    "bban":
+                    {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "name":
+                    {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "bookedBalance":
+                    {
+                        "description": "The total of all entries posted against the account excluding any entries with the processing date in the future.",
+                        "type": "string"
+                    },
+                    "iban":
+                    {
+                        "description": "The International Bank Account Number (IBAN) is an internationally agreed system of identifying bank accounts across national borders. The current standard is ISO 13616:2007. The IBAN consists of up to 34 alphanumeric characters comprising: a country code; two check digits; and a number that includes the domestic bank account number, branch identifier, and potential routing information. The check digits enable a check of the bank account number to confirm its integrity before submitting a transaction.",
+                        "type": "string"
+                    },
+                    "currency":
+                    {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "bic":
+                    {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "product":
+                    {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "availableBalance":
+                    {
+                        "description": "Projected net movements of funds against the account. Depending on the setup in the field AVAILABLE.BAL.UPD in the ACCOUNT.PARAMETER record, may or may not include unauthorised debits, credits, both debits and credits.",
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "getAccountDetailsPublishedErrorResponse":
+        {
+            "type": "object",
+            "properties":
+            {
+                "tppMessages":
+                {
+                    "description": "Messages to the TPP on operational issues.",
+                    "type": "array",
+                    "items":
+                    {
+                        "type": "object",
+                        "properties":
+                        {
+                            "code":
+                            {
+                                "type": "string"
+                            },
+                            "text":
+                            {
+                                "type": "string"
+                            },
+                            "category":
+                            {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "swagger": "2.0",
+    "info":
+    {
+        "description": "Get the details of the account",
+        "title": "BG PSD2 ACCOUNT DETAILS API",
+        "version": "v1.2.0"
+    }
+}

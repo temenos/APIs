@@ -1,0 +1,483 @@
+{
+    "swagger": "2.0",
+    "info":
+    {
+        "description": "List of Bundle account details ",
+        "version": "v1.0.0",
+        "title": "Product Bundle Account Details"
+    },
+    "host": "api.server.com",
+    "basePath": "/api/v1.0.0/",
+    "schemes": ["http", "https"],
+    "security": [
+    {
+        "basicAuth": []
+    }],
+    "paths":
+    {
+        "/holdings/cashManagement/bundles/{bundleId}/accounts":
+        {
+            "get":
+            {
+                "description": "List of Bundle account details ",
+                "operationId": "getBundleAccounts",
+                "produces": ["application/json"],
+                "parameters": [
+                {
+                    "name": "bundleId",
+                    "in": "path",
+                    "description": "",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "name": "page_size",
+                    "in": "query",
+                    "description": "The total number of records per page",
+                    "required": false,
+                    "type": "integer",
+                    "format": "int32"
+                },
+                {
+                    "name": "page_start",
+                    "in": "query",
+                    "description": "The record from which the response should be displayed",
+                    "required": false,
+                    "type": "integer",
+                    "format": "int32"
+                },
+                {
+                    "name": "page_token",
+                    "in": "query",
+                    "description": "Unique id expected to get as part of response from t24 on every enquiry request.",
+                    "required": false,
+                    "type": "string"
+                },
+                {
+                    "name": "credentials",
+                    "in": "header",
+                    "required": false,
+                    "type": "string"
+                },
+                {
+                    "name": "companyId",
+                    "in": "header",
+                    "required": false,
+                    "type": "string"
+                }],
+                "responses":
+                {
+                    "200":
+                    {
+                        "description": "BundleAccountsResponse",
+                        "schema":
+                        {
+                            "$ref": "#/definitions/BundleAccountsResponse"
+                        }
+                    },
+                    "default":
+                    {
+                        "description": "QueryErrorResponse",
+                        "schema":
+                        {
+                            "$ref": "#/definitions/QueryErrorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "securityDefinitions":
+    {
+        "basicAuth":
+        {
+            "type": "basic"
+        }
+    },
+    "definitions":
+    {
+        "QueryHeader":
+        {
+            "properties":
+            {
+                "audit":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "T24_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to response by T24"
+                        },
+                        "versionNumber":
+                        {
+                            "type": "string",
+                            "description": "The CURR.NO. of the record"
+                        },
+                        "parse_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to parse the response by IRIS"
+                        }
+                    }
+                },
+                "page_size":
+                {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "The total number of records per page"
+                },
+                "page_start":
+                {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "The record from which the response should be displayed"
+                },
+                "total_size":
+                {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "The total number of records present"
+                },
+                "page_token":
+                {
+                    "type": "string",
+                    "description": "Unique id expected to get as part of response from t24 on every enquiry request"
+                }
+            }
+        },
+        "BundleAccountsResponse":
+        {
+            "properties":
+            {
+                "header":
+                {
+                    "$ref": "#/definitions/QueryHeader"
+                },
+                "body":
+                {
+                    "$ref": "#/definitions/BundleAccountsResponseBody"
+                }
+            },
+            "description": "BundleAccountsResponse"
+        },
+        "BundleAccountsResponseBody":
+        {
+            "type": "array",
+            "items":
+            {
+                "type": "object",
+                "properties":
+                {
+                    "productId":
+                    {
+                        "type": "string",
+                        "description": "Id of the product."
+                    },
+                    "productName":
+                    {
+                        "type": "string",
+                        "description": "Name of the product, which is also its Id."
+                    },
+                    "effectiveDate":
+                    {
+                        "type": "string",
+                        "description": "The date on which the principal movement is effected"
+                    },
+                    "accountId":
+                    {
+                        "type": "string",
+                        "description": "The identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId."
+                    },
+                    "displayName":
+                    {
+                        "type": "string",
+                        "description": "Name used for display or enrichment purposes"
+                    },
+                    "customerId":
+                    {
+                        "type": "number",
+                        "description": "The identifier of the customer"
+                    },
+                    "customerName":
+                    {
+                        "type": "string",
+                        "description": "Name of the customer"
+                    },
+                    "currency":
+                    {
+                        "type": "string",
+                        "description": "Identifies the underlying currency used for the transaction.",
+                        "maxLength": 3
+                    },
+                    "parentAccount":
+                    {
+                        "type": "string",
+                        "description": "Parent account of the account to be added to the Bundle Hierarchy.",
+                        "maxLength": 19
+                    },
+                    "workingBalance":
+                    {
+                        "type": "number",
+                        "description": "Real-time balance including all authorised transactions posted against the account and, unless it is a nostro or internal account, unauthorised debit entries."
+                    },
+                    "arrangementId":
+                    {
+                        "type": "string",
+                        "description": "The identifier of the arrangement"
+                    },
+                    "countryId":
+                    {
+                        "type": "string",
+                        "description": "ISO country code of the financial institution. ",
+                        "maxLength": 11
+                    },
+                    "companyCode":
+                    {
+                        "type": "string",
+                        "description": "Company code in audit details",
+                        "maxLength": 11
+                    },
+                    "limitReference":
+                    {
+                        "type": "string",
+                        "description": "Identifies the credit limit reference for the underlying account."
+                    },
+                    "limitSerialNumber":
+                    {
+                        "type": "number",
+                        "description": "Sequence number of the Limits."
+                    },
+                    "internalCreditFacility":
+                    {
+                        "type": "string",
+                        "description": "To define Secondary Limit Amount to be used for the purpose of Secondary Limit Check.The Secondary Limit Amount defined in this field will be represented in respective account currency",
+                        "maxLength": 19
+                    },
+                    "creditCheckTransactionType":
+                    {
+                        "type": "string",
+                        "description": "To define credit checking conditions in conjunction with the field CREDIT.CHK.CONDITION.",
+                        "maxLength": 8
+                    },
+                    "isCreditCheckCondition":
+                    {
+                        "type": "boolean",
+                        "description": "To decide if credit check processing to be performed for the account based on the conditions defined in the field CREDIT.CHK.TXN.TYPE."
+                    },
+                    "ledgerBalance":
+                    {
+                        "type": "number",
+                        "description": "Real-time balance including all authorised transactions posted against the account, excluding any entries with a future processing date."
+                    },
+                    "clearedBalance":
+                    {
+                        "type": "number",
+                        "description": "Balance taking into consideration all cleared funds booked against the account, including credit and reversed debit entries with a future exposure date."
+                    },
+                    "lockedAmount":
+                    {
+                        "type": "number",
+                        "description": "Shows reserved amount for the underlying account for a given balance reservation event."
+                    },
+                    "availableBalance":
+                    {
+                        "type": "number",
+                        "description": "Shows the net balance of an account, however may or may not include unauthorized debits and credits depending on the business setup."
+                    },
+                    "alias":
+                    {
+                        "type": "string",
+                        "description": "This field forms part of an associated multi-value set to specify the details of an Account during one of Restructure events."
+                    },
+                    "alternateReference":
+                    {
+                        "type": "string",
+                        "description": "If the new Account to be created is a shadow of another Account already exisitng in another system, then the Account reference of that system can be specified here. The value given in this field will be mapped to ALTERNATE.ID field in arrangement activity and ensure that this Account doesn't already exist in T24 with another reference (because ALTERNATE.ID would be configured to be unique across T24)."
+                    },
+                    "level":
+                    {
+                        "type": "string",
+                        "description": "Captured for information purpose to render the placeholders in GUI"
+                    },
+                    "goLiveDate":
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Denotes the date on which the Account is expected to go live in cash pool structure. Input is prohibited when bundle is in Draft status Input is allowed for NEW.OFFER accounts only for setting live date for link type SET.LIVE.DATE Input is mandatory for any restructure activity on Live accounts. Restructure activity on preliminary accounts will be effective current dated."
+                    },
+                    "linkType":
+                    {
+                        "type": "string",
+                        "description": "Denotes associated multi value set to specify Accounts involved in the Pool Restructuring and dictates what should happen to the Account in the corresponding row."
+                    },
+                    "keepBalance":
+                    {
+                        "type": "number",
+                        "description": "When an Account is removed from a Hierarchy, it is possible to dictate if it should be removed with or without Balance. Allows YES and Null  Yes - The account will move out of pool with balance while delinking account or during change pool. Null - The account will move out of pool with ZERO balance while delinking/change pool. Amount will be settled to its settlement account."
+                    },
+                    "status":
+                    {
+                        "type": "string",
+                        "description": "The status identifier or Status of the error account"
+                    },
+                    "newMaster":
+                    {
+                        "type": "string",
+                        "description": "The new bundle reference is specified in this field when a account moves from the current pool to another pool. Accepts bundle arrangement reference.Bundle reference must be given with mnemonic in case of other company. Example AA24DGRYHY/CO3. This field is allowed to be input only for link type Change Pool.."
+                    },
+                    "poolEvent":
+                    {
+                        "type": "string",
+                        "description": "Denotes the restructure event for the account linked to the Balance Netting pool."
+                    },
+                    "poolEventDate":
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Denotes the restructure date if the account is linked to the balance netting pool."
+                    },
+                    "isMultiCurrency":
+                    {
+                        "type": "boolean",
+                        "description": "Indicates if the account supports multi-currency functionality."
+                    },
+                    "isExternalPosting":
+                    {
+                        "type": "boolean",
+                        "description": "To indicates if the account allows entries posted from outside the network of Summary accounts. This should only be set for Summary accounts and Funds Diversion accounts inside a Summary account network."
+                    },
+                    "parentBackValueDate":
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Holds the date of the latest internal restructuring of the network of Parent accounts above this account. i.e. the latest date when the network of Parent accounts above this account was changed."
+                    },
+                    "allowedBackValueDate":
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Holds the latest restructuring date of the network of Parent accounts above this account. It will be set to the date when an account was added to the network of Parent accounts as either a direct or indirect parent of this account."
+                    },
+                    "postingRestrictId":
+                    {
+                        "type": "number",
+                        "description": "Identifies any restrictions for posting entries that are imposed on a Customer"
+                    },
+                    "postingRestrictDisplayName":
+                    {
+                        "type": "string",
+                        "description": "Display name of Posting Restriction, if any, applicable for the customer"
+                    },
+                    "blockCode":
+                    {
+                        "type": "string",
+                        "description": "Unique code used to block the accounts"
+                    },
+                    "startDate":
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Specifies the start date when the instruction will be made active"
+                    },
+                    "expiryDate":
+                    {
+                        "type": "string",
+                        "format": "date",
+                        "description": "The date an agreement such as an arrangement, product, credit facility or limit is due to expire"
+                    },
+                    "title":
+                    {
+                        "type": "string",
+                        "description": "Main menu title or header which the user wants to display on the screen when requesting the display of this main menu. This field can be expanded to allow the user to enter the description of the main menu in various languages."
+                    },
+                    "bookedBalance":
+                    {
+                        "type": "number",
+                        "description": "Balances of the account as per the Booking dated."
+                    },
+                    "valueDatedBalance":
+                    {
+                        "type": "number",
+                        "description": "Balances of the account as per the value dated. Contains the value dated Balance of the Account."
+                    },
+                    "creditFacility":
+                    {
+                        "type": "string",
+                        "description": "Limit facilities."
+                    }
+                }
+            }
+        },
+        "ErrorHeader":
+        {
+            "properties":
+            {
+                "audit":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "T24_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to response by T24"
+                        },
+                        "versionNumber":
+                        {
+                            "type": "string",
+                            "description": "The CURR.NO. of the record"
+                        },
+                        "parse_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to parse the response by IRIS"
+                        }
+                    }
+                }
+            }
+        },
+        "QueryErrorResponse":
+        {
+            "properties":
+            {
+                "header":
+                {
+                    "$ref": "#/definitions/ErrorHeader"
+                },
+                "error":
+                {
+                    "$ref": "#/definitions/QueryErrorResponseBody"
+                }
+            },
+            "description": "QueryErrorResponse"
+        },
+        "QueryErrorResponseBody":
+        {
+            "type": "object",
+            "properties":
+            {
+                "code":
+                {
+                    "type": "string",
+                    "description": "The identifier of the error message"
+                },
+                "message":
+                {
+                    "type": "string",
+                    "description": "The actual t24 error message"
+                },
+                "type":
+                {
+                    "type": "string",
+                    "description": "The identifier of error type"
+                }
+            }
+        }
+    }
+}

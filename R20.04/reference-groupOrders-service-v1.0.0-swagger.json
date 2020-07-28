@@ -1,0 +1,517 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Allows the fetching of the cut off date for subscription or redemption of funds. ",
+    "version" : "v1.0.0",
+    "title" : "API for order grouping"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/reference/groupOrders/{groupOrderId}" : {
+      "get" : {
+        "summary" : "Retrieves the group order",
+        "description" : "Retrieves the group order for the funds",
+        "operationId" : "getFundGroup",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "groupOrderId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "FundGroupResponse",
+            "schema" : {
+              "$ref" : "#/definitions/FundGroupResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "ScreenHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "FundGroupResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/FundGroupResponseBody"
+        }
+      },
+      "description" : "FundGroupResponse"
+    },
+    "FundGroupResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "Record" : {
+          "type" : "array",
+          "description" : "Status identifier of the account. The values are 'DELETED' if the account is closed, 'BLOCKED' is there are any posting restrictions & 'ENABLED' for active accounts.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "Status" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "recordStatus" : {
+                      "type" : "string",
+                      "description" : "General status of the record. Possible values: - null - authorised - IHLD - input, on hold - INAU - input, not authorised - INA2 - input, authorised, pending second authorisation - INAO - input, not authorised with blocking overrides - RNAU - reversed, not authorised - RNAO - reversed, not authorised with blocking overrides",
+                      "maxLength" : 18,
+                      "enum" : [ "Record Status" ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "Curr" : {
+          "type" : "array",
+          "description" : "Contains the version number of the notification record. This version will increment each time a new version is published and refers to the version number in the NCA directory. This may be part of a regular download (daily) or based on a real time update when the source data changes.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "No" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "currNo" : {
+                      "type" : "string",
+                      "description" : "Current Number which indicates how many times the record is modified.",
+                      "maxLength" : 18,
+                      "enum" : [ "Curr No" ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "Inputter" : {
+          "type" : "array",
+          "description" : "The user identifier who input the transaction",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "inputter" : {
+                "type" : "string",
+                "description" : "The user identifier who input the transaction",
+                "maxLength" : 16,
+                "enum" : [ "Inputter" ]
+              }
+            }
+          }
+        },
+        "Authoriser" : {
+          "type" : "array",
+          "description" : "This indicates the user who authorized the transaction.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "authoriser" : {
+                "type" : "string",
+                "description" : "This indicates the user who authorized the transaction.",
+                "maxLength" : 16,
+                "enum" : [ "Authoriser" ]
+              }
+            }
+          }
+        },
+        "Co" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "Code" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "companyCode" : {
+                      "type" : "string",
+                      "description" : "Company code in audit details",
+                      "maxLength" : 18,
+                      "enum" : [ "Co Code" ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "Dept" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "Code" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "deptCode" : {
+                      "type" : "string",
+                      "description" : "The department code where the transaction was authorized.",
+                      "maxLength" : 18,
+                      "enum" : [ "Dept Code" ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "Auditor" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "Code" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "auditorCode" : {
+                      "type" : "string",
+                      "description" : "Reference to the auditor code.",
+                      "maxLength" : 16,
+                      "enum" : [ "Auditor Code" ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "Audit" : {
+          "type" : "array",
+          "description" : "Date in the format YYYYMMDD. E.g. 20191231",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "Date" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "auditTimeDate" : {
+                      "type" : "string",
+                      "description" : "Reference to the audit date and time.",
+                      "maxLength" : 15,
+                      "enum" : [ "Audit Date Time" ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "Date" : {
+          "type" : "array",
+          "description" : "Date in the format YYYYMMDD. E.g. 20191231",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "Time" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "dateTime" : {
+                      "type" : "string",
+                      "description" : "Date and time separated by '-'",
+                      "maxLength" : 15,
+                      "enum" : [ "Date Time" ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "daysOffset" : {
+          "type" : "string",
+          "description" : "This is to indicate the number of days offset applied on the cut off date",
+          "maxLength" : 40
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "overrideBody" : {
+      "properties" : {
+        "overrideDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "string",
+                "description" : "The identifier of the override"
+              },
+              "description" : {
+                "type" : "string",
+                "description" : "The actual override message"
+              },
+              "options" : {
+                "type" : "array",
+                "description" : "The usable options for the override",
+                "items" : {
+                  "type" : "string"
+                }
+              },
+              "type" : {
+                "type" : "string",
+                "description" : "The type of the override"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/ScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "ScreenErrorResponse"
+    },
+    "ScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message "
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "BusinessScreenErrorResponse"
+    },
+    "BusinessScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message for bad requests"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "SystemScreenErrorResponse"
+    },
+    "SystemScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message caused by server"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    }
+  }
+}

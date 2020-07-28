@@ -1,0 +1,1673 @@
+{
+    "swagger": "2.0",
+    "info":
+    {
+        "description": "Creation and updation of Master / Bundle Arrangement, Summary / Currency Summary / Transaction accounts",
+        "version": "v1.0.0",
+        "title": "Master Bundle Arrangements APIs"
+    },
+    "host": "api.server.com",
+    "basePath": "/api/v1.0.0/",
+    "schemes": ["http", "https"],
+    "security": [
+    {
+        "basicAuth": []
+    }],
+    "paths":
+    {
+        "/product/cashManagement/bundles/drafts":
+        {
+            "post":
+            {
+                "description": "Creation of Master / Bundle Arrangement, Summary / Currency Summary / Transaction accounts",
+                "operationId": "createBundleMasterArrangements",
+                "produces": ["application/json"],
+                "parameters": [
+                {
+                    "name": "validate_only",
+                    "in": "query",
+                    "description": "The identifier to indicate if it is set to only validate or not.",
+                    "required": false,
+                    "type": "boolean"
+                },
+                {
+                    "in": "body",
+                    "name": "payload",
+                    "required": true,
+                    "schema":
+                    {
+                        "$ref": "#/definitions/BundleMasterArrangements"
+                    }
+                },
+                {
+                    "name": "credentials",
+                    "in": "header",
+                    "required": false,
+                    "type": "string"
+                },
+                {
+                    "name": "companyId",
+                    "in": "header",
+                    "required": false,
+                    "type": "string"
+                }],
+                "responses":
+                {
+                    "200":
+                    {
+                        "description": "createBundleMasterArrangementsResponse",
+                        "schema":
+                        {
+                            "$ref": "#/definitions/BundleMasterArrangementsResponse"
+                        }
+                    },
+                    "default":
+                    {
+                        "description": "ArrangementErrorResponse",
+                        "schema":
+                        {
+                            "$ref": "#/definitions/ArrangementErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/product/cashManagement/bundles/accounts":
+        {
+            "post":
+            {
+                "description": "Add New accounts SA / CS / TR / MTR+J16",
+                "operationId": "updateBundleMasterArrangements",
+                "produces": ["application/json"],
+                "parameters": [
+                {
+                    "name": "validate_only",
+                    "in": "query",
+                    "description": "The identifier to indicate if it is set to only validate or not.",
+                    "required": false,
+                    "type": "boolean"
+                },
+                {
+                    "in": "body",
+                    "name": "payload",
+                    "required": true,
+                    "schema":
+                    {
+                        "$ref": "#/definitions/BundleMasterArrangements1"
+                    }
+                },
+                {
+                    "name": "credentials",
+                    "in": "header",
+                    "required": false,
+                    "type": "string"
+                },
+                {
+                    "name": "companyId",
+                    "in": "header",
+                    "required": false,
+                    "type": "string"
+                }],
+                "responses":
+                {
+                    "200":
+                    {
+                        "description": "updateBundleMasterArrangementsResponse",
+                        "schema":
+                        {
+                            "$ref": "#/definitions/BundleMasterArrangementsResponse1"
+                        }
+                    },
+                    "default":
+                    {
+                        "description": "ArrangementErrorResponse",
+                        "schema":
+                        {
+                            "$ref": "#/definitions/ArrangementErrorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "securityDefinitions":
+    {
+        "basicAuth":
+        {
+            "type": "basic"
+        }
+    },
+    "definitions":
+    {
+        "PayloadHeader":
+        {
+            "properties":
+            {
+                "override":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "overrideDetails":
+                        {
+                            "type": "array",
+                            "items":
+                            {
+                                "type": "object",
+                                "properties":
+                                {
+                                    "id":
+                                    {
+                                        "type": "string",
+                                        "description": "The identifier of the override"
+                                    },
+                                    "description":
+                                    {
+                                        "type": "string",
+                                        "description": "The actual override message"
+                                    },
+                                    "responseCode":
+                                    {
+                                        "type": "string",
+                                        "description": "The user input to accept/reject the override."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "audit":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "versionNumber":
+                        {
+                            "type": "string",
+                            "description": "The CURR.NO. of the record"
+                        }
+                    }
+                }
+            }
+        },
+        "BundleMasterArrangements":
+        {
+            "properties":
+            {
+                "header":
+                {
+                    "$ref": "#/definitions/PayloadHeader"
+                },
+                "body":
+                {
+                    "$ref": "#/definitions/BundleMasterArrangementsBody"
+                }
+            },
+            "description": "BundleMasterArrangements"
+        },
+        "BundleMasterArrangementsBody":
+        {
+            "type": "object",
+            "properties":
+            {
+                "partyIds":
+                {
+                    "type": "array",
+                    "description": "Allows capturing of customers or person entities to be part of the relationship. If partyType is selected as Customer, then the system will allow only customer Ids to be captured into this field. If partyType is selected as Person or Entity, then system will allow only personEntity Ids to be captured into this field.",
+                    "items":
+                    {
+                        "type": "object",
+                        "properties":
+                        {
+                            "partyId":
+                            {
+                                "type": "string",
+                                "description": "Allows capturing of customers or person entities to be part of the relationship. If partyType is selected as Customer, then the system will allow only customer Ids to be captured into this field. If partyType is selected as Person or Entity, then system will allow only personEntity Ids to be captured into this field."
+                            }
+                        }
+                    }
+                },
+                "arrangmentId":
+                {
+                    "type": "string",
+                    "description": ""
+                },
+                "arrangementEffectiveDate":
+                {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Date from which the arrangement is effective"
+                },
+                "productId":
+                {
+                    "type": "string",
+                    "description": "Id of the product."
+                },
+                "activityId":
+                {
+                    "type": "string",
+                    "description": "Id of the activity, e.g. ACCOUNTS-CAPITALISE-ACCHARGE*CARDISSUEFEE"
+                },
+                "productBundle":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "product":
+                        {
+                            "type": "array",
+                            "description": "The product for which the pricing plan is applicable",
+                            "items":
+                            {
+                                "type": "object",
+                                "properties":
+                                {
+                                    "group":
+                                    {
+                                        "type": "string",
+                                        "description": ""
+                                    },
+                                    "product":
+                                    {
+                                        "type": "string",
+                                        "description": "The product for which the pricing plan is applicable"
+                                    },
+                                    "minimum":
+                                    {
+                                        "type": "string",
+                                        "description": ""
+                                    },
+                                    "maximum":
+                                    {
+                                        "type": "string",
+                                        "description": ""
+                                    },
+                                    "arrangment":
+                                    {
+                                        "type": "array",
+                                        "items":
+                                        {
+                                            "type": "object",
+                                            "properties":
+                                            {
+                                                "arrangmentId":
+                                                {
+                                                    "type": "string",
+                                                    "description": ""
+                                                },
+                                                "currency":
+                                                {
+                                                    "type": "string",
+                                                    "description": "Identifies the underlying currency used for the transaction."
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "masterArrangement":
+                                    {
+                                        "type": "array",
+                                        "items":
+                                        {
+                                            "type": "object",
+                                            "properties":
+                                            {
+                                                "arrangmentId":
+                                                {
+                                                    "type": "string",
+                                                    "description": ""
+                                                },
+                                                "propertyType":
+                                                {
+                                                    "type": "string",
+                                                    "description": "Values selected to determine action on condition e.g. accounting rules only changed at product level.? Standard set of values to select from."
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "referenceCurrency":
+                        {
+                            "type": "string",
+                            "description": "The reference currency"
+                        },
+                        "limitType":
+                        {
+                            "type": "string",
+                            "description": "Defines the limit type for the trade"
+                        },
+                        "masterAccountName":
+                        {
+                            "type": "string",
+                            "description": ""
+                        }
+                    }
+                },
+                "bundlehierarchy":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "aliases":
+                        {
+                            "type": "array",
+                            "items":
+                            {
+                                "type": "object",
+                                "properties":
+                                {
+                                    "alias":
+                                    {
+                                        "type": "string",
+                                        "description": ""
+                                    }
+                                }
+                            }
+                        },
+                        "accounts":
+                        {
+                            "type": "array",
+                            "description": "Account Identifier in the transaction/deal",
+                            "items":
+                            {
+                                "type": "object",
+                                "properties":
+                                {
+                                    "account":
+                                    {
+                                        "type": "string",
+                                        "description": "Account Identifier in the transaction/deal"
+                                    }
+                                }
+                            }
+                        },
+                        "customers":
+                        {
+                            "type": "array",
+                            "description": "The customer number",
+                            "items":
+                            {
+                                "type": "object",
+                                "properties":
+                                {
+                                    "customer":
+                                    {
+                                        "type": "string",
+                                        "description": "The customer number"
+                                    }
+                                }
+                            }
+                        },
+                        "companies":
+                        {
+                            "type": "array",
+                            "description": "The company code",
+                            "items":
+                            {
+                                "type": "object",
+                                "properties":
+                                {
+                                    "company":
+                                    {
+                                        "type": "string",
+                                        "description": "The company code"
+                                    }
+                                }
+                            }
+                        },
+                        "currencies":
+                        {
+                            "type": "array",
+                            "description": "Identifies the underlying currency used for the transaction.",
+                            "items":
+                            {
+                                "type": "object",
+                                "properties":
+                                {
+                                    "currency":
+                                    {
+                                        "type": "string",
+                                        "description": "Identifies the underlying currency used for the transaction."
+                                    }
+                                }
+                            }
+                        },
+                        "products":
+                        {
+                            "type": "array",
+                            "description": "The product for which the pricing plan is applicable",
+                            "items":
+                            {
+                                "type": "object",
+                                "properties":
+                                {
+                                    "product":
+                                    {
+                                        "type": "string",
+                                        "description": "The product for which the pricing plan is applicable"
+                                    }
+                                }
+                            }
+                        },
+                        "names":
+                        {
+                            "type": "array",
+                            "items":
+                            {
+                                "type": "object",
+                                "properties":
+                                {
+                                    "name":
+                                    {
+                                        "type": "string",
+                                        "description": ""
+                                    }
+                                }
+                            }
+                        },
+                        "alternateReferences":
+                        {
+                            "type": "array",
+                            "items":
+                            {
+                                "type": "object",
+                                "properties":
+                                {
+                                    "alternateReference":
+                                    {
+                                        "type": "string",
+                                        "description": ""
+                                    }
+                                }
+                            }
+                        },
+                        "parents":
+                        {
+                            "type": "array",
+                            "description": "This Field is to determine whether the order is a parent order, Allowed value is YES",
+                            "items":
+                            {
+                                "type": "object",
+                                "properties":
+                                {
+                                    "parent":
+                                    {
+                                        "type": "string",
+                                        "description": "This Field is to determine whether the order is a parent order, Allowed value is YES"
+                                    }
+                                }
+                            }
+                        },
+                        "levels":
+                        {
+                            "type": "array",
+                            "items":
+                            {
+                                "type": "object",
+                                "properties":
+                                {
+                                    "level":
+                                    {
+                                        "type": "string",
+                                        "description": ""
+                                    }
+                                }
+                            }
+                        },
+                        "goLiveDates":
+                        {
+                            "type": "array",
+                            "items":
+                            {
+                                "type": "object",
+                                "properties":
+                                {
+                                    "goLiveDate":
+                                    {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": ""
+                                    }
+                                }
+                            }
+                        },
+                        "linkTypes":
+                        {
+                            "type": "array",
+                            "items":
+                            {
+                                "type": "object",
+                                "properties":
+                                {
+                                    "linkType":
+                                    {
+                                        "type": "string",
+                                        "description": ""
+                                    }
+                                }
+                            }
+                        },
+                        "keepBalances":
+                        {
+                            "type": "array",
+                            "items":
+                            {
+                                "type": "object",
+                                "properties":
+                                {
+                                    "keepBalance":
+                                    {
+                                        "type": "string",
+                                        "description": ""
+                                    }
+                                }
+                            }
+                        },
+                        "newMasters":
+                        {
+                            "type": "array",
+                            "items":
+                            {
+                                "type": "object",
+                                "properties":
+                                {
+                                    "newMaster":
+                                    {
+                                        "type": "string",
+                                        "description": ""
+                                    }
+                                }
+                            }
+                        },
+                        "cancelRestructures":
+                        {
+                            "type": "array",
+                            "items":
+                            {
+                                "type": "object",
+                                "properties":
+                                {
+                                    "cancelRestructure":
+                                    {
+                                        "type": "string",
+                                        "description": ""
+                                    }
+                                }
+                            }
+                        },
+                        "integrityCheckDay":
+                        {
+                            "type": "string",
+                            "description": "",
+                            "enum": ["integrityCheckDay"]
+                        }
+                    }
+                }
+            }
+        },
+        "ArrangementHeader":
+        {
+            "properties":
+            {
+                "transactionStatus":
+                {
+                    "type": "string",
+                    "description": "The status of the transaction"
+                },
+                "aaaId":
+                {
+                    "type": "string",
+                    "description": "The Identifier of the aa record created"
+                },
+                "id":
+                {
+                    "type": "string",
+                    "description": "The Identifier of the record created"
+                },
+                "status":
+                {
+                    "type": "string",
+                    "description": "The status of the record"
+                },
+                "audit":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "T24_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to response by T24"
+                        },
+                        "versionNumber":
+                        {
+                            "type": "string",
+                            "description": "The CURR.NO. of the record"
+                        },
+                        "parse_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to parse the response by IRIS"
+                        }
+                    }
+                }
+            }
+        },
+        "BundleMasterArrangementsResponse":
+        {
+            "properties":
+            {
+                "header":
+                {
+                    "$ref": "#/definitions/ArrangementHeader"
+                },
+                "body":
+                {
+                    "$ref": "#/definitions/BundleMasterArrangementsResponseBody"
+                }
+            },
+            "description": "BundleMasterArrangementsResponse"
+        },
+        "BundleMasterArrangementsResponseBody":
+        {
+            "type": "object",
+            "properties":
+            {
+                "arrangementActivity":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "partyIds":
+                        {
+                            "type": "array",
+                            "description": "Allows capturing of customers or person entities to be part of the relationship. If partyType is selected as Customer, then the system will allow only customer Ids to be captured into this field. If partyType is selected as Person or Entity, then system will allow only personEntity Ids to be captured into this field.",
+                            "items":
+                            {
+                                "type": "object",
+                                "properties":
+                                {
+                                    "partyId":
+                                    {
+                                        "type": "string",
+                                        "description": "Allows capturing of customers or person entities to be part of the relationship. If partyType is selected as Customer, then the system will allow only customer Ids to be captured into this field. If partyType is selected as Person or Entity, then system will allow only personEntity Ids to be captured into this field."
+                                    }
+                                }
+                            }
+                        },
+                        "arrangmentId":
+                        {
+                            "type": "string",
+                            "description": ""
+                        },
+                        "arrangementEffectiveDate":
+                        {
+                            "type": "string",
+                            "format": "date",
+                            "description": "Date from which the arrangement is effective"
+                        },
+                        "productId":
+                        {
+                            "type": "string",
+                            "description": "Id of the product."
+                        },
+                        "activityId":
+                        {
+                            "type": "string",
+                            "description": "Id of the activity, e.g. ACCOUNTS-CAPITALISE-ACCHARGE*CARDISSUEFEE"
+                        }
+                    }
+                },
+                "activities":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "{activityName}":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "activity":
+                                {
+                                    "type": "string"
+                                },
+                                "transactionStatus":
+                                {
+                                    "type": "string",
+                                    "description": "The status of the transaction"
+                                },
+                                "id":
+                                {
+                                    "type": "string",
+                                    "description": "The Identifier of the record created"
+                                }
+                            }
+                        }
+                    }
+                },
+                "properties":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "productBundle":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "header":
+                                {
+                                    "type": "object",
+                                    "properties":
+                                    {
+                                        "transactionStatus":
+                                        {
+                                            "type": "string",
+                                            "description": "The status of the transaction"
+                                        },
+                                        "audit":
+                                        {
+                                            "type": "object",
+                                            "properties":
+                                            {
+                                                "parseTime":
+                                                {
+                                                    "type": "integer",
+                                                    "format": "int32",
+                                                    "description": "Time taken to parse the response by IRIS"
+                                                }
+                                            }
+                                        },
+                                        "id":
+                                        {
+                                            "type": "string",
+                                            "description": "The Identifier of the record created"
+                                        },
+                                        "status":
+                                        {
+                                            "type": "string",
+                                            "description": "The status of the record"
+                                        }
+                                    }
+                                },
+                                "body":
+                                {
+                                    "type": "object",
+                                    "properties":
+                                    {
+                                        "product":
+                                        {
+                                            "type": "array",
+                                            "description": "The product for which the pricing plan is applicable",
+                                            "items":
+                                            {
+                                                "type": "object",
+                                                "properties":
+                                                {
+                                                    "group":
+                                                    {
+                                                        "type": "string",
+                                                        "description": ""
+                                                    },
+                                                    "product":
+                                                    {
+                                                        "type": "string",
+                                                        "description": "The product for which the pricing plan is applicable"
+                                                    },
+                                                    "minimum":
+                                                    {
+                                                        "type": "string",
+                                                        "description": ""
+                                                    },
+                                                    "maximum":
+                                                    {
+                                                        "type": "string",
+                                                        "description": ""
+                                                    },
+                                                    "arrangment":
+                                                    {
+                                                        "type": "array",
+                                                        "items":
+                                                        {
+                                                            "type": "object",
+                                                            "properties":
+                                                            {
+                                                                "arrangmentId":
+                                                                {
+                                                                    "type": "string",
+                                                                    "description": ""
+                                                                },
+                                                                "currency":
+                                                                {
+                                                                    "type": "string",
+                                                                    "description": "Identifies the underlying currency used for the transaction."
+                                                                }
+                                                            }
+                                                        }
+                                                    },
+                                                    "masterArrangement":
+                                                    {
+                                                        "type": "array",
+                                                        "items":
+                                                        {
+                                                            "type": "object",
+                                                            "properties":
+                                                            {
+                                                                "arrangmentId":
+                                                                {
+                                                                    "type": "string",
+                                                                    "description": ""
+                                                                },
+                                                                "propertyType":
+                                                                {
+                                                                    "type": "string",
+                                                                    "description": "Values selected to determine action on condition e.g. accounting rules only changed at product level.? Standard set of values to select from."
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "referenceCurrency":
+                                        {
+                                            "type": "string",
+                                            "description": "The reference currency"
+                                        },
+                                        "limitType":
+                                        {
+                                            "type": "string",
+                                            "description": "Defines the limit type for the trade"
+                                        },
+                                        "masterAccountName":
+                                        {
+                                            "type": "string",
+                                            "description": ""
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "bundlehierarchy":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "header":
+                                {
+                                    "type": "object",
+                                    "properties":
+                                    {
+                                        "transactionStatus":
+                                        {
+                                            "type": "string",
+                                            "description": "The status of the transaction"
+                                        },
+                                        "audit":
+                                        {
+                                            "type": "object",
+                                            "properties":
+                                            {
+                                                "parseTime":
+                                                {
+                                                    "type": "integer",
+                                                    "format": "int32",
+                                                    "description": "Time taken to parse the response by IRIS"
+                                                }
+                                            }
+                                        },
+                                        "id":
+                                        {
+                                            "type": "string",
+                                            "description": "The Identifier of the record created"
+                                        },
+                                        "status":
+                                        {
+                                            "type": "string",
+                                            "description": "The status of the record"
+                                        }
+                                    }
+                                },
+                                "body":
+                                {
+                                    "type": "object",
+                                    "properties":
+                                    {
+                                        "aliases":
+                                        {
+                                            "type": "array",
+                                            "items":
+                                            {
+                                                "type": "object",
+                                                "properties":
+                                                {
+                                                    "alias":
+                                                    {
+                                                        "type": "string",
+                                                        "description": ""
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "accounts":
+                                        {
+                                            "type": "array",
+                                            "description": "Account Identifier in the transaction/deal",
+                                            "items":
+                                            {
+                                                "type": "object",
+                                                "properties":
+                                                {
+                                                    "account":
+                                                    {
+                                                        "type": "string",
+                                                        "description": "Account Identifier in the transaction/deal"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "customers":
+                                        {
+                                            "type": "array",
+                                            "description": "The customer number",
+                                            "items":
+                                            {
+                                                "type": "object",
+                                                "properties":
+                                                {
+                                                    "customer":
+                                                    {
+                                                        "type": "string",
+                                                        "description": "The customer number"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "companies":
+                                        {
+                                            "type": "array",
+                                            "description": "The company code",
+                                            "items":
+                                            {
+                                                "type": "object",
+                                                "properties":
+                                                {
+                                                    "company":
+                                                    {
+                                                        "type": "string",
+                                                        "description": "The company code"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "currencies":
+                                        {
+                                            "type": "array",
+                                            "description": "Identifies the underlying currency used for the transaction.",
+                                            "items":
+                                            {
+                                                "type": "object",
+                                                "properties":
+                                                {
+                                                    "currency":
+                                                    {
+                                                        "type": "string",
+                                                        "description": "Identifies the underlying currency used for the transaction."
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "products":
+                                        {
+                                            "type": "array",
+                                            "description": "The product for which the pricing plan is applicable",
+                                            "items":
+                                            {
+                                                "type": "object",
+                                                "properties":
+                                                {
+                                                    "product":
+                                                    {
+                                                        "type": "string",
+                                                        "description": "The product for which the pricing plan is applicable"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "names":
+                                        {
+                                            "type": "array",
+                                            "items":
+                                            {
+                                                "type": "object",
+                                                "properties":
+                                                {
+                                                    "name":
+                                                    {
+                                                        "type": "string",
+                                                        "description": ""
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "alternateReferences":
+                                        {
+                                            "type": "array",
+                                            "items":
+                                            {
+                                                "type": "object",
+                                                "properties":
+                                                {
+                                                    "alternateReference":
+                                                    {
+                                                        "type": "string",
+                                                        "description": ""
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "parents":
+                                        {
+                                            "type": "array",
+                                            "description": "This Field is to determine whether the order is a parent order, Allowed value is YES",
+                                            "items":
+                                            {
+                                                "type": "object",
+                                                "properties":
+                                                {
+                                                    "parent":
+                                                    {
+                                                        "type": "string",
+                                                        "description": "This Field is to determine whether the order is a parent order, Allowed value is YES"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "levels":
+                                        {
+                                            "type": "array",
+                                            "items":
+                                            {
+                                                "type": "object",
+                                                "properties":
+                                                {
+                                                    "level":
+                                                    {
+                                                        "type": "string",
+                                                        "description": ""
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "goLiveDates":
+                                        {
+                                            "type": "array",
+                                            "items":
+                                            {
+                                                "type": "object",
+                                                "properties":
+                                                {
+                                                    "goLiveDate":
+                                                    {
+                                                        "type": "string",
+                                                        "format": "date",
+                                                        "description": ""
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "linkTypes":
+                                        {
+                                            "type": "array",
+                                            "items":
+                                            {
+                                                "type": "object",
+                                                "properties":
+                                                {
+                                                    "linkType":
+                                                    {
+                                                        "type": "string",
+                                                        "description": ""
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "keepBalances":
+                                        {
+                                            "type": "array",
+                                            "items":
+                                            {
+                                                "type": "object",
+                                                "properties":
+                                                {
+                                                    "keepBalance":
+                                                    {
+                                                        "type": "string",
+                                                        "description": ""
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "newMasters":
+                                        {
+                                            "type": "array",
+                                            "items":
+                                            {
+                                                "type": "object",
+                                                "properties":
+                                                {
+                                                    "newMaster":
+                                                    {
+                                                        "type": "string",
+                                                        "description": ""
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "cancelRestructures":
+                                        {
+                                            "type": "array",
+                                            "items":
+                                            {
+                                                "type": "object",
+                                                "properties":
+                                                {
+                                                    "cancelRestructure":
+                                                    {
+                                                        "type": "string",
+                                                        "description": ""
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "integrityCheckDay":
+                                        {
+                                            "type": "string",
+                                            "description": "",
+                                            "enum": ["integrityCheckDay"]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "overrideBody":
+        {
+            "properties":
+            {
+                "overrideDetails":
+                {
+                    "type": "array",
+                    "items":
+                    {
+                        "type": "object",
+                        "properties":
+                        {
+                            "id":
+                            {
+                                "type": "string",
+                                "description": "The identifier of the override"
+                            },
+                            "description":
+                            {
+                                "type": "string",
+                                "description": "The actual override message"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "ArrangementErrorResponse":
+        {
+            "properties":
+            {
+                "header":
+                {
+                    "$ref": "#/definitions/ArrangementHeader"
+                },
+                "error":
+                {
+                    "$ref": "#/definitions/ArrangementErrorResponseBody"
+                },
+                "override":
+                {
+                    "$ref": "#/definitions/overrideBody"
+                }
+            },
+            "description": "ArrangementErrorResponse"
+        },
+        "ArrangementErrorResponseBody":
+        {
+            "type": "object",
+            "properties":
+            {
+                "errorDetails":
+                {
+                    "type": "array",
+                    "items":
+                    {
+                        "type": "object",
+                        "properties":
+                        {
+                            "fieldName":
+                            {
+                                "type": "string",
+                                "description": "The name of the field"
+                            },
+                            "code":
+                            {
+                                "type": "string",
+                                "description": "The identifier of the error message"
+                            },
+                            "message":
+                            {
+                                "type": "string",
+                                "description": "The actual t24 error message"
+                            },
+                            "property":
+                            {
+                                "type": "string",
+                                "description": "The corresponding property"
+                            }
+                        }
+                    }
+                },
+                "type":
+                {
+                    "type": "string",
+                    "description": "The identifier of error type"
+                }
+            }
+        },
+        "BundleMasterArrangements1":
+        {
+            "properties":
+            {
+                "header":
+                {
+                    "$ref": "#/definitions/PayloadHeader"
+                },
+                "body":
+                {
+                    "$ref": "#/definitions/BundleMasterArrangements1Body"
+                }
+            },
+            "description": "BundleMasterArrangements1"
+        },
+        "BundleMasterArrangements1Body":
+        {
+            "type": "object",
+            "properties":
+            {
+                "partyIds":
+                {
+                    "type": "array",
+                    "description": "Allows capturing of customers or person entities to be part of the relationship. If partyType is selected as Customer, then the system will allow only customer Ids to be captured into this field. If partyType is selected as Person or Entity, then system will allow only personEntity Ids to be captured into this field.",
+                    "items":
+                    {
+                        "type": "object",
+                        "properties":
+                        {
+                            "partyId":
+                            {
+                                "type": "string",
+                                "description": "Allows capturing of customers or person entities to be part of the relationship. If partyType is selected as Customer, then the system will allow only customer Ids to be captured into this field. If partyType is selected as Person or Entity, then system will allow only personEntity Ids to be captured into this field."
+                            }
+                        }
+                    }
+                },
+                "arrangmentId":
+                {
+                    "type": "string",
+                    "description": ""
+                },
+                "arrangementEffectiveDate":
+                {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Date from which the arrangement is effective"
+                },
+                "productId":
+                {
+                    "type": "string",
+                    "description": "Id of the product."
+                },
+                "activityId":
+                {
+                    "type": "string",
+                    "description": "Id of the activity, e.g. ACCOUNTS-CAPITALISE-ACCHARGE*CARDISSUEFEE"
+                },
+                "bundlehierarchy":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "accountAlias1":
+                        {
+                            "type": "string",
+                            "description": ""
+                        },
+                        "accountRef1":
+                        {
+                            "type": "string",
+                            "description": ""
+                        },
+                        "customer1":
+                        {
+                            "type": "string",
+                            "description": ""
+                        },
+                        "accCompany1":
+                        {
+                            "type": "string",
+                            "description": ""
+                        },
+                        "accCurrency1":
+                        {
+                            "type": "string",
+                            "description": ""
+                        },
+                        "accProduct1":
+                        {
+                            "type": "string",
+                            "description": ""
+                        },
+                        "shortName1":
+                        {
+                            "type": "string",
+                            "description": ""
+                        },
+                        "altReference1":
+                        {
+                            "type": "string",
+                            "description": ""
+                        },
+                        "parentAccount1":
+                        {
+                            "type": "string",
+                            "description": ""
+                        },
+                        "accLocation1":
+                        {
+                            "type": "string",
+                            "description": ""
+                        },
+                        "liveDate1":
+                        {
+                            "type": "string",
+                            "format": "date",
+                            "description": ""
+                        },
+                        "linkType1":
+                        {
+                            "type": "string",
+                            "description": ""
+                        },
+                        "keepBalance1":
+                        {
+                            "type": "string",
+                            "description": ""
+                        },
+                        "newBundleRef1":
+                        {
+                            "type": "string",
+                            "description": ""
+                        },
+                        "cancelRestructure1":
+                        {
+                            "type": "string",
+                            "description": ""
+                        },
+                        "integrityCheckDays":
+                        {
+                            "type": "string",
+                            "description": "",
+                            "enum": ["Integrity Check Days"]
+                        }
+                    }
+                }
+            }
+        },
+        "BundleMasterArrangementsResponse1":
+        {
+            "properties":
+            {
+                "header":
+                {
+                    "$ref": "#/definitions/ArrangementHeader"
+                },
+                "body":
+                {
+                    "$ref": "#/definitions/BundleMasterArrangementsResponse1Body"
+                }
+            },
+            "description": "BundleMasterArrangementsResponse1"
+        },
+        "BundleMasterArrangementsResponse1Body":
+        {
+            "type": "object",
+            "properties":
+            {
+                "arrangementActivity":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "partyIds":
+                        {
+                            "type": "array",
+                            "description": "Allows capturing of customers or person entities to be part of the relationship. If partyType is selected as Customer, then the system will allow only customer Ids to be captured into this field. If partyType is selected as Person or Entity, then system will allow only personEntity Ids to be captured into this field.",
+                            "items":
+                            {
+                                "type": "object",
+                                "properties":
+                                {
+                                    "partyId":
+                                    {
+                                        "type": "string",
+                                        "description": "Allows capturing of customers or person entities to be part of the relationship. If partyType is selected as Customer, then the system will allow only customer Ids to be captured into this field. If partyType is selected as Person or Entity, then system will allow only personEntity Ids to be captured into this field."
+                                    }
+                                }
+                            }
+                        },
+                        "arrangmentId":
+                        {
+                            "type": "string",
+                            "description": ""
+                        },
+                        "arrangementEffectiveDate":
+                        {
+                            "type": "string",
+                            "format": "date",
+                            "description": "Date from which the arrangement is effective"
+                        },
+                        "productId":
+                        {
+                            "type": "string",
+                            "description": "Id of the product."
+                        },
+                        "activityId":
+                        {
+                            "type": "string",
+                            "description": "Id of the activity, e.g. ACCOUNTS-CAPITALISE-ACCHARGE*CARDISSUEFEE"
+                        }
+                    }
+                },
+                "activities":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "{activityName}":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "activity":
+                                {
+                                    "type": "string"
+                                },
+                                "transactionStatus":
+                                {
+                                    "type": "string",
+                                    "description": "The status of the transaction"
+                                },
+                                "id":
+                                {
+                                    "type": "string",
+                                    "description": "The Identifier of the record created"
+                                }
+                            }
+                        }
+                    }
+                },
+                "properties":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "bundlehierarchy":
+                        {
+                            "type": "object",
+                            "properties":
+                            {
+                                "header":
+                                {
+                                    "type": "object",
+                                    "properties":
+                                    {
+                                        "transactionStatus":
+                                        {
+                                            "type": "string",
+                                            "description": "The status of the transaction"
+                                        },
+                                        "audit":
+                                        {
+                                            "type": "object",
+                                            "properties":
+                                            {
+                                                "parseTime":
+                                                {
+                                                    "type": "integer",
+                                                    "format": "int32",
+                                                    "description": "Time taken to parse the response by IRIS"
+                                                }
+                                            }
+                                        },
+                                        "id":
+                                        {
+                                            "type": "string",
+                                            "description": "The Identifier of the record created"
+                                        },
+                                        "status":
+                                        {
+                                            "type": "string",
+                                            "description": "The status of the record"
+                                        }
+                                    }
+                                },
+                                "body":
+                                {
+                                    "type": "object",
+                                    "properties":
+                                    {
+                                        "accountAlias1":
+                                        {
+                                            "type": "string",
+                                            "description": ""
+                                        },
+                                        "accountRef1":
+                                        {
+                                            "type": "string",
+                                            "description": ""
+                                        },
+                                        "customer1":
+                                        {
+                                            "type": "string",
+                                            "description": ""
+                                        },
+                                        "accCompany1":
+                                        {
+                                            "type": "string",
+                                            "description": ""
+                                        },
+                                        "accCurrency1":
+                                        {
+                                            "type": "string",
+                                            "description": ""
+                                        },
+                                        "accProduct1":
+                                        {
+                                            "type": "string",
+                                            "description": ""
+                                        },
+                                        "shortName1":
+                                        {
+                                            "type": "string",
+                                            "description": ""
+                                        },
+                                        "altReference1":
+                                        {
+                                            "type": "string",
+                                            "description": ""
+                                        },
+                                        "parentAccount1":
+                                        {
+                                            "type": "string",
+                                            "description": ""
+                                        },
+                                        "accLocation1":
+                                        {
+                                            "type": "string",
+                                            "description": ""
+                                        },
+                                        "liveDate1":
+                                        {
+                                            "type": "string",
+                                            "format": "date",
+                                            "description": ""
+                                        },
+                                        "linkType1":
+                                        {
+                                            "type": "string",
+                                            "description": ""
+                                        },
+                                        "keepBalance1":
+                                        {
+                                            "type": "string",
+                                            "description": ""
+                                        },
+                                        "newBundleRef1":
+                                        {
+                                            "type": "string",
+                                            "description": ""
+                                        },
+                                        "cancelRestructure1":
+                                        {
+                                            "type": "string",
+                                            "description": ""
+                                        },
+                                        "integrityCheckDays":
+                                        {
+                                            "type": "string",
+                                            "description": "",
+                                            "enum": ["Integrity Check Days"]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

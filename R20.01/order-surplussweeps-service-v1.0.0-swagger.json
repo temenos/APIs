@@ -1,0 +1,657 @@
+{
+    "swagger": "2.0",
+    "info":
+    {
+        "description": "Surplus Sweeps of Cash Pool Transfer Service",
+        "version": "v1.0.0",
+        "title": "Order Cash Pool Transfer Services"
+    },
+    "host": "api.server.com",
+    "basePath": "/api/v1.0.0/",
+    "schemes": ["http", "https"],
+    "security": [
+    {
+        "basicAuth": []
+    }],
+    "paths":
+    {
+        "/order/cashManagement/sweeps/{accountId}/surplusBalances":
+        {
+            "post":
+            {
+                "description": "Initiate Surplus Sweeps of Cash Pool Transfer Service",
+                "operationId": "createSurplusBalanceSweeps",
+                "produces": ["application/json"],
+                "parameters": [
+                {
+                    "name": "accountId",
+                    "in": "path",
+                    "description": "The identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId.",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "in": "body",
+                    "name": "payload",
+                    "description": "body Payload",
+                    "required": true,
+                    "schema":
+                    {
+                        "$ref": "#/definitions/SurplusBalanceSweeps"
+                    }
+                },
+                {
+                    "name": "validate_only",
+                    "in": "query",
+                    "description": "The identifier to indicate if it is set to only validate or not.",
+                    "required": false,
+                    "type": "boolean"
+                },
+                {
+                    "name": "credentials",
+                    "in": "header",
+                    "required": false,
+                    "type": "string"
+                },
+                {
+                    "name": "companyId",
+                    "in": "header",
+                    "required": false,
+                    "type": "string"
+                }],
+                "responses":
+                {
+                    "200":
+                    {
+                        "description": "SurplusBalanceSweepsResponse",
+                        "schema":
+                        {
+                            "$ref": "#/definitions/SurplusBalanceSweepsResponse"
+                        }
+                    },
+                    "default":
+                    {
+                        "description": "ScreenErrorResponse",
+                        "schema":
+                        {
+                            "$ref": "#/definitions/ScreenErrorResponse"
+                        }
+                    }
+                }
+            },
+            "put":
+            {
+                "description": "Update Surplus Sweeps of Cash Pool Transfer Service",
+                "operationId": "updateSurplusBalanceSweeps",
+                "produces": ["application/json"],
+                "parameters": [
+                {
+                    "name": "accountId",
+                    "in": "path",
+                    "description": "The identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId.",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "in": "body",
+                    "name": "payload",
+                    "description": "body Payload",
+                    "required": true,
+                    "schema":
+                    {
+                        "$ref": "#/definitions/SurplusBalanceSweeps"
+                    }
+                },
+                {
+                    "name": "validate_only",
+                    "in": "query",
+                    "description": "The identifier to indicate if it is set to only validate or not.",
+                    "required": false,
+                    "type": "boolean"
+                },
+                {
+                    "name": "credentials",
+                    "in": "header",
+                    "required": false,
+                    "type": "string"
+                },
+                {
+                    "name": "companyId",
+                    "in": "header",
+                    "required": false,
+                    "type": "string"
+                }],
+                "responses":
+                {
+                    "200":
+                    {
+                        "description": "SurplusBalanceSweepsResponse",
+                        "schema":
+                        {
+                            "$ref": "#/definitions/SurplusBalanceSweepsResponse"
+                        }
+                    },
+                    "default":
+                    {
+                        "description": "ScreenErrorResponse",
+                        "schema":
+                        {
+                            "$ref": "#/definitions/ScreenErrorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "securityDefinitions":
+    {
+        "basicAuth":
+        {
+            "type": "basic"
+        }
+    },
+    "definitions":
+    {
+        "PayloadHeader":
+        {
+            "properties":
+            {
+                "override":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "overrideDetails":
+                        {
+                            "type": "array",
+                            "items":
+                            {
+                                "type": "object",
+                                "properties":
+                                {
+                                    "id":
+                                    {
+                                        "type": "string",
+                                        "description": "The identifier of the override"
+                                    },
+                                    "description":
+                                    {
+                                        "type": "string",
+                                        "description": "The actual override message"
+                                    },
+                                    "responseCode":
+                                    {
+                                        "type": "string",
+                                        "description": "The user input to accept/reject the override."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "audit":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "versionNumber":
+                        {
+                            "type": "string",
+                            "description": "The CURR.NO. of the record"
+                        }
+                    }
+                }
+            }
+        },
+        "SurplusBalanceSweeps":
+        {
+            "properties":
+            {
+                "header":
+                {
+                    "$ref": "#/definitions/PayloadHeader"
+                },
+                "body":
+                {
+                    "$ref": "#/definitions/SurplusBalanceSweepsBody"
+                }
+            },
+            "description": "SurplusBalanceSweeps"
+        },
+        "SurplusBalanceSweepsBody":
+        {
+            "type": "object",
+            "properties":
+            {
+                "sweepRelationshipDetails":
+                {
+                    "type": "array",
+                    "items":
+                    {
+                        "type": "object",
+                        "properties":
+                        {
+                            "linkAccount":
+                            {
+                                "type": "string",
+                                "description": ""
+                            },
+                            "rule":
+                            {
+                                "type": "string",
+                                "description": "A rule is assigned to a product and the rule determines whether a customer can buy that product or hold it after changes in circumstance."
+                            },
+                            "frequency":
+                            {
+                                "type": "string",
+                                "description": "Identifies the frequency of instruction execution. It specifies the next execution date and frequency i.e. daily, weekly, fortnightly, monthly, yearly or fortnightly. "
+                            },
+                            "minimumBalance":
+                            {
+                                "type": "number",
+                                "description": "The minimum account balance required"
+                            },
+                            "maximumBalance":
+                            {
+                                "type": "number",
+                                "description": "The maximum account balance allowed"
+                            },
+                            "minimumDebitsToTransfer":
+                            {
+                                "type": "number",
+                                "description": ""
+                            },
+                            "minimumCreditsToTransfer":
+                            {
+                                "type": "number",
+                                "description": ""
+                            },
+                            "schedule":
+                            {
+                                "type": "string",
+                                "description": ""
+                            }
+                        }
+                    }
+                },
+                "narratives":
+                {
+                    "type": "array",
+                    "description": "The additional text printed on descriptive statements in addition to the standard narrative and/or reference",
+                    "items":
+                    {
+                        "type": "object",
+                        "properties":
+                        {
+                            "narrative":
+                            {
+                                "type": "string",
+                                "description": "The additional text printed on descriptive statements in addition to the standard narrative and/or reference"
+                            }
+                        }
+                    }
+                },
+                "groupId":
+                {
+                    "type": "string",
+                    "description": "Unique ID of the group"
+                },
+                "mainAccount":
+                {
+                    "type": "string",
+                    "description": ""
+                },
+                "sequenceNumber":
+                {
+                    "type": "number",
+                    "description": ""
+                },
+                "sweepCancelDate":
+                {
+                    "type": "string",
+                    "format": "date",
+                    "description": ""
+                },
+                "suspensionStartDate":
+                {
+                    "type": "string",
+                    "format": "date",
+                    "description": ""
+                },
+                "suspensionEndDate":
+                {
+                    "type": "string",
+                    "format": "date",
+                    "description": ""
+                },
+                "suspendIndefinite":
+                {
+                    "type": "string",
+                    "description": ""
+                },
+                "counterBookingSweepAccount":
+                {
+                    "type": "string",
+                    "description": ""
+                },
+                "counterBookingLinkAccount":
+                {
+                    "type": "string",
+                    "description": ""
+                }
+            }
+        },
+        "ScreenHeader":
+        {
+            "properties":
+            {
+                "id":
+                {
+                    "type": "string",
+                    "description": "The Identifier of the record created"
+                },
+                "status":
+                {
+                    "type": "string",
+                    "description": "The status of the record"
+                },
+                "transactionStatus":
+                {
+                    "type": "string",
+                    "description": "The status of the transaction"
+                },
+                "audit":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "T24_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to response by T24"
+                        },
+                        "versionNumber":
+                        {
+                            "type": "string",
+                            "description": "The CURR.NO. of the record"
+                        },
+                        "parse_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to parse the response by IRIS"
+                        }
+                    }
+                }
+            }
+        },
+        "SurplusBalanceSweepsResponse":
+        {
+            "properties":
+            {
+                "header":
+                {
+                    "$ref": "#/definitions/ScreenHeader"
+                },
+                "body":
+                {
+                    "$ref": "#/definitions/SurplusBalanceSweepsResponseBody"
+                }
+            },
+            "description": "SurplusBalanceSweepsResponse"
+        },
+        "SurplusBalanceSweepsResponseBody":
+        {
+            "type": "object",
+            "properties":
+            {
+                "sweepRelationshipDetails":
+                {
+                    "type": "array",
+                    "items":
+                    {
+                        "type": "object",
+                        "properties":
+                        {
+                            "linkAccount":
+                            {
+                                "type": "string",
+                                "description": ""
+                            },
+                            "rule":
+                            {
+                                "type": "string",
+                                "description": "A rule is assigned to a product and the rule determines whether a customer can buy that product or hold it after changes in circumstance."
+                            },
+                            "frequency":
+                            {
+                                "type": "string",
+                                "description": "Identifies the frequency of instruction execution. It specifies the next execution date and frequency i.e. daily, weekly, fortnightly, monthly, yearly or fortnightly. "
+                            },
+                            "minimumBalance":
+                            {
+                                "type": "number",
+                                "description": "The minimum account balance required"
+                            },
+                            "maximumBalance":
+                            {
+                                "type": "number",
+                                "description": "The maximum account balance allowed"
+                            },
+                            "minimumDebitsToTransfer":
+                            {
+                                "type": "number",
+                                "description": ""
+                            },
+                            "minimumCreditsToTransfer":
+                            {
+                                "type": "number",
+                                "description": ""
+                            },
+                            "schedule":
+                            {
+                                "type": "string",
+                                "description": ""
+                            }
+                        }
+                    }
+                },
+                "narratives":
+                {
+                    "type": "array",
+                    "description": "The additional text printed on descriptive statements in addition to the standard narrative and/or reference",
+                    "items":
+                    {
+                        "type": "object",
+                        "properties":
+                        {
+                            "narrative":
+                            {
+                                "type": "string",
+                                "description": "The additional text printed on descriptive statements in addition to the standard narrative and/or reference"
+                            }
+                        }
+                    }
+                },
+                "groupId":
+                {
+                    "type": "string",
+                    "description": "Unique ID of the group"
+                },
+                "mainAccount":
+                {
+                    "type": "string",
+                    "description": ""
+                },
+                "sequenceNumber":
+                {
+                    "type": "number",
+                    "description": ""
+                },
+                "sweepCancelDate":
+                {
+                    "type": "string",
+                    "format": "date",
+                    "description": ""
+                },
+                "suspensionStartDate":
+                {
+                    "type": "string",
+                    "format": "date",
+                    "description": ""
+                },
+                "suspensionEndDate":
+                {
+                    "type": "string",
+                    "format": "date",
+                    "description": ""
+                },
+                "suspendIndefinite":
+                {
+                    "type": "string",
+                    "description": ""
+                },
+                "counterBookingSweepAccount":
+                {
+                    "type": "string",
+                    "description": ""
+                },
+                "counterBookingLinkAccount":
+                {
+                    "type": "string",
+                    "description": ""
+                }
+            }
+        },
+        "ErrorHeader":
+        {
+            "properties":
+            {
+                "id":
+                {
+                    "type": "string",
+                    "description": "The Identifier of the record created"
+                },
+                "status":
+                {
+                    "type": "string",
+                    "description": "The status of the record"
+                },
+                "transactionStatus":
+                {
+                    "type": "string",
+                    "description": "The status of the transaction"
+                },
+                "audit":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "T24_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to response by T24"
+                        },
+                        "versionNumber":
+                        {
+                            "type": "string",
+                            "description": "The CURR.NO. of the record"
+                        },
+                        "parse_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to parse the response by IRIS"
+                        }
+                    }
+                }
+            }
+        },
+        "overrideBody":
+        {
+            "properties":
+            {
+                "overrideDetails":
+                {
+                    "type": "array",
+                    "items":
+                    {
+                        "type": "object",
+                        "properties":
+                        {
+                            "id":
+                            {
+                                "type": "string",
+                                "description": "The identifier of the override"
+                            },
+                            "description":
+                            {
+                                "type": "string",
+                                "description": "The actual override message"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "ScreenErrorResponse":
+        {
+            "properties":
+            {
+                "header":
+                {
+                    "$ref": "#/definitions/ErrorHeader"
+                },
+                "error":
+                {
+                    "$ref": "#/definitions/ScreenErrorResponseBody"
+                },
+                "override":
+                {
+                    "$ref": "#/definitions/overrideBody"
+                }
+            },
+            "description": "ScreenErrorResponse"
+        },
+        "ScreenErrorResponseBody":
+        {
+            "type": "object",
+            "properties":
+            {
+                "errorDetails":
+                {
+                    "type": "array",
+                    "items":
+                    {
+                        "type": "object",
+                        "properties":
+                        {
+                            "fieldName":
+                            {
+                                "type": "string",
+                                "description": "The name of the field"
+                            },
+                            "code":
+                            {
+                                "type": "string",
+                                "description": "The identifier of the error message"
+                            },
+                            "message":
+                            {
+                                "type": "string",
+                                "description": "The actual t24 error message"
+                            }
+                        }
+                    }
+                },
+                "type":
+                {
+                    "type": "string",
+                    "description": "The identifier of error type"
+                }
+            }
+        }
+    }
+}
