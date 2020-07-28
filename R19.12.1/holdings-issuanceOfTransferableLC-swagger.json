@@ -1,0 +1,1714 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Issuing transferable LCs",
+    "version" : "v1.0.0",
+    "title" : "createIssuanceOfTransferableLC"
+  },
+  "host" : "api.server.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/holdings/letterOfCredits/transferables" : {
+      "post" : {
+        "operationId" : "createIssuanceOfTransferableLC",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/IssuanceOfTransferableLC"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "IssuanceOfTransferableLCResponse",
+            "schema" : {
+              "$ref" : "#/definitions/IssuanceOfTransferableLCResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "PayloadHeader" : {
+      "properties" : {
+        "override" : {
+          "type" : "object",
+          "properties" : {
+            "overrideDetails" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "id" : {
+                    "type" : "string",
+                    "description" : "The identifier of the override"
+                  },
+                  "description" : {
+                    "type" : "string",
+                    "description" : "The actual override message"
+                  },
+                  "responseCode" : {
+                    "type" : "string",
+                    "description" : "The user input to accept/reject the override."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            }
+          }
+        }
+      }
+    },
+    "IssuanceOfTransferableLC" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/IssuanceOfTransferableLCBody"
+        }
+      },
+      "description" : "IssuanceOfTransferableLC"
+    },
+    "IssuanceOfTransferableLCBody" : {
+      "type" : "object",
+      "required" : [ "issuingBankId", "parentLCReference" ],
+      "properties" : {
+        "advisingBanks" : {
+          "type" : "array",
+          "description" : "Identifies the advising bank under the Letter of Credit, through whom the Letter of Credit is to be advised to the second advising bank or beneficiary",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "advisingBank" : {
+                "type" : "string",
+                "description" : "Identifies the advising bank under the Letter of Credit, through whom the Letter of Credit is to be advised to the second advising bank or beneficiary",
+                "maxLength" : 25
+              }
+            }
+          }
+        },
+        "limitReferences" : {
+          "type" : "array",
+          "description" : "Identifies the credit limit reference for the underlying account.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "limitReference" : {
+                "type" : "string",
+                "description" : "Identifies the credit limit reference for the underlying account.",
+                "maxLength" : 25
+              }
+            }
+          }
+        },
+        "drawings" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "drawingType" : {
+                "type" : "string",
+                "description" : "This field is correlated to the other field payment type and identifies the Draw type under Letter of credit. Whether its a sight LC payment, acceptance, deferred payment or Mixed payment.",
+                "maxLength" : 25
+              },
+              "paymentPercent" : {
+                "type" : "string",
+                "description" : "This field identifies the percentage amount of LC that is available for a particular draw type.",
+                "maxLength" : 25
+              },
+              "paymentPortion" : {
+                "type" : "string",
+                "description" : "Identifies the amount of LC that is available for a particular draw type.",
+                "maxLength" : 25
+              },
+              "acptTimeBand" : {
+                "type" : "string",
+                "description" : "This field indicate the number of days applicable to an Acceptance or Deferred Payment period under a letter of credit. ",
+                "maxLength" : 25
+              },
+              "additionalCoveredAmount" : {
+                "type" : "string",
+                "description" : "This field allows input of an amount that will be added to the liability amount of the LC and the limit will be updated accordingly.",
+                "maxLength" : 25
+              },
+              "limitReference" : {
+                "type" : "string",
+                "description" : "Identifies the credit limit reference for the underlying account.",
+                "maxLength" : 25
+              }
+            }
+          }
+        },
+        "charges" : {
+          "type" : "array",
+          "description" : "The charges or fees for this transaction",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "chargeCode" : {
+                "type" : "string",
+                "description" : "Indicates the charge code to which the charges are identified and calculated and to be debited to the customer account. For example: C(Credit less Charges The Credit less Charges), D(Debit plus Charge The Debit plus Charge) , W(Waive).",
+                "maxLength" : 25
+              },
+              "partyCharged" : {
+                "type" : "string",
+                "description" : "Code to determine the identity of the party from whom the related charge is to be taken. Allowed values: -B(eneficiary) - O(pener) - T(hird Party).",
+                "maxLength" : 25
+              },
+              "chargeDebitAccount" : {
+                "type" : "string",
+                "description" : "The account number of the account where charges will be debited to.",
+                "maxLength" : 25
+              },
+              "chargeCurrency" : {
+                "type" : "string",
+                "description" : "Indicates the currency code of the charge account from where the fee is deducted",
+                "maxLength" : 25
+              },
+              "ChargeExchangeRate" : {
+                "type" : "string",
+                "description" : "Indicates the exchange rate to be used between the charge debit account and the charge currency is different.",
+                "maxLength" : 25
+              },
+              "chargeAmount" : {
+                "type" : "string",
+                "description" : "Retrieves the Charge Amount after redeem",
+                "maxLength" : 25
+              },
+              "amortiseCharges" : {
+                "type" : "string",
+                "description" : "Define if charges are to be amortised over the life of the LC. Y or N  input",
+                "maxLength" : 25
+              },
+              "chargeStatus" : {
+                "type" : "string",
+                "description" : "Indicates the codes to identify the different status of the charge. If the charge has been taken, claimed, or to be deferred or waived. The codes that are used to identify various states of the charge are: null, 2, 3, 4, 5, 15. ",
+                "maxLength" : 25
+              },
+              "taxCurrency" : {
+                "type" : "string",
+                "description" : "Contains the currency that tax is to be levied in. Example USD, GBP etc.",
+                "maxLength" : 25
+              },
+              "taxAmount" : {
+                "type" : "string",
+                "description" : "Total amount of taxes applicable on all commission or charges calculated for the transaction/payment.",
+                "maxLength" : 25
+              }
+            }
+          }
+        },
+        "assignments" : {
+          "type" : "array",
+          "description" : "This field provides the user with a free text field to make any internal notes regarding the assignment.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "assignmentReference" : {
+                "type" : "string",
+                "description" : "Identifies a recognisable reference for each assignment portion. This reference cannot be duplicated within the letter of credit record and should be unique.",
+                "maxLength" : 25
+              },
+              "assigneeId" : {
+                "type" : "string",
+                "description" : "Identify the customer number of the assignee if they are a customer of the bank. Should be a valid customer number.",
+                "maxLength" : 25
+              },
+              "assignmentAmount" : {
+                "type" : "string",
+                "description" : "Identify the total amount of the letter of credit which has been assigned to the assignee under the specific assignee reference/multi value set. This amount cannot exceed the liability amount.",
+                "maxLength" : 25
+              },
+              "assigntOutstandingAmount" : {
+                "type" : "string",
+                "description" : "Provides user the option of changing various details of the security position to be transferred",
+                "maxLength" : 25
+              },
+              "assigneeAddresses" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "assigneeAddress" : {
+                      "type" : "string",
+                      "description" : "Identifies the assignee's name and address if they are not a customer of the bank.",
+                      "maxLength" : 25
+                    }
+                  }
+                }
+              },
+              "assignmentNotes" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "assignmentNote" : {
+                      "type" : "string",
+                      "description" : "This field provides the user with a free text field to make any internal notes regarding the assignment.",
+                      "maxLength" : 25
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "secondBeneficiaries" : {
+          "type" : "array",
+          "description" : "Indicates the  second Beneficiary details on whose favour the transfer Letter of Credit is issued. ",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "secondBeneficiary" : {
+                "type" : "string",
+                "description" : "Indicates the  second Beneficiary details on whose favour the transfer Letter of Credit is issued. ",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "availableWithBanks" : {
+          "type" : "array",
+          "description" : "Indicates the bank name and address that is authorised to pay, accept, or negotiate document presented under the letter of credit",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "availableWithBank" : {
+                "type" : "string",
+                "description" : "Indicates the bank name and address that is authorised to pay, accept, or negotiate document presented under the letter of credit",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "draftsAt" : {
+          "type" : "array",
+          "description" : "Indicates the tenor of the draft to be presented under the Letter of Credit.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "draftAt" : {
+                "type" : "string",
+                "description" : "Indicates the tenor of the draft to be presented under the Letter of Credit.",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "drawees" : {
+          "type" : "array",
+          "description" : "Identify the drawee of Bills of Exchange to be presented under the LC, if the drawee is not a customer of the bank with a valid customer number. Drawees Name and Address may be manually input.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "drawee" : {
+                "type" : "string",
+                "description" : "Identify the drawee of Bills of Exchange to be presented under the LC, if the drawee is not a customer of the bank with a valid customer number. Drawees Name and Address may be manually input.",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "mixedPaymentDetails" : {
+          "type" : "array",
+          "description" : "This field specify the payment dates, amounts and/or method for the determination in an LC, which is available by mixed payment. ",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "mixedPaymentDetail" : {
+                "type" : "string",
+                "description" : "This field specify the payment dates, amounts and/or method for the determination in an LC, which is available by mixed payment. ",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "negotiationDeferredPaymentDetails" : {
+          "type" : "array",
+          "description" : "This field specify the payment date or method for its determination for which deferred payment or a Negotiation drawings will be made under the LC",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "negotiationDeferredPaymentDetail" : {
+                "type" : "string",
+                "description" : "This field specify the payment date or method for its determination for which deferred payment or a Negotiation drawings will be made under the LC",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "shipmentPeriods" : {
+          "type" : "array",
+          "description" : "Indicates the period of time which the goods are to be loaded on board/dispatched/taken in charge.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "shipmentPeriod" : {
+                "type" : "string",
+                "description" : "Indicates the period of time which the goods are to be loaded on board/dispatched/taken in charge.",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "documentsRequired" : {
+          "type" : "array",
+          "description" : "Free textfield used to describe the documents to be presented under the letter of credit, in addition to the predefined documents associated with documentCode.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "documentRequired" : {
+                "type" : "string",
+                "description" : "Free textfield used to describe the documents to be presented under the letter of credit, in addition to the predefined documents associated with documentCode.",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "additionalConditions" : {
+          "type" : "array",
+          "description" : "Amendment details to the additional conditions under a LC contract. Must begin with the valid codes: ADD or DELETE or REPALL.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "additionalCondition" : {
+                "type" : "string",
+                "description" : "Amendment details to the additional conditions under a LC contract. Must begin with the valid codes: ADD or DELETE or REPALL.",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "narrativeCharges" : {
+          "type" : "array",
+          "description" : "Field to specify the details of the charges to be borne by the beneficiary",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "narrativeCharge" : {
+                "type" : "string",
+                "description" : "Field to specify the details of the charges to be borne by the beneficiary",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "requestedConfirmBankNames" : {
+          "type" : "array",
+          "description" : "Name and address of the requested confirming bank, i.e. the bank which may or which is requested by the issuing bank to add its confirmation to the documentary credit.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "requestedConfirmBankName" : {
+                "type" : "string",
+                "description" : "Name and address of the requested confirming bank, i.e. the bank which may or which is requested by the issuing bank to add its confirmation to the documentary credit.",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "instructionsToTheBanks" : {
+          "type" : "array",
+          "description" : "This field can be used to stiputate any special or additional instructions to the Paying/Accepting/Negotiating Bank.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "instructionsToTheBank" : {
+                "type" : "string",
+                "description" : "This field can be used to stiputate any special or additional instructions to the Paying/Accepting/Negotiating Bank.",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "adviseThroughBanks" : {
+          "type" : "array",
+          "description" : "Identifies the bank ID, if different from the Receiver, through which the Letter of Credit is to be advised/confirmed to the beneficiary.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "adviseThroughBank" : {
+                "type" : "string",
+                "description" : "Identifies the bank ID, if different from the Receiver, through which the Letter of Credit is to be advised/confirmed to the beneficiary.",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "lcType" : {
+          "type" : "string",
+          "description" : "Indicates the type of LC, whether this is an Import/Export, Confirmed/Unconfirmed/Revolving/Transferrable/Back to Back LC/documentary collection/Clean collection etc.",
+          "maxLength" : 25
+        },
+        "parentLCReference" : {
+          "type" : "string",
+          "description" : "Indicates the parent LC number under the transfer LC.",
+          "maxLength" : 25
+        },
+        "lcTransferAdvisingReference" : {
+          "type" : "string",
+          "description" : "Identifies the Advising banks LCs number (or reference of the L/C from legacy system) at the time of transferring a letter of credit. It can also be used for the bank to use a unique Letter of Credit number rather than the system generated ID",
+          "maxLength" : 27
+        },
+        "issuingBankLCReference" : {
+          "type" : "string",
+          "description" : "Indicates the Issuing Bank's reference of the Letter of Credit.",
+          "maxLength" : 25
+        },
+        "issuingBankId" : {
+          "type" : "string",
+          "description" : "Identifies the Issuing bank ID under the LC, who issues the LC under when a bank is advising the Letter of Credit",
+          "maxLength" : 35
+        },
+        "advisingBank" : {
+          "type" : "string",
+          "description" : "Identifies the advising bank under the Letter of Credit, through whom the Letter of Credit is to be advised to the second advising bank or beneficiary",
+          "maxLength" : 25
+        },
+        "issuingBankName" : {
+          "type" : "string",
+          "description" : "Identifies the Issuing bank name and address of the bank issuing the LC.",
+          "maxLength" : 35
+        },
+        "lcAdvisingDate" : {
+          "type" : "string",
+          "description" : "Date of advising the Letter of Credit to beneficiary or Second advising bank.",
+          "maxLength" : 25
+        },
+        "lcCurrency" : {
+          "type" : "string",
+          "description" : "Denote the currency of the Letter of Credit.",
+          "maxLength" : 35
+        },
+        "lcAmount" : {
+          "type" : "number",
+          "description" : "This field indicates the amount of the Letter of Credit that will always be expressed in the currency of Letter of Credit."
+        },
+        "creditTolerance" : {
+          "type" : "string",
+          "description" : "Under a Letter of Credit the amount can be specified plus or minus a tolerance expressed as a percentage which will always impact the LC liability for the greater amount including the plus tolerance as defined in this field.",
+          "maxLength" : 35
+        },
+        "debitTolerance" : {
+          "type" : "string",
+          "description" : "Under a Letter of Credit, the amount can be specified with a tolerance, which will impact the LC liability for the greater amount. The amount in this field specifies a negative tolerance expressed as a percentage of the LC amount. It can impact the final drawing amount but not the live LC amount.",
+          "maxLength" : 35
+        },
+        "issueDate" : {
+          "type" : "string",
+          "description" : "The date the item was issued.",
+          "maxLength" : 25
+        },
+        "expiryDate" : {
+          "type" : "string",
+          "description" : "The date an agreement such as an arrangement, product, credit facility or limit is due to expire",
+          "maxLength" : 25
+        },
+        "expiryPlace" : {
+          "type" : "string",
+          "description" : "Expiry place for presentation under the documentary credit.",
+          "maxLength" : 35
+        },
+        "liabilityReversalDate" : {
+          "type" : "string",
+          "description" : "Date on which the contingent entries and the limits raised on the LC will be reversed.",
+          "maxLength" : 25
+        },
+        "autoExpiry" : {
+          "type" : "string",
+          "description" : "Decision field to determine whether the contingent entries are to be reversed after the deal expiry date or not Allowed values: - YES - NO - null (default value, same as NO)",
+          "maxLength" : 25
+        },
+        "secondBeneficiaryID" : {
+          "type" : "string",
+          "description" : "Indicates the second Beneficiary ID in whose favour the transfer Letter of Credit is transferred",
+          "maxLength" : 25
+        },
+        "secondBeneficiaryAddress" : {
+          "type" : "string",
+          "description" : "Indicates the second Beneficiary name and address in whose favour the transfer Letter of Credit is transferred.",
+          "maxLength" : 25
+        },
+        "firstBeneficiaryName" : {
+          "type" : "string",
+          "description" : "Indicates the  First Beneficiary name and address on whose request the transfer Letter of Credit is issued.",
+          "maxLength" : 25
+        },
+        "availableWithBankID" : {
+          "type" : "string",
+          "description" : "Indicates the bank ID that is authorised to pay, accept, or negotiate document presented under the letter of credit",
+          "maxLength" : 35
+        },
+        "availableWithBank" : {
+          "type" : "string",
+          "description" : "Indicates the bank name and address that is authorised to pay, accept, or negotiate document presented under the letter of credit",
+          "maxLength" : 25
+        },
+        "adviseThroughBankID" : {
+          "type" : "string",
+          "description" : "Identifies the bank ID, if different from the Receiver, through which the Letter of Credit is to be advised/confirmed to the beneficiary.",
+          "maxLength" : 35
+        },
+        "adviseThroughBank" : {
+          "type" : "string",
+          "description" : "Identifies the bank ID, if different from the Receiver, through which the Letter of Credit is to be advised/confirmed to the beneficiary.",
+          "maxLength" : 25
+        },
+        "chargeFrom" : {
+          "type" : "string",
+          "description" : "Code to identify from whom the bank is to claim its charges. Allowed values: - O(pener) - B(eneficiary) - T(hird Party)",
+          "maxLength" : 25
+        },
+        "chargeDefaultAccount" : {
+          "type" : "string",
+          "description" : "This field identifies the default charge account under which all present and future charges under the letter of credit will be debited to. This eliminates the need to specify the charge account for every charge",
+          "maxLength" : 25
+        },
+        "waiveCharge" : {
+          "type" : "string",
+          "description" : "Indicates if the charges are to be waived for the instruction",
+          "maxLength" : 25
+        },
+        "confirmationInstruction" : {
+          "type" : "string",
+          "description" : "This field contains confirmation instructions for the receiver of the SWIFT MT700 / MT710 ",
+          "maxLength" : 35
+        },
+        "riskParty" : {
+          "type" : "string",
+          "description" : "Identifies the risk party under the LC contract. Must be a valid customer number or Mnemonic. It's a system populated field other than the export LC.",
+          "maxLength" : 25
+        },
+        "confirmationDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Indicates the Date of adding confirmation to the export LC."
+        },
+        "confirmationAmount" : {
+          "type" : "number",
+          "description" : "Value in this field indicates that the portion of the Letter of Credit that has been confirmed."
+        },
+        "confirmLiabilityAmount" : {
+          "type" : "number",
+          "description" : "System populated field to indicate the amount in terms of LC currency"
+        },
+        "unconfirmLiabilityAmount" : {
+          "type" : "number",
+          "description" : "Identifies the total unconfirmed liability amount in respect of partially confirmed Letters of Credit. "
+        },
+        "unconfirmLimitReference" : {
+          "type" : "string",
+          "description" : "This field indicated the limit reference assigned for the unconfirmed portion of the LC. Input in this field will be allowed based in the parameter system.",
+          "maxLength" : 25
+        },
+        "revolvingType" : {
+          "type" : "string",
+          "description" : "Identifies the type of Revolving Letter of Credit , if Cumulative (CM) or Non-Cumulative type. (NC) ",
+          "maxLength" : 25
+        },
+        "numberOfRevolution" : {
+          "type" : "string",
+          "description" : "Identifies the number of times the letter of credit will revolve.",
+          "maxLength" : 25
+        },
+        "revolvingFrequency" : {
+          "type" : "string",
+          "description" : "Defines the frequency at which the letter of credit is to revolve.",
+          "maxLength" : 25
+        },
+        "limitForRevolving" : {
+          "type" : "string",
+          "description" : "This field determines if the limit to be impacted to the current LC cycle or for the entire cycle including all the revolving values. Valid input in this field is SINGLE, and Input allowed only if the LC is revolving and non-cumulative in nature.",
+          "maxLength" : 25
+        },
+        "curRevolLiab" : {
+          "type" : "string",
+          "description" : "Related to revolving Letters of Credit, this is a system populated field to display the liability in terms of the LC currency for the Current revolution.",
+          "maxLength" : 25
+        },
+        "formOfDocCredit" : {
+          "type" : "string",
+          "description" : "This field specifies the type of credit and whether or not the Sender is adding its confirmation to the credit. Valid inputs are: Adding our Confirmation / Without our Confirmation.",
+          "maxLength" : 35
+        },
+        "transferingBankReference" : {
+          "type" : "string",
+          "description" : "This field  identifies the advising banks transfer LCs number (or reference of the L/C from legacy system).",
+          "maxLength" : 35
+        },
+        "documentaryCreditNumber" : {
+          "type" : "string",
+          "description" : "Indicates the Issuing Bank's reference of the Documentary Credit.",
+          "maxLength" : 35
+        },
+        "lcIssueDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "This field holds the issue date of Letter of Credit"
+        },
+        "applicableRule" : {
+          "type" : "string",
+          "description" : "Specifies the rules the Letter of credit is subject to. Following are the valid inputs under this field: UCP LATEST VERSION, EUCP LATEST VERSION, UCPURR LATEST VERSION, EUCPURR LATEST VERSION, ISP LATEST VERSION, OTHR. If OTHR is input then, the rule under which credit is subject to must be input in applicable rules description field.",
+          "maxLength" : 35
+        },
+        "applicableRuleDescription" : {
+          "type" : "string",
+          "description" : "Specifies the rules the Letter of credit is subject to OTHER condition. If the valid code inputs under the field applicable rules as OTHR, then the rule under which credit is subject to must be input in applicable rules description field.",
+          "maxLength" : 35
+        },
+        "dateOfExpiry" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : ""
+        },
+        "additionalAmountCovered" : {
+          "type" : "number",
+          "description" : "Specifies any additional amounts available under the Letter of Credit, such as insurance, freight, interest, etc."
+        },
+        "draweeId" : {
+          "type" : "string",
+          "description" : "Identifies the name of the drawee of Bills of Exchange to be presented under the LC, if the drawee is a customer of the bank with a valid customer number.",
+          "maxLength" : 35
+        },
+        "partialShipment" : {
+          "type" : "string",
+          "description" : "Identifies if part shipments are allowed under the terms of the Letter of Credit. Valid codes are ALLOWED, CONDITIONAL, and NOT ALLOWED.",
+          "maxLength" : 35
+        },
+        "transhipment" : {
+          "type" : "string",
+          "description" : "Identifies if transhipments are allowed under the terms of the LC. Valid codes are ALLOWED, CONDITIONAL, and NOT ALLOWED.",
+          "maxLength" : 35
+        },
+        "placeOfTakingInCharge" : {
+          "type" : "string",
+          "description" : "Indicates the place of taking in charge(in case of multimodal transport document), the place of receipt(in case of a road, rail or inland waterway transport document or a courier expedited delivery service document), the place of dispatch or the place of shipment to be indicated on the transport document",
+          "maxLength" : 35
+        },
+        "portOfLoading" : {
+          "type" : "string",
+          "description" : "Indicates the place of dispatch or taking in charge of the goods or loading on board for shipments made under the LC.",
+          "maxLength" : 35
+        },
+        "portOfDischarge" : {
+          "type" : "string",
+          "description" : "Indicates the port of discharge or the airport of destination of the shipment under the LC.",
+          "maxLength" : 35
+        },
+        "finalDestination" : {
+          "type" : "string",
+          "description" : "Indicates the final destination or place of delivery of the shipment under the LC.",
+          "maxLength" : 35
+        },
+        "latestShipmentDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Latest date for loading on board/dispatch/taking in charge for goods shipped under the LC."
+        },
+        "descriptionOfGoods" : {
+          "type" : "string",
+          "description" : "",
+          "maxLength" : 35
+        },
+        "daysAndPeriodForPresentation" : {
+          "type" : "string",
+          "description" : "Specifies the number of calendar days after the date of shipment within which the documents must be presented for payment, acceptance or negotiation. ",
+          "maxLength" : 35
+        },
+        "requestedConfirmBankName" : {
+          "type" : "string",
+          "description" : "Name and address of the requested confirming bank, i.e. the bank which may or which is requested by the issuing bank to add its confirmation to the documentary credit.",
+          "maxLength" : 35
+        },
+        "senderToReceiverInfo" : {
+          "type" : "string",
+          "description" : "This field holds the additional information for the Receiver (Tag 72Z), while receiving/generating MT740 message.",
+          "maxLength" : 35
+        }
+      }
+    },
+    "ScreenHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "IssuanceOfTransferableLCResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/IssuanceOfTransferableLCResponseBody"
+        }
+      },
+      "description" : "IssuanceOfTransferableLCResponse"
+    },
+    "IssuanceOfTransferableLCResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "advisingBanks" : {
+          "type" : "array",
+          "description" : "Identifies the advising bank under the Letter of Credit, through whom the Letter of Credit is to be advised to the second advising bank or beneficiary",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "advisingBank" : {
+                "type" : "string",
+                "description" : "Identifies the advising bank under the Letter of Credit, through whom the Letter of Credit is to be advised to the second advising bank or beneficiary",
+                "maxLength" : 25
+              }
+            }
+          }
+        },
+        "limitReferences" : {
+          "type" : "array",
+          "description" : "Identifies the credit limit reference for the underlying account.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "limitReference" : {
+                "type" : "string",
+                "description" : "Identifies the credit limit reference for the underlying account.",
+                "maxLength" : 25
+              }
+            }
+          }
+        },
+        "drawings" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "drawingType" : {
+                "type" : "string",
+                "description" : "This field is correlated to the other field payment type and identifies the Draw type under Letter of credit. Whether its a sight LC payment, acceptance, deferred payment or Mixed payment.",
+                "maxLength" : 25
+              },
+              "paymentPercent" : {
+                "type" : "string",
+                "description" : "This field identifies the percentage amount of LC that is available for a particular draw type.",
+                "maxLength" : 25
+              },
+              "paymentPortion" : {
+                "type" : "string",
+                "description" : "Identifies the amount of LC that is available for a particular draw type.",
+                "maxLength" : 25
+              },
+              "acptTimeBand" : {
+                "type" : "string",
+                "description" : "This field indicate the number of days applicable to an Acceptance or Deferred Payment period under a letter of credit. ",
+                "maxLength" : 25
+              },
+              "additionalCoveredAmount" : {
+                "type" : "string",
+                "description" : "This field allows input of an amount that will be added to the liability amount of the LC and the limit will be updated accordingly.",
+                "maxLength" : 25
+              },
+              "limitReference" : {
+                "type" : "string",
+                "description" : "Identifies the credit limit reference for the underlying account.",
+                "maxLength" : 25
+              }
+            }
+          }
+        },
+        "charges" : {
+          "type" : "array",
+          "description" : "The charges or fees for this transaction",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "chargeCode" : {
+                "type" : "string",
+                "description" : "Indicates the charge code to which the charges are identified and calculated and to be debited to the customer account. For example: C(Credit less Charges The Credit less Charges), D(Debit plus Charge The Debit plus Charge) , W(Waive).",
+                "maxLength" : 25
+              },
+              "partyCharged" : {
+                "type" : "string",
+                "description" : "Code to determine the identity of the party from whom the related charge is to be taken. Allowed values: -B(eneficiary) - O(pener) - T(hird Party).",
+                "maxLength" : 25
+              },
+              "chargeDebitAccount" : {
+                "type" : "string",
+                "description" : "The account number of the account where charges will be debited to.",
+                "maxLength" : 25
+              },
+              "chargeCurrency" : {
+                "type" : "string",
+                "description" : "Indicates the currency code of the charge account from where the fee is deducted",
+                "maxLength" : 25
+              },
+              "ChargeExchangeRate" : {
+                "type" : "string",
+                "description" : "Indicates the exchange rate to be used between the charge debit account and the charge currency is different.",
+                "maxLength" : 25
+              },
+              "chargeAmount" : {
+                "type" : "string",
+                "description" : "Retrieves the Charge Amount after redeem",
+                "maxLength" : 25
+              },
+              "amortiseCharges" : {
+                "type" : "string",
+                "description" : "Define if charges are to be amortised over the life of the LC. Y or N  input",
+                "maxLength" : 25
+              },
+              "chargeStatus" : {
+                "type" : "string",
+                "description" : "Indicates the codes to identify the different status of the charge. If the charge has been taken, claimed, or to be deferred or waived. The codes that are used to identify various states of the charge are: null, 2, 3, 4, 5, 15. ",
+                "maxLength" : 25
+              },
+              "taxCurrency" : {
+                "type" : "string",
+                "description" : "Contains the currency that tax is to be levied in. Example USD, GBP etc.",
+                "maxLength" : 25
+              },
+              "taxAmount" : {
+                "type" : "string",
+                "description" : "Total amount of taxes applicable on all commission or charges calculated for the transaction/payment.",
+                "maxLength" : 25
+              }
+            }
+          }
+        },
+        "assignments" : {
+          "type" : "array",
+          "description" : "This field provides the user with a free text field to make any internal notes regarding the assignment.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "assignmentReference" : {
+                "type" : "string",
+                "description" : "Identifies a recognisable reference for each assignment portion. This reference cannot be duplicated within the letter of credit record and should be unique.",
+                "maxLength" : 25
+              },
+              "assigneeId" : {
+                "type" : "string",
+                "description" : "Identify the customer number of the assignee if they are a customer of the bank. Should be a valid customer number.",
+                "maxLength" : 25
+              },
+              "assignmentAmount" : {
+                "type" : "string",
+                "description" : "Identify the total amount of the letter of credit which has been assigned to the assignee under the specific assignee reference/multi value set. This amount cannot exceed the liability amount.",
+                "maxLength" : 25
+              },
+              "assigntOutstandingAmount" : {
+                "type" : "string",
+                "description" : "Provides user the option of changing various details of the security position to be transferred",
+                "maxLength" : 25
+              },
+              "assigneeAddresses" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "assigneeAddress" : {
+                      "type" : "string",
+                      "description" : "Identifies the assignee's name and address if they are not a customer of the bank.",
+                      "maxLength" : 25
+                    }
+                  }
+                }
+              },
+              "assignmentNotes" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "assignmentNote" : {
+                      "type" : "string",
+                      "description" : "This field provides the user with a free text field to make any internal notes regarding the assignment.",
+                      "maxLength" : 25
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "firstBeneficiaries" : {
+          "type" : "array",
+          "description" : "Indicates the  First Beneficairy details on whose request the transfer Letter of Credit is issued. ",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "firstBeneficiary" : {
+                "type" : "string",
+                "description" : "Indicates the  First Beneficairy details on whose request the transfer Letter of Credit is issued. ",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "secondBeneficiaries" : {
+          "type" : "array",
+          "description" : "Indicates the  second Beneficiary details on whose favour the transfer Letter of Credit is issued. ",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "secondBeneficiary" : {
+                "type" : "string",
+                "description" : "Indicates the  second Beneficiary details on whose favour the transfer Letter of Credit is issued. ",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "availableWithBanks" : {
+          "type" : "array",
+          "description" : "Indicates the bank name and address that is authorised to pay, accept, or negotiate document presented under the letter of credit",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "availableWithBank" : {
+                "type" : "string",
+                "description" : "Indicates the bank name and address that is authorised to pay, accept, or negotiate document presented under the letter of credit",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "draftsAt" : {
+          "type" : "array",
+          "description" : "Indicates the tenor of the draft to be presented under the Letter of Credit.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "draftAt" : {
+                "type" : "string",
+                "description" : "Indicates the tenor of the draft to be presented under the Letter of Credit.",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "drawees" : {
+          "type" : "array",
+          "description" : "Identify the drawee of Bills of Exchange to be presented under the LC, if the drawee is not a customer of the bank with a valid customer number. Drawees Name and Address may be manually input.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "drawee" : {
+                "type" : "string",
+                "description" : "Identify the drawee of Bills of Exchange to be presented under the LC, if the drawee is not a customer of the bank with a valid customer number. Drawees Name and Address may be manually input.",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "mixedPaymentDetails" : {
+          "type" : "array",
+          "description" : "This field specify the payment dates, amounts and/or method for the determination in an LC, which is available by mixed payment. ",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "mixedPaymentDetail" : {
+                "type" : "string",
+                "description" : "This field specify the payment dates, amounts and/or method for the determination in an LC, which is available by mixed payment. ",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "negotiationDeferredPaymentDetails" : {
+          "type" : "array",
+          "description" : "This field specify the payment date or method for its determination for which deferred payment or a Negotiation drawings will be made under the LC",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "negotiationDeferredPaymentDetail" : {
+                "type" : "string",
+                "description" : "This field specify the payment date or method for its determination for which deferred payment or a Negotiation drawings will be made under the LC",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "shipmentPeriods" : {
+          "type" : "array",
+          "description" : "Indicates the period of time which the goods are to be loaded on board/dispatched/taken in charge.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "shipmentPeriod" : {
+                "type" : "string",
+                "description" : "Indicates the period of time which the goods are to be loaded on board/dispatched/taken in charge.",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "documentsRequired" : {
+          "type" : "array",
+          "description" : "Free textfield used to describe the documents to be presented under the letter of credit, in addition to the predefined documents associated with documentCode.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "documentRequired" : {
+                "type" : "string",
+                "description" : "Free textfield used to describe the documents to be presented under the letter of credit, in addition to the predefined documents associated with documentCode.",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "additionalConditions" : {
+          "type" : "array",
+          "description" : "Amendment details to the additional conditions under a LC contract. Must begin with the valid codes: ADD or DELETE or REPALL.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "additionalCondition" : {
+                "type" : "string",
+                "description" : "Amendment details to the additional conditions under a LC contract. Must begin with the valid codes: ADD or DELETE or REPALL.",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "narrativeCharges" : {
+          "type" : "array",
+          "description" : "Field to specify the details of the charges to be borne by the beneficiary",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "narrativeCharge" : {
+                "type" : "string",
+                "description" : "Field to specify the details of the charges to be borne by the beneficiary",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "requestedConfirmBankNames" : {
+          "type" : "array",
+          "description" : "Name and address of the requested confirming bank, i.e. the bank which may or which is requested by the issuing bank to add its confirmation to the documentary credit.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "requestedConfirmBankName" : {
+                "type" : "string",
+                "description" : "Name and address of the requested confirming bank, i.e. the bank which may or which is requested by the issuing bank to add its confirmation to the documentary credit.",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "instructionsToTheBanks" : {
+          "type" : "array",
+          "description" : "This field can be used to stiputate any special or additional instructions to the Paying/Accepting/Negotiating Bank.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "instructionsToTheBank" : {
+                "type" : "string",
+                "description" : "This field can be used to stiputate any special or additional instructions to the Paying/Accepting/Negotiating Bank.",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "adviseThroughBanks" : {
+          "type" : "array",
+          "description" : "Identifies the bank ID, if different from the Receiver, through which the Letter of Credit is to be advised/confirmed to the beneficiary.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "adviseThroughBank" : {
+                "type" : "string",
+                "description" : "Identifies the bank ID, if different from the Receiver, through which the Letter of Credit is to be advised/confirmed to the beneficiary.",
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "lcType" : {
+          "type" : "string",
+          "description" : "Indicates the type of LC, whether this is an Import/Export, Confirmed/Unconfirmed/Revolving/Transferrable/Back to Back LC/documentary collection/Clean collection etc.",
+          "maxLength" : 25
+        },
+        "parentLCReference" : {
+          "type" : "string",
+          "description" : "Indicates the parent LC number under the transfer LC.",
+          "maxLength" : 25
+        },
+        "lcTransferAdvisingReference" : {
+          "type" : "string",
+          "description" : "Identifies the Advising banks LCs number (or reference of the L/C from legacy system) at the time of transferring a letter of credit. It can also be used for the bank to use a unique Letter of Credit number rather than the system generated ID",
+          "maxLength" : 27
+        },
+        "issuingBankLCReference" : {
+          "type" : "string",
+          "description" : "Indicates the Issuing Bank's reference of the Letter of Credit.",
+          "maxLength" : 25
+        },
+        "issuingBankId" : {
+          "type" : "string",
+          "description" : "Identifies the Issuing bank ID under the LC, who issues the LC under when a bank is advising the Letter of Credit",
+          "maxLength" : 35
+        },
+        "advisingBank" : {
+          "type" : "string",
+          "description" : "Identifies the advising bank under the Letter of Credit, through whom the Letter of Credit is to be advised to the second advising bank or beneficiary",
+          "maxLength" : 25
+        },
+        "issuingBankName" : {
+          "type" : "string",
+          "description" : "Identifies the Issuing bank name and address of the bank issuing the LC.",
+          "maxLength" : 35
+        },
+        "lcAdvisingDate" : {
+          "type" : "string",
+          "description" : "Date of advising the Letter of Credit to beneficiary or Second advising bank.",
+          "maxLength" : 25
+        },
+        "lcCurrency" : {
+          "type" : "string",
+          "description" : "Denote the currency of the Letter of Credit.",
+          "maxLength" : 35
+        },
+        "lcAmount" : {
+          "type" : "number",
+          "description" : "This field indicates the amount of the Letter of Credit that will always be expressed in the currency of Letter of Credit."
+        },
+        "creditTolerance" : {
+          "type" : "string",
+          "description" : "Under a Letter of Credit the amount can be specified plus or minus a tolerance expressed as a percentage which will always impact the LC liability for the greater amount including the plus tolerance as defined in this field.",
+          "maxLength" : 35
+        },
+        "debitTolerance" : {
+          "type" : "string",
+          "description" : "Under a Letter of Credit, the amount can be specified with a tolerance, which will impact the LC liability for the greater amount. The amount in this field specifies a negative tolerance expressed as a percentage of the LC amount. It can impact the final drawing amount but not the live LC amount.",
+          "maxLength" : 35
+        },
+        "issueDate" : {
+          "type" : "string",
+          "description" : "The date the item was issued.",
+          "maxLength" : 25
+        },
+        "expiryDate" : {
+          "type" : "string",
+          "description" : "The date an agreement such as an arrangement, product, credit facility or limit is due to expire",
+          "maxLength" : 25
+        },
+        "expiryPlace" : {
+          "type" : "string",
+          "description" : "Expiry place for presentation under the documentary credit.",
+          "maxLength" : 35
+        },
+        "liabilityReversalDate" : {
+          "type" : "string",
+          "description" : "Date on which the contingent entries and the limits raised on the LC will be reversed.",
+          "maxLength" : 25
+        },
+        "autoExpiry" : {
+          "type" : "string",
+          "description" : "Decision field to determine whether the contingent entries are to be reversed after the deal expiry date or not Allowed values: - YES - NO - null (default value, same as NO)",
+          "maxLength" : 25
+        },
+        "secondBeneficiaryID" : {
+          "type" : "string",
+          "description" : "Indicates the second Beneficiary ID in whose favour the transfer Letter of Credit is transferred",
+          "maxLength" : 25
+        },
+        "secondBeneficiaryAddress" : {
+          "type" : "string",
+          "description" : "Indicates the second Beneficiary name and address in whose favour the transfer Letter of Credit is transferred.",
+          "maxLength" : 25
+        },
+        "firstBeneficiaryID" : {
+          "type" : "string",
+          "description" : "specifies the fist beneficiary ID under an export Letter of Credit when the Letter of credit is transferred to a second beneficiary.",
+          "maxLength" : 25
+        },
+        "firstBeneficiaryName" : {
+          "type" : "string",
+          "description" : "Indicates the  First Beneficiary name and address on whose request the transfer Letter of Credit is issued.",
+          "maxLength" : 25
+        },
+        "availableWithBankID" : {
+          "type" : "string",
+          "description" : "Indicates the bank ID that is authorised to pay, accept, or negotiate document presented under the letter of credit",
+          "maxLength" : 35
+        },
+        "availableWithBank" : {
+          "type" : "string",
+          "description" : "Indicates the bank name and address that is authorised to pay, accept, or negotiate document presented under the letter of credit",
+          "maxLength" : 25
+        },
+        "adviseThroughBankID" : {
+          "type" : "string",
+          "description" : "Identifies the bank ID, if different from the Receiver, through which the Letter of Credit is to be advised/confirmed to the beneficiary.",
+          "maxLength" : 35
+        },
+        "adviseThroughBank" : {
+          "type" : "string",
+          "description" : "Identifies the bank ID, if different from the Receiver, through which the Letter of Credit is to be advised/confirmed to the beneficiary.",
+          "maxLength" : 25
+        },
+        "chargeFrom" : {
+          "type" : "string",
+          "description" : "Code to identify from whom the bank is to claim its charges. Allowed values: - O(pener) - B(eneficiary) - T(hird Party)",
+          "maxLength" : 25
+        },
+        "chargeDefaultAccount" : {
+          "type" : "string",
+          "description" : "This field identifies the default charge account under which all present and future charges under the letter of credit will be debited to. This eliminates the need to specify the charge account for every charge",
+          "maxLength" : 25
+        },
+        "waiveCharge" : {
+          "type" : "string",
+          "description" : "Indicates if the charges are to be waived for the instruction",
+          "maxLength" : 25
+        },
+        "confirmationInstruction" : {
+          "type" : "string",
+          "description" : "This field contains confirmation instructions for the receiver of the SWIFT MT700 / MT710 ",
+          "maxLength" : 35
+        },
+        "riskParty" : {
+          "type" : "string",
+          "description" : "Identifies the risk party under the LC contract. Must be a valid customer number or Mnemonic. It's a system populated field other than the export LC.",
+          "maxLength" : 25
+        },
+        "confirmationDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Indicates the Date of adding confirmation to the export LC."
+        },
+        "confirmationAmount" : {
+          "type" : "number",
+          "description" : "Value in this field indicates that the portion of the Letter of Credit that has been confirmed."
+        },
+        "confirmLiabilityAmount" : {
+          "type" : "number",
+          "description" : "System populated field to indicate the amount in terms of LC currency"
+        },
+        "unconfirmLiabilityAmount" : {
+          "type" : "number",
+          "description" : "Identifies the total unconfirmed liability amount in respect of partially confirmed Letters of Credit. "
+        },
+        "unconfirmLimitReference" : {
+          "type" : "string",
+          "description" : "This field indicated the limit reference assigned for the unconfirmed portion of the LC. Input in this field will be allowed based in the parameter system.",
+          "maxLength" : 25
+        },
+        "revolvingType" : {
+          "type" : "string",
+          "description" : "Identifies the type of Revolving Letter of Credit , if Cumulative (CM) or Non-Cumulative type. (NC) ",
+          "maxLength" : 25
+        },
+        "numberOfRevolution" : {
+          "type" : "string",
+          "description" : "Identifies the number of times the letter of credit will revolve.",
+          "maxLength" : 25
+        },
+        "revolvingFrequency" : {
+          "type" : "string",
+          "description" : "Defines the frequency at which the letter of credit is to revolve.",
+          "maxLength" : 25
+        },
+        "limitForRevolving" : {
+          "type" : "string",
+          "description" : "This field determines if the limit to be impacted to the current LC cycle or for the entire cycle including all the revolving values. Valid input in this field is SINGLE, and Input allowed only if the LC is revolving and non-cumulative in nature.",
+          "maxLength" : 25
+        },
+        "curRevolLiab" : {
+          "type" : "string",
+          "description" : "Related to revolving Letters of Credit, this is a system populated field to display the liability in terms of the LC currency for the Current revolution.",
+          "maxLength" : 25
+        },
+        "formOfDocCredit" : {
+          "type" : "string",
+          "description" : "This field specifies the type of credit and whether or not the Sender is adding its confirmation to the credit. Valid inputs are: Adding our Confirmation / Without our Confirmation.",
+          "maxLength" : 35
+        },
+        "transferingBankReference" : {
+          "type" : "string",
+          "description" : "This field  identifies the advising banks transfer LCs number (or reference of the L/C from legacy system).",
+          "maxLength" : 35
+        },
+        "documentaryCreditNumber" : {
+          "type" : "string",
+          "description" : "Indicates the Issuing Bank's reference of the Documentary Credit.",
+          "maxLength" : 35
+        },
+        "lcIssueDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "This field holds the issue date of Letter of Credit"
+        },
+        "applicableRule" : {
+          "type" : "string",
+          "description" : "Specifies the rules the Letter of credit is subject to. Following are the valid inputs under this field: UCP LATEST VERSION, EUCP LATEST VERSION, UCPURR LATEST VERSION, EUCPURR LATEST VERSION, ISP LATEST VERSION, OTHR. If OTHR is input then, the rule under which credit is subject to must be input in applicable rules description field.",
+          "maxLength" : 35
+        },
+        "applicableRuleDescription" : {
+          "type" : "string",
+          "description" : "Specifies the rules the Letter of credit is subject to OTHER condition. If the valid code inputs under the field applicable rules as OTHR, then the rule under which credit is subject to must be input in applicable rules description field.",
+          "maxLength" : 35
+        },
+        "dateOfExpiry" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : ""
+        },
+        "additionalAmountCovered" : {
+          "type" : "number",
+          "description" : "Specifies any additional amounts available under the Letter of Credit, such as insurance, freight, interest, etc."
+        },
+        "draweeId" : {
+          "type" : "string",
+          "description" : "Identifies the name of the drawee of Bills of Exchange to be presented under the LC, if the drawee is a customer of the bank with a valid customer number.",
+          "maxLength" : 35
+        },
+        "partialShipment" : {
+          "type" : "string",
+          "description" : "Identifies if part shipments are allowed under the terms of the Letter of Credit. Valid codes are ALLOWED, CONDITIONAL, and NOT ALLOWED.",
+          "maxLength" : 35
+        },
+        "transhipment" : {
+          "type" : "string",
+          "description" : "Identifies if transhipments are allowed under the terms of the LC. Valid codes are ALLOWED, CONDITIONAL, and NOT ALLOWED.",
+          "maxLength" : 35
+        },
+        "placeOfTakingInCharge" : {
+          "type" : "string",
+          "description" : "Indicates the place of taking in charge(in case of multimodal transport document), the place of receipt(in case of a road, rail or inland waterway transport document or a courier expedited delivery service document), the place of dispatch or the place of shipment to be indicated on the transport document",
+          "maxLength" : 35
+        },
+        "portOfLoading" : {
+          "type" : "string",
+          "description" : "Indicates the place of dispatch or taking in charge of the goods or loading on board for shipments made under the LC.",
+          "maxLength" : 35
+        },
+        "portOfDischarge" : {
+          "type" : "string",
+          "description" : "Indicates the port of discharge or the airport of destination of the shipment under the LC.",
+          "maxLength" : 35
+        },
+        "finalDestination" : {
+          "type" : "string",
+          "description" : "Indicates the final destination or place of delivery of the shipment under the LC.",
+          "maxLength" : 35
+        },
+        "latestShipmentDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Latest date for loading on board/dispatch/taking in charge for goods shipped under the LC."
+        },
+        "descriptionOfGoods" : {
+          "type" : "string",
+          "description" : "",
+          "maxLength" : 35
+        },
+        "daysAndPeriodForPresentation" : {
+          "type" : "string",
+          "description" : "Specifies the number of calendar days after the date of shipment within which the documents must be presented for payment, acceptance or negotiation. ",
+          "maxLength" : 35
+        },
+        "requestedConfirmBankName" : {
+          "type" : "string",
+          "description" : "Name and address of the requested confirming bank, i.e. the bank which may or which is requested by the issuing bank to add its confirmation to the documentary credit.",
+          "maxLength" : 35
+        },
+        "senderToReceiverInfo" : {
+          "type" : "string",
+          "description" : "This field holds the additional information for the Receiver (Tag 72Z), while receiving/generating MT740 message.",
+          "maxLength" : 35
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "overrideBody" : {
+      "properties" : {
+        "overrideDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "string",
+                "description" : "The identifier of the override"
+              },
+              "description" : {
+                "type" : "string",
+                "description" : "The actual override message"
+              },
+              "options" : {
+                "type" : "array",
+                "description" : "The usable options for the override",
+                "items" : {
+                  "type" : "string"
+                }
+              },
+              "type" : {
+                "type" : "string",
+                "description" : "The type of the override"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/ScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "ScreenErrorResponse"
+    },
+    "ScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message "
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "BusinessScreenErrorResponse"
+    },
+    "BusinessScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message for bad requests"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "SystemScreenErrorResponse"
+    },
+    "SystemScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message caused by server"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    }
+  }
+}

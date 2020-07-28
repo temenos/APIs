@@ -1,0 +1,664 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Rejecting the claims for a guarantee",
+    "version" : "v1.0.0",
+    "title" : "updateGuaranteesRejection"
+  },
+  "host" : "api.server.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/holdings/guarantees/{guaranteeId}/rejectedClaims" : {
+      "put" : {
+        "operationId" : "updateGuaranteesRejection",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "guaranteeId",
+          "in" : "path",
+          "description" : "Identifier of the guarantee",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/GuaranteesRejection"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "GuaranteesRejectionResponse",
+            "schema" : {
+              "$ref" : "#/definitions/GuaranteesRejectionResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "PayloadHeader" : {
+      "properties" : {
+        "override" : {
+          "type" : "object",
+          "properties" : {
+            "overrideDetails" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "id" : {
+                    "type" : "string",
+                    "description" : "The identifier of the override"
+                  },
+                  "description" : {
+                    "type" : "string",
+                    "description" : "The actual override message"
+                  },
+                  "responseCode" : {
+                    "type" : "string",
+                    "description" : "The user input to accept/reject the override."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            }
+          }
+        }
+      }
+    },
+    "GuaranteesRejection" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/GuaranteesRejectionBody"
+        }
+      },
+      "description" : "GuaranteesRejection"
+    },
+    "GuaranteesRejectionBody" : {
+      "type" : "object",
+      "properties" : {
+        "beneficiaryIds" : {
+          "type" : "array",
+          "description" : "Indicates the Id of beneficiary when beneficiary details are stored",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "beneficiaryId" : {
+                "type" : "string",
+                "description" : "Indicates the Id of beneficiary when beneficiary details are stored",
+                "maxLength" : 25
+              }
+            }
+          }
+        },
+        "beneficairyAddresses" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "beneficairyAddress" : {
+                "type" : "string",
+                "description" : "",
+                "maxLength" : 25
+              }
+            }
+          }
+        },
+        "guaranteeReference" : {
+          "type" : "string",
+          "description" : "Another ID for the transaction for retrieval purposes or it can be used for the bank to use a unique guarantee number rather than the system generated ID",
+          "maxLength" : 25
+        },
+        "guaranteeType" : {
+          "type" : "string",
+          "description" : "Refers to the type of the contract that is being issued.",
+          "maxLength" : 25
+        },
+        "customerId" : {
+          "type" : "string",
+          "description" : "Identifier of the customer",
+          "maxLength" : 25
+        },
+        "limitReference" : {
+          "type" : "string",
+          "description" : "Identifies the credit limit reference for the underlying account.",
+          "maxLength" : 25
+        },
+        "currency" : {
+          "type" : "string",
+          "description" : "Indicates the type of currency to which the account belongs",
+          "maxLength" : 25
+        },
+        "amount" : {
+          "type" : "string",
+          "description" : "This is the payment amount",
+          "maxLength" : 25
+        },
+        "startDate" : {
+          "type" : "string",
+          "description" : "Contains the date on which the transaction or payment gets initiated.",
+          "maxLength" : 25
+        },
+        "maturityDate" : {
+          "type" : "string",
+          "description" : "Indicates maturity date of the contract",
+          "maxLength" : 25
+        },
+        "autoExpiry" : {
+          "type" : "string",
+          "description" : "Decision field to determine whether the contingent entries are to be reversed after the deal expiry date or not Allowed values: - YES - NO - null (default value, same as NO)",
+          "maxLength" : 25
+        },
+        "onlineMaturity" : {
+          "type" : "string",
+          "description" : "Field for maturing a guarantee contract online YES or NULL.",
+          "maxLength" : 25
+        },
+        "eventsProcessing" : {
+          "type" : "string",
+          "description" : "Determines whether the principal movements and raising entries will occur Online or at End of Day Allowed values: - ONLINE (default) - END.OF.DAY",
+          "maxLength" : 25
+        },
+        "liquidationMode" : {
+          "type" : "string",
+          "description" : "Indicates the manner in which the overdue payments are handled There are three options available: AUTOMATIC - will liquidate across the charge/commission account on the contract SEMI AUTOMATIC - will liquidate the charge/commission to the account only if sufficient balance is available. Else, PD will be written MANUAL - will create a PD contract irrespective of availability of funds",
+          "maxLength" : 25
+        },
+        "claimRegisterDate" : {
+          "type" : "string",
+          "description" : "Date on which the Invocation received under a guarantee is registered",
+          "maxLength" : 25
+        },
+        "relatedReference" : {
+          "type" : "string",
+          "description" : "An external reference id for the transaction.",
+          "maxLength" : 25
+        },
+        "invocationStatus" : {
+          "type" : "string",
+          "description" : "Indicates the status of Invocation received under a guarantee.  Allowed values: - PROCESS - EXECUTE - CANCEL",
+          "maxLength" : 25
+        },
+        "invocationAmount" : {
+          "type" : "string",
+          "description" : "Amount of invocation received under a guarantee",
+          "maxLength" : 25
+        },
+        "claimDebitAccount" : {
+          "type" : "string",
+          "description" : "The account from which the invocation amount will be settled",
+          "maxLength" : 25
+        },
+        "debitValueDate" : {
+          "type" : "string",
+          "description" : "Date on which the amount will be debited for settlement",
+          "maxLength" : 25
+        },
+        "exchangeRate" : {
+          "type" : "string",
+          "description" : "Contains the exchange rate returned from the system. i.e. For entries over foreign currency accounts, this contains the rate which used to convert the currency amount to the local equivalent at the time of the originating transaction.",
+          "maxLength" : 25
+        },
+        "lastClaimNumber" : {
+          "type" : "string",
+          "description" : "System maintained field holding The number of invocation done under the guarantee",
+          "maxLength" : 25
+        }
+      }
+    },
+    "ScreenHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "GuaranteesRejectionResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/GuaranteesRejectionResponseBody"
+        }
+      },
+      "description" : "GuaranteesRejectionResponse"
+    },
+    "GuaranteesRejectionResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "beneficiaryIds" : {
+          "type" : "array",
+          "description" : "Indicates the Id of beneficiary when beneficiary details are stored",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "beneficiaryId" : {
+                "type" : "string",
+                "description" : "Indicates the Id of beneficiary when beneficiary details are stored",
+                "maxLength" : 25
+              }
+            }
+          }
+        },
+        "beneficairyAddresses" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "beneficairyAddress" : {
+                "type" : "string",
+                "description" : "",
+                "maxLength" : 25
+              }
+            }
+          }
+        },
+        "internetBankingClaimNarratives" : {
+          "type" : "array",
+          "description" : "Instruction provided to CIB customer when an invocation is received under guarantee",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "internetBankingClaimNarrative" : {
+                "type" : "string",
+                "description" : "Instruction provided to CIB customer when an invocation is received under guarantee",
+                "maxLength" : 29
+              }
+            }
+          }
+        },
+        "guaranteeReference" : {
+          "type" : "string",
+          "description" : "Another ID for the transaction for retrieval purposes or it can be used for the bank to use a unique guarantee number rather than the system generated ID",
+          "maxLength" : 25
+        },
+        "guaranteeType" : {
+          "type" : "string",
+          "description" : "Refers to the type of the contract that is being issued.",
+          "maxLength" : 25
+        },
+        "customerId" : {
+          "type" : "string",
+          "description" : "Identifier of the customer",
+          "maxLength" : 25
+        },
+        "limitReference" : {
+          "type" : "string",
+          "description" : "Identifies the credit limit reference for the underlying account.",
+          "maxLength" : 25
+        },
+        "currency" : {
+          "type" : "string",
+          "description" : "Indicates the type of currency to which the account belongs",
+          "maxLength" : 25
+        },
+        "amount" : {
+          "type" : "string",
+          "description" : "This is the payment amount",
+          "maxLength" : 25
+        },
+        "startDate" : {
+          "type" : "string",
+          "description" : "Contains the date on which the transaction or payment gets initiated.",
+          "maxLength" : 25
+        },
+        "maturityDate" : {
+          "type" : "string",
+          "description" : "Indicates maturity date of the contract",
+          "maxLength" : 25
+        },
+        "autoExpiry" : {
+          "type" : "string",
+          "description" : "Decision field to determine whether the contingent entries are to be reversed after the deal expiry date or not Allowed values: - YES - NO - null (default value, same as NO)",
+          "maxLength" : 25
+        },
+        "onlineMaturity" : {
+          "type" : "string",
+          "description" : "Field for maturing a guarantee contract online YES or NULL.",
+          "maxLength" : 25
+        },
+        "eventsProcessing" : {
+          "type" : "string",
+          "description" : "Determines whether the principal movements and raising entries will occur Online or at End of Day Allowed values: - ONLINE (default) - END.OF.DAY",
+          "maxLength" : 25
+        },
+        "liquidationMode" : {
+          "type" : "string",
+          "description" : "Indicates the manner in which the overdue payments are handled There are three options available: AUTOMATIC - will liquidate across the charge/commission account on the contract SEMI AUTOMATIC - will liquidate the charge/commission to the account only if sufficient balance is available. Else, PD will be written MANUAL - will create a PD contract irrespective of availability of funds",
+          "maxLength" : 25
+        },
+        "claimRegisterDate" : {
+          "type" : "string",
+          "description" : "Date on which the Invocation received under a guarantee is registered",
+          "maxLength" : 25
+        },
+        "relatedReference" : {
+          "type" : "string",
+          "description" : "An external reference id for the transaction.",
+          "maxLength" : 25
+        },
+        "invocationStatus" : {
+          "type" : "string",
+          "description" : "Indicates the status of Invocation received under a guarantee.  Allowed values: - PROCESS - EXECUTE - CANCEL",
+          "maxLength" : 25
+        },
+        "invocationAmount" : {
+          "type" : "string",
+          "description" : "Amount of invocation received under a guarantee",
+          "maxLength" : 25
+        },
+        "claimDebitAccount" : {
+          "type" : "string",
+          "description" : "The account from which the invocation amount will be settled",
+          "maxLength" : 25
+        },
+        "debitValueDate" : {
+          "type" : "string",
+          "description" : "Date on which the amount will be debited for settlement",
+          "maxLength" : 25
+        },
+        "exchangeRate" : {
+          "type" : "string",
+          "description" : "Contains the exchange rate returned from the system. i.e. For entries over foreign currency accounts, this contains the rate which used to convert the currency amount to the local equivalent at the time of the originating transaction.",
+          "maxLength" : 25
+        },
+        "lastClaimNumber" : {
+          "type" : "string",
+          "description" : "System maintained field holding The number of invocation done under the guarantee",
+          "maxLength" : 25
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "overrideBody" : {
+      "properties" : {
+        "overrideDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "string",
+                "description" : "The identifier of the override"
+              },
+              "description" : {
+                "type" : "string",
+                "description" : "The actual override message"
+              },
+              "options" : {
+                "type" : "array",
+                "description" : "The usable options for the override",
+                "items" : {
+                  "type" : "string"
+                }
+              },
+              "type" : {
+                "type" : "string",
+                "description" : "The type of the override"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/ScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "ScreenErrorResponse"
+    },
+    "ScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message "
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "BusinessScreenErrorResponse"
+    },
+    "BusinessScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message for bad requests"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "SystemScreenErrorResponse"
+    },
+    "SystemScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message caused by server"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    }
+  }
+}

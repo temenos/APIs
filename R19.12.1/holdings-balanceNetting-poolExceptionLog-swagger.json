@@ -1,0 +1,396 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "List the bundle accounts moved into exception due to setup issue",
+    "version" : "v1.0.0",
+    "title" : "Pool Exception Log APIs"
+  },
+  "host" : "api.server.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/holdings/cashManagement/bundles/{bundleId}/exceptions" : {
+      "get" : {
+        "description" : "List of account Exceptional in Bundle Hierarchy",
+        "operationId" : "getCashPoolExceptionLog",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "bundleId",
+          "in" : "path",
+          "description" : "",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "CashPoolExceptionLogResponse",
+            "schema" : {
+              "$ref" : "#/definitions/CashPoolExceptionLogResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "QueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records per page"
+        },
+        "page_start" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The record from which the response should be displayed"
+        },
+        "total_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records present"
+        },
+        "page_token" : {
+          "type" : "string",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request"
+        }
+      }
+    },
+    "CashPoolExceptionLogResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/CashPoolExceptionLogResponseBody"
+        }
+      },
+      "description" : "CashPoolExceptionLogResponse"
+    },
+    "CashPoolExceptionLogResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "bundleArrangement" : {
+            "type" : "string",
+            "description" : " Bundle arrangement is to link all the participant accounts to create a Balance Netting services.",
+            "maxLength" : 35
+          },
+          "accountAlias" : {
+            "type" : "string",
+            "description" : "This field forms part of an associated multi-value set to specify the details of an Account during one of Restructure events",
+            "maxLength" : 35
+          },
+          "accountReference" : {
+            "type" : "string",
+            "description" : "Account Reference of the error account",
+            "maxLength" : 35
+          },
+          "productName" : {
+            "type" : "string",
+            "description" : "Product name of the bank for this account, proprietary definition.",
+            "maxLength" : 35
+          },
+          "accountCompany" : {
+            "type" : "string",
+            "description" : "Company of the account to be created",
+            "maxLength" : 11
+          },
+          "accountCountry" : {
+            "type" : "string",
+            "description" : "Country of the account to be created",
+            "maxLength" : 35
+          },
+          "accountCurrency" : {
+            "type" : "string",
+            "description" : "Currency of the account. For example: USD, GBP.",
+            "maxLength" : 3
+          },
+          "accountLevel" : {
+            "type" : "string",
+            "description" : "Captured for information purpose to render the placeholders in GUI",
+            "maxLength" : 15
+          },
+          "accountProduct" : {
+            "type" : "string",
+            "description" : "Product of the Account to be created or in the case of an existing standalone Account being added to the Hierarchy, then this is the Product to which that Account will be changed into.",
+            "maxLength" : 30
+          },
+          "accountSequence" : {
+            "type" : "string",
+            "description" : "The sequence in which this account record is created",
+            "maxLength" : 3
+          },
+          "activityReference" : {
+            "type" : "string",
+            "description" : "Activity reference of the account",
+            "maxLength" : 40
+          },
+          "alternateReference" : {
+            "type" : "string",
+            "description" : "If the new Account to be created is a shadow of another Account already exisitng in another system, then the Account reference of that system can be specified here. The value given in this field will be mapped to ALTERNATE.ID field in arrangement activity and ensure that this Account doesn't already exist in T24 with another reference (because ALTERNATE.ID would be configured to be unique across T24).",
+            "maxLength" : 30
+          },
+          "cancel" : {
+            "type" : "string",
+            "description" : "",
+            "maxLength" : 3
+          },
+          "customer" : {
+            "type" : "string",
+            "description" : "Contains the customer identifier to fetch list of consent arrangements for the customer or customer identifier of the debtor account. This will be populated once the SCA(Strong Customer Authentication) is completed.",
+            "maxLength" : 10
+          },
+          "errorMessage" : {
+            "type" : "string",
+            "description" : "Description of the error.",
+            "maxLength" : 100
+          },
+          "errorSource" : {
+            "type" : "string",
+            "description" : "Error source of the Bundle account",
+            "maxLength" : 35
+          },
+          "errorType" : {
+            "type" : "string",
+            "description" : "Error types of the Bundle account",
+            "maxLength" : 35
+          },
+          "keepBalance" : {
+            "type" : "string",
+            "description" : "When an Account is removed from a Hierarchy, it is possible to dictate if it should be removed with or without Balance. Allows YES and Null  Yes - The account will move out of pool with balance while delinking account or during change pool. Null - The account will move out of pool with ZERO balance while delinking/change pool. Amount will be settled to its settlement account.",
+            "maxLength" : 3
+          },
+          "linkType" : {
+            "type" : "string",
+            "description" : "Denotes associated multi value set to specify Accounts involved in the Pool Restructuring and dictates what should happen to the Account in the corresponding row.",
+            "maxLength" : 20
+          },
+          "liveDate" : {
+            "type" : "string",
+            "description" : "Denotes the date on which the Account is expected to go live in cash pool structure.",
+            "maxLength" : 11
+          },
+          "newBundle" : {
+            "type" : "string",
+            "description" : "The new bundle reference is specified in this field when a account moves from the current pool to another pool.",
+            "maxLength" : 17
+          },
+          "parentAccount" : {
+            "type" : "string",
+            "description" : "Parent account of the account to be added to the Bundle Hierarchy.",
+            "maxLength" : 35
+          },
+          "shortName" : {
+            "type" : "string",
+            "description" : "Contains the name of the account, basically the short title of the account.",
+            "maxLength" : 35
+          },
+          "status" : {
+            "type" : "string",
+            "description" : "Status identifier of the account. The values are 'DELETED' if the account is closed, 'BLOCKED' is there are any posting restrictions & 'ENABLED' for active accounts.",
+            "maxLength" : 5
+          },
+          "overallStatus" : {
+            "type" : "string",
+            "description" : "Overall status of error account",
+            "maxLength" : 35
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessQueryErrorResponseBody"
+        }
+      },
+      "description" : "BusinessQueryErrorResponse"
+    },
+    "BusinessQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message for bad requests"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemQueryErrorResponseBody"
+        }
+      },
+      "description" : "SystemQueryErrorResponse"
+    },
+    "SystemQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message caused by server"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    }
+  }
+}

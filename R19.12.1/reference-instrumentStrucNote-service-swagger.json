@@ -1,0 +1,670 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Allows the viewing and creation of Instruments Structure Note",
+    "version" : "v1.0.0",
+    "title" : "Reference Instrument Structure Note APIs"
+  },
+  "host" : "api.server.com",
+  "basePath" : "/api/v1.0.0/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/reference/instruments/structuredNotes" : {
+      "post" : {
+        "operationId" : "createStructuredNotes",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/StructuredNotes"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "StructuredNotesResponse",
+            "schema" : {
+              "$ref" : "#/definitions/StructuredNotesResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/reference/instruments/{instrumentId}/structuredNotes" : {
+      "get" : {
+        "operationId" : "getStructuredNote",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "instrumentId",
+          "in" : "path",
+          "description" : "The identifier of the instrument",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "StructuredNoteResponse",
+            "schema" : {
+              "$ref" : "#/definitions/StructuredNotesResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "PayloadHeader" : {
+      "properties" : {
+        "override" : {
+          "type" : "object",
+          "properties" : {
+            "overrideDetails" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "id" : {
+                    "type" : "string",
+                    "description" : "The identifier of the override"
+                  },
+                  "description" : {
+                    "type" : "string",
+                    "description" : "The actual override message"
+                  },
+                  "responseCode" : {
+                    "type" : "string",
+                    "description" : "The user input to accept/reject the override."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            }
+          }
+        }
+      }
+    },
+    "StructuredNotes" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/StructuredNotesBody"
+        }
+      },
+      "description" : "StructuredNotes"
+    },
+    "StructuredNotesBody" : {
+      "type" : "object",
+      "required" : [ "lastPrice", "maturityDate" ],
+      "properties" : {
+        "alternateInstrumentDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "alternateInstrument" : {
+                "type" : "string",
+                "description" : "The alternate security identifier",
+                "maxLength" : 40
+              },
+              "alternateInstrumentId" : {
+                "type" : "string",
+                "description" : "The alternate security reference for the instrument",
+                "maxLength" : 40
+              }
+            }
+          }
+        },
+        "interestRates" : {
+          "type" : "array",
+          "description" : "Identifies the bid rate of the related currency for the defined time period",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "interestRate" : {
+                "type" : "number",
+                "description" : "Identifies the bid rate of the related currency for the defined time period"
+              }
+            },
+            "required" : [ "interestRate" ]
+          }
+        },
+        "instrumentName" : {
+          "type" : "string",
+          "description" : "The name that is displayed for the instrument, taken from the Security Master",
+          "maxLength" : 40
+        },
+        "ISIN" : {
+          "type" : "string",
+          "description" : "The International Securities Identification Number of the instrument",
+          "maxLength" : 40
+        },
+        "structureNote" : {
+          "type" : "boolean",
+          "description" : "Flag to indicate whether the instrument is a structured note. Allowed values: - YES - null (default)"
+        },
+        "subAssetTypeId" : {
+          "type" : "number",
+          "description" : "Identifies the group of like Securities, which are reported together "
+        },
+        "currencyId" : {
+          "type" : "string",
+          "description" : "Identifier of the currency. This is the 3-letter ISO 4217 code of the currency.",
+          "maxLength" : 40
+        },
+        "priceType" : {
+          "type" : "string",
+          "description" : "Defines the method to be used when calculating the price of a trade",
+          "maxLength" : 40
+        },
+        "lastPrice" : {
+          "type" : "number",
+          "description" : "Indicates the last recorded price of the instrument"
+        },
+        "companyDomicile" : {
+          "type" : "string",
+          "description" : "Specifies the country of domicile, of the parent company or government or establishment issuing the Security",
+          "maxLength" : 40
+        },
+        "instrumentDomicile" : {
+          "type" : "string",
+          "description" : "Specifies the country domicile of the Security being issued",
+          "maxLength" : 40
+        },
+        "priceUpdateCode" : {
+          "type" : "string",
+          "description" : "Specifies the type of price update that will update the price of this security",
+          "maxLength" : 40
+        },
+        "industryId" : {
+          "type" : "number",
+          "description" : "An institution-defined identifier of the industry in which the customer is trading, operating or is associated with"
+        },
+        "stockExchange" : {
+          "type" : "string",
+          "description" : "The stock exchange identifier",
+          "maxLength" : 40
+        },
+        "issueDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "The date the item was issued."
+        },
+        "maturityDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Indicates maturity date of the contract"
+        },
+        "initialPaymentdate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Specifies the date on which the 1st interest payment or coupon falls due"
+        },
+        "accrualDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Date on which the accrual is effective"
+        },
+        "displayName" : {
+          "type" : "string",
+          "description" : "Name used for display or enrichment purposes",
+          "maxLength" : 40
+        }
+      }
+    },
+    "ScreenHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "StructuredNotesResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/StructuredNotesResponseBody"
+        }
+      },
+      "description" : "StructuredNotesResponse"
+    },
+    "StructuredNotesResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "alternateInstrumentDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "alternateInstrument" : {
+                "type" : "string",
+                "description" : "The alternate security identifier",
+                "maxLength" : 40
+              },
+              "alternateInstrumentId" : {
+                "type" : "string",
+                "description" : "The alternate security reference for the instrument",
+                "maxLength" : 40
+              }
+            }
+          }
+        },
+        "interestRates" : {
+          "type" : "array",
+          "description" : "Identifies the bid rate of the related currency for the defined time period",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "interestRate" : {
+                "type" : "number",
+                "description" : "Identifies the bid rate of the related currency for the defined time period"
+              }
+            }
+          }
+        },
+        "instrumentName" : {
+          "type" : "string",
+          "description" : "The name that is displayed for the instrument, taken from the Security Master",
+          "maxLength" : 40
+        },
+        "ISIN" : {
+          "type" : "string",
+          "description" : "The International Securities Identification Number of the instrument",
+          "maxLength" : 40
+        },
+        "structureNote" : {
+          "type" : "boolean",
+          "description" : "Flag to indicate whether the instrument is a structured note. Allowed values: - YES - null (default)"
+        },
+        "subAssetTypeId" : {
+          "type" : "number",
+          "description" : "Identifies the group of like Securities, which are reported together "
+        },
+        "currencyId" : {
+          "type" : "string",
+          "description" : "Identifier of the currency. This is the 3-letter ISO 4217 code of the currency.",
+          "maxLength" : 40
+        },
+        "priceType" : {
+          "type" : "string",
+          "description" : "Defines the method to be used when calculating the price of a trade",
+          "maxLength" : 40
+        },
+        "instrumentType" : {
+          "type" : "string",
+          "description" : "Indicates the type of the security ",
+          "maxLength" : 40
+        },
+        "lastPrice" : {
+          "type" : "number",
+          "description" : "Indicates the last recorded price of the instrument"
+        },
+        "companyDomicile" : {
+          "type" : "string",
+          "description" : "Specifies the country of domicile, of the parent company or government or establishment issuing the Security",
+          "maxLength" : 40
+        },
+        "instrumentDomicile" : {
+          "type" : "string",
+          "description" : "Specifies the country domicile of the Security being issued",
+          "maxLength" : 40
+        },
+        "priceUpdateCode" : {
+          "type" : "string",
+          "description" : "Specifies the type of price update that will update the price of this security",
+          "maxLength" : 40
+        },
+        "industryId" : {
+          "type" : "number",
+          "description" : "An institution-defined identifier of the industry in which the customer is trading, operating or is associated with"
+        },
+        "stockExchange" : {
+          "type" : "string",
+          "description" : "The stock exchange identifier",
+          "maxLength" : 40
+        },
+        "issueDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "The date the item was issued."
+        },
+        "maturityDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Indicates maturity date of the contract"
+        },
+        "initialPaymentdate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Specifies the date on which the 1st interest payment or coupon falls due"
+        },
+        "accrualDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Date on which the accrual is effective"
+        },
+        "displayName" : {
+          "type" : "string",
+          "description" : "Name used for display or enrichment purposes",
+          "maxLength" : 40
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "overrideBody" : {
+      "properties" : {
+        "overrideDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "string",
+                "description" : "The identifier of the override"
+              },
+              "description" : {
+                "type" : "string",
+                "description" : "The actual override message"
+              },
+              "options" : {
+                "type" : "array",
+                "description" : "The usable options for the override",
+                "items" : {
+                  "type" : "string"
+                }
+              },
+              "type" : {
+                "type" : "string",
+                "description" : "The type of the override"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/ScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "ScreenErrorResponse"
+    },
+    "ScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message "
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "BusinessScreenErrorResponse"
+    },
+    "BusinessScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message for bad requests"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "SystemScreenErrorResponse"
+    },
+    "SystemScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message caused by server"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    }
+  }
+}

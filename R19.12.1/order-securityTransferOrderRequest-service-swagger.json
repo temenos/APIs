@@ -1,0 +1,750 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Allows the creation of Security Transfer Order Request through Channels",
+    "version" : "v1.0.0",
+    "title" : "Order Security Transfer Order Request APIs"
+  },
+  "host" : "api.server.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/order/securityTransferOrders/requests/" : {
+      "post" : {
+        "operationId" : "createSecurityTransferRequest",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/SecurityTransferRequest"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "credentials",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "SecurityTransferRequestResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SecurityTransferRequestResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "PayloadHeader" : {
+      "properties" : {
+        "override" : {
+          "type" : "object",
+          "properties" : {
+            "overrideDetails" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "id" : {
+                    "type" : "string",
+                    "description" : "The identifier of the override"
+                  },
+                  "description" : {
+                    "type" : "string",
+                    "description" : "The actual override message"
+                  },
+                  "responseCode" : {
+                    "type" : "string",
+                    "description" : "The user input to accept/reject the override."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            }
+          }
+        }
+      }
+    },
+    "SecurityTransferRequest" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/SecurityTransferRequestBody"
+        }
+      },
+      "description" : "SecurityTransferRequest"
+    },
+    "SecurityTransferRequestBody" : {
+      "type" : "object",
+      "properties" : {
+        "taxes" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "customerChargeTaxType" : {
+                "type" : "string",
+                "description" : "The type of charge or tax to be paid by the customer",
+                "maxLength" : 30
+              },
+              "customerChargeTaxAmount" : {
+                "type" : "number",
+                "description" : "The amount of charges or taxes to be paid by customer"
+              },
+              "customerChargeTaxCode" : {
+                "type" : "string",
+                "description" : "The Charge or tax identifier",
+                "maxLength" : 30
+              }
+            }
+          }
+        },
+        "instructions" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "customerInstructions" : {
+                "type" : "string",
+                "description" : "Instructions given by the customer",
+                "maxLength" : 30
+              }
+            }
+          }
+        },
+        "transactionType" : {
+          "type" : "string",
+          "description" : "Identifies the transaction type applicable to the transaction being processed, i.e. outward or inward payment. For example: ACPX, OTPX etc.",
+          "maxLength" : 30
+        },
+        "instrumentId" : {
+          "type" : "string",
+          "description" : "The identifier of the instrument",
+          "maxLength" : 30
+        },
+        "instrumentCurrencyId" : {
+          "type" : "string",
+          "description" : "The currency of the instrument",
+          "maxLength" : 30
+        },
+        "transferDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "The transfer date of the transaction"
+        },
+        "valueDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Indicates the value date on which the underlying accounting entry is to be given value (for interest purposes)"
+        },
+        "depositoryId" : {
+          "type" : "string",
+          "description" : "Id of the securities depository.",
+          "maxLength" : 30
+        },
+        "deliveryInstruction" : {
+          "type" : "string",
+          "description" : "Type of Delivery to be made for this transaction. Allowed values: - DAP: Delivery Against Payment - FOP: Free of Payment",
+          "maxLength" : 30
+        },
+        "customerId" : {
+          "type" : "string",
+          "description" : "Identifier of the customer",
+          "maxLength" : 30
+        },
+        "portfolioId" : {
+          "type" : "string",
+          "description" : "Id of the portfolio or security account",
+          "maxLength" : 30
+        },
+        "quantity" : {
+          "type" : "number",
+          "description" : "The nominal quantity"
+        },
+        "price" : {
+          "type" : "number",
+          "description" : "The Price at which the nominal amount of the Security is to be valued for the transaction."
+        },
+        "nominee" : {
+          "type" : "string",
+          "description" : "Represents the Nominee Company record",
+          "maxLength" : 30
+        },
+        "grossCost" : {
+          "type" : "number",
+          "description" : "Total cost of the transaction"
+        },
+        "valueInInstrumentCurrency" : {
+          "type" : "number",
+          "description" : "The amount converted to the currency of the instrument"
+        },
+        "charges" : {
+          "type" : "number",
+          "description" : "The charges or fees for this transaction"
+        },
+        "actualCharges" : {
+          "type" : "number",
+          "description" : ""
+        },
+        "accountId" : {
+          "type" : "string",
+          "description" : "Identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId. Accepts both IBAN & BBAN",
+          "maxLength" : 30
+        },
+        "interestAmount" : {
+          "type" : "number",
+          "description" : "The accrued Interest due or accrued."
+        },
+        "netAmountInInstrumentCurrency" : {
+          "type" : "number",
+          "description" : "The net amount of the current valuation of the Securities being transferred, i.e.. the gross amount +/- Charges + accrued Interest"
+        },
+        "netAmountInAccountCurrency" : {
+          "type" : "number",
+          "description" : "The net amount due to or from the Customer after +/- Charges"
+        },
+        "exchangeRate" : {
+          "type" : "number",
+          "description" : "Contains the exchange rate returned from the system. i.e. For entries over foreign currency accounts, this contains the rate which used to convert the currency amount to the local equivalent at the time of the originating transaction."
+        },
+        "commission" : {
+          "type" : "number",
+          "description" : "The bank fees or commission charged for the transaction"
+        },
+        "commissionName" : {
+          "type" : "string",
+          "description" : "The name that is displayed for the commission",
+          "maxLength" : 30
+        },
+        "commissionRate" : {
+          "type" : "number",
+          "description" : "The commission by percentage. Allowed only for manual commission. Calculated commission amount can be overwritten manually."
+        },
+        "changeInBeneficialOwner" : {
+          "type" : "boolean",
+          "description" : "Indicates whether there is a beneficial owner change as a result of the transfer"
+        },
+        "stampTax" : {
+          "type" : "number",
+          "description" : "The Stamp Tax amount charged to the Customer for the trade"
+        },
+        "counterpartyId" : {
+          "type" : "string",
+          "description" : "The identifier of the counter party",
+          "maxLength" : 30
+        },
+        "BIC" : {
+          "type" : "string",
+          "description" : "The BIC code of the Beneficiary bank",
+          "maxLength" : 30
+        },
+        "nostroId" : {
+          "type" : "string",
+          "description" : "Nostro account id",
+          "maxLength" : 30
+        },
+        "nostroCurrency" : {
+          "type" : "string",
+          "description" : "Currency of the nostro account",
+          "maxLength" : 30
+        },
+        "counterpartyDepository" : {
+          "type" : "string",
+          "description" : "Specifies the Depository(ies) that the Broker will be delivering the Securities from or to.",
+          "maxLength" : 30
+        },
+        "brokerAmount" : {
+          "type" : "number",
+          "description" : "Net amount due to/from the broker for the transaction. Applicable only where the security transfer is made against payment."
+        }
+      }
+    },
+    "ScreenHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "SecurityTransferRequestResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/SecurityTransferRequestResponseBody"
+        }
+      },
+      "description" : "SecurityTransferRequestResponse"
+    },
+    "SecurityTransferRequestResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "taxes" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "customerChargeTaxType" : {
+                "type" : "string",
+                "description" : "The type of charge or tax to be paid by the customer",
+                "maxLength" : 30
+              },
+              "customerChargeTaxAmount" : {
+                "type" : "number",
+                "description" : "The amount of charges or taxes to be paid by customer"
+              },
+              "customerChargeTaxCode" : {
+                "type" : "string",
+                "description" : "The Charge or tax identifier",
+                "maxLength" : 30
+              }
+            }
+          }
+        },
+        "instructions" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "customerInstructions" : {
+                "type" : "string",
+                "description" : "Instructions given by the customer",
+                "maxLength" : 30
+              }
+            }
+          }
+        },
+        "transactionType" : {
+          "type" : "string",
+          "description" : "Identifies the transaction type applicable to the transaction being processed, i.e. outward or inward payment. For example: ACPX, OTPX etc.",
+          "maxLength" : 30
+        },
+        "instrumentId" : {
+          "type" : "string",
+          "description" : "The identifier of the instrument",
+          "maxLength" : 30
+        },
+        "instrumentCurrencyId" : {
+          "type" : "string",
+          "description" : "The currency of the instrument",
+          "maxLength" : 30
+        },
+        "transferDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "The transfer date of the transaction"
+        },
+        "valueDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Indicates the value date on which the underlying accounting entry is to be given value (for interest purposes)"
+        },
+        "depositoryId" : {
+          "type" : "string",
+          "description" : "Id of the securities depository.",
+          "maxLength" : 30
+        },
+        "deliveryInstruction" : {
+          "type" : "string",
+          "description" : "Type of Delivery to be made for this transaction. Allowed values: - DAP: Delivery Against Payment - FOP: Free of Payment",
+          "maxLength" : 30
+        },
+        "customerId" : {
+          "type" : "string",
+          "description" : "Identifier of the customer",
+          "maxLength" : 30
+        },
+        "portfolioId" : {
+          "type" : "string",
+          "description" : "Id of the portfolio or security account",
+          "maxLength" : 30
+        },
+        "quantity" : {
+          "type" : "number",
+          "description" : "The nominal quantity"
+        },
+        "price" : {
+          "type" : "number",
+          "description" : "The Price at which the nominal amount of the Security is to be valued for the transaction."
+        },
+        "nominee" : {
+          "type" : "string",
+          "description" : "Represents the Nominee Company record",
+          "maxLength" : 30
+        },
+        "grossCost" : {
+          "type" : "number",
+          "description" : "Total cost of the transaction"
+        },
+        "valueInInstrumentCurrency" : {
+          "type" : "number",
+          "description" : "The amount converted to the currency of the instrument"
+        },
+        "charges" : {
+          "type" : "number",
+          "description" : "The charges or fees for this transaction"
+        },
+        "actualCharges" : {
+          "type" : "number",
+          "description" : ""
+        },
+        "accountId" : {
+          "type" : "string",
+          "description" : "Identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId. Accepts both IBAN & BBAN",
+          "maxLength" : 30
+        },
+        "interestAmount" : {
+          "type" : "number",
+          "description" : "The accrued Interest due or accrued."
+        },
+        "netAmountInInstrumentCurrency" : {
+          "type" : "number",
+          "description" : "The net amount of the current valuation of the Securities being transferred, i.e.. the gross amount +/- Charges + accrued Interest"
+        },
+        "netAmountInAccountCurrency" : {
+          "type" : "number",
+          "description" : "The net amount due to or from the Customer after +/- Charges"
+        },
+        "exchangeRate" : {
+          "type" : "number",
+          "description" : "Contains the exchange rate returned from the system. i.e. For entries over foreign currency accounts, this contains the rate which used to convert the currency amount to the local equivalent at the time of the originating transaction."
+        },
+        "commission" : {
+          "type" : "number",
+          "description" : "The bank fees or commission charged for the transaction"
+        },
+        "commissionName" : {
+          "type" : "string",
+          "description" : "The name that is displayed for the commission",
+          "maxLength" : 30
+        },
+        "commissionRate" : {
+          "type" : "number",
+          "description" : "The commission by percentage. Allowed only for manual commission. Calculated commission amount can be overwritten manually."
+        },
+        "changeInBeneficialOwner" : {
+          "type" : "boolean",
+          "description" : "Indicates whether there is a beneficial owner change as a result of the transfer"
+        },
+        "stampTax" : {
+          "type" : "number",
+          "description" : "The Stamp Tax amount charged to the Customer for the trade"
+        },
+        "counterpartyId" : {
+          "type" : "string",
+          "description" : "The identifier of the counter party",
+          "maxLength" : 30
+        },
+        "BIC" : {
+          "type" : "string",
+          "description" : "The BIC code of the Beneficiary bank",
+          "maxLength" : 30
+        },
+        "nostroId" : {
+          "type" : "string",
+          "description" : "Nostro account id",
+          "maxLength" : 30
+        },
+        "nostroCurrency" : {
+          "type" : "string",
+          "description" : "Currency of the nostro account",
+          "maxLength" : 30
+        },
+        "counterpartyDepository" : {
+          "type" : "string",
+          "description" : "Specifies the Depository(ies) that the Broker will be delivering the Securities from or to.",
+          "maxLength" : 30
+        },
+        "brokerAmount" : {
+          "type" : "number",
+          "description" : "Net amount due to/from the broker for the transaction. Applicable only where the security transfer is made against payment."
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "overrideBody" : {
+      "properties" : {
+        "overrideDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "string",
+                "description" : "The identifier of the override"
+              },
+              "description" : {
+                "type" : "string",
+                "description" : "The actual override message"
+              },
+              "options" : {
+                "type" : "array",
+                "description" : "The usable options for the override",
+                "items" : {
+                  "type" : "string"
+                }
+              },
+              "type" : {
+                "type" : "string",
+                "description" : "The type of the override"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/ScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "ScreenErrorResponse"
+    },
+    "ScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message "
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "BusinessScreenErrorResponse"
+    },
+    "BusinessScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message for bad requests"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "SystemScreenErrorResponse"
+    },
+    "SystemScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message caused by server"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    }
+  }
+}
