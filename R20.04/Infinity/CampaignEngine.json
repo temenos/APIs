@@ -1,0 +1,224 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "The CampaignEngine is a real time engine, which determines the most eligible campaign that needs to be sent to the customer based on the event that is triggered. This event could be triggered from online or offline systems. CampaignEngine fetches the campaigns that are eligible for the event from campaign micro service and determine the highest eligible campaign and send the response to online and offline channels.",
+    "version" : "1.0",
+    "title" : "CampaignEngine"
+  },
+  "host" : "KH2606.temenosgroup.com:8080/services",
+  "basePath" : "/data/v1/CampaignEngine/objects",
+  "tags" : [ {
+    "name" : "Campaigns"
+  }, {
+    "name" : "CompletedCampaign"
+  } ],
+  "schemes" : [ "http" ],
+  "paths" : {
+    "/Campaigns" : { },
+    "/Campaigns/getCampaign" : {
+      "post" : {
+        "tags" : [ "Campaigns" ],
+        "summary" : "This API is triggered by Online Banking or Mobile Banking application to fetch campaigns from the client-side. The Campaigns such as advertisements for loans and deposits must be displayed to the customer based on his/her actions performed through his account. This API is used to trigger the occurrence of such actions and fetch the campaigns.",
+        "operationId" : "getCampaignCampaigns",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "X-Kony-Authorization",
+          "in" : "header",
+          "description" : "This service invocation requires authentication.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Campaigns"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "schema" : {
+              "$ref" : "#/definitions/Response_Custom"
+            }
+          }
+        }
+      }
+    },
+    "/CompletedCampaign" : {
+      "post" : {
+        "tags" : [ "CompletedCampaign" ],
+        "summary" : "This API is triggered by the Online Banking or Mobile Banking application to add the completed campaigns to the table. This API can be used to know if the customer has completed viewing a campaign so that you need not display that campaign again.",
+        "operationId" : "createCompletedCampaign",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "X-Kony-Authorization",
+          "in" : "header",
+          "description" : "This service invocation requires authentication.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/CompletedCampaign"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "schema" : {
+              "$ref" : "#/definitions/Response_CompletedCampaign"
+            }
+          }
+        }
+      }
+    },
+    "/Campaigns/getPreLoginCampaigns" : {
+      "post" : {
+        "tags" : [ "Campaigns" ],
+        "summary" : "This API is used to fetch the pre-login campaigns from the client. The Campaigns such as advertisements for loans and deposits must be displayed to the customer based on his/her preferences, past actions, and account. This API collates such campaigns before the customer signs in and displays the campaigns when the user successfully signs in to his account.",
+        "operationId" : "getPreLoginCampaignsCampaigns",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Campaigns"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "schema" : {
+              "$ref" : "#/definitions/Response_Custom"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "CompletedCampaign" : {
+      "type" : "object",
+      "properties" : {
+        "campaignId" : {
+          "type" : "string",
+          "description" : "Specifies the unique ID of the campaign. Each campaign has a specific unique ID."
+        }
+      }
+    },
+    "Response_Get_Campaigns" : {
+      "type" : "object",
+      "properties" : {
+        "opstatus" : {
+          "type" : "integer"
+        },
+        "httpStatusCode" : {
+          "type" : "integer"
+        },
+        "records" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Campaigns"
+          }
+        }
+      }
+    },
+    "Response_Campaigns" : {
+      "type" : "object",
+      "properties" : {
+        "opstatus" : {
+          "type" : "integer"
+        },
+        "httpStatusCode" : {
+          "type" : "integer"
+        },
+        "eventCode" : {
+          "type" : "string",
+          "description" : "Specifies the event code for which the campaign must be fetched. The possible event code is ACCOUNTDASHBOARD."
+        }
+      }
+    },
+    "Response_CompletedCampaign" : {
+      "type" : "object",
+      "properties" : {
+        "opstatus" : {
+          "type" : "integer"
+        },
+        "httpStatusCode" : {
+          "type" : "integer"
+        },
+        "campaignId" : {
+          "type" : "string",
+          "description" : "Specifies the unique ID of the campaign. Each campaign has a specific unique ID."
+        }
+      }
+    },
+    "Response_Get_CompletedCampaign" : {
+      "type" : "object",
+      "properties" : {
+        "opstatus" : {
+          "type" : "integer"
+        },
+        "httpStatusCode" : {
+          "type" : "integer"
+        },
+        "records" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/CompletedCampaign"
+          }
+        }
+      }
+    },
+    "Campaigns" : {
+      "type" : "object",
+      "properties" : {
+        "eventCode" : {
+          "type" : "string",
+          "description" : "Specifies the event code for which the campaign must be fetched. The possible event code is ACCOUNTDASHBOARD."
+        },
+        "placeholderCode" : {
+          "type" : "string",
+          "description" : "Specifies the placeholder on the screen where the campaign must be displayed. The possible value for the placeholder code is ACCOUNT_DASHBOARD."
+        },
+        "scale" : {
+          "type" : "string",
+          "description" : "Specifies the scale or resolution of the campaign. Based on the device display resolution the campaign gets displayed."
+        },
+        "campaignId" : {
+          "type" : "string",
+          "description" : "Specifies the unique ID of the campaign. Each campaign has a specific unique ID."
+        }
+      }
+    },
+    "Response_Custom" : {
+      "type" : "object",
+      "properties" : {
+        "opstatus" : {
+          "type" : "integer"
+        },
+        "httpStatusCode" : {
+          "type" : "integer"
+        }
+      }
+    },
+    "Response_Delete" : {
+      "type" : "object",
+      "properties" : {
+        "opstatus" : {
+          "type" : "integer"
+        },
+        "httpStatusCode" : {
+          "type" : "integer"
+        },
+        "deletedRecords" : {
+          "type" : "integer"
+        }
+      }
+    }
+  }
+}
