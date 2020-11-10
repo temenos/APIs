@@ -1,0 +1,239 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Image Download API",
+    "version" : "v1.0.0",
+    "title" : "Image Download API"
+  },
+  "host" : "api.server.com",
+  "basePath" : "/api/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "apiKey" : [ ]
+  } ],
+  "paths" : {
+    "/system/images/{imageReferenceId}" : {
+      "get" : {
+        "operationId" : "getImageDownload",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "imageReferenceId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "imageReference",
+          "in" : "query",
+          "description" : "The reference of the image",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "imageApplication",
+          "in" : "query",
+          "description" : "This field is used to link an image to a T24 application or file.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "imageType",
+          "in" : "query",
+          "description" : "Identifies the type of image to be stored and its location. Typical usage would be to segregate images by criteria such as PASSPORTS, PHOTOGRAPHS, SIGNATURES and DOCUMENTS. Image types can be used to assist selection of records in Enquiries as well as the physical distribution of files.Must be a valid record on IM.IMAGE.TYPE.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "getImageDownloadResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getImageDownloadResponse"
+            }
+          },
+          "default" : {
+            "description" : "getImageDownloadErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getImageDownloadErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "apiKey" : {
+      "type" : "apiKey",
+      "name" : "Authorization",
+      "in" : "header"
+    }
+  },
+  "definitions" : {
+    "QueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "parse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records per page"
+        },
+        "page_start" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The record from which the response should be displayed"
+        },
+        "total_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records present"
+        },
+        "page_token" : {
+          "type" : "string",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request"
+        }
+      }
+    },
+    "getImageDownloadResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/getImageDownloadResponseBody"
+        }
+      },
+      "description" : "getImageDownloadResponse"
+    },
+    "getImageDownloadResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "imageContent" : {
+            "type" : "string",
+            "description" : "The image content as a Base64 encode string"
+          },
+          "imageId" : {
+            "type" : "string",
+            "description" : "The identifier of the image used for advertisement",
+            "maxLength" : 12
+          },
+          "imageType" : {
+            "type" : "string",
+            "description" : "Identifies the type of image to be stored and its location. Typical usage would be to segregate images by criteria such as PASSPORTS, PHOTOGRAPHS, SIGNATURES and DOCUMENTS. Image types can be used to assist selection of records in Enquiries as well as the physical distribution of files.Must be a valid record on IM.IMAGE.TYPE.",
+            "maxLength" : 15
+          },
+          "imageApplication" : {
+            "type" : "string",
+            "description" : "This field is used to link an image to a T24 application or file.",
+            "maxLength" : 30
+          },
+          "companyMnemonic" : {
+            "type" : "string",
+            "description" : "Shortened identiifier for a company. 3 alphanumer characters, e.g. BNK, BN1, BN2",
+            "maxLength" : 3
+          },
+          "imageReference" : {
+            "type" : "string",
+            "description" : "The reference of the image",
+            "maxLength" : 35
+          },
+          "displayName" : {
+            "type" : "string",
+            "description" : "The name used for display purposes",
+            "maxLength" : 35
+          },
+          "imagePath" : {
+            "type" : "string",
+            "description" : "Identifies the image stored on the file system.",
+            "maxLength" : 15
+          },
+          "fileName" : {
+            "type" : "string",
+            "maxLength" : 50
+          },
+          "versionNumber" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "parse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "getImageDownloadErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/getImageDownloadErrorResponseBody"
+        }
+      },
+      "description" : "getImageDownloadErrorResponse"
+    },
+    "getImageDownloadErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type"
+        }
+      }
+    }
+  }
+}

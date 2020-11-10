@@ -1,0 +1,873 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Allows the creation, viewing and management of customer adverts.",
+    "version" : "v1.0.0",
+    "title" : "Party Customer Opportunities APIs"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "apiKey" : [ ]
+  } ],
+  "paths" : {
+    "/party/customers/{customerId}/adverts" : {
+      "get" : {
+        "summary" : "Retrieves the details of opportunities/ campaigns that have been specifically targeted towards the  needs of customers",
+        "description" : "Retrieves customer campaign details",
+        "operationId" : "getCustomerAdverts",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "customerId",
+          "in" : "path",
+          "description" : "Identifier of the customer",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "languageId",
+          "in" : "query",
+          "description" : "Represents the language code of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "CustomerAdvertsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/CustomerAdvertsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/party/customers/adverts/{advertId}" : {
+      "put" : {
+        "summary" : "Update existing opportunities/adverts records for a customer",
+        "description" : "Update campaign details",
+        "operationId" : "updateAdvert",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "advertId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Advert"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "AdvertResponse",
+            "schema" : {
+              "$ref" : "#/definitions/AdvertResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/party/customers/adverts" : {
+      "post" : {
+        "summary" : "Create new opportunities/adverts for a customer",
+        "description" : "Create campaign for customer",
+        "operationId" : "createAdvert",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Advert"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "AdvertResponse",
+            "schema" : {
+              "$ref" : "#/definitions/AdvertResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "apiKey" : {
+      "type" : "apiKey",
+      "name" : "Authorization",
+      "in" : "header"
+    }
+  },
+  "definitions" : {
+    "QueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records per page"
+        },
+        "page_start" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The record from which the response should be displayed"
+        },
+        "total_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records present"
+        },
+        "page_token" : {
+          "type" : "string",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request"
+        }
+      }
+    },
+    "CustomerAdvertsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/CustomerAdvertsResponseBody"
+        }
+      },
+      "description" : "CustomerAdvertsResponse"
+    },
+    "CustomerAdvertsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "opportunities" : {
+            "type" : "array",
+            "description" : "Refers to the Opportunities available.",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "opportunityProductId" : {
+                  "type" : "string",
+                  "description" : "Refers to the ID of the Product in the Opportunity."
+                },
+                "opportunityDirection" : {
+                  "type" : "string",
+                  "description" : "Refers to the Direction of the Product in the Opportunity."
+                },
+                "opportunityGeneratorId" : {
+                  "type" : "string",
+                  "description" : "Refers to the ID of the Generator in the Opportunity."
+                },
+                "opportunityTemplateId" : {
+                  "type" : "string",
+                  "description" : "Refers to the ID of the Template in the Opportunity."
+                },
+                "opportunityTemplateDisplayName" : {
+                  "type" : "string",
+                  "description" : "Refers to the Display name of the Template in the Opportunity."
+                },
+                "opportunityStatus" : {
+                  "type" : "string",
+                  "description" : "Refers to the Status in the Opportunity."
+                },
+                "opportunityProbabilitySuccess" : {
+                  "type" : "string",
+                  "description" : "Refers to the Probability Success in the Opportunity."
+                },
+                "opportunityDisplayName" : {
+                  "type" : "string",
+                  "description" : "Refers to the Display Name in the Opportunity."
+                }
+              }
+            }
+          },
+          "advertDocs" : {
+            "type" : "array",
+            "description" : "Refers to the Document of the Advertisement.",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "advertDocImageId" : {
+                  "type" : "string",
+                  "description" : "Refers to the ID of the Image of the Document of the Advertisement."
+                },
+                "advertDocImageType" : {
+                  "type" : "string",
+                  "description" : "Refers to the type of the Image of the Document of the Advertisement."
+                },
+                "advertDocImageMediaType" : {
+                  "type" : "string",
+                  "description" : "Refers to the type of the Image of the Document Media of the Advertisement."
+                },
+                "advertDocImageName" : {
+                  "type" : "string",
+                  "description" : "Refers to the Name of the Image of the Document of the Advertisement."
+                }
+              }
+            }
+          },
+          "advertDetails" : {
+            "type" : "array",
+            "description" : "Refers to the details of the Advertisement.",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "advertDetailDocImageId" : {
+                  "type" : "string",
+                  "description" : "Refers to the ID of the Detailed Image of the Document of the Advertisement."
+                },
+                "advertDetailDocImageType" : {
+                  "type" : "string",
+                  "description" : "Refers to the type of the Detailed Image of the Document of the Advertisement."
+                },
+                "advertDetailDocImageMediaType" : {
+                  "type" : "string",
+                  "description" : "Refers to the type of the Detailed Image of the Document Media of the Advertisement."
+                },
+                "advertDetailDocImageName" : {
+                  "type" : "string",
+                  "description" : "Refers to the Name of the Detailed Image of the Document of the Advertisement."
+                }
+              }
+            }
+          },
+          "products" : {
+            "type" : "array",
+            "description" : "Contains the unique identifier of the product, e.g. the product id of the arrangement account.",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "productGroupId" : {
+                  "type" : "string",
+                  "description" : "The group, as defined by the institution, that the product belongs to."
+                },
+                "productLineId" : {
+                  "type" : "string",
+                  "description" : "The top level product line, which the product is ultimately attached to. May be a Temenos-defined product line such as ACCOUNTS, AGENT, BUNDLE, CONSENT, DEPOSITS, LENDING, REWARDS, etc. or one defined by the institution to manage external products."
+                }
+              }
+            }
+          },
+          "opportunityId" : {
+            "type" : "string",
+            "description" : "The identifier of Customer opportunity"
+          },
+          "campaignId" : {
+            "type" : "string",
+            "description" : "Customer Opportunity campaign reference"
+          },
+          "versionNumber" : {
+            "type" : "string",
+            "description" : "Current number of the record"
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessQueryErrorResponseBody"
+        }
+      },
+      "description" : "BusinessQueryErrorResponse"
+    },
+    "BusinessQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message for bad requests"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemQueryErrorResponseBody"
+        }
+      },
+      "description" : "SystemQueryErrorResponse"
+    },
+    "SystemQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message caused by server"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    },
+    "PayloadHeader" : {
+      "properties" : {
+        "override" : {
+          "type" : "object",
+          "properties" : {
+            "overrideDetails" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "id" : {
+                    "type" : "string",
+                    "description" : "The identifier of the override"
+                  },
+                  "description" : {
+                    "type" : "string",
+                    "description" : "The actual override message"
+                  },
+                  "responseCode" : {
+                    "type" : "string",
+                    "description" : "The user input to accept/reject the override."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            }
+          }
+        }
+      }
+    },
+    "Advert" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/AdvertBody"
+        }
+      },
+      "description" : "Advert"
+    },
+    "AdvertBody" : {
+      "type" : "object",
+      "properties" : {
+        "customerId" : {
+          "type" : "string",
+          "description" : "Identifier of the customer",
+          "minLength" : 0,
+          "maxLength" : 25
+        },
+        "opportunityProductId" : {
+          "type" : "string",
+          "description" : "Refers to the ID of the Product in the Opportunity.",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "opportunityDirection" : {
+          "type" : "string",
+          "description" : "Refers to the Direction of the Product in the Opportunity.",
+          "minLength" : 0,
+          "maxLength" : 25
+        },
+        "opportunityTemplateId" : {
+          "type" : "string",
+          "description" : "Refers to the ID of the Template in the Opportunity.",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "startDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Contains the date on which the transaction or payment gets initiated."
+        },
+        "opportunityStatus" : {
+          "type" : "string",
+          "description" : "Refers to the Status in the Opportunity.",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "transactionApplication" : {
+          "type" : "string",
+          "description" : "Refers to the Transaction that has taken place or will take place.",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "transactionId" : {
+          "type" : "string",
+          "description" : "Unique transaction identifier for retrieving the details of the transaction. For example: FT0102030333 etc.",
+          "minLength" : 0,
+          "maxLength" : 35
+        }
+      }
+    },
+    "ScreenHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "uniqueIdentifier" : {
+          "type" : "string",
+          "description" : "The unique identifier/Message Reference of the record created."
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "AdvertResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/AdvertResponseBody"
+        }
+      },
+      "description" : "AdvertResponse"
+    },
+    "AdvertResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "customerId" : {
+          "type" : "string",
+          "description" : "Identifier of the customer",
+          "minLength" : 0,
+          "maxLength" : 25
+        },
+        "opportunityProductId" : {
+          "type" : "string",
+          "description" : "Refers to the ID of the Product in the Opportunity.",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "opportunityDirection" : {
+          "type" : "string",
+          "description" : "Refers to the Direction of the Product in the Opportunity.",
+          "minLength" : 0,
+          "maxLength" : 25
+        },
+        "opportunityTemplateId" : {
+          "type" : "string",
+          "description" : "Refers to the ID of the Template in the Opportunity.",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "startDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Contains the date on which the transaction or payment gets initiated."
+        },
+        "opportunityStatus" : {
+          "type" : "string",
+          "description" : "Refers to the Status in the Opportunity.",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "transactionApplication" : {
+          "type" : "string",
+          "description" : "Refers to the Transaction that has taken place or will take place.",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "transactionId" : {
+          "type" : "string",
+          "description" : "Unique transaction identifier for retrieving the details of the transaction. For example: FT0102030333 etc.",
+          "minLength" : 0,
+          "maxLength" : 35
+        }
+      }
+    },
+    "overrideBody" : {
+      "properties" : {
+        "overrideDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "string",
+                "description" : "The identifier of the override"
+              },
+              "description" : {
+                "type" : "string",
+                "description" : "The actual override message"
+              },
+              "options" : {
+                "type" : "array",
+                "description" : "The usable options for the override",
+                "items" : {
+                  "type" : "string"
+                }
+              },
+              "type" : {
+                "type" : "string",
+                "description" : "The type of the override"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/ScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "ScreenErrorResponse"
+    },
+    "ScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message "
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "BusinessScreenErrorResponse"
+    },
+    "BusinessScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message for bad requests"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "SystemScreenErrorResponse"
+    },
+    "SystemScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message caused by server"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    }
+  }
+}

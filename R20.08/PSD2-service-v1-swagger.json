@@ -1,0 +1,142 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Confirmation of Funds Berlin Group API",
+    "version" : "v1.2.0",
+    "title" : "BG PSD2 Confirmation of Funds API"
+  },
+  "basePath" : "/api/v1",
+  "security" : [ {
+    "apiKey" : [ ]
+  } ],
+  "paths" : {
+    "/funds-confirmations" : {
+      "post" : {
+        "description" : "Creates a confirmation of funds request at the ASPSP. Checks whether a specific amount is available at point of time of the request on an account linked to a given tuple card issuer(TPP)/card number, or addressed by IBAN and TPP respectively",
+        "operationId" : "checkAvailabilityOfFunds",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "X-Request-ID",
+          "in" : "header",
+          "description" : "ID of the request, unique to the call, as determined by the initiating party.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "Digest",
+          "in" : "header",
+          "description" : "Is contained if and only if the \"Signature\" element is contained in the header of the request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "Signature",
+          "in" : "header",
+          "description" : "A signature of the request by the TPP on application level. This might be mandated by ASPSP.\n",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "TPP-Signature-Certificate",
+          "in" : "header",
+          "description" : "The certificate used for signing the request, in base64 encoding. \nMust be contained if a signature is contained.\n",
+          "required" : false,
+          "type" : "string",
+          "format" : "byte"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "payload to create payment",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/checkAvailabilityOfFundsPayload"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "checkAvailabilityOfFundsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/checkAvailabilityOfFundsResponseExampleResponse"
+            }
+          },
+          "400" : {
+            "description" : "checkAvailabilityOfFundsResponseErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/checkAvailabilityOfFundsErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "apiKey" : {
+      "type" : "apiKey",
+      "name" : "Authorization",
+      "in" : "header"
+    }
+  },
+  "definitions" : {
+    "checkAvailabilityOfFundsPayload" : {
+      "type" : "object",
+      "properties" : {
+        "payee" : {
+          "type" : "string"
+        },
+        "instructedAmount" : {
+          "type" : "object",
+          "properties" : {
+            "amount" : {
+              "type" : "string"
+            },
+            "currency" : {
+              "type" : "string"
+            }
+          }
+        },
+        "account" : {
+          "type" : "object",
+          "description" : "Reference to an account by the Primary Account Number (PAN) of a card, \ncan be tokenised by the ASPSP due to PCI DSS requirements",
+          "properties" : {
+            "iban" : {
+              "type" : "string",
+              "description" : "IBAN of an account",
+              "pattern" : "[A-Z]{2,2}[0-9]{2,2}[a-zA-Z0-9]{1,30}"
+            }
+          }
+        },
+        "cardNumber" : {
+          "type" : "string"
+        }
+      }
+    },
+    "checkAvailabilityOfFundsResponseExampleResponse" : {
+      "type" : "object",
+      "properties" : {
+        "fundsAvailable" : {
+          "type" : "boolean"
+        }
+      }
+    },
+    "checkAvailabilityOfFundsErrorResponse" : {
+      "type" : "object",
+      "properties" : {
+        "tppMessages" : {
+          "type" : "array",
+          "description" : "Messages to the TPP on operational issues.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "code" : {
+                "type" : "string"
+              },
+              "text" : {
+                "type" : "string"
+              },
+              "category" : {
+                "type" : "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

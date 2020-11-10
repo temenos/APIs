@@ -1,0 +1,1081 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Retrieves account balance and summary information to be utilized for building customer Dashboard",
+    "version" : "v1.0.0",
+    "title" : "US Model Bank - Holdings summary"
+  },
+  "host" : "api.server.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "apiKey" : [ ]
+  } ],
+  "paths" : {
+    "/holdings/us/dashboard/customer/{customerId}/accounts" : {
+      "get" : {
+        "summary" : "Get account balances for publishing in dashboard",
+        "description" : "Get list of accounts, the product and account details",
+        "operationId" : "getUsAccountsDashboard",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "customerId",
+          "in" : "path",
+          "description" : "Identifier of the customer",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "accountId",
+          "in" : "query",
+          "description" : "Identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId. Accepts both IBAN & BBAN",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "productId",
+          "in" : "query",
+          "description" : "Contains the unique identifier of the product, e.g. the product id of the arrangement account.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "currencyId",
+          "in" : "query",
+          "description" : "Identifier of the currency. This is the 3-letter ISO 4217 code of the currency.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "limitReference",
+          "in" : "query",
+          "description" : "Identifies the credit limit reference for the underlying account.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "arrangementId",
+          "in" : "query",
+          "description" : "Indicates an unique identifier of an account",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "UsAccountsDashboardResponse",
+            "schema" : {
+              "$ref" : "#/definitions/UsAccountsDashboardResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/us/customers/{customerId}/dashboards" : {
+      "get" : {
+        "summary" : "API to retrieve account and product information, balances, payment details, etc,.",
+        "description" : "Get Customer account holdings",
+        "operationId" : "getUsCustomerHoldings",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "customerId",
+          "in" : "path",
+          "description" : "Identifier of the customer",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "holdingsType",
+          "in" : "query",
+          "description" : "Contains the types of customer holdings",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "holdingsId",
+          "in" : "query",
+          "description" : "Contains the identifier specific to the holding details of the customer",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "getPreferredHoldings",
+          "in" : "query",
+          "description" : "Flag to fetch the preferred holding details (JWT required)",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "UsCustomerHoldingsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/UsCustomerHoldingsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/us/deposits/{accountId}/dashboards" : {
+      "get" : {
+        "summary" : "Get minimum deposit information for publishing in customer dashboard",
+        "description" : "Get Deposit information for publishing in dashboard",
+        "operationId" : "getUsDepositsDashboard",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "accountId",
+          "in" : "path",
+          "description" : "Identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId. Accepts both IBAN & BBAN",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "balanceTypes",
+          "in" : "query",
+          "description" : "Type of balance (e.g. current balance, credit interest accrued, deferred commission, etc.) as defined in the institution's accounting schemas.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "UsDepositsDashboardResponse",
+            "schema" : {
+              "$ref" : "#/definitions/UsDepositsDashboardResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "apiKey" : {
+      "type" : "apiKey",
+      "name" : "Authorization",
+      "in" : "header"
+    }
+  },
+  "definitions" : {
+    "QueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records per page"
+        },
+        "page_start" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The record from which the response should be displayed"
+        },
+        "total_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records present"
+        },
+        "page_token" : {
+          "type" : "string",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request"
+        }
+      }
+    },
+    "UsAccountsDashboardResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/UsAccountsDashboardResponseBody"
+        }
+      },
+      "description" : "UsAccountsDashboardResponse"
+    },
+    "UsAccountsDashboardResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "categoryId" : {
+            "type" : "string",
+            "description" : "Unique identifier associated with the product name of the account or contract. For example: For customer/counterparty accounts, the identifier would be in the range 1000 to 9999. For ledger accounts, in the range 10000 to 19999."
+          },
+          "productName" : {
+            "type" : "string",
+            "description" : "Product name of the bank for this account, proprietary definition."
+          },
+          "accountId" : {
+            "type" : "string",
+            "description" : "Identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId. Accepts both IBAN & BBAN"
+          },
+          "nickName" : {
+            "type" : "string",
+            "description" : "Nickname of the beneficiary"
+          },
+          "customerId" : {
+            "type" : "string",
+            "description" : "Identifier of the customer"
+          },
+          "customerName" : {
+            "type" : "string",
+            "description" : "Name of the customer"
+          },
+          "taxId" : {
+            "type" : "string",
+            "description" : "Holds the Customer's TAX/SSN Id."
+          },
+          "accountCurrency" : {
+            "type" : "string",
+            "description" : "Currency of the account. For example: USD, GBP.",
+            "maxLength" : 35
+          },
+          "routingNumber" : {
+            "type" : "number"
+          },
+          "accountType" : {
+            "type" : "string",
+            "description" : "Groups the products based on their type, eg, Checking, Savings, CD etc,."
+          },
+          "jointCustomer" : {
+            "type" : "number"
+          },
+          "jointRelationRoleIds" : {
+            "type" : "string",
+            "description" : "Role of joint customer with the main customer"
+          },
+          "lockedAmount" : {
+            "type" : "number",
+            "description" : "Shows reserved amount for the underlying account for a given balance reservation event."
+          },
+          "workingBalance" : {
+            "type" : "number",
+            "description" : "Real-time balance including all authorised transactions posted against the account and, unless it is a nostro or internal account, unauthorised debit entries."
+          },
+          "onlineActualBalance" : {
+            "type" : "number",
+            "description" : "Real-time balance including all authorised transactions posted against the account, excluding any entries with a future processing date."
+          },
+          "availableBalance" : {
+            "type" : "number",
+            "description" : "Available balance of the account which is the projected balance which includes the net movements of both debits and credits against the account."
+          },
+          "bankDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "Identifies the message switch through which this message passed to or from its carrier"
+          },
+          "lastWorkingDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "Date of the last business day processed for this Company. This field will be set with the date from Today table by the batch (overnight) processing system."
+          },
+          "companyId" : {
+            "type" : "string",
+            "description" : "The identifier of the underlying Entity/Company/Branch."
+          },
+          "branchId" : {
+            "type" : "string",
+            "description" : "Unique and unambiguous identification of a branch of a financial institution."
+          },
+          "branchName" : {
+            "type" : "string"
+          },
+          "availableLimit" : {
+            "type" : "number",
+            "description" : "The portion of an allocated credit limit that is available for the nominated customer"
+          },
+          "portfolioId" : {
+            "type" : "string",
+            "description" : "Id of the portfolio or security account"
+          },
+          "openingDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "The date the account is opened."
+          },
+          "closureDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "The date when the Security Account is to be closed"
+          },
+          "limitReference" : {
+            "type" : "string",
+            "description" : "Identifies the credit limit reference for the underlying account."
+          },
+          "clearedBalance" : {
+            "type" : "number",
+            "description" : "Balance taking into consideration all cleared funds booked against the account, including credit and reversed debit entries with a future exposure date."
+          },
+          "arrangementId" : {
+            "type" : "string",
+            "description" : "Indicates an unique identifier of an account"
+          },
+          "productId" : {
+            "type" : "string",
+            "description" : "Contains the unique identifier of the product, e.g. the product id of the arrangement account."
+          },
+          "productGroupId" : {
+            "type" : "string",
+            "description" : "The group, as defined by the institution, that the product belongs to."
+          },
+          "pendingDebits" : {
+            "type" : "number"
+          },
+          "pendingCredits" : {
+            "type" : "number"
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessQueryErrorResponseBody"
+        }
+      },
+      "description" : "BusinessQueryErrorResponse"
+    },
+    "BusinessQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message for bad requests"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemQueryErrorResponseBody"
+        }
+      },
+      "description" : "SystemQueryErrorResponse"
+    },
+    "SystemQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message caused by server"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    },
+    "UsCustomerHoldingsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/UsCustomerHoldingsResponseBody"
+        }
+      },
+      "description" : "UsCustomerHoldingsResponse"
+    },
+    "UsCustomerHoldingsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "products" : {
+            "type" : "array",
+            "description" : "Contains the templates used for payment transactions",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "productLineName" : {
+                  "type" : "string",
+                  "description" : "Description of the product line, e.g. Client Consent for product line CONSENT."
+                },
+                "arrangementId" : {
+                  "type" : "string",
+                  "description" : "Indicates an unique identifier of an account"
+                },
+                "productGroupId" : {
+                  "type" : "string",
+                  "description" : "The group, as defined by the institution, that the product belongs to."
+                },
+                "productGroupName" : {
+                  "type" : "string",
+                  "description" : "Description of the product group"
+                },
+                "productId" : {
+                  "type" : "string",
+                  "description" : "Contains the unique identifier of the product, e.g. the product id of the arrangement account."
+                },
+                "productDescription" : {
+                  "type" : "string",
+                  "description" : "Indicates the description of the Product"
+                },
+                "accountId" : {
+                  "type" : "string",
+                  "description" : "Identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId. Accepts both IBAN & BBAN"
+                },
+                "shortTitle" : {
+                  "type" : "string",
+                  "description" : "Short title given to the name of the arrangement"
+                },
+                "categoryId" : {
+                  "type" : "string",
+                  "description" : "Unique identifier associated with the product name of the account or contract. For example: For customer/counterparty accounts, the identifier would be in the range 1000 to 9999. For ledger accounts, in the range 10000 to 19999."
+                },
+                "companyCode" : {
+                  "type" : "string",
+                  "description" : "The identifier of the underlying Entity/Company/Branch."
+                },
+                "currencyId" : {
+                  "type" : "string",
+                  "description" : "Identifier of the currency. This is the 3-letter ISO 4217 code of the currency."
+                },
+                "sortCode" : {
+                  "type" : "string",
+                  "description" : "Contains bank sort code or iban branch identifier for the account"
+                },
+                "accountIBAN" : {
+                  "type" : "string",
+                  "description" : "Represents the International Bank Account Number (IBAN) of the account.  E.g. GB29 NWBK 6016 1331 9268 19"
+                },
+                "workingBalance" : {
+                  "type" : "number",
+                  "description" : "Real-time balance including all authorised transactions posted against the account and, unless it is a nostro or internal account, unauthorised debit entries."
+                },
+                "openingDate" : {
+                  "type" : "string",
+                  "format" : "date",
+                  "description" : "The date the account is opened."
+                },
+                "companyName" : {
+                  "type" : "string",
+                  "description" : "The company in which payment is processed"
+                },
+                "preferredProduct" : {
+                  "type" : "string",
+                  "description" : "Indicates the preferred product of the arrangement contract. This is required for only new arrangements and product change is not permitted"
+                },
+                "preferredProductPosition" : {
+                  "type" : "string",
+                  "description" : "Indicates to position of the preferred product of the arrangement contract. This is required for only new arrangements and product change is not permitted"
+                },
+                "preferredProductLabel" : {
+                  "type" : "string",
+                  "description" : "Indicates the label of the Preferred Product of the Arrangement contract. This is required for only new arrangements and product change is not permitted"
+                },
+                "permission" : {
+                  "type" : "string",
+                  "description" : "The act of permitting, especially in giving formal consent to access a particular file or repository."
+                },
+                "onlineActualBalance" : {
+                  "type" : "number",
+                  "description" : "Real-time balance including all authorised transactions posted against the account, excluding any entries with a future processing date."
+                },
+                "availableBalance" : {
+                  "type" : "number",
+                  "description" : "Available balance of the account which is the projected balance which includes the net movements of both debits and credits against the account."
+                },
+                "availableBalanceWithLimit" : {
+                  "type" : "number",
+                  "description" : "Contains the maximum amount available to be drawn"
+                },
+                "outstandingAmount" : {
+                  "type" : "number",
+                  "description" : "Contains the aggregate outstanding principal amount thereof after giving effect to any borrowings and prepayments or repayments of Committed Loans"
+                },
+                "paidOutAmount" : {
+                  "type" : "number",
+                  "description" : "The amount paid out."
+                },
+                "arrangementStatus" : {
+                  "type" : "string",
+                  "description" : "Status of the arrangement. E.g. AUTH, CLOSE, UNAUTH etc."
+                },
+                "totalPrincipal" : {
+                  "type" : "number",
+                  "description" : "Contains the amount borrowed or the part of the amount borrowed which remains unpaid"
+                },
+                "connectionId" : {
+                  "type" : "string",
+                  "description" : "Contains the id associated to the connect reference respective to a transaction of the account"
+                },
+                "balancesLastUpdated" : {
+                  "type" : "string",
+                  "description" : "Contains the last updated balances details"
+                },
+                "transactionsLastUpdated" : {
+                  "type" : "string",
+                  "description" : "Contains the list of last updated transactions"
+                },
+                "bankLogo" : {
+                  "type" : "string",
+                  "description" : "Indicates the logo of the bank"
+                },
+                "extSourceProvider" : {
+                  "type" : "string",
+                  "description" : "Contains the name of the external source provider for the customer"
+                },
+                "customerId" : {
+                  "type" : "string",
+                  "description" : "Identifier of the customer"
+                },
+                "connectionStatus" : {
+                  "type" : "string",
+                  "description" : "Contains the connection status of the transaction"
+                },
+                "connectionSubStatus" : {
+                  "type" : "string",
+                  "description" : "Contains the connection sub status of the transaction"
+                },
+                "nextRefreshAvailableAt" : {
+                  "type" : "string",
+                  "description" : "Denotes the next refresh time"
+                },
+                "acctSwiftRef" : {
+                  "type" : "string",
+                  "description" : "Contains the swift reference of the account"
+                },
+                "extAccountNumber" : {
+                  "type" : "string",
+                  "description" : "Denotes the external account number"
+                },
+                "paymentTemplates" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object",
+                    "properties" : {
+                      "paymentTemplate" : {
+                        "type" : "string",
+                        "description" : "Contains the template used for payment transactions"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "productLineId" : {
+            "type" : "string",
+            "description" : "The top level product line, which the product is ultimately attached to. May be a Temenos-defined product line such as ACCOUNTS, AGENT, BUNDLE, CONSENT, DEPOSITS, LENDING, REWARDS, etc. or one defined by the institution to manage external products."
+          },
+          "pendingDebits" : {
+            "type" : "number"
+          },
+          "pendingCredits" : {
+            "type" : "number"
+          },
+          "blendedAPY" : {
+            "type" : "number",
+            "description" : "When tiered interest is applied, holds the blended APY considering the tiered interest rates. Blended APY is calculated based on principal amount in the account."
+          },
+          "term" : {
+            "type" : "string",
+            "description" : "Indicates the term for which the contract is booked"
+          },
+          "branchId" : {
+            "type" : "string",
+            "description" : "Unique and unambiguous identification of a branch of a financial institution."
+          },
+          "branchName" : {
+            "type" : "string"
+          },
+          "routingNumber" : {
+            "type" : "number"
+          },
+          "accountType" : {
+            "type" : "string",
+            "description" : "Groups the products based on their type, eg, Checking, Savings, CD etc,."
+          },
+          "customerId" : {
+            "type" : "number",
+            "description" : "Identifier of the customer"
+          },
+          "nickName" : {
+            "type" : "string",
+            "description" : "Nickname of the beneficiary"
+          },
+          "jointCustomer" : {
+            "type" : "number"
+          },
+          "customerRole" : {
+            "type" : "string",
+            "description" : "Indicates role of a customer for an arrangement."
+          },
+          "totalAccountBalances" : {
+            "type" : "number",
+            "description" : "Contains the final balances of all accounts after all transactions have taken place"
+          },
+          "totalDepositBalances" : {
+            "type" : "number",
+            "description" : "Contains the final balances of all deposit accounts after all transactions have taken place"
+          },
+          "totalLoanBalances" : {
+            "type" : "number",
+            "description" : "Contains the final balances of all loans after all payments have taken place"
+          },
+          "totalExtAccountBalances" : {
+            "type" : "string",
+            "description" : "Contains the final balances of all the external accounts"
+          }
+        }
+      }
+    },
+    "UsDepositsDashboardResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/UsDepositsDashboardResponseBody"
+        }
+      },
+      "description" : "UsDepositsDashboardResponse"
+    },
+    "UsDepositsDashboardResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "chargeTypes" : {
+            "type" : "array",
+            "description" : "Indicates the charge types which are applicable for the transaction. Example: CORRBKCHG",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "chargeType" : {
+                  "type" : "string",
+                  "description" : "Indicates the charge types which are applicable for the transaction. Example: CORRBKCHG"
+                }
+              }
+            }
+          },
+          "taxRates" : {
+            "type" : "array",
+            "description" : "Indicates tax charged to an account",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "taxRate" : {
+                  "type" : "string",
+                  "description" : "Indicates tax charged to an account"
+                }
+              }
+            }
+          },
+          "charges" : {
+            "type" : "array",
+            "description" : "Specifies the charges which has incurred with processing of the cheque",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "paymentFrequency" : {
+                  "type" : "string",
+                  "description" : "The frequency at which a payment is required to be generated"
+                },
+                "paymentTypeName" : {
+                  "type" : "string",
+                  "description" : "Indicates Payment type set to an account"
+                },
+                "propertyName" : {
+                  "type" : "string",
+                  "description" : "Indicates the Id of the product property"
+                },
+                "paymentMethod" : {
+                  "type" : "string",
+                  "description" : "Method chosen to make the payment"
+                },
+                "chargeSchedulePaymentValue" : {
+                  "type" : "string",
+                  "description" : "Indicates the payment frequency associated with the charge"
+                }
+              }
+            }
+          },
+          "settlements" : {
+            "type" : "array",
+            "description" : "Indicates settlement conditions associated with the account",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "payinSettlement" : {
+                  "type" : "string",
+                  "description" : "Flag to indicate whether Payin Settlement instruction is required or not.Valid input is Yes or No.Default value is Yes."
+                },
+                "payinAccountId" : {
+                  "type" : "string",
+                  "description" : "Indicates the Payin Settlement Account. The account from which funds are to be debited against the payment type."
+                },
+                "payoutSettlement" : {
+                  "type" : "string",
+                  "description" : "Flag to indicate whether Payout Settlement instruction is required or not.Valid input is Yes or No.Default value is Yes."
+                },
+                "payoutAccountId" : {
+                  "type" : "string",
+                  "description" : "Indicates the Payout Settlement Account. The account into which funds are to be credited against the payment type."
+                },
+                "propertyId" : {
+                  "type" : "string",
+                  "description" : "The identifier of the product condition"
+                },
+                "propertyClassId" : {
+                  "type" : "string",
+                  "description" : "The identifier of a condition that is used to build a product"
+                }
+              }
+            }
+          },
+          "arrangementId" : {
+            "type" : "string",
+            "description" : "Indicates an unique identifier of an account"
+          },
+          "currencyId" : {
+            "type" : "string",
+            "description" : "Identifier of the currency. This is the 3-letter ISO 4217 code of the currency."
+          },
+          "startDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "Contains the date on which the transaction or payment gets initiated."
+          },
+          "maturityDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "Indicates maturity date of the contract"
+          },
+          "maturesIn" : {
+            "type" : "string",
+            "description" : "Indicates a date or period within which an account gets matured"
+          },
+          "coolingOffDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "Indicates cooling off period for an account until which pre-closure can be triggered without incurring any fees or charges."
+          },
+          "term" : {
+            "type" : "string",
+            "description" : "Indicates the term for which the contract is booked"
+          },
+          "termAmount" : {
+            "type" : "number",
+            "description" : "The monetary amount applied to the account"
+          },
+          "cancellationPeriod" : {
+            "type" : "string",
+            "description" : "Indicates the Period beyond which a contract is cancelled if it not fully funded in case of deposit or fully disbursed in case of the loan"
+          },
+          "earlyRedemptionFee" : {
+            "type" : "number",
+            "description" : "Indicates the early redemption fee that is associated during closure before account maturity"
+          },
+          "withdrawalFee" : {
+            "type" : "string",
+            "description" : "Indicates fee charged for the withdrawals"
+          },
+          "interestRate" : {
+            "type" : "string",
+            "description" : "Identifies the bid rate of the related currency for the defined time period"
+          },
+          "accrualAmount" : {
+            "type" : "number",
+            "description" : "Indicates interest accumulated for an account for the defined time period"
+          },
+          "accruedInterest" : {
+            "type" : "number",
+            "description" : "The amount of interest that has been accrued"
+          },
+          "paymentType" : {
+            "type" : "string",
+            "description" : "Indicates if the payment is Customer (C) type or Bank (B) type"
+          },
+          "maturityInDays" : {
+            "type" : "string",
+            "description" : "Indicates the number of days within which an contract gets matured"
+          },
+          "remainingMaturityInDays" : {
+            "type" : "string",
+            "description" : "Indicates number of days remaining for maturity"
+          },
+          "commitmentAmount" : {
+            "type" : "number",
+            "description" : "Indicates the total amount which will be lent or deposited for the term"
+          },
+          "expectedBalance" : {
+            "type" : "number",
+            "description" : "Indicates the amount expected to be deposited by the customer"
+          },
+          "allowWithdrawal" : {
+            "type" : "string",
+            "description" : "Flag to indicate whether withdrawals are applicable for the account"
+          },
+          "unspecifiedCredit" : {
+            "type" : "number",
+            "description" : "Indicates an unallocated credit amount to an account"
+          },
+          "allowDeposit" : {
+            "type" : "string",
+            "description" : "Flag to indicate whether deposit is allowed to an account"
+          },
+          "allowWithdrawalUnclearedCredit" : {
+            "type" : "string",
+            "description" : "Flag to indicate whether withdrawals are allowed to an unallocated fund available in the account"
+          },
+          "blendedAPY" : {
+            "type" : "number",
+            "description" : "When tiered interest is applied, holds the blended APY considering the tiered interest rates. Blended APY is calculated based on principal amount in the account."
+          },
+          "branchId" : {
+            "type" : "string",
+            "description" : "Unique and unambiguous identification of a branch of a financial institution."
+          },
+          "branchName" : {
+            "type" : "string"
+          },
+          "routingNumber" : {
+            "type" : "number"
+          },
+          "accountType" : {
+            "type" : "string",
+            "description" : "Groups the products based on their type, eg, Checking, Savings, CD etc,."
+          },
+          "customerId" : {
+            "type" : "number",
+            "description" : "Identifier of the customer"
+          },
+          "nickName" : {
+            "type" : "string",
+            "description" : "Nickname of the beneficiary"
+          },
+          "jointCustomer" : {
+            "type" : "string"
+          },
+          "customerRole" : {
+            "type" : "string",
+            "description" : "Indicates role of a customer for an arrangement."
+          }
+        }
+      }
+    }
+  }
+}

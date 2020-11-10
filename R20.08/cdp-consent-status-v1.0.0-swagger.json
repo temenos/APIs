@@ -1,0 +1,336 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "APIs to retrieve status of customer's CDP Consent for specific type or subtype",
+    "version" : "v1.0.0",
+    "title" : "CDP consent status API"
+  },
+  "host" : "api.server.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "apiKey" : [ ]
+  } ],
+  "paths" : {
+    "/party/consents/CDP" : {
+      "get" : {
+        "summary" : "Retrieves CDP Consent status",
+        "description" : "Retrieves CDP Consent status of a customer for given consent type or sub type",
+        "operationId" : "getCdpConsentStatus",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "customerId",
+          "in" : "query",
+          "description" : "Identifier of the customer",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "arrangement",
+          "in" : "query",
+          "description" : "Unique identifier for the arrangement contract",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "consentType",
+          "in" : "query",
+          "description" : "Consent Type for which the consent is given",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "consentSubType",
+          "in" : "query",
+          "description" : "Indicates the consent type provided for a particular account. For example, If consent sub type for account 100100 is given as allPsd2, the account is given global consent.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "CdpConsentStatusResponse",
+            "schema" : {
+              "$ref" : "#/definitions/CdpConsentStatusResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "apiKey" : {
+      "type" : "apiKey",
+      "name" : "Authorization",
+      "in" : "header"
+    }
+  },
+  "definitions" : {
+    "QueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records per page"
+        },
+        "page_start" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The record from which the response should be displayed"
+        },
+        "total_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records present"
+        },
+        "page_token" : {
+          "type" : "string",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request"
+        }
+      }
+    },
+    "CdpConsentStatusResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/CdpConsentStatusResponseBody"
+        }
+      },
+      "description" : "CdpConsentStatusResponse"
+    },
+    "CdpConsentStatusResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "customerId" : {
+            "type" : "number",
+            "description" : "Identifier of the customer",
+            "maximum" : 35
+          },
+          "arrangement" : {
+            "type" : "string",
+            "description" : "Unique identifier for the arrangement contract",
+            "maxLength" : 35
+          },
+          "consentType" : {
+            "type" : "string",
+            "description" : "Consent Type for which the consent is given",
+            "maxLength" : 35
+          },
+          "isConsentGiven" : {
+            "type" : "string",
+            "description" : "Indicates whether the customer consents to adding this account to the TPP (third party provider) service they are signing up for or otherwise.",
+            "maxLength" : 35
+          },
+          "isConsentWithdrawn" : {
+            "type" : "string",
+            "description" : "Indicates if the consent given for the particular consent type is withdrawn.",
+            "maxLength" : 35
+          },
+          "consentSubType" : {
+            "type" : "string",
+            "description" : "Indicates the consent type provided for a particular account. For example, If consent sub type for account 100100 is given as allPsd2, the account is given global consent.",
+            "maxLength" : 35
+          },
+          "isSubTypeConsentGiven" : {
+            "type" : "string",
+            "description" : "In case, the customer's consent type (e.g. direct marketing) is further divided into subtypes (e.g. email, sms, etc.), this field indicates whether consent is given for each subtype. Allowed values:  - YES - NO",
+            "maxLength" : 35
+          },
+          "isSubTypeWithdrawn" : {
+            "type" : "string",
+            "description" : "Indicates if the consent given for the consent sub type is withdrawn.",
+            "maxLength" : 35
+          },
+          "isBlocked" : {
+            "type" : "string",
+            "description" : "Balance Netting is blocked or Not",
+            "maxLength" : 35
+          },
+          "consentStatus" : {
+            "type" : "boolean",
+            "description" : "Status of the consent. This can be of received, valid, expired, terminatedByTpp or revokedByPsu."
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessQueryErrorResponseBody"
+        }
+      },
+      "description" : "BusinessQueryErrorResponse"
+    },
+    "BusinessQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message for bad requests"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemQueryErrorResponseBody"
+        }
+      },
+      "description" : "SystemQueryErrorResponse"
+    },
+    "SystemQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message caused by server"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    }
+  }
+}

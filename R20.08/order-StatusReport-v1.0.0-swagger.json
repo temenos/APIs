@@ -1,0 +1,1207 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Order Status Report",
+    "version" : "v1.0.0",
+    "title" : "Order Status Report"
+  },
+  "host" : "api.server.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "apiKey" : [ ]
+  } ],
+  "paths" : {
+    "/order/messages/statusReportTrade" : {
+      "post" : {
+        "summary" : "Order Status Report",
+        "description" : "Order Status Report",
+        "operationId" : "orderStatusReport",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/StatusReport"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "StatusReportResponse",
+            "schema" : {
+              "$ref" : "#/definitions/StatusReportResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "apiKey" : {
+      "type" : "apiKey",
+      "name" : "Authorization",
+      "in" : "header"
+    }
+  },
+  "definitions" : {
+    "PayloadHeader" : {
+      "properties" : {
+        "override" : {
+          "type" : "object",
+          "properties" : {
+            "overrideDetails" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "id" : {
+                    "type" : "string",
+                    "description" : "The identifier of the override"
+                  },
+                  "description" : {
+                    "type" : "string",
+                    "description" : "The actual override message"
+                  },
+                  "responseCode" : {
+                    "type" : "string",
+                    "description" : "The user input to accept/reject the override."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            }
+          }
+        }
+      }
+    },
+    "StatusReport" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/StatusReportBody"
+        }
+      },
+      "description" : "StatusReport"
+    },
+    "StatusReportBody" : {
+      "type" : "object",
+      "properties" : {
+        "orderDetsTypeGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "orderDetsType" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "orderDetsRefGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "orderDetsRef" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrSts" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsCancCdGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsCancCd" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsCancIdGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsCancId" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsCancSchmeNmGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsCancSchmeNm" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsCancIssrGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsCancIssr" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsCondlyAccptdNoSpcfdRsnGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsCondlyAccptdNoSpcfdRsn" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsCondlyAccptdCdGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsCondlyAccptdCd" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsCondlyAccptdIdGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsCondlyAccptdId" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsCondlyAccptdSchmeNmGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsCondlyAccptdSchmeNm" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsCondlyAccptdIssrGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsCondlyAccptdIssr" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsRjctdCdGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsRjctdCd" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsRjctdIdGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsRjctdId" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsRjctdSchmeNmGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsRjctdSchmeNm" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsRjctdIssrGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsRjctdIssr" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsSspdNoSpcfdRsnGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsSspdNoSpcfdRsn" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsSspdCdGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsSspdCd" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsSspdIdGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsSspdId" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsSspdSchmeNmGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsSspdSchmeNm" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsSspdIssrGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsSspdIssr" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsInRprNoSpcfdRsnGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsInRprNoSpcfdRsn" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsInRprCdGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsInRprCd" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsInRprIdGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsInRprId" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsInRprSchmeNmGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsInRprSchmeNm" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsInRprIssrGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsInRprIssr" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsPrtlySttldCdGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsPrtlySttldCd" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsPrtlySttldIdGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsPrtlySttldId" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsPrtlySttldSchmeNmGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsPrtlySttldSchmeNm" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsPrtlySttldIssrGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsPrtlySttldIssr" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "msgId" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "creDtTm" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "receiver" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 35
+        }
+      }
+    },
+    "ScreenHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "uniqueIdentifier" : {
+          "type" : "string",
+          "description" : "The unique identifier/Message Reference of the record created."
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "StatusReportResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/StatusReportResponseBody"
+        }
+      },
+      "description" : "StatusReportResponse"
+    },
+    "StatusReportResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "orderDetsTypeGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "orderDetsType" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "orderDetsRefGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "orderDetsRef" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrSts" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsCancCdGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsCancCd" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsCancIdGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsCancId" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsCancSchmeNmGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsCancSchmeNm" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsCancIssrGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsCancIssr" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsCondlyAccptdNoSpcfdRsnGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsCondlyAccptdNoSpcfdRsn" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsCondlyAccptdCdGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsCondlyAccptdCd" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsCondlyAccptdIdGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsCondlyAccptdId" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsCondlyAccptdSchmeNmGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsCondlyAccptdSchmeNm" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsCondlyAccptdIssrGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsCondlyAccptdIssr" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsRjctdCdGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsRjctdCd" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsRjctdIdGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsRjctdId" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsRjctdSchmeNmGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsRjctdSchmeNm" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsRjctdIssrGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsRjctdIssr" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsSspdNoSpcfdRsnGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsSspdNoSpcfdRsn" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsSspdCdGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsSspdCd" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsSspdIdGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsSspdId" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsSspdSchmeNmGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsSspdSchmeNm" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsSspdIssrGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsSspdIssr" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsInRprNoSpcfdRsnGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsInRprNoSpcfdRsn" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsInRprCdGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsInRprCd" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsInRprIdGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsInRprId" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsInRprSchmeNmGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsInRprSchmeNm" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsInRprIssrGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsInRprIssr" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsPrtlySttldCdGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsPrtlySttldCd" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsPrtlySttldIdGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsPrtlySttldId" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsPrtlySttldSchmeNmGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsPrtlySttldSchmeNm" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "ordrStsPrtlySttldIssrGroup" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ordrStsPrtlySttldIssr" : {
+                "type" : "string",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "msgId" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "creDtTm" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "receiver" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 35
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "uniqueIdentifier" : {
+          "type" : "string",
+          "description" : "The unique identifier/Message Reference of the record created."
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "overrideBody" : {
+      "properties" : {
+        "overrideDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "string",
+                "description" : "The identifier of the override"
+              },
+              "description" : {
+                "type" : "string",
+                "description" : "The actual override message"
+              },
+              "options" : {
+                "type" : "array",
+                "description" : "The usable options for the override",
+                "items" : {
+                  "type" : "string"
+                }
+              },
+              "type" : {
+                "type" : "string",
+                "description" : "The type of the override"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/ScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "ScreenErrorResponse"
+    },
+    "ScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message "
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "BusinessScreenErrorResponse"
+    },
+    "BusinessScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message for bad requests"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "SystemScreenErrorResponse"
+    },
+    "SystemScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message caused by server"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    }
+  }
+}

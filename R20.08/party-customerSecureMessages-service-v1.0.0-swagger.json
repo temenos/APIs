@@ -1,0 +1,940 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Allows the creation, viewing and management of customer secure messages.",
+    "version" : "v1.0.0",
+    "title" : "Party Customer Secure Messages APIs"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "apiKey" : [ ]
+  } ],
+  "paths" : {
+    "/party/customers/secureMessages" : {
+      "get" : {
+        "summary" : "Retrieves the list of messages from Bank to Customer and from customer to Bank",
+        "description" : "Retrieves secure messages details",
+        "operationId" : "getSecureMessages",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "messageId",
+          "in" : "query",
+          "description" : "The holds the record key of the message ID.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "parentMessageIdNE",
+          "in" : "query",
+          "description" : "Parent message id not equal to",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "parentMessageId",
+          "in" : "query",
+          "description" : "Identifier of the parent message.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "toCustomerId",
+          "in" : "query",
+          "description" : "The unique customer identifier of the Payee, to whom the payment message is to be sent",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "fromCustomerId",
+          "in" : "query",
+          "description" : "The Customer ID from which the message is triggered.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "messageStatus",
+          "in" : "query",
+          "description" : "Status of the message",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "SecureMessagesResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SecureMessagesResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Initiate a new secure message by customer to bank",
+        "description" : "Create secure message",
+        "operationId" : "createSecureMessage",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/SecureMessage"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "SecureMessageResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SecureMessageResponse1"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/party/customers/secureMessages/{secureMessageId}" : {
+      "get" : {
+        "summary" : "Retrieves the secure message details for a specific message id",
+        "description" : "Read secure message details",
+        "operationId" : "readSecureMessage",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "secureMessageId",
+          "in" : "path",
+          "description" : "Contains the usable amount in the balance",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "SecureMessageResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SecureMessageResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "apiKey" : {
+      "type" : "apiKey",
+      "name" : "Authorization",
+      "in" : "header"
+    }
+  },
+  "definitions" : {
+    "QueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records per page"
+        },
+        "page_start" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The record from which the response should be displayed"
+        },
+        "total_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records present"
+        },
+        "page_token" : {
+          "type" : "string",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request"
+        }
+      }
+    },
+    "SecureMessagesResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/SecureMessagesResponseBody"
+        }
+      },
+      "description" : "SecureMessagesResponse"
+    },
+    "SecureMessagesResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "messages" : {
+            "type" : "array",
+            "description" : "Specifies the record ID of parent message. ",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "message" : {
+                  "type" : "string",
+                  "description" : "The actual t24 error message ",
+                  "maxLength" : 80
+                }
+              }
+            }
+          },
+          "messageStatus" : {
+            "type" : "string",
+            "description" : "Status of the message",
+            "maxLength" : 35
+          },
+          "messageId" : {
+            "type" : "string",
+            "description" : "The holds the record key of the message ID.",
+            "maxLength" : 35
+          },
+          "subject" : {
+            "type" : "string",
+            "description" : "The subject of the message to be sent or received.",
+            "maxLength" : 80
+          },
+          "dateSent" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "The date when the message is sent."
+          },
+          "sentAt" : {
+            "type" : "string",
+            "description" : "The time on which the message was sent.",
+            "maxLength" : 35
+          },
+          "fromDepartmentId" : {
+            "type" : "string",
+            "description" : "The identifier of the originating department",
+            "maxLength" : 35
+          },
+          "fromDepartmentName" : {
+            "type" : "string",
+            "description" : "The Account Officer in the department account officer table department account officer tab",
+            "maxLength" : 35
+          },
+          "parentMessageId" : {
+            "type" : "string",
+            "description" : "Identifier of the parent message.",
+            "maxLength" : 35
+          },
+          "toDepartmentId" : {
+            "type" : "string",
+            "description" : "The unique department identifier, to which the message is to be sent.",
+            "maxLength" : 35
+          },
+          "toDepartmentName" : {
+            "type" : "string",
+            "description" : "The department name, to which the message is to be sent",
+            "maxLength" : 35
+          },
+          "toCustomerId" : {
+            "type" : "string",
+            "description" : "The unique customer identifier of the Payee, to whom the payment message is to be sent",
+            "maxLength" : 10
+          },
+          "fromCustomerId" : {
+            "type" : "string",
+            "description" : "The Customer ID from which the message is triggered.",
+            "maxLength" : 10
+          },
+          "uploadId" : {
+            "type" : "string",
+            "description" : "The unique identifier of the uploaded file",
+            "maxLength" : 12
+          },
+          "uploadPath" : {
+            "type" : "string",
+            "description" : "The directory path to which the file is uploaded",
+            "maxLength" : 50
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessQueryErrorResponseBody"
+        }
+      },
+      "description" : "BusinessQueryErrorResponse"
+    },
+    "BusinessQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message for bad requests"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemQueryErrorResponseBody"
+        }
+      },
+      "description" : "SystemQueryErrorResponse"
+    },
+    "SystemQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message caused by server"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    },
+    "SecureMessageResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/SecureMessageResponseBody"
+        }
+      },
+      "description" : "SecureMessageResponse"
+    },
+    "SecureMessageResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "messages" : {
+            "type" : "array",
+            "description" : "Specifies the record ID of parent message. ",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "message" : {
+                  "type" : "string",
+                  "description" : "The actual t24 error message ",
+                  "maxLength" : 80
+                }
+              }
+            }
+          },
+          "messageId" : {
+            "type" : "string",
+            "description" : "The holds the record key of the message ID.",
+            "maxLength" : 35
+          }
+        }
+      }
+    },
+    "PayloadHeader" : {
+      "properties" : {
+        "override" : {
+          "type" : "object",
+          "properties" : {
+            "overrideDetails" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "id" : {
+                    "type" : "string",
+                    "description" : "The identifier of the override."
+                  },
+                  "description" : {
+                    "type" : "string",
+                    "description" : "The actual override message."
+                  },
+                  "code" : {
+                    "type" : "string",
+                    "description" : "The code related to override message."
+                  },
+                  "responseCode" : {
+                    "type" : "string",
+                    "description" : "The user input to accept/reject the override."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            }
+          }
+        }
+      }
+    },
+    "SecureMessage" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/SecureMessageBody"
+        }
+      },
+      "description" : "SecureMessage"
+    },
+    "SecureMessageBody" : {
+      "type" : "object",
+      "properties" : {
+        "messages" : {
+          "type" : "array",
+          "description" : "Specifies the record ID of parent message. ",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message ",
+                "minLength" : 0,
+                "maxLength" : 80
+              }
+            }
+          }
+        },
+        "subject" : {
+          "type" : "string",
+          "description" : "The subject of the message to be sent or received.",
+          "minLength" : 0,
+          "maxLength" : 80
+        },
+        "parentMessageId" : {
+          "type" : "string",
+          "description" : "Identifier of the parent message.",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "fromCustomerId" : {
+          "type" : "string",
+          "description" : "The Customer ID from which the message is triggered.",
+          "minLength" : 0,
+          "maxLength" : 14
+        },
+        "messageStatus" : {
+          "type" : "string",
+          "description" : "Status of the message",
+          "minLength" : 0,
+          "maxLength" : 13
+        },
+        "toDepartmentId" : {
+          "type" : "string",
+          "description" : "The unique department identifier, to which the message is to be sent.",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "uploadId" : {
+          "type" : "string",
+          "description" : "The unique identifier of the uploaded file",
+          "minLength" : 0,
+          "maxLength" : 12
+        },
+        "uploadPath" : {
+          "type" : "string",
+          "description" : "The directory path to which the file is uploaded",
+          "minLength" : 0,
+          "maxLength" : 50
+        }
+      }
+    },
+    "ScreenHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "uniqueIdentifier" : {
+          "type" : "string",
+          "description" : "The unique identifier/Message Reference of the record created."
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "SecureMessageResponse1" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/SecureMessageResponse1Body"
+        }
+      },
+      "description" : "SecureMessageResponse1"
+    },
+    "SecureMessageResponse1Body" : {
+      "type" : "object",
+      "properties" : {
+        "messages" : {
+          "type" : "array",
+          "description" : "Specifies the record ID of parent message. ",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message ",
+                "minLength" : 0,
+                "maxLength" : 80
+              }
+            }
+          }
+        },
+        "subject" : {
+          "type" : "string",
+          "description" : "The subject of the message to be sent or received.",
+          "minLength" : 0,
+          "maxLength" : 80
+        },
+        "parentMessageId" : {
+          "type" : "string",
+          "description" : "Identifier of the parent message.",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "fromCustomerId" : {
+          "type" : "string",
+          "description" : "The Customer ID from which the message is triggered.",
+          "minLength" : 0,
+          "maxLength" : 14
+        },
+        "messageStatus" : {
+          "type" : "string",
+          "description" : "Status of the message",
+          "minLength" : 0,
+          "maxLength" : 13
+        },
+        "toDepartmentId" : {
+          "type" : "string",
+          "description" : "The unique department identifier, to which the message is to be sent.",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "uploadId" : {
+          "type" : "string",
+          "description" : "The unique identifier of the uploaded file",
+          "minLength" : 0,
+          "maxLength" : 12
+        },
+        "uploadPath" : {
+          "type" : "string",
+          "description" : "The directory path to which the file is uploaded",
+          "minLength" : 0,
+          "maxLength" : 50
+        }
+      }
+    },
+    "overrideBody" : {
+      "properties" : {
+        "overrideDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "string",
+                "description" : "The identifier of the override."
+              },
+              "description" : {
+                "type" : "string",
+                "description" : "The actual override message."
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The code related to override message."
+              },
+              "options" : {
+                "type" : "array",
+                "description" : "The usable options for the override.",
+                "items" : {
+                  "type" : "string"
+                }
+              },
+              "type" : {
+                "type" : "string",
+                "description" : "The type of the override."
+              }
+            }
+          }
+        }
+      }
+    },
+    "ScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/ScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "ScreenErrorResponse"
+    },
+    "ScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message "
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "BusinessScreenErrorResponse"
+    },
+    "BusinessScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message for bad requests"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "SystemScreenErrorResponse"
+    },
+    "SystemScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message caused by server"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "LUXHUB will call this API to ensure ASPSP is reachable.      \n",
+    "version" : "v1.3.0",
+    "title" : "BG HEALTHZ API"
+  },
+  "basePath" : "/api/v1",
+  "security" : [ {
+    "apiKey" : [ ]
+  } ],
+  "paths" : {
+    "/healthz" : {
+      "get" : {
+        "description" : "LUXHUB will call this API to ensure ASPSP is reachable.      \n",
+        "operationId" : "healthz",
+        "produces" : [ "application/hal+json" ],
+        "responses" : {
+          "200" : {
+            "description" : "ASPSP healthcheck request",
+            "schema" : {
+              "$ref" : "#/definitions/Healthcheck"
+            }
+          },
+          "default" : {
+            "description" : "HealthcheckErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/HealthcheckErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "apiKey" : {
+      "type" : "apiKey",
+      "name" : "Authorization",
+      "in" : "header"
+    }
+  },
+  "definitions" : {
+    "HealthcheckErrorResponse" : {
+      "type" : "object",
+      "properties" : {
+        "tppMessages" : {
+          "type" : "array",
+          "description" : "Messages to the TPP on operational issues.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "code" : {
+                "type" : "string"
+              },
+              "text" : {
+                "type" : "string"
+              },
+              "category" : {
+                "type" : "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "Healthcheck" : {
+      "type" : "object",
+      "required" : [ "status" ],
+      "properties" : {
+        "status" : {
+          "type" : "string",
+          "description" : "OK"
+        }
+      },
+      "description" : "healthcheck wrapper object",
+      "example" : {
+        "status" : "OK"
+      }
+    }
+  }
+}

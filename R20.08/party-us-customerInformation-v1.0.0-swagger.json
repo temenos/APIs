@@ -1,0 +1,758 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Retrieve customer address details and details that can be used for customer identification by a online services or call center, like DOB, SSN, Phone number",
+    "version" : "v1.0.0",
+    "title" : "US Model Bank - Customer Information"
+  },
+  "host" : "api.server.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "apiKey" : [ ]
+  } ],
+  "paths" : {
+    "/party/us/customers/customerInformation" : {
+      "get" : {
+        "summary" : "Retrieve customer information service required for infinity integration",
+        "description" : "search and retrieve Customer Information",
+        "operationId" : "getUsCustomerInformation",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "customerId",
+          "in" : "query",
+          "description" : "Identifier of the customer",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "customerName",
+          "in" : "query",
+          "description" : "Name of the customer",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "addressLine1",
+          "in" : "query",
+          "description" : "Indicates first line of the address of the BIC",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "addressCity",
+          "in" : "query",
+          "description" : "The town and/or city component of the base address of a customer",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "countryId",
+          "in" : "query",
+          "description" : "ISO country code of the financial institution. ",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "zipCode",
+          "in" : "query",
+          "description" : "Zip code",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "dateOfBirth",
+          "in" : "query",
+          "description" : "The date of birth of an individual customer",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "lastName",
+          "in" : "query",
+          "description" : "The last name of an individual customer",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "phoneNumber",
+          "in" : "query",
+          "description" : "The phone number of the customer or prospect",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "firstName",
+          "in" : "query",
+          "description" : "Specifies customer's first name",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "email",
+          "in" : "query",
+          "description" : "Email Identifier of the Customer",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "mobilePhoneNumber",
+          "in" : "query",
+          "description" : "Represents the phone number of a customer",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "taxId",
+          "in" : "query",
+          "description" : "Holds the Customer's TAX/SSN Id.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "UsCustomerInformationResponse",
+            "schema" : {
+              "$ref" : "#/definitions/UsCustomerInformationResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "apiKey" : {
+      "type" : "apiKey",
+      "name" : "Authorization",
+      "in" : "header"
+    }
+  },
+  "definitions" : {
+    "QueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records per page"
+        },
+        "page_start" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The record from which the response should be displayed"
+        },
+        "total_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records present"
+        },
+        "page_token" : {
+          "type" : "string",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request"
+        }
+      }
+    },
+    "UsCustomerInformationResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/UsCustomerInformationResponseBody"
+        }
+      },
+      "description" : "UsCustomerInformationResponse"
+    },
+    "UsCustomerInformationResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "communicationDevices" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "phoneNumber" : {
+                  "type" : "string",
+                  "description" : "The phone number of the customer or prospect",
+                  "maxLength" : 17
+                },
+                "mobilePhoneNumber" : {
+                  "type" : "string",
+                  "description" : "Represents the phone number of a customer"
+                },
+                "emailId" : {
+                  "type" : "string",
+                  "description" : "Contains the email identifier of the customer",
+                  "maxLength" : 50
+                }
+              }
+            }
+          },
+          "addressDetails" : {
+            "type" : "array",
+            "description" : "Additional address information, e.g. Contact Person. Building, Floor, Apartment, Street Number, Street Name, Town, Area, Code",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "addressLine1" : {
+                  "type" : "string",
+                  "description" : "Indicates first line of the address of the BIC",
+                  "maxLength" : 35
+                }
+              }
+            }
+          },
+          "addressLine2" : {
+            "type" : "array",
+            "description" : "Indicates second line of the address of the BIC",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "addressLine2" : {
+                  "type" : "string",
+                  "description" : "Indicates second line of the address of the BIC",
+                  "maxLength" : 35
+                }
+              }
+            }
+          },
+          "addressCities" : {
+            "type" : "array",
+            "description" : "The town and/or city component of the base address of a customer",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "addressCity" : {
+                  "type" : "string",
+                  "description" : "The town and/or city component of the base address of a customer",
+                  "maxLength" : 35
+                }
+              }
+            }
+          },
+          "stateIds" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "stateId" : {
+                  "type" : "string",
+                  "description" : "Represents the US State to which the address belongs to.",
+                  "maxLength" : 2
+                }
+              }
+            }
+          },
+          "counties" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "county" : {
+                  "type" : "string",
+                  "maxLength" : 35
+                }
+              }
+            }
+          },
+          "postCodes" : {
+            "type" : "array",
+            "description" : "Identifies the address postal code for the customer.",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "zipCode" : {
+                  "type" : "string",
+                  "description" : "Zip code",
+                  "maxLength" : 35
+                }
+              }
+            }
+          },
+          "zipPlusFours" : {
+            "type" : "array",
+            "description" : "Zip plus 4",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "zipPlusFour" : {
+                  "type" : "number",
+                  "description" : "Zip plus 4",
+                  "maximum" : 4
+                }
+              }
+            }
+          },
+          "countries" : {
+            "type" : "array",
+            "description" : "Identifies the country of the customer.",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "country" : {
+                  "type" : "string",
+                  "description" : "Identifies the country of the customer.",
+                  "maxLength" : 35
+                }
+              }
+            }
+          },
+          "addressLocations" : {
+            "type" : "array",
+            "description" : "Identifies the nature of the postal address, like primary, secondary or office address",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "addressLocation" : {
+                  "type" : "string",
+                  "description" : "Identifies the nature of the postal address, like primary, secondary or office address",
+                  "maxLength" : 10
+                }
+              }
+            }
+          },
+          "taxAddressTypes" : {
+            "type" : "array",
+            "description" : "Captures how the address can be used for tax purposes. Allowed values can be retrieved through getEbLookups for virtualTableName IRS.ADDRESS.TYPE",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "taxAddressType" : {
+                  "type" : "string",
+                  "description" : "Captures how the address can be used for tax purposes. Allowed values can be retrieved through getEbLookups for virtualTableName IRS.ADDRESS.TYPE",
+                  "maxLength" : 35
+                }
+              }
+            }
+          },
+          "legalDocuments" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "legalId" : {
+                  "type" : "string",
+                  "description" : "Unique reference number of the legal documents submitted as identification proof",
+                  "maxLength" : 35
+                },
+                "legalDocumentName" : {
+                  "type" : "string",
+                  "description" : "Name of the legal documents such as passport, driving licence etc., provided as identification proof",
+                  "maxLength" : 35
+                },
+                "legalHolderName" : {
+                  "type" : "string",
+                  "description" : "Name of the account holder in the Legal Document",
+                  "maxLength" : 100
+                },
+                "legalIssueAuthorisedDate" : {
+                  "type" : "string",
+                  "format" : "date",
+                  "description" : "Authority who issued the legal document"
+                },
+                "legalIssueDate" : {
+                  "type" : "string",
+                  "format" : "date",
+                  "description" : "Date of Issue of the legal document"
+                },
+                "legalExpiredDate" : {
+                  "type" : "string",
+                  "format" : "date",
+                  "description" : "Expiry date of the legal document submitted as proof"
+                }
+              }
+            }
+          },
+          "otherNationalityIds" : {
+            "type" : "array",
+            "description" : "Other Nationality of the Customer",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "otherNationalityId" : {
+                  "type" : "string",
+                  "description" : "Other Nationality of the Customer",
+                  "maxLength" : 9
+                }
+              }
+            }
+          },
+          "contactTypes" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "contactType" : {
+                  "type" : "string",
+                  "description" : "Types of contacts available to users to communicate",
+                  "maxLength" : 35
+                }
+              }
+            }
+          },
+          "preferredChannels" : {
+            "type" : "array",
+            "description" : "Preferred method of contact to the customer",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "preferredChannel" : {
+                  "type" : "string",
+                  "description" : "Preferred method of contact to the customer",
+                  "maxLength" : 20
+                }
+              }
+            }
+          },
+          "officePhoneNumbers" : {
+            "type" : "array",
+            "description" : "The office phone number of the customer",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "officePhoneNumber" : {
+                  "type" : "string",
+                  "description" : "The office phone number of the customer",
+                  "maxLength" : 17
+                }
+              }
+            }
+          },
+          "customerId" : {
+            "type" : "string",
+            "description" : "Identifier of the customer",
+            "maxLength" : 10
+          },
+          "customerName" : {
+            "type" : "string",
+            "description" : "Name of the customer",
+            "maxLength" : 35
+          },
+          "faxId" : {
+            "type" : "string",
+            "description" : "The fax (facsimile) number of the customer",
+            "maxLength" : 17
+          },
+          "customerStatus" : {
+            "type" : "string",
+            "description" : "The internal bank status of a customer",
+            "maxLength" : 4
+          },
+          "statusName" : {
+            "type" : "string",
+            "description" : "An institution-defined high level description or segmentation of the customer",
+            "maxLength" : 4
+          },
+          "nationalityId" : {
+            "type" : "string",
+            "description" : "The identifier of the nationality of a customer",
+            "maxLength" : 2
+          },
+          "nationalityName" : {
+            "type" : "string",
+            "description" : "Indicates the name of the nationality of the beneficiary",
+            "maxLength" : 2
+          },
+          "residenceId" : {
+            "type" : "string",
+            "description" : "The identifier of the country of residence of a customer",
+            "maxLength" : 2
+          },
+          "accountOfficerId" : {
+            "type" : "number",
+            "description" : "The identifier of the department head or specific account officer responsible for the customer",
+            "maximum" : 4
+          },
+          "naicsCode" : {
+            "type" : "number",
+            "description" : "NAICS Code linked to the occupation or type of business of the Customer",
+            "maximum" : 6
+          },
+          "sectorId" : {
+            "type" : "number",
+            "description" : "An institution-defined identifier of the type of customer",
+            "maximum" : 4
+          },
+          "lastName" : {
+            "type" : "string",
+            "description" : "The last name of an individual customer",
+            "maxLength" : 50
+          },
+          "accountOfficerName" : {
+            "type" : "string",
+            "description" : "Name of the Account/Relationship Officer attached to the Customer",
+            "maxLength" : 4
+          },
+          "title" : {
+            "type" : "string",
+            "description" : "Main menu title or header which the user wants to display on the screen when requesting the display of this main menu. This field can be expanded to allow the user to enter the description of the main menu in various languages.",
+            "maxLength" : 15
+          },
+          "gender" : {
+            "type" : "string",
+            "description" : "Gender of the Individual Customer",
+            "maxLength" : 10
+          },
+          "sectorName" : {
+            "type" : "string",
+            "description" : "An institution-defined identifier of the type of customer",
+            "maxLength" : 4
+          },
+          "targetName" : {
+            "type" : "string",
+            "description" : "Describes the target in an abbreviated form which can be used for reporting when space is limited.This can be expanded to allow the User to enter a short description of the Target code in various languages. ",
+            "maxLength" : 4
+          },
+          "maritalstatus" : {
+            "type" : "string",
+            "description" : "Marital status of the customer",
+            "maxLength" : 15
+          },
+          "industryName" : {
+            "type" : "string",
+            "description" : "Industry associated with the Customer",
+            "maxLength" : 4
+          },
+          "residenceName" : {
+            "type" : "string",
+            "description" : "Name of the residence country.",
+            "maxLength" : 2
+          },
+          "dateOfDeath" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "The death date of customer."
+          },
+          "notificationDateOfDeath" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "The date on which the bank gets the notification that the customer is dead."
+          },
+          "companyId" : {
+            "type" : "string",
+            "description" : "The identifier of the underlying Entity/Company/Branch.",
+            "maxLength" : 11
+          },
+          "customerLiability" : {
+            "type" : "string",
+            "description" : "Indicates the customer consolidation number for credit grouping purposes, within the same branch/country.",
+            "maxLength" : 10
+          },
+          "firstName" : {
+            "type" : "string",
+            "description" : "Specifies customer's first name",
+            "maxLength" : 50
+          },
+          "language" : {
+            "type" : "string",
+            "description" : "The language that the contents of the field are displayed in.",
+            "maxLength" : 2
+          },
+          "birthIncorpDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "Date on which the entity is incorporated"
+          },
+          "target" : {
+            "type" : "string",
+            "description" : "Specifies how the Customer is considered by the bank and how he fits in with the Account Officer's overall marketing strategy",
+            "maxLength" : 4
+          },
+          "taxId" : {
+            "type" : "number",
+            "description" : "Holds the Customer's TAX/SSN Id.",
+            "maximum" : 35
+          },
+          "customerType" : {
+            "type" : "string",
+            "description" : "Attribute value linked to the attribute name. It holds the expected value for the defined attribute name. For a stop transaction the value is the check number, change range, amount or amount range.",
+            "maxLength" : 35
+          },
+          "dateOfBirth" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "The date of birth of an individual customer"
+          },
+          "versionNumber" : {
+            "type" : "string",
+            "description" : "Current number of the record",
+            "maxLength" : 6
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessQueryErrorResponseBody"
+        }
+      },
+      "description" : "BusinessQueryErrorResponse"
+    },
+    "BusinessQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message for bad requests"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemQueryErrorResponseBody"
+        }
+      },
+      "description" : "SystemQueryErrorResponse"
+    },
+    "SystemQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message caused by server"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    }
+  }
+}

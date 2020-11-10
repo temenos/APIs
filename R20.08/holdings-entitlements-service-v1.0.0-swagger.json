@@ -1,0 +1,2315 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Allows the viewing of Options of the Entitlements, approval awaiting Entitlements and management of the Entitlements",
+    "version" : "v1.0.0",
+    "title" : "Corporate Action Event Management"
+  },
+  "host" : "api.server.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "apiKey" : [ ]
+  } ],
+  "paths" : {
+    "/holdings/entitlements/entitlementOptions" : {
+      "get" : {
+        "summary" : "Retrieves pending entitlements",
+        "description" : "Retrieves the list of all pending entitlements",
+        "operationId" : "getPendingEntitlements",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "diaryId",
+          "in" : "query",
+          "description" : "The identifier of the diary",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "portfolioId",
+          "in" : "query",
+          "description" : "Id of the portfolio or security account",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "customerId",
+          "in" : "query",
+          "description" : "Identifier of the customer",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "eventType",
+          "in" : "query",
+          "description" : "Event Type of the corporate action",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "accountOfficerId",
+          "in" : "query",
+          "description" : "The identifier of the department head or specific account officer responsible for the customer",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "PendingEntitlementsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/PendingEntitlementsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/entitlements/{entitlementId}" : {
+      "get" : {
+        "summary" : "Retreives the entitlement",
+        "description" : "Retreives the entitlement details",
+        "operationId" : "getSecurityEntitlement",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "entitlementId",
+          "in" : "path",
+          "description" : "The identifier of the entitlement",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "SecurityEntitlementResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SecurityEntitlementResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Updates the entitlement",
+        "description" : "Updates the details in entitlement",
+        "operationId" : "updateSecurityEntitlement",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "entitlementId",
+          "in" : "path",
+          "description" : "The identifier of the entitlement",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/SecurityEntitlement"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "SecurityEntitlementResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SecurityEntitlementResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/entitlements/{entitlementId}/buySellRights" : {
+      "get" : {
+        "summary" : "Updates buy sell rights",
+        "description" : "Updates the buy sell rights holdings",
+        "operationId" : "getEntitlementBuySellRights",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "entitlementId",
+          "in" : "path",
+          "description" : "The identifier of the entitlement",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "EntitlementBuySellRightsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/EntitlementBuySellRightsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Retrieves entitlement information",
+        "description" : "Retrieves the entitlement information",
+        "operationId" : "updateEntitlementBuySellRights",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "entitlementId",
+          "in" : "path",
+          "description" : "The identifier of the entitlement",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/EntitlementBuySellRights"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "EntitlementBuySellRightsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/EntitlementBuySellRightsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/entitlementApprovals" : {
+      "get" : {
+        "summary" : "Retrieves unauthorised entitlements",
+        "description" : "Retrieves the list of all unauthorised entitlements for approval",
+        "operationId" : "getEntitlementApprovals",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "diaryId",
+          "in" : "query",
+          "description" : "The identifier of the diary",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "instrumentId",
+          "in" : "query",
+          "description" : "The identifier of the instrument",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "securityUpdate",
+          "in" : "query",
+          "description" : "Indicates to update Security Position based on Corporate Action Event processing",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "portfolioId",
+          "in" : "query",
+          "description" : "Id of the portfolio or security account",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "customerId",
+          "in" : "query",
+          "description" : "Identifier of the customer",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "eventType",
+          "in" : "query",
+          "description" : "Event Type of the corporate action",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "accountOfficerId",
+          "in" : "query",
+          "description" : "The identifier of the department head or specific account officer responsible for the customer",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "EntitlementApprovalsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/EntitlementApprovalsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "apiKey" : {
+      "type" : "apiKey",
+      "name" : "Authorization",
+      "in" : "header"
+    }
+  },
+  "definitions" : {
+    "QueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records per page"
+        },
+        "page_start" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The record from which the response should be displayed"
+        },
+        "total_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records present"
+        },
+        "page_token" : {
+          "type" : "string",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request"
+        }
+      }
+    },
+    "PendingEntitlementsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/PendingEntitlementsResponseBody"
+        }
+      },
+      "description" : "PendingEntitlementsResponse"
+    },
+    "PendingEntitlementsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "entitlementId" : {
+            "type" : "string",
+            "description" : "The identifier of the entitlement",
+            "maxLength" : 44
+          },
+          "portfolioId" : {
+            "type" : "string",
+            "description" : "Id of the portfolio or security account",
+            "maxLength" : 14
+          },
+          "portfolioName" : {
+            "type" : "string",
+            "description" : "The name that is displayed for the portfolio",
+            "maxLength" : 30
+          },
+          "customerId" : {
+            "type" : "number",
+            "description" : "Identifier of the customer",
+            "maximum" : 14
+          },
+          "customerName" : {
+            "type" : "string",
+            "description" : "Name of the customer",
+            "maxLength" : 30
+          },
+          "instrumentId" : {
+            "type" : "string",
+            "description" : "The identifier of the instrument",
+            "maxLength" : 12
+          },
+          "instrumentName" : {
+            "type" : "string",
+            "description" : "The name that is displayed for the instrument, taken from the Security Master",
+            "maxLength" : 30
+          },
+          "qualifyingHolding" : {
+            "type" : "number",
+            "description" : "The Portfolio's holding in the original security"
+          },
+          "depositoryId" : {
+            "type" : "number",
+            "description" : "Id of the securities depository.",
+            "maximum" : 6
+          },
+          "depositoryName" : {
+            "type" : "string",
+            "description" : "The name that is displayed for the depository",
+            "maxLength" : 6
+          },
+          "exDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "All holders of the Security, specified as of this date are entitled to the event"
+          },
+          "replyByDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "The date to reply by"
+          },
+          "payDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "The date on which corporate cash is actually paid to shareholder"
+          },
+          "valueDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "Indicates the value date on which the underlying accounting entry is to be given value (for interest purposes)"
+          },
+          "rightsInstrumentId" : {
+            "type" : "string",
+            "description" : "Security Number of the Rights Security which is being issued"
+          },
+          "rightsInstrumentName" : {
+            "type" : "string",
+            "description" : "Name of the Rights Security which is being issued"
+          },
+          "eventType" : {
+            "type" : "string",
+            "description" : "Event Type of the corporate action"
+          },
+          "eventName" : {
+            "type" : "string",
+            "description" : "The name that is displayed for the event"
+          },
+          "rate" : {
+            "type" : "number",
+            "description" : "The rate applied"
+          },
+          "currencyId" : {
+            "type" : "string",
+            "description" : "Identifier of the currency. This is the 3-letter ISO 4217 code of the currency.",
+            "maxLength" : 3
+          },
+          "optionStatus" : {
+            "type" : "string",
+            "description" : "Current status of the entitlement",
+            "maxLength" : 14
+          },
+          "recordStatus" : {
+            "type" : "string",
+            "description" : "General status of the record. Possible values: - null - authorised - IHLD - input, on hold - INAU - input, not authorised - INA2 - input, authorised, pending second authorisation - INAO - input, not authorised with blocking overrides - RNAU - reversed, not authorised - RNAO - reversed, not authorised with blocking overrides",
+            "maxLength" : 4
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessQueryErrorResponseBody"
+        }
+      },
+      "description" : "BusinessQueryErrorResponse"
+    },
+    "BusinessQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message for bad requests"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemQueryErrorResponseBody"
+        }
+      },
+      "description" : "SystemQueryErrorResponse"
+    },
+    "SystemQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message caused by server"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    },
+    "PayloadHeader" : {
+      "properties" : {
+        "override" : {
+          "type" : "object",
+          "properties" : {
+            "overrideDetails" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "id" : {
+                    "type" : "string",
+                    "description" : "The identifier of the override."
+                  },
+                  "description" : {
+                    "type" : "string",
+                    "description" : "The actual override message."
+                  },
+                  "code" : {
+                    "type" : "string",
+                    "description" : "The code related to override message."
+                  },
+                  "responseCode" : {
+                    "type" : "string",
+                    "description" : "The user input to accept/reject the override."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            }
+          }
+        }
+      }
+    },
+    "SecurityEntitlement" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/SecurityEntitlementBody"
+        }
+      },
+      "description" : "SecurityEntitlement"
+    },
+    "SecurityEntitlementBody" : {
+      "type" : "object",
+      "properties" : {
+        "optionDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "optionDescription" : {
+                "type" : "string",
+                "description" : "The description of the Option",
+                "minLength" : 0,
+                "maxLength" : 35
+              },
+              "optionQuantity" : {
+                "type" : "number",
+                "description" : "The quantity of the option trade",
+                "minimum" : 0,
+                "maximum" : 35
+              },
+              "enitlementAmountInDividendCurrency" : {
+                "type" : "number",
+                "description" : "Entitlement amount in Dividend currency",
+                "minimum" : 0,
+                "maximum" : 35
+              },
+              "dividendRateInOptionCurrency" : {
+                "type" : "number",
+                "description" : "The Dividend rate in Option Currency",
+                "minimum" : 0,
+                "maximum" : 35
+              },
+              "entitlementAmount" : {
+                "type" : "number",
+                "description" : "The amount resulting from the execution of a corporate action that the portfolio owner is entitled to receive",
+                "minimum" : 0,
+                "maximum" : 35
+              },
+              "optionCurrency" : {
+                "type" : "string",
+                "description" : "The currency of the option",
+                "minLength" : 0,
+                "maxLength" : 35
+              },
+              "defaultOption" : {
+                "type" : "boolean",
+                "description" : "Indicates whether the option will be selected by default if no instruction is provided by the account owner"
+              },
+              "accountId" : {
+                "type" : "string",
+                "description" : "Identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId. Accepts both IBAN & BBAN",
+                "minLength" : 0,
+                "maxLength" : 35
+              },
+              "sourceTaxAmount" : {
+                "type" : "number",
+                "description" : "Holds the source tax amount",
+                "minimum" : 0,
+                "maximum" : 35
+              },
+              "localTaxAmount" : {
+                "type" : "number",
+                "description" : "Holds the local tax amount",
+                "minimum" : 0,
+                "maximum" : 35
+              },
+              "commissionAmount" : {
+                "type" : "number",
+                "description" : "Amount of commission charged for the payment created with respect to the commission type used.",
+                "minimum" : 0,
+                "maximum" : 35
+              },
+              "customerCommissionTax" : {
+                "type" : "number",
+                "description" : "Specifies the tax amount based on the commission charged",
+                "minimum" : 0,
+                "maximum" : 35
+              },
+              "chargeAmount" : {
+                "type" : "number",
+                "description" : "Retrieves the Charge Amount after redeem",
+                "minimum" : 0,
+                "maximum" : 35
+              },
+              "netAmount" : {
+                "type" : "number",
+                "description" : "Holds the total amount",
+                "minimum" : 0,
+                "maximum" : 35
+              },
+              "optionReplyByDate" : {
+                "type" : "string",
+                "format" : "date",
+                "description" : "The corporate action cut-off date to choose a particular option."
+              },
+              "optionReplyByTime" : {
+                "type" : "string",
+                "description" : "The corporate action cut-off time to choose a particular option.",
+                "minLength" : 0,
+                "maxLength" : 35
+              },
+              "referenceId" : {
+                "type" : "string",
+                "description" : "Identifies the unique identifier of the activity.",
+                "minLength" : 0,
+                "maxLength" : 35
+              },
+              "newInstrumentDetails" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "newInstrumentId" : {
+                      "type" : "string",
+                      "description" : "The identifier of a new instrument ",
+                      "minLength" : 0,
+                      "maxLength" : 35
+                    },
+                    "quantity" : {
+                      "type" : "number",
+                      "description" : "The nominal quantity",
+                      "minimum" : 0,
+                      "maximum" : 35
+                    },
+                    "ratio" : {
+                      "type" : "string",
+                      "description" : "The ratio in which new shares are offered",
+                      "minLength" : 0,
+                      "maxLength" : 35
+                    },
+                    "price" : {
+                      "type" : "number",
+                      "description" : "The Price at which the nominal amount of the Security is to be valued for the transaction.",
+                      "minimum" : 0,
+                      "maximum" : 35
+                    },
+                    "bookCost" : {
+                      "type" : "number",
+                      "description" : "Book cost is equal to the asset's carrying value on the balance sheet",
+                      "minimum" : 0,
+                      "maximum" : 35
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "sellBuyOptionDescriptions" : {
+          "type" : "array",
+          "description" : "The description of the sell/buy Option",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "sellBuyOptionDescription" : {
+                "type" : "string",
+                "description" : "The description of the sell/buy Option",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "localTaxAmounts" : {
+          "type" : "array",
+          "description" : "Holds the local tax amount",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "localTaxAmount" : {
+                "type" : "number",
+                "description" : "Holds the local tax amount",
+                "minimum" : 0,
+                "maximum" : 35
+              }
+            }
+          }
+        },
+        "eventResult" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "instrumentName" : {
+                "type" : "string",
+                "description" : "The name that is displayed for the instrument, taken from the Security Master",
+                "minLength" : 0,
+                "maxLength" : 35
+              },
+              "quantity" : {
+                "type" : "number",
+                "description" : "The nominal quantity",
+                "minimum" : 0,
+                "maximum" : 35
+              }
+            }
+          }
+        },
+        "brokerDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "OptionDetails" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "optionQuantity" : {
+                      "type" : "number",
+                      "description" : "The quantity of the option trade",
+                      "minimum" : 0,
+                      "maximum" : 35
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "eventOptionDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "optionDescription" : {
+                "type" : "string",
+                "description" : "The description of the Option",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "accountCurrencyTax" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "taxAmount" : {
+                "type" : "number",
+                "description" : "Total amount of taxes applicable on all commission or charges calculated for the transaction/payment.",
+                "minimum" : 0,
+                "maximum" : 35
+              },
+              "manualTaxAmount" : {
+                "type" : "number",
+                "description" : "The manually entered tax amount",
+                "minimum" : 0,
+                "maximum" : 35
+              }
+            }
+          }
+        },
+        "depositoryId" : {
+          "type" : "number",
+          "description" : "Id of the securities depository.",
+          "minimum" : 0,
+          "maximum" : 35
+        },
+        "portfolioId" : {
+          "type" : "string",
+          "description" : "Id of the portfolio or security account",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "instrumentId" : {
+          "type" : "string",
+          "description" : "The identifier of the instrument",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "diaryId" : {
+          "type" : "string",
+          "description" : "The identifier of the diary",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "accountId" : {
+          "type" : "string",
+          "description" : "Identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId. Accepts both IBAN & BBAN",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "qualifyingHolding" : {
+          "type" : "number",
+          "description" : "The Portfolio's holding in the original security",
+          "minimum" : 0,
+          "maximum" : 35
+        },
+        "eventQuantity" : {
+          "type" : "number",
+          "description" : "Nominal amount provided by the Depository / Issuer",
+          "minimum" : 0,
+          "maximum" : 35
+        },
+        "currency" : {
+          "type" : "string",
+          "description" : "Indicates the type of currency to which the account belongs",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "valueDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Indicates the value date on which the underlying accounting entry is to be given value (for interest purposes)"
+        },
+        "optionSelected" : {
+          "type" : "number",
+          "description" : "The option selected from the total number of options available",
+          "minimum" : 0,
+          "maximum" : 35
+        },
+        "overOptionDescription" : {
+          "type" : "string",
+          "description" : "Option description or indicator for oversubscription",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "overSubscriptionPrice" : {
+          "type" : "number",
+          "description" : "Holds the price at which Over subscribed quantity is to be sold",
+          "minimum" : 0,
+          "maximum" : 35
+        },
+        "overSubscribedQuantity" : {
+          "type" : "number",
+          "description" : "Holds Amount of additional shares that the user want to subscribe",
+          "minimum" : 0,
+          "maximum" : 35
+        },
+        "accountCurrency" : {
+          "type" : "string",
+          "description" : "Currency of the account. For example: USD, GBP.",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "sourceTaxAmount" : {
+          "type" : "number",
+          "description" : "Holds the source tax amount",
+          "minimum" : 0,
+          "maximum" : 35
+        },
+        "initialSourceTaxAmount" : {
+          "type" : "number",
+          "description" : "Amount of Source Tax that has previously been debited by initiator of the Corporate Action",
+          "minimum" : 0,
+          "maximum" : 35
+        },
+        "foreignFee" : {
+          "type" : "number",
+          "description" : "This field Records the Foreign Fee amount charged to the Customer for the trade.",
+          "minimum" : 0,
+          "maximum" : 35
+        },
+        "commissionAmount" : {
+          "type" : "number",
+          "description" : "Amount of commission charged for the payment created with respect to the commission type used.",
+          "minimum" : 0,
+          "maximum" : 35
+        },
+        "customerCommissionTax" : {
+          "type" : "number",
+          "description" : "Specifies the tax amount based on the commission charged",
+          "minimum" : 0,
+          "maximum" : 35
+        },
+        "netAmount" : {
+          "type" : "number",
+          "description" : "Holds the total amount",
+          "minimum" : 0,
+          "maximum" : 35
+        },
+        "exchangeRate" : {
+          "type" : "number",
+          "description" : "Contains the exchange rate returned from the system. i.e. For entries over foreign currency accounts, this contains the rate which used to convert the currency amount to the local equivalent at the time of the originating transaction.",
+          "minimum" : 0,
+          "maximum" : 35
+        },
+        "referenceCurrencyExchangeRate" : {
+          "type" : "number",
+          "description" : "Exchange rate between the Portfolio Reference Currency and the Local Currency",
+          "minimum" : 0,
+          "maximum" : 35
+        },
+        "foreignFeeTax" : {
+          "type" : "number",
+          "description" : "The tax calculated on the foreign charges",
+          "minimum" : 0,
+          "maximum" : 35
+        },
+        "netAmountInAccountCurrency" : {
+          "type" : "number",
+          "description" : "The net amount due to or from the Customer after +/- Charges",
+          "minimum" : 0,
+          "maximum" : 35
+        },
+        "optionStatus" : {
+          "type" : "string",
+          "description" : "Current status of the entitlement",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "externalCustodian" : {
+          "type" : "string",
+          "description" : "The external custodian where position is held",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "eventCurrency" : {
+          "type" : "string",
+          "description" : "Currency in which the event occurs",
+          "minLength" : 0,
+          "maxLength" : 35
+        }
+      }
+    },
+    "ScreenHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "uniqueIdentifier" : {
+          "type" : "string",
+          "description" : "The unique identifier/Message Reference of the record created."
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "SecurityEntitlementResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/SecurityEntitlementResponseBody"
+        }
+      },
+      "description" : "SecurityEntitlementResponse"
+    },
+    "SecurityEntitlementResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "optionDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "optionDescription" : {
+                "type" : "string",
+                "description" : "The description of the Option",
+                "minLength" : 0,
+                "maxLength" : 35
+              },
+              "optionQuantity" : {
+                "type" : "number",
+                "description" : "The quantity of the option trade",
+                "minimum" : 0,
+                "maximum" : 35
+              },
+              "enitlementAmountInDividendCurrency" : {
+                "type" : "number",
+                "description" : "Entitlement amount in Dividend currency",
+                "minimum" : 0,
+                "maximum" : 35
+              },
+              "dividendRateInOptionCurrency" : {
+                "type" : "number",
+                "description" : "The Dividend rate in Option Currency",
+                "minimum" : 0,
+                "maximum" : 35
+              },
+              "entitlementAmount" : {
+                "type" : "number",
+                "description" : "The amount resulting from the execution of a corporate action that the portfolio owner is entitled to receive",
+                "minimum" : 0,
+                "maximum" : 35
+              },
+              "optionCurrency" : {
+                "type" : "string",
+                "description" : "The currency of the option",
+                "minLength" : 0,
+                "maxLength" : 35
+              },
+              "defaultOption" : {
+                "type" : "boolean",
+                "description" : "Indicates whether the option will be selected by default if no instruction is provided by the account owner"
+              },
+              "accountId" : {
+                "type" : "string",
+                "description" : "Identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId. Accepts both IBAN & BBAN",
+                "minLength" : 0,
+                "maxLength" : 35
+              },
+              "sourceTaxAmount" : {
+                "type" : "number",
+                "description" : "Holds the source tax amount",
+                "minimum" : 0,
+                "maximum" : 35
+              },
+              "localTaxAmount" : {
+                "type" : "number",
+                "description" : "Holds the local tax amount",
+                "minimum" : 0,
+                "maximum" : 35
+              },
+              "commissionAmount" : {
+                "type" : "number",
+                "description" : "Amount of commission charged for the payment created with respect to the commission type used.",
+                "minimum" : 0,
+                "maximum" : 35
+              },
+              "customerCommissionTax" : {
+                "type" : "number",
+                "description" : "Specifies the tax amount based on the commission charged",
+                "minimum" : 0,
+                "maximum" : 35
+              },
+              "chargeAmount" : {
+                "type" : "number",
+                "description" : "Retrieves the Charge Amount after redeem",
+                "minimum" : 0,
+                "maximum" : 35
+              },
+              "netAmount" : {
+                "type" : "number",
+                "description" : "Holds the total amount",
+                "minimum" : 0,
+                "maximum" : 35
+              },
+              "optionReplyByDate" : {
+                "type" : "string",
+                "format" : "date",
+                "description" : "The corporate action cut-off date to choose a particular option."
+              },
+              "optionReplyByTime" : {
+                "type" : "string",
+                "description" : "The corporate action cut-off time to choose a particular option.",
+                "minLength" : 0,
+                "maxLength" : 35
+              },
+              "referenceId" : {
+                "type" : "string",
+                "description" : "Identifies the unique identifier of the activity.",
+                "minLength" : 0,
+                "maxLength" : 35
+              },
+              "newInstrumentDetails" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "newInstrumentId" : {
+                      "type" : "string",
+                      "description" : "The identifier of a new instrument ",
+                      "minLength" : 0,
+                      "maxLength" : 35
+                    },
+                    "quantity" : {
+                      "type" : "number",
+                      "description" : "The nominal quantity",
+                      "minimum" : 0,
+                      "maximum" : 35
+                    },
+                    "ratio" : {
+                      "type" : "string",
+                      "description" : "The ratio in which new shares are offered",
+                      "minLength" : 0,
+                      "maxLength" : 35
+                    },
+                    "price" : {
+                      "type" : "number",
+                      "description" : "The Price at which the nominal amount of the Security is to be valued for the transaction.",
+                      "minimum" : 0,
+                      "maximum" : 35
+                    },
+                    "bookCost" : {
+                      "type" : "number",
+                      "description" : "Book cost is equal to the asset's carrying value on the balance sheet",
+                      "minimum" : 0,
+                      "maximum" : 35
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "sellBuyOptionDescriptions" : {
+          "type" : "array",
+          "description" : "The description of the sell/buy Option",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "sellBuyOptionDescription" : {
+                "type" : "string",
+                "description" : "The description of the sell/buy Option",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "localTaxAmounts" : {
+          "type" : "array",
+          "description" : "Holds the local tax amount",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "localTaxAmount" : {
+                "type" : "number",
+                "description" : "Holds the local tax amount",
+                "minimum" : 0,
+                "maximum" : 35
+              }
+            }
+          }
+        },
+        "eventResult" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "instrumentName" : {
+                "type" : "string",
+                "description" : "The name that is displayed for the instrument, taken from the Security Master",
+                "minLength" : 0,
+                "maxLength" : 35
+              },
+              "quantity" : {
+                "type" : "number",
+                "description" : "The nominal quantity",
+                "minimum" : 0,
+                "maximum" : 35
+              }
+            }
+          }
+        },
+        "brokerDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "OptionDetails" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "optionQuantity" : {
+                      "type" : "number",
+                      "description" : "The quantity of the option trade",
+                      "minimum" : 0,
+                      "maximum" : 35
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "eventOptionDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "optionDescription" : {
+                "type" : "string",
+                "description" : "The description of the Option",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "accountCurrencyTax" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "taxAmount" : {
+                "type" : "number",
+                "description" : "Total amount of taxes applicable on all commission or charges calculated for the transaction/payment.",
+                "minimum" : 0,
+                "maximum" : 35
+              },
+              "manualTaxAmount" : {
+                "type" : "number",
+                "description" : "The manually entered tax amount",
+                "minimum" : 0,
+                "maximum" : 35
+              }
+            }
+          }
+        },
+        "depositoryId" : {
+          "type" : "number",
+          "description" : "Id of the securities depository.",
+          "minimum" : 0,
+          "maximum" : 35
+        },
+        "portfolioId" : {
+          "type" : "string",
+          "description" : "Id of the portfolio or security account",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "instrumentId" : {
+          "type" : "string",
+          "description" : "The identifier of the instrument",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "diaryId" : {
+          "type" : "string",
+          "description" : "The identifier of the diary",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "accountId" : {
+          "type" : "string",
+          "description" : "Identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId. Accepts both IBAN & BBAN",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "qualifyingHolding" : {
+          "type" : "number",
+          "description" : "The Portfolio's holding in the original security",
+          "minimum" : 0,
+          "maximum" : 35
+        },
+        "eventQuantity" : {
+          "type" : "number",
+          "description" : "Nominal amount provided by the Depository / Issuer",
+          "minimum" : 0,
+          "maximum" : 35
+        },
+        "currency" : {
+          "type" : "string",
+          "description" : "Indicates the type of currency to which the account belongs",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "valueDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Indicates the value date on which the underlying accounting entry is to be given value (for interest purposes)"
+        },
+        "optionSelected" : {
+          "type" : "number",
+          "description" : "The option selected from the total number of options available",
+          "minimum" : 0,
+          "maximum" : 35
+        },
+        "overOptionDescription" : {
+          "type" : "string",
+          "description" : "Option description or indicator for oversubscription",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "overSubscriptionPrice" : {
+          "type" : "number",
+          "description" : "Holds the price at which Over subscribed quantity is to be sold",
+          "minimum" : 0,
+          "maximum" : 35
+        },
+        "overSubscribedQuantity" : {
+          "type" : "number",
+          "description" : "Holds Amount of additional shares that the user want to subscribe",
+          "minimum" : 0,
+          "maximum" : 35
+        },
+        "accountCurrency" : {
+          "type" : "string",
+          "description" : "Currency of the account. For example: USD, GBP.",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "sourceTaxAmount" : {
+          "type" : "number",
+          "description" : "Holds the source tax amount",
+          "minimum" : 0,
+          "maximum" : 35
+        },
+        "initialSourceTaxAmount" : {
+          "type" : "number",
+          "description" : "Amount of Source Tax that has previously been debited by initiator of the Corporate Action",
+          "minimum" : 0,
+          "maximum" : 35
+        },
+        "foreignFee" : {
+          "type" : "number",
+          "description" : "This field Records the Foreign Fee amount charged to the Customer for the trade.",
+          "minimum" : 0,
+          "maximum" : 35
+        },
+        "commissionAmount" : {
+          "type" : "number",
+          "description" : "Amount of commission charged for the payment created with respect to the commission type used.",
+          "minimum" : 0,
+          "maximum" : 35
+        },
+        "customerCommissionTax" : {
+          "type" : "number",
+          "description" : "Specifies the tax amount based on the commission charged",
+          "minimum" : 0,
+          "maximum" : 35
+        },
+        "netAmount" : {
+          "type" : "number",
+          "description" : "Holds the total amount",
+          "minimum" : 0,
+          "maximum" : 35
+        },
+        "exchangeRate" : {
+          "type" : "number",
+          "description" : "Contains the exchange rate returned from the system. i.e. For entries over foreign currency accounts, this contains the rate which used to convert the currency amount to the local equivalent at the time of the originating transaction.",
+          "minimum" : 0,
+          "maximum" : 35
+        },
+        "referenceCurrencyExchangeRate" : {
+          "type" : "number",
+          "description" : "Exchange rate between the Portfolio Reference Currency and the Local Currency",
+          "minimum" : 0,
+          "maximum" : 35
+        },
+        "foreignFeeTax" : {
+          "type" : "number",
+          "description" : "The tax calculated on the foreign charges",
+          "minimum" : 0,
+          "maximum" : 35
+        },
+        "netAmountInAccountCurrency" : {
+          "type" : "number",
+          "description" : "The net amount due to or from the Customer after +/- Charges",
+          "minimum" : 0,
+          "maximum" : 35
+        },
+        "optionStatus" : {
+          "type" : "string",
+          "description" : "Current status of the entitlement",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "externalCustodian" : {
+          "type" : "string",
+          "description" : "The external custodian where position is held",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "eventCurrency" : {
+          "type" : "string",
+          "description" : "Currency in which the event occurs",
+          "minLength" : 0,
+          "maxLength" : 35
+        }
+      }
+    },
+    "overrideBody" : {
+      "properties" : {
+        "overrideDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "string",
+                "description" : "The identifier of the override."
+              },
+              "description" : {
+                "type" : "string",
+                "description" : "The actual override message."
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The code related to override message."
+              },
+              "options" : {
+                "type" : "array",
+                "description" : "The usable options for the override.",
+                "items" : {
+                  "type" : "string"
+                }
+              },
+              "type" : {
+                "type" : "string",
+                "description" : "The type of the override."
+              }
+            }
+          }
+        }
+      }
+    },
+    "ScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/ScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "ScreenErrorResponse"
+    },
+    "ScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message "
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "BusinessScreenErrorResponse"
+    },
+    "BusinessScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message for bad requests"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "SystemScreenErrorResponse"
+    },
+    "SystemScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message caused by server"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    },
+    "EntitlementBuySellRights" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/EntitlementBuySellRightsBody"
+        }
+      },
+      "description" : "EntitlementBuySellRights"
+    },
+    "EntitlementBuySellRightsBody" : {
+      "type" : "object",
+      "properties" : {
+        "optionDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "sellBuyOptionDescription" : {
+                "type" : "string",
+                "description" : "The description of the sell/buy Option",
+                "minLength" : 0,
+                "maxLength" : 25
+              },
+              "sellBuyOptionNo" : {
+                "type" : "number",
+                "description" : "Option number is mapped from tag 13A in Option details sequence",
+                "minimum" : 0,
+                "maximum" : 25
+              },
+              "sellBuySec" : {
+                "type" : "string",
+                "description" : "Denotes the rights security number for which there is an option to sell or buy rights",
+                "minLength" : 0,
+                "maxLength" : 25
+              },
+              "optionReplyByDate" : {
+                "type" : "string",
+                "format" : "date",
+                "description" : "The corporate action cut-off date to choose a particular option."
+              },
+              "tradeFromDate" : {
+                "type" : "string",
+                "format" : "date",
+                "description" : "Specifies the Start date of action (Trading) period for the option"
+              },
+              "tradeToDate" : {
+                "type" : "string",
+                "format" : "date",
+                "description" : "Specifies the End date of action (Trading) period for the option"
+              },
+              "sellBuyQuantity" : {
+                "type" : "number",
+                "description" : "The quantity of rights being sold or underlying security or rights security being purchased",
+                "minimum" : 0,
+                "maximum" : 25
+              },
+              "price" : {
+                "type" : "number",
+                "description" : "The Price at which the nominal amount of the Security is to be valued for the transaction.",
+                "minimum" : 0,
+                "maximum" : 25
+              },
+              "tradeDate" : {
+                "type" : "string",
+                "format" : "date",
+                "description" : "Standard date field which records trade date of the account"
+              },
+              "valueDate" : {
+                "type" : "string",
+                "format" : "date",
+                "description" : "Indicates the value date on which the underlying accounting entry is to be given value (for interest purposes)"
+              },
+              "considAmount" : {
+                "type" : "number",
+                "description" : "The consideration amount to be received or paid in the event currency (Quantity x Price).",
+                "minimum" : 0,
+                "maximum" : 25
+              },
+              "tradeReference" : {
+                "type" : "string",
+                "description" : "The Id of the SEC.TRADE generated",
+                "minLength" : 0,
+                "maxLength" : 25
+              }
+            }
+          }
+        },
+        "diaryId" : {
+          "type" : "string",
+          "description" : "The identifier of the diary",
+          "minLength" : 0,
+          "maxLength" : 25
+        },
+        "portfolioId" : {
+          "type" : "string",
+          "description" : "Id of the portfolio or security account",
+          "minLength" : 0,
+          "maxLength" : 25
+        },
+        "depositoryId" : {
+          "type" : "number",
+          "description" : "Id of the securities depository.",
+          "minimum" : 0,
+          "maximum" : 25
+        },
+        "nominee" : {
+          "type" : "string",
+          "description" : "Represents the Nominee Company record",
+          "minLength" : 0,
+          "maxLength" : 25
+        },
+        "subAccount" : {
+          "type" : "string",
+          "description" : "The sub-account that the security position is held in.",
+          "minLength" : 0,
+          "maxLength" : 25
+        },
+        "instrumentId" : {
+          "type" : "string",
+          "description" : "The identifier of the instrument",
+          "minLength" : 0,
+          "maxLength" : 25
+        },
+        "eventType" : {
+          "type" : "string",
+          "description" : "Event Type of the corporate action",
+          "minLength" : 0,
+          "maxLength" : 25
+        },
+        "currencyId" : {
+          "type" : "string",
+          "description" : "Identifier of the currency. This is the 3-letter ISO 4217 code of the currency.",
+          "minLength" : 0,
+          "maxLength" : 25
+        },
+        "qualifyingHolding" : {
+          "type" : "number",
+          "description" : "The Portfolio's holding in the original security",
+          "minimum" : 0,
+          "maximum" : 25
+        },
+        "rightsPosition" : {
+          "type" : "number",
+          "description" : "Represents the eligible rights position",
+          "minimum" : 0,
+          "maximum" : 25
+        },
+        "recordType" : {
+          "type" : "string",
+          "description" : "Denotes the sub account type",
+          "minLength" : 0,
+          "maxLength" : 25
+        },
+        "netNominal" : {
+          "type" : "number",
+          "description" : "Denotes the sum of the Quantity",
+          "minimum" : 0,
+          "maximum" : 25
+        },
+        "generateInstruction" : {
+          "type" : "boolean",
+          "description" : "Specifies whether MT565 has to be generated"
+        },
+        "MT566Confirmation" : {
+          "type" : "boolean",
+          "description" : "Specifies whether the transaction status will be updated based on the incoming MT566 confirmation"
+        },
+        "MT565Ref" : {
+          "type" : "string",
+          "description" : "MT565 message reference",
+          "minLength" : 0,
+          "maxLength" : 25
+        },
+        "MT566Ref" : {
+          "type" : "string",
+          "description" : "When set to processed, the security trade is created and authorised and the reference number is updated once the MT566 confirmation is received",
+          "minLength" : 0,
+          "maxLength" : 25
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status identifier of the account. The values are 'DELETED' if the account is closed, 'BLOCKED' is there are any posting restrictions & 'ENABLED' for active accounts.",
+          "minLength" : 0,
+          "maxLength" : 25
+        }
+      }
+    },
+    "EntitlementBuySellRightsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/EntitlementBuySellRightsResponseBody"
+        }
+      },
+      "description" : "EntitlementBuySellRightsResponse"
+    },
+    "EntitlementBuySellRightsResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "optionDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "sellBuyOptionDescription" : {
+                "type" : "string",
+                "description" : "The description of the sell/buy Option",
+                "minLength" : 0,
+                "maxLength" : 25
+              },
+              "sellBuyOptionNo" : {
+                "type" : "number",
+                "description" : "Option number is mapped from tag 13A in Option details sequence",
+                "minimum" : 0,
+                "maximum" : 25
+              },
+              "sellBuySec" : {
+                "type" : "string",
+                "description" : "Denotes the rights security number for which there is an option to sell or buy rights",
+                "minLength" : 0,
+                "maxLength" : 25
+              },
+              "optionReplyByDate" : {
+                "type" : "string",
+                "format" : "date",
+                "description" : "The corporate action cut-off date to choose a particular option."
+              },
+              "tradeFromDate" : {
+                "type" : "string",
+                "format" : "date",
+                "description" : "Specifies the Start date of action (Trading) period for the option"
+              },
+              "tradeToDate" : {
+                "type" : "string",
+                "format" : "date",
+                "description" : "Specifies the End date of action (Trading) period for the option"
+              },
+              "sellBuyQuantity" : {
+                "type" : "number",
+                "description" : "The quantity of rights being sold or underlying security or rights security being purchased",
+                "minimum" : 0,
+                "maximum" : 25
+              },
+              "price" : {
+                "type" : "number",
+                "description" : "The Price at which the nominal amount of the Security is to be valued for the transaction.",
+                "minimum" : 0,
+                "maximum" : 25
+              },
+              "tradeDate" : {
+                "type" : "string",
+                "format" : "date",
+                "description" : "Standard date field which records trade date of the account"
+              },
+              "valueDate" : {
+                "type" : "string",
+                "format" : "date",
+                "description" : "Indicates the value date on which the underlying accounting entry is to be given value (for interest purposes)"
+              },
+              "considAmount" : {
+                "type" : "number",
+                "description" : "The consideration amount to be received or paid in the event currency (Quantity x Price).",
+                "minimum" : 0,
+                "maximum" : 25
+              },
+              "tradeReference" : {
+                "type" : "string",
+                "description" : "The Id of the SEC.TRADE generated",
+                "minLength" : 0,
+                "maxLength" : 25
+              }
+            }
+          }
+        },
+        "diaryId" : {
+          "type" : "string",
+          "description" : "The identifier of the diary",
+          "minLength" : 0,
+          "maxLength" : 25
+        },
+        "portfolioId" : {
+          "type" : "string",
+          "description" : "Id of the portfolio or security account",
+          "minLength" : 0,
+          "maxLength" : 25
+        },
+        "depositoryId" : {
+          "type" : "number",
+          "description" : "Id of the securities depository.",
+          "minimum" : 0,
+          "maximum" : 25
+        },
+        "nominee" : {
+          "type" : "string",
+          "description" : "Represents the Nominee Company record",
+          "minLength" : 0,
+          "maxLength" : 25
+        },
+        "subAccount" : {
+          "type" : "string",
+          "description" : "The sub-account that the security position is held in.",
+          "minLength" : 0,
+          "maxLength" : 25
+        },
+        "instrumentId" : {
+          "type" : "string",
+          "description" : "The identifier of the instrument",
+          "minLength" : 0,
+          "maxLength" : 25
+        },
+        "eventType" : {
+          "type" : "string",
+          "description" : "Event Type of the corporate action",
+          "minLength" : 0,
+          "maxLength" : 25
+        },
+        "currencyId" : {
+          "type" : "string",
+          "description" : "Identifier of the currency. This is the 3-letter ISO 4217 code of the currency.",
+          "minLength" : 0,
+          "maxLength" : 25
+        },
+        "qualifyingHolding" : {
+          "type" : "number",
+          "description" : "The Portfolio's holding in the original security",
+          "minimum" : 0,
+          "maximum" : 25
+        },
+        "rightsPosition" : {
+          "type" : "number",
+          "description" : "Represents the eligible rights position",
+          "minimum" : 0,
+          "maximum" : 25
+        },
+        "recordType" : {
+          "type" : "string",
+          "description" : "Denotes the sub account type",
+          "minLength" : 0,
+          "maxLength" : 25
+        },
+        "netNominal" : {
+          "type" : "number",
+          "description" : "Denotes the sum of the Quantity",
+          "minimum" : 0,
+          "maximum" : 25
+        },
+        "generateInstruction" : {
+          "type" : "boolean",
+          "description" : "Specifies whether MT565 has to be generated"
+        },
+        "MT566Confirmation" : {
+          "type" : "boolean",
+          "description" : "Specifies whether the transaction status will be updated based on the incoming MT566 confirmation"
+        },
+        "MT565Ref" : {
+          "type" : "string",
+          "description" : "MT565 message reference",
+          "minLength" : 0,
+          "maxLength" : 25
+        },
+        "MT566Ref" : {
+          "type" : "string",
+          "description" : "When set to processed, the security trade is created and authorised and the reference number is updated once the MT566 confirmation is received",
+          "minLength" : 0,
+          "maxLength" : 25
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status identifier of the account. The values are 'DELETED' if the account is closed, 'BLOCKED' is there are any posting restrictions & 'ENABLED' for active accounts.",
+          "minLength" : 0,
+          "maxLength" : 25
+        }
+      }
+    },
+    "EntitlementApprovalsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/EntitlementApprovalsResponseBody"
+        }
+      },
+      "description" : "EntitlementApprovalsResponse"
+    },
+    "EntitlementApprovalsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "entitlementId" : {
+            "type" : "string",
+            "description" : "The identifier of the entitlement",
+            "maxLength" : 44
+          },
+          "portfolioId" : {
+            "type" : "string",
+            "description" : "Id of the portfolio or security account",
+            "maxLength" : 14
+          },
+          "portfolioName" : {
+            "type" : "string",
+            "description" : "The name that is displayed for the portfolio",
+            "maxLength" : 30
+          },
+          "customerId" : {
+            "type" : "number",
+            "description" : "Identifier of the customer",
+            "maximum" : 14
+          },
+          "customerName" : {
+            "type" : "string",
+            "description" : "Name of the customer",
+            "maxLength" : 30
+          },
+          "instrumentId" : {
+            "type" : "string",
+            "description" : "The identifier of the instrument",
+            "maxLength" : 12
+          },
+          "instrumentName" : {
+            "type" : "string",
+            "description" : "The name that is displayed for the instrument, taken from the Security Master",
+            "maxLength" : 30
+          },
+          "qualifyingHolding" : {
+            "type" : "number",
+            "description" : "The Portfolio's holding in the original security"
+          },
+          "depositoryId" : {
+            "type" : "number",
+            "description" : "Id of the securities depository.",
+            "maximum" : 6
+          },
+          "depositoryName" : {
+            "type" : "string",
+            "description" : "The name that is displayed for the depository",
+            "maxLength" : 6
+          },
+          "exDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "All holders of the Security, specified as of this date are entitled to the event"
+          },
+          "replyByDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "The date to reply by"
+          },
+          "payDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "The date on which corporate cash is actually paid to shareholder"
+          },
+          "valueDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "Indicates the value date on which the underlying accounting entry is to be given value (for interest purposes)"
+          },
+          "rightsInstrumentId" : {
+            "type" : "string",
+            "description" : "Security Number of the Rights Security which is being issued"
+          },
+          "rightsInstrumentName" : {
+            "type" : "string",
+            "description" : "Name of the Rights Security which is being issued"
+          },
+          "eventType" : {
+            "type" : "string",
+            "description" : "Event Type of the corporate action"
+          },
+          "eventName" : {
+            "type" : "string",
+            "description" : "The name that is displayed for the event",
+            "maxLength" : 35
+          },
+          "rate" : {
+            "type" : "number",
+            "description" : "The rate applied"
+          },
+          "currencyId" : {
+            "type" : "string",
+            "description" : "Identifier of the currency. This is the 3-letter ISO 4217 code of the currency.",
+            "maxLength" : 3
+          },
+          "optionStatus" : {
+            "type" : "string",
+            "description" : "Current status of the entitlement",
+            "maxLength" : 14
+          },
+          "recordStatus" : {
+            "type" : "string",
+            "description" : "General status of the record. Possible values: - null - authorised - IHLD - input, on hold - INAU - input, not authorised - INA2 - input, authorised, pending second authorisation - INAO - input, not authorised with blocking overrides - RNAU - reversed, not authorised - RNAO - reversed, not authorised with blocking overrides",
+            "maxLength" : 4
+          }
+        }
+      }
+    }
+  }
+}

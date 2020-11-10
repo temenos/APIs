@@ -1,0 +1,159 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Allows updating examples and tags into Swagger ,also allows you to extract list of all the Provider APIs present in form of sheet.",
+    "version" : "v1.0.0",
+    "title" : "Meta APIs about Swagger Modifications"
+  },
+  "host" : "api.server.com",
+  "basePath" : "/api/v1.0.0",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "apiKey" : [ ]
+  } ],
+  "paths" : {
+    "/meta/swaggerExamples" : {
+      "get" : {
+        "operationId" : "getSwaggerSheet",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "outputPath",
+          "in" : "header",
+          "description" : "The path where the Provider API sheet needs to be generated.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "getSwaggerSheetResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SwaggerResponse"
+            }
+          },
+          "default" : {
+            "description" : "getSwaggerSheetErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SwaggerErrorResponse"
+            }
+          }
+        }
+      },
+      "put" : {
+        "operationId" : "updateSwaggerExamples",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "filePath",
+          "in" : "header",
+          "description" : "The path of the excel file to be scanned for swagger examples,tags updates",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "removeCredentialsHeader",
+          "in" : "header",
+          "description" : "flag to be set to remove the crendentials header from swagger",
+          "required" : true,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "updateSwaggerExamplesResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SwaggerResponse"
+            }
+          },
+          "default" : {
+            "description" : "updateSwaggerExamplesErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SwaggerErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "apiKey" : {
+      "type" : "apiKey",
+      "name" : "Authorization",
+      "in" : "header"
+    }
+  },
+  "definitions" : {
+    "QueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int64",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "SwaggerResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/QueryResponseBody"
+        }
+      },
+      "description" : "getFieldNamesResponse"
+    },
+    "QueryResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "message" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int64",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "SwaggerErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SwaggerErrorResponseBody"
+        }
+      },
+      "description" : "getSwaggerSheetErrorResponse"
+    },
+    "SwaggerErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type"
+        }
+      }
+    }
+  }
+}

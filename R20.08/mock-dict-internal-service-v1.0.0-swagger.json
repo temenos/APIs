@@ -1,0 +1,352 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Mock Dictionary",
+    "version" : "v1.0.0",
+    "title" : "MockDictionary"
+  },
+  "host" : "api.server.com",
+  "basePath" : "/api",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "apiKey" : [ ]
+  } ],
+  "paths" : {
+    "/v1.0.0/meta/mock/{domainId}/entries/{entryId}" : {
+      "get" : {
+        "operationId" : "getEntry",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "domainId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "entryId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "getEntryResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getEntryResponse"
+            }
+          },
+          "default" : {
+            "description" : "getEntryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/updateEntryErrorResponse"
+            }
+          }
+        }
+      },
+      "put" : {
+        "operationId" : "updateEntry",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "domainId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "entryId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/updateEntry"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "updateEntryResponse",
+            "schema" : {
+              "$ref" : "#/definitions/updateEntryResponse"
+            }
+          },
+          "default" : {
+            "description" : "updateEntryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/updateEntryErrorResponse"
+            }
+          }
+        }
+      },
+      "delete" : {
+        "operationId" : "deleteEntry",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "domainId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "entryId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "deleteEntryResponse",
+            "schema" : {
+              "$ref" : "#/definitions/deleteEntryResponse"
+            }
+          },
+          "default" : {
+            "description" : "deleteEntryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/updateEntryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v1.0.0/meta/mock/{domainId}/entries/" : {
+      "post" : {
+        "operationId" : "createEntry",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "domainId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/createEntry"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "createEntryResponse",
+            "schema" : {
+              "$ref" : "#/definitions/createEntryResponse"
+            }
+          },
+          "default" : {
+            "description" : "createEntryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/createEntryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "apiKey" : {
+      "type" : "apiKey",
+      "name" : "Authorization",
+      "in" : "header"
+    }
+  },
+  "definitions" : {
+    "PayloadHeader" : {
+      "type" : "object"
+    },
+    "updateEntry" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/updateEntryBody"
+        }
+      },
+      "description" : "updateEntry"
+    },
+    "getEntryResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/getEntryResponseBody"
+        }
+      },
+      "description" : "updateEntry"
+    },
+    "updateEntryBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "fieldName" : {
+            "type" : "string"
+          },
+          "datatype" : {
+            "type" : "string"
+          },
+          "allowed_values" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "getEntryResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "Fields" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string"
+              },
+              "datatype" : {
+                "type" : "string"
+              },
+              "allowed_values" : {
+                "type" : "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ScreenHeader" : {
+      "type" : "object",
+      "properties" : {
+        "status" : {
+          "type" : "string"
+        }
+      }
+    },
+    "QueryHeader" : {
+      "type" : "object",
+      "properties" : {
+        "status" : {
+          "type" : "string"
+        }
+      }
+    },
+    "updateEntryResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/updateEntryResponseBody"
+        }
+      },
+      "description" : "updateEntryResponse"
+    },
+    "deleteEntryResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/updateEntryResponseBody"
+        }
+      },
+      "description" : "deleteEntryResponse"
+    },
+    "updateEntryResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "msg" : {
+          "type" : "string"
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "type" : "object"
+    },
+    "updateEntryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/updateEntryErrorResponseBody"
+        }
+      },
+      "description" : "updateEntryErrorResponse"
+    },
+    "updateEntryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "msg" : {
+          "type" : "string"
+        }
+      }
+    },
+    "createEntry" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/createEntryBody"
+        }
+      },
+      "description" : "createEntry"
+    },
+    "createEntryBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "fieldName" : {
+            "type" : "string"
+          },
+          "datatype" : {
+            "type" : "string"
+          },
+          "allowed_values" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "createEntryResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/createEntryResponseBody"
+        }
+      },
+      "description" : "createEntryResponse"
+    },
+    "createEntryResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "msg" : {
+          "type" : "string"
+        }
+      }
+    },
+    "createEntryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/createEntryErrorResponseBody"
+        }
+      },
+      "description" : "createEntryErrorResponse"
+    },
+    "createEntryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "msg" : {
+          "type" : "string"
+        }
+      }
+    }
+  }
+}

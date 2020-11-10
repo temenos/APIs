@@ -1,0 +1,424 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Get Party Details For MDAL",
+    "version" : "v1.0.0",
+    "title" : "Get Party Details For MDAL"
+  },
+  "host" : "localhost:9089",
+  "basePath" : "/irf-provider-container/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "apiKey" : [ ]
+  } ],
+  "paths" : {
+    "/party/customer/{partyId}/details" : {
+      "get" : {
+        "summary" : "getPartyDetails",
+        "description" : "getPartyDetails",
+        "operationId" : "getPartyDetailsForMDAL",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "partyId",
+          "in" : "path",
+          "description" : "Allows capturing of customers or person entities to be part of the relationship. If partyType is selected as Customer, then the system will allow only customer Ids to be captured into this field. If partyType is selected as Person or Entity, then system will allow only personEntity Ids to be captured into this field.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "PartyDetailsForMDALResponse",
+            "schema" : {
+              "$ref" : "#/definitions/PartyDetailsForMDALResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "apiKey" : {
+      "type" : "apiKey",
+      "name" : "Authorization",
+      "in" : "header"
+    }
+  },
+  "definitions" : {
+    "QueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "parse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records per page"
+        },
+        "page_start" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The record from which the response should be displayed"
+        },
+        "total_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records present"
+        },
+        "page_token" : {
+          "type" : "string",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request"
+        }
+      }
+    },
+    "PartyDetailsForMDALResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/PartyDetailsForMDALResponseBody"
+        }
+      },
+      "description" : "PartyDetailsForMDALResponse"
+    },
+    "PartyDetailsForMDALResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "addresses" : {
+            "type" : "array",
+            "description" : "Communication Address of the Customer",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "fromDate" : {
+                  "type" : "string",
+                  "description" : "Indicates the business date from when the balance reservation event is active.",
+                  "maxLength" : 11
+                },
+                "buildingName" : {
+                  "type" : "string",
+                  "maxLength" : 35
+                },
+                "buildingNumber" : {
+                  "type" : "string",
+                  "maxLength" : 16
+                },
+                "subBuildingName" : {
+                  "type" : "string",
+                  "maxLength" : 16
+                },
+                "address1" : {
+                  "type" : "string",
+                  "maxLength" : 35
+                },
+                "address2" : {
+                  "type" : "string",
+                  "maxLength" : 35
+                },
+                "address3" : {
+                  "type" : "string",
+                  "maxLength" : 35
+                },
+                "code" : {
+                  "type" : "string",
+                  "maxLength" : 35
+                },
+                "city" : {
+                  "type" : "string",
+                  "maxLength" : 35
+                },
+                "countryId" : {
+                  "type" : "string",
+                  "description" : "ISO country code of the financial institution. ",
+                  "maxLength" : 35
+                }
+              }
+            }
+          },
+          "contacts" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "contactType" : {
+                  "type" : "string",
+                  "maxLength" : 10
+                }
+              }
+            }
+          },
+          "documents" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "fromDate" : {
+                  "type" : "string",
+                  "description" : "Indicates the business date from when the balance reservation event is active.",
+                  "maxLength" : 11
+                },
+                "toDate" : {
+                  "type" : "string",
+                  "description" : "Indicates the business date until when the balance reservation event is active.",
+                  "maxLength" : 11
+                },
+                "documentId" : {
+                  "type" : "string",
+                  "description" : "Based on documentCode, the field defaults the required document codes",
+                  "maxLength" : 35
+                },
+                "holdingPartyId" : {
+                  "type" : "string",
+                  "maxLength" : 100
+                },
+                "documentType" : {
+                  "type" : "string",
+                  "maxLength" : 35
+                },
+                "issuedBy" : {
+                  "type" : "string",
+                  "description" : "The issuer of a security or a bond.",
+                  "maxLength" : 20
+                }
+              }
+            }
+          },
+          "employments" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "employmentStatus" : {
+                  "type" : "string",
+                  "maxLength" : 35
+                },
+                "employerName" : {
+                  "type" : "string",
+                  "description" : "Name of the customer's employer",
+                  "maxLength" : 35
+                },
+                "occupation" : {
+                  "type" : "string",
+                  "description" : "Occupation of the customer",
+                  "maxLength" : 35
+                },
+                "employerSegment" : {
+                  "type" : "string",
+                  "maxLength" : 35
+                }
+              }
+            }
+          },
+          "incomes" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "annualIncome" : {
+                  "type" : "string",
+                  "maxLength" : 19
+                },
+                "incomeCurrencyId" : {
+                  "type" : "string",
+                  "maxLength" : 3
+                },
+                "incomeFrequency" : {
+                  "type" : "string",
+                  "maxLength" : 17
+                }
+              }
+            }
+          },
+          "partyId" : {
+            "type" : "string",
+            "description" : "Allows capturing of customers or person entities to be part of the relationship. If partyType is selected as Customer, then the system will allow only customer Ids to be captured into this field. If partyType is selected as Person or Entity, then system will allow only personEntity Ids to be captured into this field.",
+            "maxLength" : 10
+          },
+          "title" : {
+            "type" : "string",
+            "description" : "Main menu title or header which the user wants to display on the screen when requesting the display of this main menu. This field can be expanded to allow the user to enter the description of the main menu in various languages.",
+            "maxLength" : 15
+          },
+          "firstName" : {
+            "type" : "string",
+            "maxLength" : 50
+          },
+          "middleName" : {
+            "type" : "string",
+            "maxLength" : 35
+          },
+          "lastName" : {
+            "type" : "string",
+            "description" : "The last name of an individual customer",
+            "maxLength" : 50
+          },
+          "alias" : {
+            "type" : "string",
+            "maxLength" : 10
+          },
+          "dateOfBirth" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "The date of birth of an individual customer"
+          },
+          "gender" : {
+            "type" : "string",
+            "description" : "Gender of the Individual Customer",
+            "maxLength" : 10
+          },
+          "maritalStatus" : {
+            "type" : "string",
+            "description" : "Marital status of the customer",
+            "maxLength" : 15
+          },
+          "nationalityId" : {
+            "type" : "string",
+            "description" : "The identifier of the nationality of a customer",
+            "maxLength" : 2
+          },
+          "numberOfDependents" : {
+            "type" : "string",
+            "maxLength" : 2
+          },
+          "legalClassification" : {
+            "type" : "string",
+            "maxLength" : 35
+          },
+          "incorporationDate" : {
+            "type" : "string",
+            "maxLength" : 11
+          },
+          "entityId" : {
+            "type" : "string",
+            "maxLength" : 10
+          },
+          "taxReference" : {
+            "type" : "string",
+            "maxLength" : 35
+          },
+          "majorSegment" : {
+            "type" : "string",
+            "maxLength" : 4
+          },
+          "minorSegment" : {
+            "type" : "string",
+            "maxLength" : 4
+          },
+          "residentialStatus" : {
+            "type" : "string",
+            "maxLength" : 35
+          },
+          "residenceCountryId" : {
+            "type" : "string",
+            "maxLength" : 2
+          },
+          "fromDate" : {
+            "type" : "string",
+            "description" : "Indicates the business date from when the balance reservation event is active.",
+            "maxLength" : 11
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "parse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type"
+        }
+      }
+    }
+  }
+}

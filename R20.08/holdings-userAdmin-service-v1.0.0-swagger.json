@@ -1,0 +1,4828 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "User Administration",
+    "version" : "v1.0.0",
+    "title" : "UserAdministration"
+  },
+  "host" : "api.server.com",
+  "basePath" : "/api/v1.0.0/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "apiKey" : [ ]
+  } ],
+  "paths" : {
+    "/holdings/onlineServices" : {
+      "get" : {
+        "operationId" : "getOnlineServices",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "arrangementId",
+          "in" : "query",
+          "description" : "The identifier of the arrangement",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "arrangementStatus",
+          "in" : "query",
+          "description" : "Status of the arrangement: UNAUTH - input but not authorised yet. AUTH - authorised. AUTH-FWD (Forward) - authorised, will become active on a future date. CURRENT - the arrangement has begun full or partial disbursement. MATURED - the contract has matured and all dues have been cleared. EXPIRED - the contract has gone past its final payment date with some dues left unsettled. REVERSED - reversed. CANCELLED - cancelled (only for deposits) CLOSE - closed PENDING.CLOSURE - ready for closure",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "masterOnly",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "roleOnly",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "masterArrangementId",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "productGroupId",
+          "in" : "query",
+          "description" : "The group, as defined by the institution, that the product belongs to.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "productId",
+          "in" : "query",
+          "description" : "Id of the product.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "customerId",
+          "in" : "query",
+          "description" : "The identifier of the customer",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "subArrangementName",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OnlineServicesResponse",
+            "schema" : {
+              "$ref" : "#/definitions/OnlineServicesResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      },
+      "post" : {
+        "operationId" : "validateOnlineService",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/OnlineService"
+          }
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "validateOnlineServiceResponse",
+            "schema" : {
+              "$ref" : "#/definitions/OnlineServiceResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessArrangementErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessArrangementErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemArrangementErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemArrangementErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ArrangementErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ArrangementErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/onlineServiceApprovals/amendments/{arrangementActivityId}/{arrangementId}" : {
+      "put" : {
+        "operationId" : "amendOnlineService",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "arrangementActivityId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "arrangementId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/OnlineService1"
+          }
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "amendOnlineServiceResponse",
+            "schema" : {
+              "$ref" : "#/definitions/OnlineServiceResponse1"
+            }
+          },
+          "400" : {
+            "description" : "BusinessArrangementErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessArrangementErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemArrangementErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemArrangementErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ArrangementErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ArrangementErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/onlineServiceApprovals/{arrangementActivityId}" : {
+      "put" : {
+        "operationId" : "approveOnlineService",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "arrangementActivityId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/OnlineService1"
+          }
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "approveOnlineServiceResponse",
+            "schema" : {
+              "$ref" : "#/definitions/OnlineServiceResponse1"
+            }
+          },
+          "400" : {
+            "description" : "BusinessArrangementErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessArrangementErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemArrangementErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemArrangementErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ArrangementErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ArrangementErrorResponse"
+            }
+          }
+        }
+      },
+      "delete" : {
+        "operationId" : "rejectOnlineService",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "arrangementActivityId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "rejectOnlineServiceResponse",
+            "schema" : {
+              "$ref" : "#/definitions/OnlineServiceResponse2"
+            }
+          },
+          "400" : {
+            "description" : "BusinessArrangementErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessArrangementErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemArrangementErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemArrangementErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ArrangementErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ArrangementErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/onlineServiceApprovals/{arrangementActivityId}/{arrangementId}" : {
+      "put" : {
+        "operationId" : "initiateOnlineService",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "arrangementActivityId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "arrangementId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/OnlineService"
+          }
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "initiateOnlineServiceResponse",
+            "schema" : {
+              "$ref" : "#/definitions/OnlineServiceResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessArrangementErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessArrangementErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemArrangementErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemArrangementErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ArrangementErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ArrangementErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/customers/{customerId}/productGroups/{productGroupId}/products" : {
+      "get" : {
+        "operationId" : "getCustomerProductsByProductGroup",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "customerId",
+          "in" : "path",
+          "description" : "The identifier of the customer",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "productGroupId",
+          "in" : "path",
+          "description" : "The group, as defined by the institution, that the product belongs to.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "allowedProducts",
+          "in" : "query",
+          "description" : "Product or products allowed to be used within the product bundle.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "query",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "productId",
+          "in" : "query",
+          "description" : "Id of the product.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "onlineServicesProductId",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "CustomerProductsByProductGroupResponse",
+            "schema" : {
+              "$ref" : "#/definitions/CustomerProductsByProductGroupResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/customers/{customerId}/onlineServices/{onlineServicesProductId}/products" : {
+      "get" : {
+        "operationId" : "getCustomerProductsByOnlineServicesProduct",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "customerId",
+          "in" : "path",
+          "description" : "The identifier of the customer",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "onlineServicesProductId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "allowedProducts",
+          "in" : "query",
+          "description" : "Product or products allowed to be used within the product bundle.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "query",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "productId",
+          "in" : "query",
+          "description" : "Id of the product.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "productGroupId",
+          "in" : "query",
+          "description" : "The group, as defined by the institution, that the product belongs to.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "CustomerProductsByOnlineServicesProductResponse",
+            "schema" : {
+              "$ref" : "#/definitions/CustomerProductsByProductGroupResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/onlineServices/{arrangementId}/externalUserAllocations" : {
+      "get" : {
+        "operationId" : "getExternalUserAllocations",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "arrangementId",
+          "in" : "path",
+          "description" : "The identifier of the arrangement",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "subArrangementId",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "masterOnly",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "countOnly",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "ExternalUserAllocationsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ExternalUserAllocationsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/onlineServices/{arrangementId}" : {
+      "get" : {
+        "operationId" : "getOnlineServiceByArrangement",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "arrangementId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "status",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "arrangementActivityId",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "getOnlineServiceByArrangementResponse",
+            "schema" : {
+              "$ref" : "#/definitions/OnlineServiceByArrangementResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/onlineServices/activity/{arrangementActivityId}" : {
+      "get" : {
+        "operationId" : "getOnlineServiceByArrangementActivity",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "arrangementActivityId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "status",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "arrangementId",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "getOnlineServiceByArrangementActivityResponse",
+            "schema" : {
+              "$ref" : "#/definitions/OnlineServiceByArrangementResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/onlineServiceApprovals/{arrangementId}" : {
+      "get" : {
+        "operationId" : "getOnlineServiceApprovalByArrangement",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "arrangementId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "status",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "arrangementActivityId",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "getOnlineServiceApprovalByArrangementResponse",
+            "schema" : {
+              "$ref" : "#/definitions/OnlineServiceByArrangementResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/onlineServiceApprovals/activity/{arrangementActivityId}" : {
+      "get" : {
+        "operationId" : "getOnlineServiceApprovalByArrangementActivity",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "arrangementActivityId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "status",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "arrangementId",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "getOnlineServiceApprovalByArrangementActivityResponse",
+            "schema" : {
+              "$ref" : "#/definitions/OnlineServiceByArrangementResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/onlineServiceApprovals" : {
+      "get" : {
+        "operationId" : "getOnlineServiceApprovals",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "customerId",
+          "in" : "query",
+          "description" : "The identifier of the customer",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "arrangementId",
+          "in" : "query",
+          "description" : "The identifier of the arrangement",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "masterOnly",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "roleOnly",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "masterArrangementId",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "productId",
+          "in" : "query",
+          "description" : "Id of the product.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "arrangementStatus",
+          "in" : "query",
+          "description" : "Status of the arrangement: UNAUTH - input but not authorised yet. AUTH - authorised. AUTH-FWD (Forward) - authorised, will become active on a future date. CURRENT - the arrangement has begun full or partial disbursement. MATURED - the contract has matured and all dues have been cleared. EXPIRED - the contract has gone past its final payment date with some dues left unsettled. REVERSED - reversed. CANCELLED - cancelled (only for deposits) CLOSE - closed PENDING.CLOSURE - ready for closure",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "productGroupId",
+          "in" : "query",
+          "description" : "The group, as defined by the institution, that the product belongs to.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "subArrangementName",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "inputterId",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OnlineServiceApprovalsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/OnlineServiceApprovalsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/onlineServices/{arrangementActivityId}/{arrangementId}" : {
+      "put" : {
+        "operationId" : "createOnlineService",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "arrangementActivityId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "arrangementId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/OnlineService"
+          }
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "createOnlineServiceResponse",
+            "schema" : {
+              "$ref" : "#/definitions/OnlineServiceResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessArrangementErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessArrangementErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemArrangementErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemArrangementErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ArrangementErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ArrangementErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "apiKey" : {
+      "type" : "apiKey",
+      "name" : "Authorization",
+      "in" : "header"
+    }
+  },
+  "definitions" : {
+    "PayloadHeader" : {
+      "properties" : {
+        "override" : {
+          "type" : "object",
+          "properties" : {
+            "overrideDetails" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "id" : {
+                    "type" : "string",
+                    "description" : "The identifier of the override"
+                  },
+                  "description" : {
+                    "type" : "string",
+                    "description" : "The actual override message"
+                  },
+                  "responseCode" : {
+                    "type" : "string",
+                    "description" : "The user input to accept/reject the override."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            }
+          }
+        }
+      }
+    },
+    "OnlineService" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/OnlineServiceBody"
+        }
+      },
+      "description" : "OnlineService"
+    },
+    "OnlineServiceBody" : {
+      "type" : "object",
+      "properties" : {
+        "customerIds" : {
+          "type" : "array",
+          "description" : "The identifier of the customer",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "customerId" : {
+                "type" : "string",
+                "description" : "The identifier of the customer"
+              }
+            }
+          }
+        },
+        "properties" : {
+          "type" : "array",
+          "description" : "Input is the� valid field name for the metrics evaluation of alerts",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "propertyId" : {
+                "type" : "string",
+                "description" : "The identifier of the product condition"
+              },
+              "fields" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "fieldName" : {
+                      "type" : "string",
+                      "description" : "The name of the field"
+                    },
+                    "fieldValue" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "overrides" : {
+          "type" : "array",
+          "description" : "The override message is captured  that was generated at the time of commitment of the transaction to the database.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "override" : {
+                "type" : "string",
+                "description" : "The override message is captured  that was generated at the time of commitment of the transaction to the database."
+              }
+            }
+          }
+        },
+        "productId" : {
+          "type" : "string",
+          "description" : "Id of the product."
+        },
+        "masterArrangementId" : {
+          "type" : "string"
+        },
+        "subArrangementName" : {
+          "type" : "string"
+        },
+        "currencyId" : {
+          "type" : "string",
+          "description" : "Identifier of the currency. This is the 3-letter ISO 4217 code of the currency."
+        },
+        "effectiveDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "The date on which the principal movement is effected"
+        },
+        "activityId" : {
+          "type" : "string",
+          "description" : "Id of the activity, e.g. ACCOUNTS-CAPITALISE-ACCHARGE*CARDISSUEFEE"
+        },
+        "transactionAmount" : {
+          "type" : "number",
+          "description" : "The transaction amount"
+        },
+        "customer" : {
+          "type" : "object",
+          "properties" : {
+            "customers" : {
+              "type" : "array",
+              "description" : "The customer number",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "customer" : {
+                    "type" : "string",
+                    "description" : "The customer number"
+                  },
+                  "customerRole" : {
+                    "type" : "string",
+                    "description" : "The customer role with drop down of standard selections"
+                  },
+                  "taxLiabilityPercentage" : {
+                    "type" : "number"
+                  },
+                  "limitAllocactionPercentage" : {
+                    "type" : "number"
+                  },
+                  "GLAllocactionPercentage" : {
+                    "type" : "number"
+                  }
+                }
+              }
+            },
+            "jointLiability" : {
+              "type" : "string",
+              "description" : "Identifies if there is a joint liability on the limit record Allowed values: -YES -NO  "
+            }
+          }
+        },
+        "tcpermissions" : {
+          "type" : "object",
+          "properties" : {
+            "definedCustomers" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "definedCustomer" : {
+                    "type" : "string"
+                  },
+                  "definedCustomerSel" : {
+                    "type" : "boolean"
+                  },
+                  "definedCompanies" : {
+                    "type" : "array",
+                    "items" : {
+                      "type" : "object",
+                      "properties" : {
+                        "definedCompany" : {
+                          "type" : "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "defPrdGroups" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "definedProductGroups" : {
+                    "type" : "string"
+                  },
+                  "definedProductGroupSel" : {
+                    "type" : "string"
+                  }
+                }
+              }
+            },
+            "relCustomers" : {
+              "type" : "array",
+              "description" : "The product for which the pricing plan is applicable",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "relationCustomer" : {
+                    "type" : "string"
+                  },
+                  "productGroups" : {
+                    "type" : "string",
+                    "description" : "The group, as defined by the institution, that the product belongs to."
+                  },
+                  "productGroupSel" : {
+                    "type" : "string"
+                  },
+                  "products" : {
+                    "type" : "array",
+                    "items" : {
+                      "type" : "object",
+                      "properties" : {
+                        "product" : {
+                          "type" : "string",
+                          "description" : "The product for which the pricing plan is applicable"
+                        },
+                        "productSel" : {
+                          "type" : "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "masterLevelChange" : {
+              "type" : "string"
+            }
+          }
+        },
+        "tcprivileges" : {
+          "type" : "object",
+          "properties" : {
+            "services" : {
+              "type" : "array",
+              "description" : "Identifies the required operation to be executed for a Trade Finance contract. Input of valid codes as: O for opening of LC, P for Pre-advise of LC, A for Amend LC, C for Collect Charges, D for Decision on Amendments, T for Tracer, IO for LC through Internet Banking Operation and M for Ancillary Message (MT759)",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "serviceId" : {
+                    "type" : "string",
+                    "description" : "Provides the id of the service that has to be run."
+                  },
+                  "serviceActive" : {
+                    "type" : "boolean"
+                  },
+                  "operations" : {
+                    "type" : "array",
+                    "items" : {
+                      "type" : "object",
+                      "properties" : {
+                        "operationId" : {
+                          "type" : "string"
+                        },
+                        "operationActive" : {
+                          "type" : "boolean"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "masterLevelChange" : {
+              "type" : "string"
+            }
+          }
+        },
+        "tcavailability" : {
+          "type" : "object",
+          "properties" : {
+            "day" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "dayName" : {
+                    "type" : "string"
+                  },
+                  "daySelect" : {
+                    "type" : "boolean"
+                  },
+                  "time" : {
+                    "type" : "array",
+                    "items" : {
+                      "type" : "object",
+                      "properties" : {
+                        "startTime" : {
+                          "type" : "string",
+                          "description" : "The time job was started"
+                        },
+                        "endTime" : {
+                          "type" : "string",
+                          "description" : "The time the job was ended.  "
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "masterLevelChange" : {
+              "type" : "string"
+            }
+          }
+        },
+        "dailylimits" : {
+          "type" : "object",
+          "properties" : {
+            "system" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "systemId" : {
+                    "type" : "string",
+                    "description" : "The system application identifier from which the entry was generated"
+                  },
+                  "application" : {
+                    "type" : "array",
+                    "items" : {
+                      "type" : "object",
+                      "properties" : {
+                        "applicationId" : {
+                          "type" : "string",
+                          "description" : "Application id."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "transaction" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "type" : {
+                    "type" : "string",
+                    "description" : "The product condition has an activity type associated that drives an action."
+                  }
+                }
+              }
+            },
+            "currency" : {
+              "type" : "array",
+              "description" : "Identifies the underlying currency used for the transaction.",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "allowedCurrency" : {
+                    "type" : "string"
+                  }
+                }
+              }
+            },
+            "riskRate" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "benRiskRate" : {
+                    "type" : "string"
+                  }
+                }
+              }
+            },
+            "timeOfDay" : {
+              "type" : "string"
+            },
+            "currencyId" : {
+              "type" : "string",
+              "description" : "Identifier of the currency. This is the 3-letter ISO 4217 code of the currency."
+            },
+            "limitAmount" : {
+              "type" : "number",
+              "description" : "The Limit amount that is actually available for use.�The system limit checks are preformed against the online limit"
+            }
+          }
+        },
+        "tclicensing" : {
+          "type" : "object",
+          "properties" : {
+            "noOfUsers" : {
+              "type" : "string"
+            },
+            "noOfRoles" : {
+              "type" : "string"
+            }
+          }
+        }
+      }
+    },
+    "ArrangementHeader" : {
+      "properties" : {
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "aaaId" : {
+          "type" : "string",
+          "description" : "The Identifier of the aa record created"
+        },
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "parse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "OnlineServiceResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ArrangementHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/OnlineServiceResponseBody"
+        }
+      },
+      "description" : "OnlineServiceResponse"
+    },
+    "OnlineServiceResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "arrangementActivity" : {
+          "type" : "object",
+          "properties" : {
+            "customerIds" : {
+              "type" : "array",
+              "description" : "The identifier of the customer",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "customerId" : {
+                    "type" : "string",
+                    "description" : "The identifier of the customer"
+                  }
+                }
+              }
+            },
+            "properties" : {
+              "type" : "array",
+              "description" : "Input is the� valid field name for the metrics evaluation of alerts",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "propertyId" : {
+                    "type" : "string",
+                    "description" : "The identifier of the product condition"
+                  },
+                  "fields" : {
+                    "type" : "array",
+                    "items" : {
+                      "type" : "object",
+                      "properties" : {
+                        "fieldName" : {
+                          "type" : "string",
+                          "description" : "The name of the field"
+                        },
+                        "fieldValue" : {
+                          "type" : "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "overrides" : {
+              "type" : "array",
+              "description" : "The override message is captured  that was generated at the time of commitment of the transaction to the database.",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "override" : {
+                    "type" : "string",
+                    "description" : "The override message is captured  that was generated at the time of commitment of the transaction to the database."
+                  }
+                }
+              }
+            },
+            "arrangementId" : {
+              "type" : "string",
+              "description" : "The identifier of the arrangement"
+            },
+            "productId" : {
+              "type" : "string",
+              "description" : "Id of the product."
+            },
+            "masterArrangementId" : {
+              "type" : "string"
+            },
+            "subArrangementName" : {
+              "type" : "string"
+            },
+            "currencyId" : {
+              "type" : "string",
+              "description" : "Identifier of the currency. This is the 3-letter ISO 4217 code of the currency."
+            },
+            "effectiveDate" : {
+              "type" : "string",
+              "format" : "date",
+              "description" : "The date on which the principal movement is effected"
+            },
+            "activityId" : {
+              "type" : "string",
+              "description" : "Id of the activity, e.g. ACCOUNTS-CAPITALISE-ACCHARGE*CARDISSUEFEE"
+            },
+            "transactionAmount" : {
+              "type" : "number",
+              "description" : "The transaction amount"
+            }
+          }
+        },
+        "activities" : {
+          "type" : "object",
+          "properties" : {
+            "{activityName}" : {
+              "type" : "object",
+              "properties" : {
+                "activity" : {
+                  "type" : "string"
+                },
+                "transactionStatus" : {
+                  "type" : "string",
+                  "description" : "The status of the transaction"
+                },
+                "id" : {
+                  "type" : "string",
+                  "description" : "The Identifier of the record created"
+                }
+              }
+            }
+          }
+        },
+        "properties" : {
+          "type" : "object",
+          "properties" : {
+            "customer" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string",
+                      "description" : "The status of the transaction"
+                    },
+                    "audit" : {
+                      "type" : "object",
+                      "properties" : {
+                        "parseTime" : {
+                          "type" : "integer",
+                          "format" : "int32",
+                          "description" : "Time taken to parse the response by IRIS"
+                        }
+                      }
+                    },
+                    "id" : {
+                      "type" : "string",
+                      "description" : "The Identifier of the record created"
+                    },
+                    "status" : {
+                      "type" : "string",
+                      "description" : "The status of the record"
+                    }
+                  }
+                },
+                "body" : {
+                  "type" : "object",
+                  "properties" : {
+                    "customers" : {
+                      "type" : "array",
+                      "description" : "The customer number",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "customer" : {
+                            "type" : "string",
+                            "description" : "The customer number"
+                          },
+                          "customerRole" : {
+                            "type" : "string",
+                            "description" : "The customer role with drop down of standard selections"
+                          },
+                          "taxLiabilityPercentage" : {
+                            "type" : "number"
+                          },
+                          "limitAllocactionPercentage" : {
+                            "type" : "number"
+                          },
+                          "GLAllocactionPercentage" : {
+                            "type" : "number"
+                          }
+                        }
+                      }
+                    },
+                    "jointLiability" : {
+                      "type" : "string",
+                      "description" : "Identifies if there is a joint liability on the limit record Allowed values: -YES -NO  "
+                    }
+                  }
+                }
+              }
+            },
+            "tcpermissions" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string",
+                      "description" : "The status of the transaction"
+                    },
+                    "audit" : {
+                      "type" : "object",
+                      "properties" : {
+                        "parseTime" : {
+                          "type" : "integer",
+                          "format" : "int32",
+                          "description" : "Time taken to parse the response by IRIS"
+                        }
+                      }
+                    },
+                    "id" : {
+                      "type" : "string",
+                      "description" : "The Identifier of the record created"
+                    },
+                    "status" : {
+                      "type" : "string",
+                      "description" : "The status of the record"
+                    }
+                  }
+                },
+                "body" : {
+                  "type" : "object",
+                  "properties" : {
+                    "definedCustomers" : {
+                      "type" : "array",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "definedCustomer" : {
+                            "type" : "string"
+                          },
+                          "definedCustomerSel" : {
+                            "type" : "boolean"
+                          },
+                          "definedCompanies" : {
+                            "type" : "array",
+                            "items" : {
+                              "type" : "object",
+                              "properties" : {
+                                "definedCompany" : {
+                                  "type" : "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "defPrdGroups" : {
+                      "type" : "array",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "definedProductGroups" : {
+                            "type" : "string"
+                          },
+                          "definedProductGroupSel" : {
+                            "type" : "string"
+                          }
+                        }
+                      }
+                    },
+                    "relCustomers" : {
+                      "type" : "array",
+                      "description" : "The product for which the pricing plan is applicable",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "relationCustomer" : {
+                            "type" : "string"
+                          },
+                          "productGroups" : {
+                            "type" : "string",
+                            "description" : "The group, as defined by the institution, that the product belongs to."
+                          },
+                          "productGroupSel" : {
+                            "type" : "string"
+                          },
+                          "products" : {
+                            "type" : "array",
+                            "items" : {
+                              "type" : "object",
+                              "properties" : {
+                                "product" : {
+                                  "type" : "string",
+                                  "description" : "The product for which the pricing plan is applicable"
+                                },
+                                "productSel" : {
+                                  "type" : "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "masterLevelChange" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "tcprivileges" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string",
+                      "description" : "The status of the transaction"
+                    },
+                    "audit" : {
+                      "type" : "object",
+                      "properties" : {
+                        "parseTime" : {
+                          "type" : "integer",
+                          "format" : "int32",
+                          "description" : "Time taken to parse the response by IRIS"
+                        }
+                      }
+                    },
+                    "id" : {
+                      "type" : "string",
+                      "description" : "The Identifier of the record created"
+                    },
+                    "status" : {
+                      "type" : "string",
+                      "description" : "The status of the record"
+                    }
+                  }
+                },
+                "body" : {
+                  "type" : "object",
+                  "properties" : {
+                    "services" : {
+                      "type" : "array",
+                      "description" : "Identifies the required operation to be executed for a Trade Finance contract. Input of valid codes as: O for opening of LC, P for Pre-advise of LC, A for Amend LC, C for Collect Charges, D for Decision on Amendments, T for Tracer, IO for LC through Internet Banking Operation and M for Ancillary Message (MT759)",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "serviceId" : {
+                            "type" : "string",
+                            "description" : "Provides the id of the service that has to be run."
+                          },
+                          "serviceActive" : {
+                            "type" : "boolean"
+                          },
+                          "operations" : {
+                            "type" : "array",
+                            "items" : {
+                              "type" : "object",
+                              "properties" : {
+                                "operationId" : {
+                                  "type" : "string"
+                                },
+                                "operationActive" : {
+                                  "type" : "boolean"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "masterLevelChange" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "tcavailability" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string",
+                      "description" : "The status of the transaction"
+                    },
+                    "audit" : {
+                      "type" : "object",
+                      "properties" : {
+                        "parseTime" : {
+                          "type" : "integer",
+                          "format" : "int32",
+                          "description" : "Time taken to parse the response by IRIS"
+                        }
+                      }
+                    },
+                    "id" : {
+                      "type" : "string",
+                      "description" : "The Identifier of the record created"
+                    },
+                    "status" : {
+                      "type" : "string",
+                      "description" : "The status of the record"
+                    }
+                  }
+                },
+                "body" : {
+                  "type" : "object",
+                  "properties" : {
+                    "day" : {
+                      "type" : "array",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "dayName" : {
+                            "type" : "string"
+                          },
+                          "daySelect" : {
+                            "type" : "boolean"
+                          },
+                          "time" : {
+                            "type" : "array",
+                            "items" : {
+                              "type" : "object",
+                              "properties" : {
+                                "startTime" : {
+                                  "type" : "string",
+                                  "description" : "The time job was started"
+                                },
+                                "endTime" : {
+                                  "type" : "string",
+                                  "description" : "The time the job was ended.  "
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "masterLevelChange" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "dailylimits" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string",
+                      "description" : "The status of the transaction"
+                    },
+                    "audit" : {
+                      "type" : "object",
+                      "properties" : {
+                        "parseTime" : {
+                          "type" : "integer",
+                          "format" : "int32",
+                          "description" : "Time taken to parse the response by IRIS"
+                        }
+                      }
+                    },
+                    "id" : {
+                      "type" : "string",
+                      "description" : "The Identifier of the record created"
+                    },
+                    "status" : {
+                      "type" : "string",
+                      "description" : "The status of the record"
+                    }
+                  }
+                },
+                "body" : {
+                  "type" : "object",
+                  "properties" : {
+                    "system" : {
+                      "type" : "array",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "systemId" : {
+                            "type" : "string",
+                            "description" : "The system application identifier from which the entry was generated"
+                          },
+                          "application" : {
+                            "type" : "array",
+                            "items" : {
+                              "type" : "object",
+                              "properties" : {
+                                "applicationId" : {
+                                  "type" : "string",
+                                  "description" : "Application id."
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "transaction" : {
+                      "type" : "array",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "type" : {
+                            "type" : "string",
+                            "description" : "The product condition has an activity type associated that drives an action."
+                          }
+                        }
+                      }
+                    },
+                    "currency" : {
+                      "type" : "array",
+                      "description" : "Identifies the underlying currency used for the transaction.",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "allowedCurrency" : {
+                            "type" : "string"
+                          }
+                        }
+                      }
+                    },
+                    "riskRate" : {
+                      "type" : "array",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "benRiskRate" : {
+                            "type" : "string"
+                          }
+                        }
+                      }
+                    },
+                    "timeOfDay" : {
+                      "type" : "string"
+                    },
+                    "currencyId" : {
+                      "type" : "string",
+                      "description" : "Identifier of the currency. This is the 3-letter ISO 4217 code of the currency."
+                    },
+                    "limitAmount" : {
+                      "type" : "number",
+                      "description" : "The Limit amount that is actually available for use.�The system limit checks are preformed against the online limit"
+                    }
+                  }
+                }
+              }
+            },
+            "tclicensing" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string",
+                      "description" : "The status of the transaction"
+                    },
+                    "audit" : {
+                      "type" : "object",
+                      "properties" : {
+                        "parseTime" : {
+                          "type" : "integer",
+                          "format" : "int32",
+                          "description" : "Time taken to parse the response by IRIS"
+                        }
+                      }
+                    },
+                    "id" : {
+                      "type" : "string",
+                      "description" : "The Identifier of the record created"
+                    },
+                    "status" : {
+                      "type" : "string",
+                      "description" : "The status of the record"
+                    }
+                  }
+                },
+                "body" : {
+                  "type" : "object",
+                  "properties" : {
+                    "noOfUsers" : {
+                      "type" : "string"
+                    },
+                    "noOfRoles" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "overrideBody" : {
+      "properties" : {
+        "overrideDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "string",
+                "description" : "The identifier of the override"
+              },
+              "description" : {
+                "type" : "string",
+                "description" : "The actual override message"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ArrangementErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ArrangementHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/ArrangementErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "ArrangementErrorResponse"
+    },
+    "ArrangementErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message "
+              },
+              "property" : {
+                "type" : "string",
+                "description" : "The corresponding property"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessArrangementErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ArrangementHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessArrangementErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "BusinessArrangementErrorResponse"
+    },
+    "BusinessArrangementErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message for bad requests"
+              },
+              "property" : {
+                "type" : "string",
+                "description" : "The corresponding property"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemArrangementErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ArrangementHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemArrangementErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "SystemArrangementErrorResponse"
+    },
+    "SystemArrangementErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message caused by server"
+              },
+              "property" : {
+                "type" : "string",
+                "description" : "The corresponding property"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    },
+    "OnlineService1" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/OnlineService1Body"
+        }
+      },
+      "description" : "OnlineService1"
+    },
+    "OnlineService1Body" : {
+      "type" : "object",
+      "properties" : {
+        "customerIds" : {
+          "type" : "array",
+          "description" : "The identifier of the customer",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "customerId" : {
+                "type" : "string",
+                "description" : "The identifier of the customer"
+              }
+            }
+          }
+        },
+        "properties" : {
+          "type" : "array",
+          "description" : "Input is the� valid field name for the metrics evaluation of alerts",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "propertyId" : {
+                "type" : "string",
+                "description" : "The identifier of the product condition"
+              },
+              "fields" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "fieldName" : {
+                      "type" : "string",
+                      "description" : "The name of the field"
+                    },
+                    "fieldValue" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "overrides" : {
+          "type" : "array",
+          "description" : "The override message is captured  that was generated at the time of commitment of the transaction to the database.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "override" : {
+                "type" : "string",
+                "description" : "The override message is captured  that was generated at the time of commitment of the transaction to the database."
+              }
+            }
+          }
+        },
+        "productId" : {
+          "type" : "string",
+          "description" : "Id of the product."
+        },
+        "masterArrangementId" : {
+          "type" : "string"
+        },
+        "subArrangementName" : {
+          "type" : "string"
+        },
+        "currencyId" : {
+          "type" : "string",
+          "description" : "Identifier of the currency. This is the 3-letter ISO 4217 code of the currency."
+        },
+        "effectiveDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "The date on which the principal movement is effected"
+        },
+        "activityId" : {
+          "type" : "string",
+          "description" : "Id of the activity, e.g. ACCOUNTS-CAPITALISE-ACCHARGE*CARDISSUEFEE"
+        },
+        "transactionAmount" : {
+          "type" : "number",
+          "description" : "The transaction amount"
+        },
+        "customer" : {
+          "type" : "object",
+          "properties" : {
+            "customers" : {
+              "type" : "array",
+              "description" : "The customer number",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "customer" : {
+                    "type" : "string",
+                    "description" : "The customer number"
+                  },
+                  "customerRole" : {
+                    "type" : "string",
+                    "description" : "The customer role with drop down of standard selections"
+                  },
+                  "taxLiabilityPercentage" : {
+                    "type" : "number"
+                  },
+                  "limitAllocactionPercentage" : {
+                    "type" : "number"
+                  },
+                  "GLAllocactionPercentage" : {
+                    "type" : "number"
+                  }
+                }
+              }
+            },
+            "jointLiability" : {
+              "type" : "string",
+              "description" : "Identifies if there is a joint liability on the limit record Allowed values: -YES -NO  "
+            }
+          }
+        },
+        "tcpermissions" : {
+          "type" : "object",
+          "properties" : {
+            "definedCustomers" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "definedCustomer" : {
+                    "type" : "string"
+                  },
+                  "definedCustomerSel" : {
+                    "type" : "boolean"
+                  },
+                  "definedCompanies" : {
+                    "type" : "array",
+                    "items" : {
+                      "type" : "object",
+                      "properties" : {
+                        "definedCompany" : {
+                          "type" : "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "defPrdGroups" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "definedProductGroups" : {
+                    "type" : "string"
+                  },
+                  "definedProductGroupSel" : {
+                    "type" : "string"
+                  }
+                }
+              }
+            },
+            "relCustomers" : {
+              "type" : "array",
+              "description" : "The product for which the pricing plan is applicable",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "relationCustomer" : {
+                    "type" : "string"
+                  },
+                  "productGroups" : {
+                    "type" : "string",
+                    "description" : "The group, as defined by the institution, that the product belongs to."
+                  },
+                  "productGroupSel" : {
+                    "type" : "string"
+                  },
+                  "products" : {
+                    "type" : "array",
+                    "items" : {
+                      "type" : "object",
+                      "properties" : {
+                        "product" : {
+                          "type" : "string",
+                          "description" : "The product for which the pricing plan is applicable"
+                        },
+                        "productSel" : {
+                          "type" : "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "masterLevelChange" : {
+              "type" : "string"
+            }
+          }
+        },
+        "tcprivileges" : {
+          "type" : "object",
+          "properties" : {
+            "services" : {
+              "type" : "array",
+              "description" : "Identifies the required operation to be executed for a Trade Finance contract. Input of valid codes as: O for opening of LC, P for Pre-advise of LC, A for Amend LC, C for Collect Charges, D for Decision on Amendments, T for Tracer, IO for LC through Internet Banking Operation and M for Ancillary Message (MT759)",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "serviceId" : {
+                    "type" : "string",
+                    "description" : "Provides the id of the service that has to be run."
+                  },
+                  "serviceActive" : {
+                    "type" : "boolean"
+                  },
+                  "operations" : {
+                    "type" : "array",
+                    "items" : {
+                      "type" : "object",
+                      "properties" : {
+                        "operationId" : {
+                          "type" : "string"
+                        },
+                        "operationActive" : {
+                          "type" : "boolean"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "masterLevelChange" : {
+              "type" : "string"
+            }
+          }
+        },
+        "tcavailability" : {
+          "type" : "object",
+          "properties" : {
+            "day" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "dayName" : {
+                    "type" : "string"
+                  },
+                  "daySelect" : {
+                    "type" : "boolean"
+                  },
+                  "time" : {
+                    "type" : "array",
+                    "items" : {
+                      "type" : "object",
+                      "properties" : {
+                        "startTime" : {
+                          "type" : "string",
+                          "description" : "The time job was started"
+                        },
+                        "endTime" : {
+                          "type" : "string",
+                          "description" : "The time the job was ended.  "
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "masterLevelChange" : {
+              "type" : "string"
+            }
+          }
+        },
+        "dailylimits" : {
+          "type" : "object",
+          "properties" : {
+            "system" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "systemId" : {
+                    "type" : "string",
+                    "description" : "The system application identifier from which the entry was generated"
+                  },
+                  "application" : {
+                    "type" : "array",
+                    "items" : {
+                      "type" : "object",
+                      "properties" : {
+                        "applicationId" : {
+                          "type" : "string",
+                          "description" : "Application id."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "transaction" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "type" : {
+                    "type" : "string",
+                    "description" : "The product condition has an activity type associated that drives an action."
+                  }
+                }
+              }
+            },
+            "currency" : {
+              "type" : "array",
+              "description" : "Identifies the underlying currency used for the transaction.",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "allowedCurrency" : {
+                    "type" : "string"
+                  }
+                }
+              }
+            },
+            "riskRate" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "benRiskRate" : {
+                    "type" : "string"
+                  }
+                }
+              }
+            },
+            "timeOfDay" : {
+              "type" : "string"
+            },
+            "currencyId" : {
+              "type" : "string",
+              "description" : "Identifier of the currency. This is the 3-letter ISO 4217 code of the currency."
+            },
+            "limitAmount" : {
+              "type" : "number",
+              "description" : "The Limit amount that is actually available for use.�The system limit checks are preformed against the online limit"
+            }
+          }
+        },
+        "tclicensing" : {
+          "type" : "object",
+          "properties" : {
+            "noOfUsers" : {
+              "type" : "string"
+            },
+            "noOfRoles" : {
+              "type" : "string"
+            }
+          }
+        }
+      }
+    },
+    "OnlineServiceResponse1" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ArrangementHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/OnlineServiceResponse1Body"
+        }
+      },
+      "description" : "OnlineServiceResponse1"
+    },
+    "OnlineServiceResponse1Body" : {
+      "type" : "object",
+      "properties" : {
+        "arrangementActivity" : {
+          "type" : "object",
+          "properties" : {
+            "customerIds" : {
+              "type" : "array",
+              "description" : "The identifier of the customer",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "customerId" : {
+                    "type" : "string",
+                    "description" : "The identifier of the customer"
+                  }
+                }
+              }
+            },
+            "properties" : {
+              "type" : "array",
+              "description" : "Input is the� valid field name for the metrics evaluation of alerts",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "propertyId" : {
+                    "type" : "string",
+                    "description" : "The identifier of the product condition"
+                  },
+                  "fields" : {
+                    "type" : "array",
+                    "items" : {
+                      "type" : "object",
+                      "properties" : {
+                        "fieldName" : {
+                          "type" : "string",
+                          "description" : "The name of the field"
+                        },
+                        "fieldValue" : {
+                          "type" : "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "overrides" : {
+              "type" : "array",
+              "description" : "The override message is captured  that was generated at the time of commitment of the transaction to the database.",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "override" : {
+                    "type" : "string",
+                    "description" : "The override message is captured  that was generated at the time of commitment of the transaction to the database."
+                  }
+                }
+              }
+            },
+            "arrangementId" : {
+              "type" : "string",
+              "description" : "The identifier of the arrangement"
+            },
+            "productId" : {
+              "type" : "string",
+              "description" : "Id of the product."
+            },
+            "masterArrangementId" : {
+              "type" : "string"
+            },
+            "subArrangementName" : {
+              "type" : "string"
+            },
+            "currencyId" : {
+              "type" : "string",
+              "description" : "Identifier of the currency. This is the 3-letter ISO 4217 code of the currency."
+            },
+            "effectiveDate" : {
+              "type" : "string",
+              "format" : "date",
+              "description" : "The date on which the principal movement is effected"
+            },
+            "activityId" : {
+              "type" : "string",
+              "description" : "Id of the activity, e.g. ACCOUNTS-CAPITALISE-ACCHARGE*CARDISSUEFEE"
+            },
+            "transactionAmount" : {
+              "type" : "number",
+              "description" : "The transaction amount"
+            }
+          }
+        },
+        "activities" : {
+          "type" : "object",
+          "properties" : {
+            "{activityName}" : {
+              "type" : "object",
+              "properties" : {
+                "activity" : {
+                  "type" : "string"
+                },
+                "transactionStatus" : {
+                  "type" : "string",
+                  "description" : "The status of the transaction"
+                },
+                "id" : {
+                  "type" : "string",
+                  "description" : "The Identifier of the record created"
+                }
+              }
+            }
+          }
+        },
+        "properties" : {
+          "type" : "object",
+          "properties" : {
+            "customer" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string",
+                      "description" : "The status of the transaction"
+                    },
+                    "audit" : {
+                      "type" : "object",
+                      "properties" : {
+                        "parseTime" : {
+                          "type" : "integer",
+                          "format" : "int32",
+                          "description" : "Time taken to parse the response by IRIS"
+                        }
+                      }
+                    },
+                    "id" : {
+                      "type" : "string",
+                      "description" : "The Identifier of the record created"
+                    },
+                    "status" : {
+                      "type" : "string",
+                      "description" : "The status of the record"
+                    }
+                  }
+                },
+                "body" : {
+                  "type" : "object",
+                  "properties" : {
+                    "customers" : {
+                      "type" : "array",
+                      "description" : "The customer number",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "customer" : {
+                            "type" : "string",
+                            "description" : "The customer number"
+                          },
+                          "customerRole" : {
+                            "type" : "string",
+                            "description" : "The customer role with drop down of standard selections"
+                          },
+                          "taxLiabilityPercentage" : {
+                            "type" : "number"
+                          },
+                          "limitAllocactionPercentage" : {
+                            "type" : "number"
+                          },
+                          "GLAllocactionPercentage" : {
+                            "type" : "number"
+                          }
+                        }
+                      }
+                    },
+                    "jointLiability" : {
+                      "type" : "string",
+                      "description" : "Identifies if there is a joint liability on the limit record Allowed values: -YES -NO  "
+                    }
+                  }
+                }
+              }
+            },
+            "tcpermissions" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string",
+                      "description" : "The status of the transaction"
+                    },
+                    "audit" : {
+                      "type" : "object",
+                      "properties" : {
+                        "parseTime" : {
+                          "type" : "integer",
+                          "format" : "int32",
+                          "description" : "Time taken to parse the response by IRIS"
+                        }
+                      }
+                    },
+                    "id" : {
+                      "type" : "string",
+                      "description" : "The Identifier of the record created"
+                    },
+                    "status" : {
+                      "type" : "string",
+                      "description" : "The status of the record"
+                    }
+                  }
+                },
+                "body" : {
+                  "type" : "object",
+                  "properties" : {
+                    "definedCustomers" : {
+                      "type" : "array",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "definedCustomer" : {
+                            "type" : "string"
+                          },
+                          "definedCustomerSel" : {
+                            "type" : "boolean"
+                          },
+                          "definedCompanies" : {
+                            "type" : "array",
+                            "items" : {
+                              "type" : "object",
+                              "properties" : {
+                                "definedCompany" : {
+                                  "type" : "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "defPrdGroups" : {
+                      "type" : "array",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "definedProductGroups" : {
+                            "type" : "string"
+                          },
+                          "definedProductGroupSel" : {
+                            "type" : "string"
+                          }
+                        }
+                      }
+                    },
+                    "relCustomers" : {
+                      "type" : "array",
+                      "description" : "The product for which the pricing plan is applicable",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "relationCustomer" : {
+                            "type" : "string"
+                          },
+                          "productGroups" : {
+                            "type" : "string",
+                            "description" : "The group, as defined by the institution, that the product belongs to."
+                          },
+                          "productGroupSel" : {
+                            "type" : "string"
+                          },
+                          "products" : {
+                            "type" : "array",
+                            "items" : {
+                              "type" : "object",
+                              "properties" : {
+                                "product" : {
+                                  "type" : "string",
+                                  "description" : "The product for which the pricing plan is applicable"
+                                },
+                                "productSel" : {
+                                  "type" : "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "masterLevelChange" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "tcprivileges" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string",
+                      "description" : "The status of the transaction"
+                    },
+                    "audit" : {
+                      "type" : "object",
+                      "properties" : {
+                        "parseTime" : {
+                          "type" : "integer",
+                          "format" : "int32",
+                          "description" : "Time taken to parse the response by IRIS"
+                        }
+                      }
+                    },
+                    "id" : {
+                      "type" : "string",
+                      "description" : "The Identifier of the record created"
+                    },
+                    "status" : {
+                      "type" : "string",
+                      "description" : "The status of the record"
+                    }
+                  }
+                },
+                "body" : {
+                  "type" : "object",
+                  "properties" : {
+                    "services" : {
+                      "type" : "array",
+                      "description" : "Identifies the required operation to be executed for a Trade Finance contract. Input of valid codes as: O for opening of LC, P for Pre-advise of LC, A for Amend LC, C for Collect Charges, D for Decision on Amendments, T for Tracer, IO for LC through Internet Banking Operation and M for Ancillary Message (MT759)",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "serviceId" : {
+                            "type" : "string",
+                            "description" : "Provides the id of the service that has to be run."
+                          },
+                          "serviceActive" : {
+                            "type" : "boolean"
+                          },
+                          "operations" : {
+                            "type" : "array",
+                            "items" : {
+                              "type" : "object",
+                              "properties" : {
+                                "operationId" : {
+                                  "type" : "string"
+                                },
+                                "operationActive" : {
+                                  "type" : "boolean"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "masterLevelChange" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "tcavailability" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string",
+                      "description" : "The status of the transaction"
+                    },
+                    "audit" : {
+                      "type" : "object",
+                      "properties" : {
+                        "parseTime" : {
+                          "type" : "integer",
+                          "format" : "int32",
+                          "description" : "Time taken to parse the response by IRIS"
+                        }
+                      }
+                    },
+                    "id" : {
+                      "type" : "string",
+                      "description" : "The Identifier of the record created"
+                    },
+                    "status" : {
+                      "type" : "string",
+                      "description" : "The status of the record"
+                    }
+                  }
+                },
+                "body" : {
+                  "type" : "object",
+                  "properties" : {
+                    "day" : {
+                      "type" : "array",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "dayName" : {
+                            "type" : "string"
+                          },
+                          "daySelect" : {
+                            "type" : "boolean"
+                          },
+                          "time" : {
+                            "type" : "array",
+                            "items" : {
+                              "type" : "object",
+                              "properties" : {
+                                "startTime" : {
+                                  "type" : "string",
+                                  "description" : "The time job was started"
+                                },
+                                "endTime" : {
+                                  "type" : "string",
+                                  "description" : "The time the job was ended.  "
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "masterLevelChange" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "dailylimits" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string",
+                      "description" : "The status of the transaction"
+                    },
+                    "audit" : {
+                      "type" : "object",
+                      "properties" : {
+                        "parseTime" : {
+                          "type" : "integer",
+                          "format" : "int32",
+                          "description" : "Time taken to parse the response by IRIS"
+                        }
+                      }
+                    },
+                    "id" : {
+                      "type" : "string",
+                      "description" : "The Identifier of the record created"
+                    },
+                    "status" : {
+                      "type" : "string",
+                      "description" : "The status of the record"
+                    }
+                  }
+                },
+                "body" : {
+                  "type" : "object",
+                  "properties" : {
+                    "system" : {
+                      "type" : "array",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "systemId" : {
+                            "type" : "string",
+                            "description" : "The system application identifier from which the entry was generated"
+                          },
+                          "application" : {
+                            "type" : "array",
+                            "items" : {
+                              "type" : "object",
+                              "properties" : {
+                                "applicationId" : {
+                                  "type" : "string",
+                                  "description" : "Application id."
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "transaction" : {
+                      "type" : "array",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "type" : {
+                            "type" : "string",
+                            "description" : "The product condition has an activity type associated that drives an action."
+                          }
+                        }
+                      }
+                    },
+                    "currency" : {
+                      "type" : "array",
+                      "description" : "Identifies the underlying currency used for the transaction.",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "allowedCurrency" : {
+                            "type" : "string"
+                          }
+                        }
+                      }
+                    },
+                    "riskRate" : {
+                      "type" : "array",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "benRiskRate" : {
+                            "type" : "string"
+                          }
+                        }
+                      }
+                    },
+                    "timeOfDay" : {
+                      "type" : "string"
+                    },
+                    "currencyId" : {
+                      "type" : "string",
+                      "description" : "Identifier of the currency. This is the 3-letter ISO 4217 code of the currency."
+                    },
+                    "limitAmount" : {
+                      "type" : "number",
+                      "description" : "The Limit amount that is actually available for use.�The system limit checks are preformed against the online limit"
+                    }
+                  }
+                }
+              }
+            },
+            "tclicensing" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string",
+                      "description" : "The status of the transaction"
+                    },
+                    "audit" : {
+                      "type" : "object",
+                      "properties" : {
+                        "parseTime" : {
+                          "type" : "integer",
+                          "format" : "int32",
+                          "description" : "Time taken to parse the response by IRIS"
+                        }
+                      }
+                    },
+                    "id" : {
+                      "type" : "string",
+                      "description" : "The Identifier of the record created"
+                    },
+                    "status" : {
+                      "type" : "string",
+                      "description" : "The status of the record"
+                    }
+                  }
+                },
+                "body" : {
+                  "type" : "object",
+                  "properties" : {
+                    "noOfUsers" : {
+                      "type" : "string"
+                    },
+                    "noOfRoles" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "QueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "parse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records per page"
+        },
+        "page_start" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The record from which the response should be displayed"
+        },
+        "total_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records present"
+        },
+        "page_token" : {
+          "type" : "string",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request"
+        }
+      }
+    },
+    "CustomerProductsByProductGroupResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/CustomerProductsByProductGroupResponseBody"
+        }
+      },
+      "description" : "CustomerProductsByProductGroupResponse"
+    },
+    "CustomerProductsByProductGroupResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "products" : {
+            "type" : "array",
+            "description" : "The product for which the pricing plan is applicable",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "productId" : {
+                  "type" : "string",
+                  "description" : "Id of the product."
+                },
+                "currency" : {
+                  "type" : "string",
+                  "description" : "Identifies the underlying currency used for the transaction."
+                }
+              }
+            }
+          },
+          "productGroupName" : {
+            "type" : "string",
+            "description" : "Description of the product group"
+          },
+          "productPermission" : {
+            "type" : "string"
+          },
+          "productGroupId" : {
+            "type" : "string",
+            "description" : "The group, as defined by the institution, that the product belongs to.",
+            "maxLength" : 100
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "parse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessQueryErrorResponseBody"
+        }
+      },
+      "description" : "BusinessQueryErrorResponse"
+    },
+    "BusinessQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message for bad requests"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemQueryErrorResponseBody"
+        }
+      },
+      "description" : "SystemQueryErrorResponse"
+    },
+    "SystemQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message caused by server"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    },
+    "OnlineServicesResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/OnlineServicesResponseBody"
+        }
+      },
+      "description" : "OnlineServicesResponse"
+    },
+    "OnlineServicesResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "linkedSubArrangements" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "linkedSubArrangementId" : {
+                  "type" : "string",
+                  "maxLength" : 20
+                },
+                "linkedSubArrangementName" : {
+                  "type" : "string",
+                  "maxLength" : 35
+                }
+              }
+            }
+          },
+          "audit" : {
+            "type" : "array",
+            "description" : "The user identifier who input the transaction",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "recordStatus" : {
+                  "type" : "string",
+                  "description" : "General status of the record. Possible values: - null - authorised - IHLD - input, on hold - INAU - input, not authorised - INA2 - input, authorised, pending second authorisation - INAO - input, not authorised with blocking overrides - RNAU - reversed, not authorised - RNAO - reversed, not authorised with blocking overrides"
+                },
+                "inputters" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object",
+                    "properties" : {
+                      "inputterId" : {
+                        "type" : "string"
+                      },
+                      "inputterName" : {
+                        "type" : "string"
+                      },
+                      "externalInputterName" : {
+                        "type" : "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "arrangementId" : {
+            "type" : "string",
+            "description" : "The identifier of the arrangement",
+            "maxLength" : 17
+          },
+          "arrangementStatus" : {
+            "type" : "string",
+            "description" : "Status of the arrangement: UNAUTH - input but not authorised yet. AUTH - authorised. AUTH-FWD (Forward) - authorised, will become active on a future date. CURRENT - the arrangement has begun full or partial disbursement. MATURED - the contract has matured and all dues have been cleared. EXPIRED - the contract has gone past its final payment date with some dues left unsettled. REVERSED - reversed. CANCELLED - cancelled (only for deposits) CLOSE - closed PENDING.CLOSURE - ready for closure",
+            "maxLength" : 15
+          },
+          "subArrangementName" : {
+            "type" : "string",
+            "maxLength" : 35
+          },
+          "productGroupId" : {
+            "type" : "string",
+            "description" : "The group, as defined by the institution, that the product belongs to.",
+            "maxLength" : 30
+          },
+          "productGroupName" : {
+            "type" : "string",
+            "description" : "Description of the product group",
+            "maxLength" : 30
+          },
+          "productId" : {
+            "type" : "string",
+            "description" : "Id of the product.",
+            "maxLength" : 30
+          },
+          "productName" : {
+            "type" : "string",
+            "description" : "Name of the product, which is also its Id.",
+            "maxLength" : 30
+          },
+          "customerId" : {
+            "type" : "string",
+            "description" : "The identifier of the customer",
+            "maxLength" : 10
+          },
+          "customerName" : {
+            "type" : "string",
+            "description" : "Name of the customer",
+            "maxLength" : 35
+          },
+          "masterArrangementId" : {
+            "type" : "string",
+            "maxLength" : 20
+          },
+          "activityId" : {
+            "type" : "string",
+            "description" : "Id of the activity, e.g. ACCOUNTS-CAPITALISE-ACCHARGE*CARDISSUEFEE"
+          },
+          "pendingActivityId" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "ExternalUserAllocationsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ExternalUserAllocationsResponseBody"
+        }
+      },
+      "description" : "ExternalUserAllocationsResponse"
+    },
+    "ExternalUserAllocationsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "externalUserId" : {
+            "type" : "string",
+            "description" : "The identifier of the external user"
+          },
+          "customerId" : {
+            "type" : "string",
+            "description" : "The identifier of the customer"
+          },
+          "externalUserName" : {
+            "type" : "string",
+            "description" : "External or Digital Channel User Name"
+          },
+          "arrangementId" : {
+            "type" : "string",
+            "description" : "The identifier of the arrangement",
+            "maxLength" : 30
+          },
+          "subArrangementId" : {
+            "type" : "string",
+            "maxLength" : 30
+          },
+          "subArrangementName" : {
+            "type" : "string"
+          },
+          "externalUserStatus" : {
+            "type" : "string",
+            "description" : "External User Access status. Can be Active,  Inactive, Barred, Initiated"
+          },
+          "usersCount" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "usersTotalCount" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "userLicensesCount" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "subArrangementsCount" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "subArrangementLicensesCount" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }
+      }
+    },
+    "OnlineServiceByArrangementResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ArrangementHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/OnlineServiceByArrangementResponseBody"
+        }
+      },
+      "description" : "OnlineServiceByArrangementResponse"
+    },
+    "OnlineServiceByArrangementResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "arrangementActivity" : {
+          "type" : "object",
+          "properties" : {
+            "customers" : {
+              "type" : "array",
+              "description" : "The customer number",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "customerId" : {
+                    "type" : "string",
+                    "description" : "The identifier of the customer"
+                  },
+                  "customerName" : {
+                    "type" : "string",
+                    "description" : "Name of the customer"
+                  },
+                  "customerRole" : {
+                    "type" : "string",
+                    "description" : "The customer role with drop down of standard selections"
+                  }
+                }
+              }
+            },
+            "subArrangements" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "subArrangement" : {
+                    "type" : "array",
+                    "items" : {
+                      "type" : "object",
+                      "properties" : {
+                        "subArrangementId" : {
+                          "type" : "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "activityId" : {
+              "type" : "string",
+              "description" : "Id of the activity, e.g. ACCOUNTS-CAPITALISE-ACCHARGE*CARDISSUEFEE"
+            },
+            "effectiveDate" : {
+              "type" : "string",
+              "format" : "date",
+              "description" : "The date on which the principal movement is effected"
+            },
+            "currencyId" : {
+              "type" : "string",
+              "description" : "Identifier of the currency. This is the 3-letter ISO 4217 code of the currency."
+            },
+            "productId" : {
+              "type" : "string",
+              "description" : "Id of the product."
+            },
+            "productName" : {
+              "type" : "string",
+              "description" : "Name of the product, which is also its Id."
+            },
+            "productGroupId" : {
+              "type" : "string",
+              "description" : "The group, as defined by the institution, that the product belongs to."
+            },
+            "productGroupName" : {
+              "type" : "string",
+              "description" : "Description of the product group"
+            },
+            "productLineId" : {
+              "type" : "string",
+              "description" : "The top level product line, which the product is ultimately attached to. May be a Temenos-defined product line such as ACCOUNTS, AGENT, BUNDLE, CONSENT, DEPOSITS, LENDING, REWARDS, etc. or one defined by the institution to manage external products."
+            },
+            "productLineName" : {
+              "type" : "string",
+              "description" : "\"Description of the product line, e.g. \"\"Client Consent\"\" for product line CONSENT.\""
+            },
+            "subArrangementName" : {
+              "type" : "string"
+            },
+            "arrangementStatus" : {
+              "type" : "string",
+              "description" : "Status of the arrangement: UNAUTH - input but not authorised yet. AUTH - authorised. AUTH-FWD (Forward) - authorised, will become active on a future date. CURRENT - the arrangement has begun full or partial disbursement. MATURED - the contract has matured and all dues have been cleared. EXPIRED - the contract has gone past its final payment date with some dues left unsettled. REVERSED - reversed. CANCELLED - cancelled (only for deposits) CLOSE - closed PENDING.CLOSURE - ready for closure"
+            },
+            "masterArrangementId" : {
+              "type" : "string"
+            }
+          }
+        },
+        "activities" : {
+          "type" : "object",
+          "properties" : {
+            "{activityName}" : {
+              "type" : "object",
+              "properties" : {
+                "activity" : {
+                  "type" : "string"
+                },
+                "transactionStatus" : {
+                  "type" : "string",
+                  "description" : "The status of the transaction"
+                },
+                "id" : {
+                  "type" : "string",
+                  "description" : "The Identifier of the record created"
+                }
+              }
+            }
+          }
+        },
+        "properties" : {
+          "type" : "object",
+          "properties" : {
+            "customer" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string",
+                      "description" : "The status of the transaction"
+                    },
+                    "audit" : {
+                      "type" : "object",
+                      "properties" : {
+                        "parseTime" : {
+                          "type" : "integer",
+                          "format" : "int32",
+                          "description" : "Time taken to parse the response by IRIS"
+                        }
+                      }
+                    },
+                    "id" : {
+                      "type" : "string",
+                      "description" : "The Identifier of the record created"
+                    },
+                    "status" : {
+                      "type" : "string",
+                      "description" : "The status of the record"
+                    }
+                  }
+                },
+                "body" : {
+                  "type" : "object",
+                  "properties" : {
+                    "customers" : {
+                      "type" : "array",
+                      "description" : "The customer number",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "customer" : {
+                            "type" : "string",
+                            "description" : "The customer number"
+                          },
+                          "customerRole" : {
+                            "type" : "string",
+                            "description" : "The customer role with drop down of standard selections"
+                          },
+                          "taxLiabilityPercentage" : {
+                            "type" : "number"
+                          },
+                          "limitAllocactionPercentage" : {
+                            "type" : "number"
+                          },
+                          "GLAllocactionPercentage" : {
+                            "type" : "number"
+                          }
+                        }
+                      }
+                    },
+                    "jointLiability" : {
+                      "type" : "string",
+                      "description" : "Identifies if there is a joint liability on the limit record Allowed values: -YES -NO  "
+                    }
+                  }
+                }
+              }
+            },
+            "tcpermissions" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string",
+                      "description" : "The status of the transaction"
+                    },
+                    "audit" : {
+                      "type" : "object",
+                      "properties" : {
+                        "parseTime" : {
+                          "type" : "integer",
+                          "format" : "int32",
+                          "description" : "Time taken to parse the response by IRIS"
+                        }
+                      }
+                    },
+                    "id" : {
+                      "type" : "string",
+                      "description" : "The Identifier of the record created"
+                    },
+                    "status" : {
+                      "type" : "string",
+                      "description" : "The status of the record"
+                    }
+                  }
+                },
+                "body" : {
+                  "type" : "object",
+                  "properties" : {
+                    "definedCustomers" : {
+                      "type" : "array",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "definedCustomer" : {
+                            "type" : "string"
+                          },
+                          "definedCustomerSel" : {
+                            "type" : "boolean"
+                          },
+                          "definedCompanies" : {
+                            "type" : "array",
+                            "items" : {
+                              "type" : "object",
+                              "properties" : {
+                                "definedCompany" : {
+                                  "type" : "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "defPrdGroups" : {
+                      "type" : "array",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "definedProductGroups" : {
+                            "type" : "string"
+                          },
+                          "definedProductGroupSel" : {
+                            "type" : "string"
+                          }
+                        }
+                      }
+                    },
+                    "relCustomers" : {
+                      "type" : "array",
+                      "description" : "The product for which the pricing plan is applicable",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "relationCustomer" : {
+                            "type" : "string"
+                          },
+                          "productGroups" : {
+                            "type" : "string",
+                            "description" : "The group, as defined by the institution, that the product belongs to."
+                          },
+                          "productGroupSel" : {
+                            "type" : "string"
+                          },
+                          "products" : {
+                            "type" : "array",
+                            "items" : {
+                              "type" : "object",
+                              "properties" : {
+                                "product" : {
+                                  "type" : "string",
+                                  "description" : "The product for which the pricing plan is applicable"
+                                },
+                                "productSel" : {
+                                  "type" : "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "masterLevelChange" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "tcprivileges" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string",
+                      "description" : "The status of the transaction"
+                    },
+                    "audit" : {
+                      "type" : "object",
+                      "properties" : {
+                        "parseTime" : {
+                          "type" : "integer",
+                          "format" : "int32",
+                          "description" : "Time taken to parse the response by IRIS"
+                        }
+                      }
+                    },
+                    "id" : {
+                      "type" : "string",
+                      "description" : "The Identifier of the record created"
+                    },
+                    "status" : {
+                      "type" : "string",
+                      "description" : "The status of the record"
+                    }
+                  }
+                },
+                "body" : {
+                  "type" : "object",
+                  "properties" : {
+                    "services" : {
+                      "type" : "array",
+                      "description" : "Identifies the required operation to be executed for a Trade Finance contract. Input of valid codes as: O for opening of LC, P for Pre-advise of LC, A for Amend LC, C for Collect Charges, D for Decision on Amendments, T for Tracer, IO for LC through Internet Banking Operation and M for Ancillary Message (MT759)",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "serviceId" : {
+                            "type" : "string",
+                            "description" : "Provides the id of the service that has to be run."
+                          },
+                          "serviceActive" : {
+                            "type" : "boolean"
+                          },
+                          "operations" : {
+                            "type" : "array",
+                            "items" : {
+                              "type" : "object",
+                              "properties" : {
+                                "operationId" : {
+                                  "type" : "string"
+                                },
+                                "operationActive" : {
+                                  "type" : "boolean"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "masterLevelChange" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "tcavailability" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string",
+                      "description" : "The status of the transaction"
+                    },
+                    "audit" : {
+                      "type" : "object",
+                      "properties" : {
+                        "parseTime" : {
+                          "type" : "integer",
+                          "format" : "int32",
+                          "description" : "Time taken to parse the response by IRIS"
+                        }
+                      }
+                    },
+                    "id" : {
+                      "type" : "string",
+                      "description" : "The Identifier of the record created"
+                    },
+                    "status" : {
+                      "type" : "string",
+                      "description" : "The status of the record"
+                    }
+                  }
+                },
+                "body" : {
+                  "type" : "object",
+                  "properties" : {
+                    "day" : {
+                      "type" : "array",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "dayName" : {
+                            "type" : "string"
+                          },
+                          "daySelect" : {
+                            "type" : "boolean"
+                          },
+                          "time" : {
+                            "type" : "array",
+                            "items" : {
+                              "type" : "object",
+                              "properties" : {
+                                "startTime" : {
+                                  "type" : "string",
+                                  "description" : "The time job was started"
+                                },
+                                "endTime" : {
+                                  "type" : "string",
+                                  "description" : "The time the job was ended.  "
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "masterLevelChange" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "dailylimits" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string",
+                      "description" : "The status of the transaction"
+                    },
+                    "audit" : {
+                      "type" : "object",
+                      "properties" : {
+                        "parseTime" : {
+                          "type" : "integer",
+                          "format" : "int32",
+                          "description" : "Time taken to parse the response by IRIS"
+                        }
+                      }
+                    },
+                    "id" : {
+                      "type" : "string",
+                      "description" : "The Identifier of the record created"
+                    },
+                    "status" : {
+                      "type" : "string",
+                      "description" : "The status of the record"
+                    }
+                  }
+                },
+                "body" : {
+                  "type" : "object",
+                  "properties" : {
+                    "system" : {
+                      "type" : "array",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "systemId" : {
+                            "type" : "string",
+                            "description" : "The system application identifier from which the entry was generated"
+                          },
+                          "application" : {
+                            "type" : "array",
+                            "items" : {
+                              "type" : "object",
+                              "properties" : {
+                                "applicationId" : {
+                                  "type" : "string",
+                                  "description" : "Application id."
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "transaction" : {
+                      "type" : "array",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "type" : {
+                            "type" : "string",
+                            "description" : "The product condition has an activity type associated that drives an action."
+                          }
+                        }
+                      }
+                    },
+                    "currency" : {
+                      "type" : "array",
+                      "description" : "Identifies the underlying currency used for the transaction.",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "allowedCurrency" : {
+                            "type" : "string"
+                          }
+                        }
+                      }
+                    },
+                    "riskRate" : {
+                      "type" : "array",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "benRiskRate" : {
+                            "type" : "string"
+                          }
+                        }
+                      }
+                    },
+                    "timeOfDay" : {
+                      "type" : "string"
+                    },
+                    "currencyId" : {
+                      "type" : "string",
+                      "description" : "Identifier of the currency. This is the 3-letter ISO 4217 code of the currency."
+                    },
+                    "limitAmount" : {
+                      "type" : "number",
+                      "description" : "The Limit amount that is actually available for use.�The system limit checks are preformed against the online limit"
+                    }
+                  }
+                }
+              }
+            },
+            "tclicensing" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string",
+                      "description" : "The status of the transaction"
+                    },
+                    "audit" : {
+                      "type" : "object",
+                      "properties" : {
+                        "parseTime" : {
+                          "type" : "integer",
+                          "format" : "int32",
+                          "description" : "Time taken to parse the response by IRIS"
+                        }
+                      }
+                    },
+                    "id" : {
+                      "type" : "string",
+                      "description" : "The Identifier of the record created"
+                    },
+                    "status" : {
+                      "type" : "string",
+                      "description" : "The status of the record"
+                    }
+                  }
+                },
+                "body" : {
+                  "type" : "object",
+                  "properties" : {
+                    "noOfUsers" : {
+                      "type" : "string"
+                    },
+                    "noOfRoles" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "OnlineServiceApprovalsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/OnlineServiceApprovalsResponseBody"
+        }
+      },
+      "description" : "OnlineServiceApprovalsResponse"
+    },
+    "OnlineServiceApprovalsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "linkedSubArrangements" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "linkedSubArrangementId" : {
+                  "type" : "string"
+                },
+                "linkedSubArrangementName" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "audit" : {
+            "type" : "array",
+            "description" : "The user identifier who input the transaction",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "recordStatus" : {
+                  "type" : "string",
+                  "description" : "General status of the record. Possible values: - null - authorised - IHLD - input, on hold - INAU - input, not authorised - INA2 - input, authorised, pending second authorisation - INAO - input, not authorised with blocking overrides - RNAU - reversed, not authorised - RNAO - reversed, not authorised with blocking overrides"
+                },
+                "inputters" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object",
+                    "properties" : {
+                      "inputterId" : {
+                        "type" : "string"
+                      },
+                      "inputterName" : {
+                        "type" : "string"
+                      },
+                      "externalInputterName" : {
+                        "type" : "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "arrangementId" : {
+            "type" : "string",
+            "description" : "The identifier of the arrangement"
+          },
+          "arrangementStatus" : {
+            "type" : "string",
+            "description" : "Status of the arrangement: UNAUTH - input but not authorised yet. AUTH - authorised. AUTH-FWD (Forward) - authorised, will become active on a future date. CURRENT - the arrangement has begun full or partial disbursement. MATURED - the contract has matured and all dues have been cleared. EXPIRED - the contract has gone past its final payment date with some dues left unsettled. REVERSED - reversed. CANCELLED - cancelled (only for deposits) CLOSE - closed PENDING.CLOSURE - ready for closure"
+          },
+          "subArrangementName" : {
+            "type" : "string"
+          },
+          "productGroupId" : {
+            "type" : "string",
+            "description" : "The group, as defined by the institution, that the product belongs to."
+          },
+          "productGroupName" : {
+            "type" : "string",
+            "description" : "Description of the product group"
+          },
+          "productId" : {
+            "type" : "string",
+            "description" : "Id of the product."
+          },
+          "productName" : {
+            "type" : "string",
+            "description" : "Name of the product, which is also its Id."
+          },
+          "customerId" : {
+            "type" : "string",
+            "description" : "The identifier of the customer"
+          },
+          "customerName" : {
+            "type" : "string",
+            "description" : "Name of the customer"
+          },
+          "startDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "Specifies the start date when the instruction will be made active"
+          },
+          "masterArrangementId" : {
+            "type" : "string"
+          },
+          "activityId" : {
+            "type" : "string",
+            "description" : "Id of the activity, e.g. ACCOUNTS-CAPITALISE-ACCHARGE*CARDISSUEFEE"
+          },
+          "pendingActivityId" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "OnlineServiceResponse2" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ArrangementHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/OnlineServiceResponse2Body"
+        }
+      },
+      "description" : "OnlineServiceResponse2"
+    },
+    "OnlineServiceResponse2Body" : {
+      "type" : "object",
+      "properties" : {
+        "arrangementActivity" : {
+          "type" : "object",
+          "properties" : {
+            "customerIds" : {
+              "type" : "array",
+              "description" : "The identifier of the customer",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "customerId" : {
+                    "type" : "string",
+                    "description" : "The identifier of the customer"
+                  }
+                }
+              }
+            },
+            "properties" : {
+              "type" : "array",
+              "description" : "Input is the� valid field name for the metrics evaluation of alerts",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "propertyId" : {
+                    "type" : "string",
+                    "description" : "The identifier of the product condition"
+                  },
+                  "fields" : {
+                    "type" : "array",
+                    "items" : {
+                      "type" : "object",
+                      "properties" : {
+                        "fieldName" : {
+                          "type" : "string",
+                          "description" : "The name of the field"
+                        },
+                        "fieldValue" : {
+                          "type" : "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "overrides" : {
+              "type" : "array",
+              "description" : "The override message is captured  that was generated at the time of commitment of the transaction to the database.",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "override" : {
+                    "type" : "string",
+                    "description" : "The override message is captured  that was generated at the time of commitment of the transaction to the database."
+                  }
+                }
+              }
+            },
+            "arrangementId" : {
+              "type" : "string",
+              "description" : "The identifier of the arrangement"
+            },
+            "productId" : {
+              "type" : "string",
+              "description" : "Id of the product."
+            },
+            "masterArrangementId" : {
+              "type" : "string"
+            },
+            "subArrangementName" : {
+              "type" : "string"
+            },
+            "currencyId" : {
+              "type" : "string",
+              "description" : "Identifier of the currency. This is the 3-letter ISO 4217 code of the currency."
+            },
+            "effectiveDate" : {
+              "type" : "string",
+              "format" : "date",
+              "description" : "The date on which the principal movement is effected"
+            },
+            "activityId" : {
+              "type" : "string",
+              "description" : "Id of the activity, e.g. ACCOUNTS-CAPITALISE-ACCHARGE*CARDISSUEFEE"
+            },
+            "transactionAmount" : {
+              "type" : "number",
+              "description" : "The transaction amount"
+            }
+          }
+        },
+        "activities" : {
+          "type" : "object",
+          "properties" : {
+            "{activityName}" : {
+              "type" : "object",
+              "properties" : {
+                "activity" : {
+                  "type" : "string"
+                },
+                "transactionStatus" : {
+                  "type" : "string",
+                  "description" : "The status of the transaction"
+                },
+                "id" : {
+                  "type" : "string",
+                  "description" : "The Identifier of the record created"
+                }
+              }
+            }
+          }
+        },
+        "properties" : {
+          "type" : "object",
+          "properties" : {
+            "customer" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string",
+                      "description" : "The status of the transaction"
+                    },
+                    "audit" : {
+                      "type" : "object",
+                      "properties" : {
+                        "parseTime" : {
+                          "type" : "integer",
+                          "format" : "int32",
+                          "description" : "Time taken to parse the response by IRIS"
+                        }
+                      }
+                    },
+                    "id" : {
+                      "type" : "string",
+                      "description" : "The Identifier of the record created"
+                    },
+                    "status" : {
+                      "type" : "string",
+                      "description" : "The status of the record"
+                    }
+                  }
+                },
+                "body" : {
+                  "type" : "object",
+                  "properties" : {
+                    "Customer" : {
+                      "type" : "string",
+                      "description" : "The customer number"
+                    },
+                    "taxLiabilityPerc1" : {
+                      "type" : "string"
+                    },
+                    "limitAllocPerc1" : {
+                      "type" : "string"
+                    },
+                    "glAllocPerc1" : {
+                      "type" : "string"
+                    },
+                    "jsLiable" : {
+                      "type" : "string",
+                      "enum" : [ "Joint & Severally Liable" ]
+                    },
+                    "includeInCraOf" : {
+                      "type" : "string",
+                      "enum" : [ "Include in CRA of" ]
+                    }
+                  }
+                }
+              }
+            },
+            "tcpermissions" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string",
+                      "description" : "The status of the transaction"
+                    },
+                    "audit" : {
+                      "type" : "object",
+                      "properties" : {
+                        "parseTime" : {
+                          "type" : "integer",
+                          "format" : "int32",
+                          "description" : "Time taken to parse the response by IRIS"
+                        }
+                      }
+                    },
+                    "id" : {
+                      "type" : "string",
+                      "description" : "The Identifier of the record created"
+                    },
+                    "status" : {
+                      "type" : "string",
+                      "description" : "The status of the record"
+                    }
+                  }
+                },
+                "body" : {
+                  "type" : "object",
+                  "properties" : {
+                    "definedCustomer" : {
+                      "type" : "string"
+                    },
+                    "definedCompany" : {
+                      "type" : "string"
+                    },
+                    "definedCustomerSel" : {
+                      "type" : "string"
+                    },
+                    "definedProductGroups" : {
+                      "type" : "string"
+                    },
+                    "definedProductGroupSel" : {
+                      "type" : "string"
+                    },
+                    "relCustomer" : {
+                      "type" : "string"
+                    },
+                    "productGroups" : {
+                      "type" : "string",
+                      "description" : "The group, as defined by the institution, that the product belongs to."
+                    },
+                    "productGroupSel" : {
+                      "type" : "string"
+                    },
+                    "Product" : {
+                      "type" : "string",
+                      "description" : "The product for which the pricing plan is applicable"
+                    },
+                    "productSel" : {
+                      "type" : "string"
+                    },
+                    "masterLvlChange" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "tcprivileges" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string",
+                      "description" : "The status of the transaction"
+                    },
+                    "audit" : {
+                      "type" : "object",
+                      "properties" : {
+                        "parseTime" : {
+                          "type" : "integer",
+                          "format" : "int32",
+                          "description" : "Time taken to parse the response by IRIS"
+                        }
+                      }
+                    },
+                    "id" : {
+                      "type" : "string",
+                      "description" : "The Identifier of the record created"
+                    },
+                    "status" : {
+                      "type" : "string",
+                      "description" : "The status of the record"
+                    }
+                  }
+                },
+                "body" : {
+                  "type" : "object",
+                  "properties" : {
+                    "Service" : {
+                      "type" : "string"
+                    },
+                    "serviceActive" : {
+                      "type" : "string"
+                    },
+                    "Operation" : {
+                      "type" : "string",
+                      "description" : "Identifies the required operation to be executed for a Trade Finance contract. Input of valid codes as: O for opening of LC, P for Pre-advise of LC, A for Amend LC, C for Collect Charges, D for Decision on Amendments, T for Tracer, IO for LC through Internet Banking Operation and M for Ancillary Message (MT759)"
+                    },
+                    "operationActive" : {
+                      "type" : "string"
+                    },
+                    "masterLvlChange" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "tcavailability" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string",
+                      "description" : "The status of the transaction"
+                    },
+                    "audit" : {
+                      "type" : "object",
+                      "properties" : {
+                        "parseTime" : {
+                          "type" : "integer",
+                          "format" : "int32",
+                          "description" : "Time taken to parse the response by IRIS"
+                        }
+                      }
+                    },
+                    "id" : {
+                      "type" : "string",
+                      "description" : "The Identifier of the record created"
+                    },
+                    "status" : {
+                      "type" : "string",
+                      "description" : "The status of the record"
+                    }
+                  }
+                },
+                "body" : {
+                  "type" : "object",
+                  "properties" : {
+                    "DayName" : {
+                      "type" : "string"
+                    },
+                    "DaySelect" : {
+                      "type" : "string"
+                    },
+                    "StartTime" : {
+                      "type" : "string",
+                      "description" : "The time job was started"
+                    },
+                    "EndTime" : {
+                      "type" : "string",
+                      "description" : "The time the job was ended.  "
+                    },
+                    "masterLvlChange" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "dailylimits" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string",
+                      "description" : "The status of the transaction"
+                    },
+                    "audit" : {
+                      "type" : "object",
+                      "properties" : {
+                        "parseTime" : {
+                          "type" : "integer",
+                          "format" : "int32",
+                          "description" : "Time taken to parse the response by IRIS"
+                        }
+                      }
+                    },
+                    "id" : {
+                      "type" : "string",
+                      "description" : "The Identifier of the record created"
+                    },
+                    "status" : {
+                      "type" : "string",
+                      "description" : "The status of the record"
+                    }
+                  }
+                },
+                "body" : {
+                  "type" : "object",
+                  "properties" : {
+                    "systemId" : {
+                      "type" : "string",
+                      "description" : "The system application identifier from which the entry was generated"
+                    },
+                    "Application" : {
+                      "type" : "string"
+                    },
+                    "transactionType" : {
+                      "type" : "string",
+                      "description" : "This is the type of transaction for which Beneficiary is created i.e. within bank account transfer or other bank transfer etc."
+                    },
+                    "allowedCcy" : {
+                      "type" : "string"
+                    },
+                    "benRiskRate" : {
+                      "type" : "string"
+                    },
+                    "timeOfDay" : {
+                      "type" : "string"
+                    },
+                    "Currency" : {
+                      "type" : "string",
+                      "description" : "Identifies the underlying currency used for the transaction."
+                    },
+                    "limitAmount" : {
+                      "type" : "number",
+                      "description" : "The Limit amount that is actually available for use.�The system limit checks are preformed against the online limit"
+                    }
+                  }
+                }
+              }
+            },
+            "tclicensing" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string",
+                      "description" : "The status of the transaction"
+                    },
+                    "audit" : {
+                      "type" : "object",
+                      "properties" : {
+                        "parseTime" : {
+                          "type" : "integer",
+                          "format" : "int32",
+                          "description" : "Time taken to parse the response by IRIS"
+                        }
+                      }
+                    },
+                    "id" : {
+                      "type" : "string",
+                      "description" : "The Identifier of the record created"
+                    },
+                    "status" : {
+                      "type" : "string",
+                      "description" : "The status of the record"
+                    }
+                  }
+                },
+                "body" : {
+                  "type" : "object",
+                  "properties" : {
+                    "numberOfUsers" : {
+                      "type" : "string"
+                    },
+                    "numberOfRoles" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

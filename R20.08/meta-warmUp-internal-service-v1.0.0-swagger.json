@@ -1,0 +1,118 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Warmup service to pre-caching of metadata",
+    "version" : "v1.0.0",
+    "title" : "Meta Warmup Process"
+  },
+  "host" : "api.server.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "apiKey" : [ ]
+  } ],
+  "paths" : {
+    "/meta/warmUp" : {
+      "get" : {
+        "operationId" : "doWarmUp",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "WarmUpResponse",
+            "schema" : {
+              "$ref" : "#/definitions/WarmUpResponse"
+            }
+          },
+          "default" : {
+            "description" : "ErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "apiKey" : {
+      "type" : "apiKey",
+      "name" : "Authorization",
+      "in" : "header"
+    }
+  },
+  "definitions" : {
+    "WarmUpHeader" : {
+      "properties" : {
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the request"
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "WarmUpResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/WarmUpHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/WarmUpResponseBody"
+        }
+      },
+      "description" : "WarmUp Response"
+    },
+    "WarmUpResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "message" : {
+          "type" : "string",
+          "description" : "Message to be displayed after warmup service initiated",
+          "minLength" : 0,
+          "maxLength" : 50
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the request"
+        }
+      }
+    },
+    "ErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/ErrorResponseBody"
+        }
+      },
+      "description" : "WarmUp Error Response"
+    },
+    "ErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "message" : {
+          "type" : "string",
+          "description" : "Error message to be displayed when warmup service unable to initiated"
+        }
+      }
+    }
+  }
+}

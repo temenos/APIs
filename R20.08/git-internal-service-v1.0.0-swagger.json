@@ -1,0 +1,145 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "These APIs are used to get Git functionality.",
+    "version" : "v1.0.0",
+    "title" : "Git APIs"
+  },
+  "host" : "api.server.com",
+  "basePath" : "/api/v1.0.0",
+  "schemes" : [ "https", "http" ],
+  "security" : [ {
+    "apiKey" : [ ]
+  } ],
+  "paths" : {
+    "/git/clone" : {
+      "get" : {
+        "description" : "Clone the configured remote repository",
+        "operationId" : "cloneRepository",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "cloneRepositoryResponse",
+            "schema" : {
+              "$ref" : "#/definitions/gitSuccessResponse"
+            }
+          },
+          "default" : {
+            "description" : "cloneRepositoryResponse",
+            "schema" : {
+              "$ref" : "#/definitions/gitErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/git/dir" : {
+      "get" : {
+        "description" : "Clone the configured remote repository",
+        "operationId" : "getDirectory",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "getDirectoryResponse",
+            "schema" : {
+              "$ref" : "#/definitions/gitSuccessResponse"
+            }
+          },
+          "default" : {
+            "description" : "getDirectoryResponse",
+            "schema" : {
+              "$ref" : "#/definitions/gitErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/git/pull" : {
+      "get" : {
+        "description" : "Pull the configured remote repository branch",
+        "operationId" : "pullRepository",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "pullRepositoryResponse",
+            "schema" : {
+              "$ref" : "#/definitions/gitSuccessResponse"
+            }
+          },
+          "default" : {
+            "description" : "pullRepositoryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/gitErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/git/load" : {
+      "get" : {
+        "description" : "Load the configured local repository",
+        "operationId" : "loadRepository",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "loadRepositoryResponse",
+            "schema" : {
+              "$ref" : "#/definitions/gitSuccessResponse"
+            }
+          },
+          "default" : {
+            "description" : "loadRepositoryResponse",
+            "schema" : {
+              "$ref" : "#/definitions/gitErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "apiKey" : {
+      "type" : "apiKey",
+      "name" : "Authorization",
+      "in" : "header"
+    }
+  },
+  "definitions" : {
+    "gitSuccessResponse" : {
+      "type" : "object",
+      "properties" : {
+        "branch" : {
+          "type" : "string"
+        },
+        "gitDir" : {
+          "type" : "string"
+        },
+        "successMessage" : {
+          "type" : "string"
+        }
+      }
+    },
+    "gitErrorResponse" : {
+      "type" : "object",
+      "properties" : {
+        "errorId" : {
+          "type" : "string"
+        },
+        "errorCause" : {
+          "type" : "string"
+        }
+      }
+    },
+    "getDirectoryResponse" : {
+      "type" : "object",
+      "properties" : {
+        "directory" : {
+          "type" : "string"
+        },
+        "current_branch" : {
+          "type" : "string"
+        }
+      }
+    }
+  }
+}

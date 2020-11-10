@@ -1,0 +1,923 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "API to manage International Bank Account Number (IBAN) related services. The IBAN consists of up to 34 alphanumeric characters comprising a country code; two check digits; and a number that includes the domestic bank account number, branch identifier, and potential routing information. IBAN example: GB29HBUK40972924681012",
+    "version" : "v2.0.0",
+    "title" : "International Bank Account Number (IBAN)"
+  },
+  "host" : "api.server.com",
+  "basePath" : "/api/v2.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "apiKey" : [ ]
+  } ],
+  "paths" : {
+    "/reference/bankCodes/ibans/{ibanId}/bic" : {
+      "get" : {
+        "summary" : "Retrieves the BIC code for the requested IBAN",
+        "description" : "Retrieves the Bank Identifier Code (BIC) for the requested IBAN. The BIC is the SWIFT Address assigned to a bank in order to send automated payments to the banks concerned. It uniquely identifies the name and country of the bank. ",
+        "operationId" : "getBICfromIBAN",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "ibanId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "BICfromIBANResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BICfromIBANResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/reference/bankCodes/ibans/{ibanId}" : {
+      "get" : {
+        "summary" : "Retrieves the components of the requested IBAN",
+        "description" : "Retrieves the components of the requested IBAN such as country code, checksum, bank identifier, branch identifier, account number and length",
+        "operationId" : "getIBANDetails",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "ibanId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "IBANDetailsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/IBANDetailsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/reference/bankCodes/bbans/{bbanId}/iban" : {
+      "get" : {
+        "summary" : "Retrieves IBAN from a BBAN",
+        "description" : "Retrieves the IBAN for a given Basic Bank Account Number (BBAN) and country code. The BBAN can be up to 30 alphanumeric characters that are country-specific. The BBAN is the last part of the IBAN when used for international funds transfers. ",
+        "operationId" : "getIBANFromBBAN",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "bbanId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "countryId",
+          "in" : "query",
+          "description" : "ISO country code of the financial institution. ",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "IBANFromBBANResponse",
+            "schema" : {
+              "$ref" : "#/definitions/IBANFromBBANResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/reference/bankCodes/ibans" : {
+      "get" : {
+        "summary" : "Retrieves the generated IBAN number",
+        "description" : "Retrieves the IBAN number generated based on the given components such as country code, account identifier, bank identifier and branch identifier",
+        "operationId" : "getIBANNumberGenerated",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "accountId",
+          "in" : "query",
+          "description" : "Identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId. Accepts both IBAN & BBAN",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "bankId",
+          "in" : "query",
+          "description" : "Contains the identifier of the bank with which the transaction is performed",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "branchId",
+          "in" : "query",
+          "description" : "Unique and unambiguous identification of a branch of a financial institution.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "countryId",
+          "in" : "query",
+          "description" : "ISO country code of the financial institution. ",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "IBANNumberGeneratedResponse",
+            "schema" : {
+              "$ref" : "#/definitions/IBANNumberGeneratedResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/reference/bankCodes/countries/{countryId}/ibanStructures" : {
+      "get" : {
+        "summary" : "Retrieves the structure of an IBAN number",
+        "description" : "Retrieves the country specific structure of an IBAN number",
+        "operationId" : "getIBANStructure",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "countryId",
+          "in" : "path",
+          "description" : "ISO country code of the financial institution. ",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "IBANStructureResponse",
+            "schema" : {
+              "$ref" : "#/definitions/IBANStructureResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/reference/bankCodes/ibans/{ibanId}/validity" : {
+      "get" : {
+        "summary" : "Retrieves the status on the validity of the given IBAN number",
+        "description" : "Retrieves the status on the validity of the given IBAN number, returns YES if IBAN number is valid",
+        "operationId" : "validateIBAN",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "ibanId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "IBANResponse",
+            "schema" : {
+              "$ref" : "#/definitions/IBANResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "apiKey" : {
+      "type" : "apiKey",
+      "name" : "Authorization",
+      "in" : "header"
+    }
+  },
+  "definitions" : {
+    "QueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records per page"
+        },
+        "page_start" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The record from which the response should be displayed"
+        },
+        "total_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records present"
+        },
+        "page_token" : {
+          "type" : "string",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request"
+        }
+      }
+    },
+    "BICfromIBANResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/BICfromIBANResponseBody"
+        }
+      },
+      "description" : "BICfromIBANResponse"
+    },
+    "BICfromIBANResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "bicId" : {
+            "type" : "string",
+            "description" : "Bank Identifier Code (BIC) of the Beneficiary bank."
+          },
+          "bankName" : {
+            "type" : "string",
+            "description" : "The name of the bank being referred to."
+          },
+          "country" : {
+            "type" : "string",
+            "description" : "Identifies the country of the customer."
+          },
+          "city" : {
+            "type" : "string",
+            "description" : "City address stated on driver licence or utlility bill. For example London, New York etc."
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessQueryErrorResponseBody"
+        }
+      },
+      "description" : "BusinessQueryErrorResponse"
+    },
+    "BusinessQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message for bad requests"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemQueryErrorResponseBody"
+        }
+      },
+      "description" : "SystemQueryErrorResponse"
+    },
+    "SystemQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message caused by server"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    },
+    "IBANDetailsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/IBANDetailsResponseBody"
+        }
+      },
+      "description" : "IBANDetailsResponse"
+    },
+    "IBANDetailsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "iban" : {
+            "type" : "string",
+            "description" : "International Bank Account number, an identifier of the account. E.g. GB29 NWBK 6016 1331 9268 19",
+            "maxLength" : 36
+          },
+          "countryId" : {
+            "type" : "string",
+            "description" : "ISO country code of the financial institution. "
+          },
+          "checksum" : {
+            "type" : "string",
+            "description" : "Contains the checksum extracted from the IBAN"
+          },
+          "bankId" : {
+            "type" : "string",
+            "description" : "Contains the identifier of the bank with which the transaction is performed"
+          },
+          "branchId" : {
+            "type" : "string",
+            "description" : "Unique and unambiguous identification of a branch of a financial institution."
+          },
+          "accountNumber" : {
+            "type" : "string",
+            "description" : "Identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId. Accepts both IBAN & BBAN"
+          },
+          "ibanLength" : {
+            "type" : "string",
+            "description" : "Contains the length of the IBAN"
+          }
+        }
+      }
+    },
+    "IBANFromBBANResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/IBANFromBBANResponseBody"
+        }
+      },
+      "description" : "IBANFromBBANResponse"
+    },
+    "IBANFromBBANResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "iban" : {
+            "type" : "string",
+            "description" : "International Bank Account number, an identifier of the account. E.g. GB29 NWBK 6016 1331 9268 19",
+            "maxLength" : 36
+          }
+        }
+      }
+    },
+    "IBANNumberGeneratedResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/IBANNumberGeneratedResponseBody"
+        }
+      },
+      "description" : "IBANNumberGeneratedResponse"
+    },
+    "IBANNumberGeneratedResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "iban" : {
+            "type" : "string",
+            "description" : "International Bank Account number, an identifier of the account. E.g. GB29 NWBK 6016 1331 9268 19",
+            "maxLength" : 45
+          }
+        }
+      }
+    },
+    "IBANStructureResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/IBANStructureResponseBody"
+        }
+      },
+      "description" : "IBANStructureResponse"
+    },
+    "IBANStructureResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "countryCodePosition" : {
+            "type" : "string",
+            "description" : "Indicates the start position of the country code in the IBAN"
+          },
+          "countryCodeLength" : {
+            "type" : "string",
+            "description" : "Indicates the number of characters of the country code in the IBAN"
+          },
+          "checkDigitsPosition" : {
+            "type" : "string",
+            "description" : "Indicates the start position of check digits in the IBAN"
+          },
+          "checkDigitsLength" : {
+            "type" : "string",
+            "description" : "Indicates the number of check digits in the IBAN"
+          },
+          "bankIdentifierPosition" : {
+            "type" : "string",
+            "description" : "Indicates the start position of bank identifier in the IBAN"
+          },
+          "bankIdentifierLength" : {
+            "type" : "string",
+            "description" : "Indicates the number of characters of bank identifier in the IBAN"
+          },
+          "branchIdentifierPosition" : {
+            "type" : "string",
+            "description" : "Indicates the start position of the branch identifier in the IBAN (value is empty if the branch identifier is not applied in the country's IBAN format)."
+          },
+          "branchIdentifierLength" : {
+            "type" : "string",
+            "description" : "Indicates the number of characters of the branch identifier in the IBAN (value is 0 if the branch identifier is not applied in the country's IBAN format)"
+          },
+          "nationalIdLength" : {
+            "type" : "string",
+            "description" : "Indicates the number of significant characters of the National ID value that are used by SWIFT to populate the IBAN NATIONAL ID and that are sufficient to derive the IBAN BIC correctly."
+          },
+          "accountNumberPosition" : {
+            "type" : "string",
+            "description" : "Indicates the start position of the account number in the IBAN"
+          },
+          "accountNumberLength" : {
+            "type" : "string",
+            "description" : "Indicates the number of characters of the account number in the IBAN"
+          },
+          "totalLength" : {
+            "type" : "string",
+            "description" : "Indicates the total number of characters in the IBAN"
+          },
+          "sepaMember" : {
+            "type" : "string",
+            "description" : "Indicates whether the IBAN is used in one of the SEPA schemes, Y - if it does; N - if it does not"
+          },
+          "optionalCommenceDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "The date from which the IBAN can start being used in customer credit payments, in the format YYYYMMDD"
+          },
+          "mandatoryCommenceDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "The date from which the IBAN must be used in customer credit payments, in the format YYYYMMDD"
+          }
+        }
+      }
+    },
+    "IBANResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/IBANResponseBody"
+        }
+      },
+      "description" : "IBANResponse"
+    },
+    "IBANResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "iban" : {
+            "type" : "string",
+            "description" : "International Bank Account number, an identifier of the account. E.g. GB29 NWBK 6016 1331 9268 19",
+            "maxLength" : 36
+          },
+          "isIBANValid" : {
+            "type" : "string",
+            "description" : "Indicates the IBAN was validated.Contains true if the IBAN is valid.",
+            "maxLength" : 11
+          }
+        }
+      }
+    }
+  }
+}

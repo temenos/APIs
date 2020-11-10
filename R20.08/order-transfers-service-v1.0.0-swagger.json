@@ -1,0 +1,831 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Creation and Management of Fund Transfers",
+    "version" : "v1.0.0",
+    "title" : "Order Transfers APIs"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "apiKey" : [ ]
+  } ],
+  "paths" : {
+    "/order/transfers" : {
+      "post" : {
+        "summary" : "Initiate a new fund transfer request for accounts",
+        "description" : "Create funds transfer",
+        "operationId" : "createFundsTransfer",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/FundsTransfer"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "FundsTransferResponse",
+            "schema" : {
+              "$ref" : "#/definitions/FundsTransferResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/transfers/{transferId}" : {
+      "put" : {
+        "summary" : "Updates an existing fund transfer request for accounts",
+        "description" : "Update funds transfer details",
+        "operationId" : "updateFundsTransfer",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "transferId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/FundsTransfer"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "FundsTransferResponse",
+            "schema" : {
+              "$ref" : "#/definitions/FundsTransferResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Cancel fund transfer request",
+        "description" : "Cancel funds transfer",
+        "operationId" : "deleteFundsTransfer",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "transferId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/FundsTransferDelete"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "FundsTransferResponse",
+            "schema" : {
+              "$ref" : "#/definitions/FundsTransferResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "apiKey" : {
+      "type" : "apiKey",
+      "name" : "Authorization",
+      "in" : "header"
+    }
+  },
+  "definitions" : {
+    "PayloadHeader" : {
+      "properties" : {
+        "override" : {
+          "type" : "object",
+          "properties" : {
+            "overrideDetails" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "id" : {
+                    "type" : "string",
+                    "description" : "The identifier of the override"
+                  },
+                  "description" : {
+                    "type" : "string",
+                    "description" : "The actual override message"
+                  },
+                  "responseCode" : {
+                    "type" : "string",
+                    "description" : "The user input to accept/reject the override."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            }
+          }
+        }
+      }
+    },
+    "FundsTransfer" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/FundsTransferBody"
+        }
+      },
+      "description" : "FundsTransfer"
+    },
+    "FundsTransferBody" : {
+      "type" : "object",
+      "properties" : {
+        "paymentDetails" : {
+          "type" : "array",
+          "description" : "Indicates the payment details for the beneficiary to apply the payment.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "paymentDetail" : {
+                "type" : "string",
+                "description" : "Indicates the payment details for the beneficiary to apply the payment.",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "beneficiaryCustomerIds" : {
+          "type" : "array",
+          "description" : "Identifies the Customer who is to be the ultimate receiver of the funds transferred by the sending bank when this Beneficiary is not a bank.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "beneficiaryCustomerId" : {
+                "type" : "string",
+                "description" : "Identifies the Customer who is to be the ultimate receiver of the funds transferred by the sending bank when this Beneficiary is not a bank.",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "beneficiaryBICNames" : {
+          "type" : "array",
+          "description" : "The name of the beneficiary bank",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "beneficiaryBICName" : {
+                "type" : "string",
+                "description" : "The name of the beneficiary bank",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "overrides" : {
+          "type" : "array",
+          "description" : "The override message is captured  that was generated at the time of commitment of the transaction to the database.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "override" : {
+                "type" : "string",
+                "description" : "The override message is captured  that was generated at the time of commitment of the transaction to the database.",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "debitAccountId" : {
+          "type" : "string",
+          "description" : "Indicates the debit account number of the payment or transaction.",
+          "minLength" : 0,
+          "maxLength" : 36
+        },
+        "debitCurrencyId" : {
+          "type" : "string",
+          "description" : "The currency of the debit side in payment transaction. ",
+          "minLength" : 0,
+          "maxLength" : 15
+        },
+        "debitAmount" : {
+          "type" : "number",
+          "description" : "Amount to be debited in a payment transaction",
+          "minimum" : 0,
+          "maximum" : 18
+        },
+        "creditAccountId" : {
+          "type" : "string",
+          "description" : "Credit account identifier of the payment or transaction",
+          "minLength" : 0,
+          "maxLength" : 36
+        },
+        "creditCurrencyId" : {
+          "type" : "string",
+          "description" : "Specifies the credit currency. For example: USD, EUR etc.",
+          "minLength" : 0,
+          "maxLength" : 16
+        },
+        "creditAmount" : {
+          "type" : "number",
+          "description" : "Amount to be credited in a payment transaction",
+          "minimum" : 0,
+          "maximum" : 18
+        },
+        "beneficiaryOurCharges" : {
+          "type" : "string",
+          "description" : "Indicates the bearer of the charges. For example: BEN( All transaction charges are to be borne by the beneficiary customer.), OUR (All transaction charges are to be borne by the ordering customer.), SHA (Transaction charges on the Sender's side are to be borne by the ordering customer, transaction charges on the Receiver's side are to be borne by the beneficiary customer.)",
+          "minLength" : 0,
+          "maxLength" : 21
+        },
+        "processingDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "The date when payment instruction is processed in system."
+        },
+        "transactionType" : {
+          "type" : "string",
+          "description" : "Identifies the transaction type applicable to the transaction being processed, i.e. outward or inward payment. For example: ACPX, OTPX etc.",
+          "minLength" : 0,
+          "maxLength" : 15
+        },
+        "beneficiaryAccountId" : {
+          "type" : "string",
+          "description" : "Unique account identifier of the beneficiary account number.",
+          "minLength" : 0,
+          "maxLength" : 34
+        },
+        "beneficiaryId" : {
+          "type" : "string",
+          "description" : "Indicates the Id of beneficiary when beneficiary details are stored",
+          "minLength" : 0,
+          "maxLength" : 17
+        },
+        "bankSortCode" : {
+          "type" : "string",
+          "description" : "The sort code or the national clearing code of the beneficiary bank. ",
+          "minLength" : 0,
+          "maxLength" : 20
+        },
+        "beneficiaryIBAN" : {
+          "type" : "string",
+          "description" : "International Bank Account Number (IBAN) of the beneficiary account, required only for International transfers/payments outside the Bank. For example: GB98 MIDL07009312345678, FR7630006000011234567890189",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "beneficiaryBIC" : {
+          "type" : "string",
+          "description" : "BIC (Bank Identifier Code) of the beneficiary customer ",
+          "minLength" : 0,
+          "maxLength" : 14
+        },
+        "beneficiaryBICCity" : {
+          "type" : "string",
+          "description" : "The city associated with beneficiary bank BIC (Bank Identifier Code)",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "customerRate" : {
+          "type" : "string",
+          "description" : "The exchange rate that is actually applied for currency conversion in case of transactions involving FX conversion. ",
+          "minLength" : 0,
+          "maxLength" : 16
+        }
+      }
+    },
+    "ScreenHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "uniqueIdentifier" : {
+          "type" : "string",
+          "description" : "The unique identifier/Message Reference of the record created."
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "FundsTransferResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/FundsTransferResponseBody"
+        }
+      },
+      "description" : "FundsTransferResponse"
+    },
+    "FundsTransferResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "paymentDetails" : {
+          "type" : "array",
+          "description" : "Indicates the payment details for the beneficiary to apply the payment.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "paymentDetail" : {
+                "type" : "string",
+                "description" : "Indicates the payment details for the beneficiary to apply the payment.",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "beneficiaryCustomerIds" : {
+          "type" : "array",
+          "description" : "Identifies the Customer who is to be the ultimate receiver of the funds transferred by the sending bank when this Beneficiary is not a bank.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "beneficiaryCustomerId" : {
+                "type" : "string",
+                "description" : "Identifies the Customer who is to be the ultimate receiver of the funds transferred by the sending bank when this Beneficiary is not a bank.",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "beneficiaryBICNames" : {
+          "type" : "array",
+          "description" : "The name of the beneficiary bank",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "beneficiaryBICName" : {
+                "type" : "string",
+                "description" : "The name of the beneficiary bank",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "overrides" : {
+          "type" : "array",
+          "description" : "The override message is captured  that was generated at the time of commitment of the transaction to the database.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "override" : {
+                "type" : "string",
+                "description" : "The override message is captured  that was generated at the time of commitment of the transaction to the database.",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "debitAccountId" : {
+          "type" : "string",
+          "description" : "Indicates the debit account number of the payment or transaction.",
+          "minLength" : 0,
+          "maxLength" : 36
+        },
+        "debitCurrencyId" : {
+          "type" : "string",
+          "description" : "The currency of the debit side in payment transaction. ",
+          "minLength" : 0,
+          "maxLength" : 15
+        },
+        "debitAmount" : {
+          "type" : "number",
+          "description" : "Amount to be debited in a payment transaction",
+          "minimum" : 0,
+          "maximum" : 18
+        },
+        "creditAccountId" : {
+          "type" : "string",
+          "description" : "Credit account identifier of the payment or transaction",
+          "minLength" : 0,
+          "maxLength" : 36
+        },
+        "creditCurrencyId" : {
+          "type" : "string",
+          "description" : "Specifies the credit currency. For example: USD, EUR etc.",
+          "minLength" : 0,
+          "maxLength" : 16
+        },
+        "creditAmount" : {
+          "type" : "number",
+          "description" : "Amount to be credited in a payment transaction",
+          "minimum" : 0,
+          "maximum" : 18
+        },
+        "beneficiaryOurCharges" : {
+          "type" : "string",
+          "description" : "Indicates the bearer of the charges. For example: BEN( All transaction charges are to be borne by the beneficiary customer.), OUR (All transaction charges are to be borne by the ordering customer.), SHA (Transaction charges on the Sender's side are to be borne by the ordering customer, transaction charges on the Receiver's side are to be borne by the beneficiary customer.)",
+          "minLength" : 0,
+          "maxLength" : 21
+        },
+        "processingDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "The date when payment instruction is processed in system."
+        },
+        "transactionType" : {
+          "type" : "string",
+          "description" : "Identifies the transaction type applicable to the transaction being processed, i.e. outward or inward payment. For example: ACPX, OTPX etc.",
+          "minLength" : 0,
+          "maxLength" : 15
+        },
+        "beneficiaryAccountId" : {
+          "type" : "string",
+          "description" : "Unique account identifier of the beneficiary account number.",
+          "minLength" : 0,
+          "maxLength" : 34
+        },
+        "beneficiaryId" : {
+          "type" : "string",
+          "description" : "Indicates the Id of beneficiary when beneficiary details are stored",
+          "minLength" : 0,
+          "maxLength" : 17
+        },
+        "bankSortCode" : {
+          "type" : "string",
+          "description" : "The sort code or the national clearing code of the beneficiary bank. ",
+          "minLength" : 0,
+          "maxLength" : 20
+        },
+        "beneficiaryIBAN" : {
+          "type" : "string",
+          "description" : "International Bank Account Number (IBAN) of the beneficiary account, required only for International transfers/payments outside the Bank. For example: GB98 MIDL07009312345678, FR7630006000011234567890189",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "beneficiaryBIC" : {
+          "type" : "string",
+          "description" : "BIC (Bank Identifier Code) of the beneficiary customer ",
+          "minLength" : 0,
+          "maxLength" : 14
+        },
+        "beneficiaryBICCity" : {
+          "type" : "string",
+          "description" : "The city associated with beneficiary bank BIC (Bank Identifier Code)",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "customerRate" : {
+          "type" : "string",
+          "description" : "The exchange rate that is actually applied for currency conversion in case of transactions involving FX conversion. ",
+          "minLength" : 0,
+          "maxLength" : 16
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "uniqueIdentifier" : {
+          "type" : "string",
+          "description" : "The unique identifier/Message Reference of the record created."
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "overrideBody" : {
+      "properties" : {
+        "overrideDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "string",
+                "description" : "The identifier of the override"
+              },
+              "description" : {
+                "type" : "string",
+                "description" : "The actual override message"
+              },
+              "options" : {
+                "type" : "array",
+                "description" : "The usable options for the override",
+                "items" : {
+                  "type" : "string"
+                }
+              },
+              "type" : {
+                "type" : "string",
+                "description" : "The type of the override"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/ScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "ScreenErrorResponse"
+    },
+    "ScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message "
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "BusinessScreenErrorResponse"
+    },
+    "BusinessScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message for bad requests"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "SystemScreenErrorResponse"
+    },
+    "SystemScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message caused by server"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    },
+    "FundsTransferDelete" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        }
+      },
+      "description" : "FundsTransferDelete"
+    }
+  }
+}

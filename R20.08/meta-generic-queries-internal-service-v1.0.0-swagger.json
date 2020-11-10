@@ -1,0 +1,687 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Allows the creation, viewing and management of generic query definitions",
+    "version" : "v1.0.0",
+    "title" : "Meta APIs about Generic Queries"
+  },
+  "host" : "api.server.com",
+  "basePath" : "/api/v1.0.0",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "apiKey" : [ ]
+  } ],
+  "paths" : {
+    "/meta/generic/queries/{queryId}" : {
+      "get" : {
+        "operationId" : "getQuery",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "queryId",
+          "in" : "path",
+          "description" : "The query identifier",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "getQueryResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getQueryResponse"
+            }
+          },
+          "default" : {
+            "description" : "getQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getQueryErrorResponse"
+            }
+          }
+        }
+      },
+      "post" : {
+        "operationId" : "createQuery",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "queryId",
+          "in" : "path",
+          "description" : "The query identifier",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/createQuery"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "createQueryResponse",
+            "schema" : {
+              "$ref" : "#/definitions/createQueryResponse"
+            }
+          },
+          "default" : {
+            "description" : "createQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/createQueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "apiKey" : {
+      "type" : "apiKey",
+      "name" : "Authorization",
+      "in" : "header"
+    }
+  },
+  "definitions" : {
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "parse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "ScreenHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "parse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "getQueryResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/getQueryResponseBody"
+        }
+      },
+      "description" : "getQueryResponse"
+    },
+    "getQueryResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "columns" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "column" : {
+                "type" : "string"
+              },
+              "colWidth" : {
+                "type" : "number"
+              },
+              "lengthMask" : {
+                "type" : "string"
+              },
+              "dataType" : {
+                "type" : "string"
+              },
+              "singleMulti" : {
+                "type" : "string"
+              },
+              "fieldLbls" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "fieldLbl" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              },
+              "descripts" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "descript" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              },
+              "comments" : {
+                "type" : "string",
+                "description" : "Relevant comments"
+              },
+              "displayBreak" : {
+                "type" : "string"
+              },
+              "section" : {
+                "type" : "string"
+              },
+              "type" : {
+                "type" : "string"
+              },
+              "attribs" : {
+                "type" : "string"
+              },
+              "fieldDispType" : {
+                "type" : "string"
+              },
+              "targetField" : {
+                "type" : "string"
+              },
+              "operations" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "operation" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              },
+              "conversions" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "conversion" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "selections" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "openBracket" : {
+                "type" : "string"
+              },
+              "closeBracket" : {
+                "type" : "string"
+              },
+              "relNextField" : {
+                "type" : "string"
+              },
+              "selLabels" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "selLabel" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              },
+              "selectionFlds" : {
+                "type" : "string"
+              },
+              "selFldOper" : {
+                "type" : "string"
+              },
+              "requiredSel" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "fixedSelections" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fixedSelection" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "fixedSorts" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fixedSort" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "headers" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "header" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "shortDescs" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "shortDesc" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "attributesDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "attributes" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "pageSize" : {
+          "type" : "string"
+        },
+        "fileName" : {
+          "type" : "string"
+        },
+        "fileProduct" : {
+          "type" : "string"
+        },
+        "companySelect" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "The name used for display purposes"
+        },
+        "noMandatorySelection" : {
+          "type" : "number"
+        },
+        "toolbar" : {
+          "type" : "string"
+        },
+        "exposeDesc" : {
+          "type" : "string"
+        },
+        "activity" : {
+          "type" : "string"
+        },
+        "fileVersions" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fileVersion" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "popupDropdownFlds" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "popupDropdownFld" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "services" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "service" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "enquiryGraphIds" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "enquiryGraphId" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "compForEnqs" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "compForEnq" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "realTimeFilesDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "realTimeFilesDetail" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "spoolBrkFlds" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "spoolBrkFld" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "kConversions" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "kConversion" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "kColumns" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "kColumn" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "kTypes" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "kType" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "kHeaders" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "kHeader" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "nextEnquiryDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "enquiryName" : {
+                "type" : "string"
+              },
+              "selCrit" : {
+                "type" : "string"
+              },
+              "labelField" : {
+                "type" : "string"
+              },
+              "nxtDescs" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "nxtDesc" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "toolDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "toolItem" : {
+                "type" : "string"
+              },
+              "toolText" : {
+                "type" : "string"
+              },
+              "toolId" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "smsDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "smsId" : {
+                "type" : "string"
+              },
+              "smsApplication" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "buildRoutines" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "buildRoutine" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "targetApplication" : {
+          "type" : "string"
+        },
+        "expose" : {
+          "type" : "string"
+        },
+        "product" : {
+          "type" : "string"
+        },
+        "useFieldNumbers" : {
+          "type" : "string"
+        },
+        "accountNoFld" : {
+          "type" : "string"
+        },
+        "customerNoFld" : {
+          "type" : "string"
+        },
+        "smsAbort" : {
+          "type" : "string"
+        }
+      }
+    },
+    "getQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/getQueryErrorResponseBody"
+        }
+      },
+      "description" : "getQueryErrorResponse"
+    },
+    "getQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type"
+        }
+      }
+    },
+    "PayloadHeader" : {
+      "type" : "object"
+    },
+    "createQuery" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/getQueryResponseBody"
+        }
+      },
+      "description" : "createQuery"
+    },
+    "createQueryResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/getQueryResponseBody"
+        }
+      },
+      "description" : "createQueryResponse"
+    },
+    "createQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/createQueryErrorResponseBody"
+        }
+      },
+      "description" : "createQueryErrorResponse"
+    },
+    "createQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type"
+        }
+      }
+    }
+  }
+}

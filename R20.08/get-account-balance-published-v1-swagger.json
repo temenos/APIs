@@ -1,0 +1,244 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Get the balances for an accountId.",
+    "version" : "v1.2.0",
+    "title" : "BG PSD2 ACCOUNT BALANCES API"
+  },
+  "basePath" : "/api/v1",
+  "security" : [ {
+    "apiKey" : [ ]
+  } ],
+  "paths" : {
+    "/accounts/{account-id}/balances" : {
+      "get" : {
+        "description" : "Get all the balances for the accountId",
+        "operationId" : "getAccountBalancePublished",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "X-Request-ID",
+          "in" : "header",
+          "description" : "ID of the request, unique to the call, as determined by the initiating party.",
+          "required" : true,
+          "type" : "string",
+          "format" : "uuid"
+        }, {
+          "name" : "account-id",
+          "in" : "path",
+          "description" : "This identification is denoting the addressed account. \nThe account-id is retrieved by using a \"Read Account List\" call. \nThe account-id is the \"id\" attribute of the account structure. \nIts value is constant at least throughout the lifecycle of a given consent.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "Consent-ID",
+          "in" : "header",
+          "description" : "ID of the request, unique to the call, as determined by the initiating party.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "date",
+          "in" : "query",
+          "description" : "Basde on this date the balances are returned.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "Digest",
+          "in" : "header",
+          "description" : "Is contained if and only if the \"Signature\" element is contained in the header of the request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "Signature",
+          "in" : "header",
+          "description" : "A signature of the request by the TPP on application level. This might be mandated by ASPSP.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "TPP-Signature-Certificate",
+          "in" : "header",
+          "description" : "The certificate used for signing the request, in base64 encoding. \nMust be contained if a signature is contained.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "PSU-IP-Port",
+          "in" : "header",
+          "description" : "The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "PSU-Accept",
+          "in" : "header",
+          "description" : "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "PSU-Accept-Charset",
+          "in" : "header",
+          "description" : "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "PSU-Accept-Encoding",
+          "in" : "header",
+          "description" : "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "PSU-Accept-Language",
+          "in" : "header",
+          "description" : "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "PSU-User-Agent",
+          "in" : "header",
+          "description" : "The forwarded Agent header field of the HTTP request between PSU and TPP, if available.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "PSU-Device-ID",
+          "in" : "header",
+          "description" : "UUID (Universally Unique Identifier) for a device, which is used by the PSU, if available.\nUUID identifies either a device or a device dependant application installation.\nIn case of an installation identification this ID need to be unaltered until removal from device.",
+          "required" : false,
+          "type" : "string",
+          "format" : "uuid"
+        }, {
+          "name" : "PSU-Http-Method",
+          "in" : "header",
+          "description" : "HTTP method used at the PSU ? TPP interface, if available.\nValid values are:\n* GET\n* POST\n* PUT\n* PATCH\n* DELETE",
+          "required" : false,
+          "type" : "string",
+          "enum" : [ "GET", "POST", "PUT", "PATCH", "DELETE" ]
+        }, {
+          "name" : "PSU-Geo-Location",
+          "in" : "header",
+          "description" : "The forwarded Geo Location of the corresponding http request between PSU and TPP if available.",
+          "required" : false,
+          "type" : "string",
+          "pattern" : "(GEO:)[0-9]{1,3}\\.[-][0-9]{6}\\,[-][0-9]{1,3}\\.[0-9]{6}"
+        }, {
+          "name" : "PSU-IP-Address",
+          "in" : "header",
+          "description" : "HTTP request IP Address field between PSU and TPP",
+          "required" : false,
+          "type" : "string",
+          "format" : "ipv4"
+        }, {
+          "name" : "Authorization",
+          "in" : "header",
+          "description" : "Is contained only, if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in the related consent authorisation",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "getAccountBalancePublishedResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getAccountBalancePublishedResponse"
+            }
+          },
+          "default" : {
+            "description" : "getAccountBalancePublishedErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getAccountBalancePublishedErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "apiKey" : {
+      "type" : "apiKey",
+      "name" : "Authorization",
+      "in" : "header"
+    }
+  },
+  "definitions" : {
+    "getAccountBalancePublishedErrorResponse" : {
+      "type" : "object",
+      "properties" : {
+        "tppMessages" : {
+          "type" : "array",
+          "description" : "Messages to the TPP on operational issues.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "code" : {
+                "type" : "string"
+              },
+              "text" : {
+                "type" : "string"
+              },
+              "category" : {
+                "type" : "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "getAccountBalancePublishedResponse" : {
+      "type" : "object",
+      "properties" : {
+        "balances" : {
+          "type" : "array",
+          "description" : "Messages to the TPP on operational issues.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "balanceType" : {
+                "type" : "string"
+              },
+              "creditLimitIncluded" : {
+                "type" : "string"
+              },
+              "lastChangeDateTime" : {
+                "type" : "string"
+              },
+              "lastCommittedTransaction" : {
+                "type" : "string"
+              },
+              "balanceAmount" : {
+                "type" : "object",
+                "properties" : {
+                  "amount" : {
+                    "type" : "string"
+                  },
+                  "currency" : {
+                    "type" : "string"
+                  }
+                }
+              },
+              "referenceDate" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "account" : {
+          "type" : "object",
+          "properties" : {
+            "bban" : {
+              "type" : "string"
+            },
+            "maskedPan" : {
+              "type" : "string"
+            },
+            "iban" : {
+              "type" : "string"
+            },
+            "currency" : {
+              "type" : "string"
+            },
+            "pan" : {
+              "type" : "string"
+            },
+            "msisdn" : {
+              "type" : "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

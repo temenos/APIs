@@ -1,0 +1,201 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Wealth Suite API",
+    "version" : "v1.0.0",
+    "title" : "Wealth Suite API"
+  },
+  "host" : "api.server.com",
+  "basePath" : "/api/v1.0.0",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "apiKey" : [ ]
+  } ],
+  "paths" : {
+    "/holdings/balance" : {
+      "get" : {
+        "operationId" : "getAccountBalance",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "customerId",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Random and unique string for each page. Used for security purpose",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "getAccountBalanceResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getAccountBalanceResponse"
+            }
+          },
+          "default" : {
+            "description" : "getAccountBalanceErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getAccountBalanceErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "apiKey" : {
+      "type" : "apiKey",
+      "name" : "Authorization",
+      "in" : "header"
+    }
+  },
+  "definitions" : {
+    "QueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32"
+            },
+            "parse_time" : {
+              "type" : "integer",
+              "format" : "int32"
+            }
+          }
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "page_start" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "total_size" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "page_token" : {
+          "type" : "string"
+        }
+      }
+    },
+    "getAccountBalanceResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/getAccountBalanceResponseBody"
+        }
+      },
+      "description" : "getAccountBalanceResponse"
+    },
+    "getAccountBalanceResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "accountId" : {
+            "type" : "string",
+            "description" : "Id for the application is an account for which mandate is given, prefixed with 'D-' and suffixed with '.Sequence Number'.\nID can be given just as an Account Number and system formats the Accounts number with a prefix of 'D-' & suffix  '.Sequence Number'.\nReversal function is not allowed for this application and DDI can be marked as Inactive by changing the the Status of DDI to 'CANCELLED.DDI'.\nStandard numeric Account number or 3-10 character Account Mnemonic (uppercase alpha, numeric or .) - type MNE. or 6-12 character Internal Account Number (uppercase alpha or numeric) - type SS.\nAccount currency should be equal to Local currency.\nFormat is 'D-''Account Number''.Sequence Number wherein Input of Account number is mandatory.\n",
+            "maxLength" : 16
+          },
+          "currencyId" : {
+            "type" : "string",
+            "description" : "This is the alpha code by which the Currency can be identified in Transaction Processing Applications.\nThe ID which can be used in any Application to reference the currency within a transaction, must be in uppercase alpha format. It is recommended to use the standard SWIFT currency codes for the definition of the ID.  In some Applications (e.g. FUNDS.TRANSFER) a Currency code has been hardcoded in the program and the SWIFT currency code has always been used.  e.g. 'USD' is hardcoded in some programs.  If you decide not to use the SWIFT Currency codes for the small modifications will need to be incorporated in some of the programs.\nA NUMERIC.CCY.CODE is also available and can be used as an alternate means to input the Currency code in Transaction Processing Applications.\n3 type SSS (uppercase alpha) characters.  Mandatory input.\n",
+            "maxLength" : 3
+          },
+          "mnemonic" : {
+            "type" : "string",
+            "description" : "Provides an alternative means of referencing the company details and is used in the naming of the files belonging to this company.\nThe mnemonic code rather than the Company ID may be used to reference the company.\nThe mnemonic code is used in the prefix of the files created /belonging for/to this company.\nThe code cannot be amended as an amendment would require files to be renamed/copied.\n2-3 type AA (alphanumeric, first character must be alpha) characters. (Mandatory input)  Cannot be changed.  The mnemonic code must be unique (no other company can have the same mnemonic value).\n",
+            "maxLength" : 10
+          },
+          "displayName" : {
+            "type" : "string",
+            "description" : "Identifies the name of the Currency and will be used for on-line enrichments in any field where the Currency alpha or numeric code has been input.\nThis field can be expanded to allow the user to enter the description of the Currency code in various languages.  Each expansion of the field will correspond to a new language as defined in the LANGUAGE table, and will indicate to the user the language in which the description must be entered.\n3-35 type AA (Alphanumeric, first character alpha) characters.  Multilanguage field.  Mandatory input - Value initial taken from the CURRENCY.PARAM file.\n",
+            "maxLength" : 35
+          },
+          "categoryId" : {
+            "type" : "string",
+            "description" : "Indicates the Category code for the Account.  The Category code is used to classify financial transactions on T24 according to the type of business operation or product type.\nThe first two digits of the Category code represent the highest level classification and the next three digits represent a sub-classification which provides a clear definition of the profit and loss or product type.\nThe use of these codes, together with personal Customer characteristics, e.g. Residence, Status, Industry and Sector codes etc., will enable the bank to produce balance sheets and returns reflecting a co-ordinated and structured view of its operation, by directing business transactions to their appropriate place on the report.\nCategory codes in the range 01000 - 02999 have been predefined as 'Customer Current Accounts', only Accounts with Category codes in this range will be selected automatically by other modules within T24 (such as Securities) as default Accounts for receipt of funds etc. when no other Account is specified.\n4-5 numeric character Category code (Mandatory input)\nIt must be an existing code on the CATEGORY table. (ref: General Tables).\nFor Customer Accounts, it must be in the range 1000 to 9999.\nFor Internal Accounts, it must be in the range 10000 to 19999.\nThe Category Code of a NOSTRO account may only be changed to another NOSTRO category.\n",
+            "maxLength" : 15
+          },
+          "workingBalance" : {
+            "type" : "number"
+          },
+          "onlineActualBalance" : {
+            "type" : "number"
+          },
+          "availableBalance" : {
+            "type" : "number"
+          },
+          "clearedBalance" : {
+            "type" : "number"
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32"
+            },
+            "parse_time" : {
+              "type" : "integer",
+              "format" : "int32"
+            }
+          }
+        }
+      }
+    },
+    "getAccountBalanceErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/getAccountBalanceErrorResponseBody"
+        }
+      },
+      "description" : "getAccountBalanceErrorResponse"
+    },
+    "getAccountBalanceErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string"
+        },
+        "message" : {
+          "type" : "string"
+        },
+        "type" : {
+          "type" : "string"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,1237 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "API to Create , amend and retrieve the service profile elasticity features including upscaling and downscaling of processing agents, enabling dynamic provisioning and cleaning up inactive pods",
+    "version" : "v1.0.0",
+    "title" : "Service Elasticity"
+  },
+  "host" : "api.server.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "apiKey" : [ ]
+  } ],
+  "paths" : {
+    "/system/services/elasticity/servers/{serverId}/serviceCleanups" : {
+      "post" : {
+        "summary" : "Create cleanup instruction to initiate cleanup of downscaled servers",
+        "description" : "Create cleanup instruction for the particular server (pod) where services have been killed during downscaling phase",
+        "operationId" : "createServiceElasticCleanup",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "serverId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/ServiceElasticCleanup"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "ServiceElasticCleanupResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ServiceElasticCleanupResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/system/services/settings/{settingId}/elasticity" : {
+      "put" : {
+        "summary" : "Update dynamic provisioning for system deployed in cloud",
+        "description" : "Update dynamic provisioning for system deployed in cloud",
+        "operationId" : "amendServiceElasticParameter",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "settingId",
+          "in" : "path",
+          "description" : "Contains the particular parameter record setting identifier.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/ServiceElasticParameter"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "ServiceElasticParameterResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ServiceElasticParameterResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/system/services/workProfiles/{workProfileId}/elasticity" : {
+      "post" : {
+        "summary" : "Create number of agents for elastic scaling",
+        "description" : "Create number of agents for elastic scaling by inputting the queue details and minimum and maximum number of agents for elasticity",
+        "operationId" : "createServiceElasticProfile",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "workProfileId",
+          "in" : "path",
+          "description" : "Contains the reference to the record in service workload profiles for services.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/ServiceElasticProfile"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "ServiceElasticProfileResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ServiceElasticProfileResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Update number of agents for elastic scaling",
+        "description" : "Update number of agents for elastic scaling",
+        "operationId" : "amendServiceElasticProfile",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "workProfileId",
+          "in" : "path",
+          "description" : "Contains the reference to the record in service workload profiles for services.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/ServiceElasticProfile"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "ServiceElasticProfileResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ServiceElasticProfileResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/system/settings/{settingId}/deploymentModes" : {
+      "put" : {
+        "summary" : "Update the system deployment mode",
+        "description" : "Update the system deployment mode by enabling whether in cloud or Not",
+        "operationId" : "amendSystemParameterElastic",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "settingId",
+          "in" : "path",
+          "description" : "Contains the particular parameter record setting identifier.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/SystemParameterElastic"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "SystemParameterElasticResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemParameterElasticResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/system/metrics/elasticity/agents/itemCount" : {
+      "get" : {
+        "summary" : "Retrieves the total number of agents required for cloud deployment",
+        "description" : "Retrieves the total number of agents required for cloud deploymentment",
+        "operationId" : "getAgentElasticCheck",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "AgentElasticCheckResponse",
+            "schema" : {
+              "$ref" : "#/definitions/AgentElasticCheckResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/system/services/elasticity/agents" : {
+      "get" : {
+        "summary" : "Retrieves the agent details for active services in cloud deployment",
+        "description" : "Retrieves the agent details for active services in cloud deployment including minimum agents , maximum agents, total agents, service details , date and time of running agents etc",
+        "operationId" : "getAgentElasticCheckDetails",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "AgentElasticCheckDetailsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/AgentElasticCheckDetailsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "apiKey" : {
+      "type" : "apiKey",
+      "name" : "Authorization",
+      "in" : "header"
+    }
+  },
+  "definitions" : {
+    "PayloadHeader" : {
+      "properties" : {
+        "override" : {
+          "type" : "object",
+          "properties" : {
+            "overrideDetails" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "id" : {
+                    "type" : "string",
+                    "description" : "The identifier of the override"
+                  },
+                  "description" : {
+                    "type" : "string",
+                    "description" : "The actual override message"
+                  },
+                  "responseCode" : {
+                    "type" : "string",
+                    "description" : "The user input to accept/reject the override."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            }
+          }
+        }
+      }
+    },
+    "ServiceElasticCleanup" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ServiceElasticCleanupBody"
+        }
+      },
+      "description" : "ServiceElasticCleanup"
+    },
+    "ServiceElasticCleanupBody" : {
+      "type" : "object",
+      "properties" : {
+        "cleanupTime" : {
+          "type" : "string",
+          "description" : "Contains the time at which the pod is downscaled.",
+          "minLength" : 0,
+          "maxLength" : 11
+        }
+      }
+    },
+    "ScreenHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "uniqueIdentifier" : {
+          "type" : "string",
+          "description" : "The unique identifier/Message Reference of the record created."
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "ServiceElasticCleanupResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ServiceElasticCleanupResponseBody"
+        }
+      },
+      "description" : "ServiceElasticCleanupResponse"
+    },
+    "ServiceElasticCleanupResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "cleanupTime" : {
+          "type" : "string",
+          "description" : "Contains the time at which the pod is downscaled.",
+          "minLength" : 0,
+          "maxLength" : 11
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "uniqueIdentifier" : {
+          "type" : "string",
+          "description" : "The unique identifier/Message Reference of the record created."
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "overrideBody" : {
+      "properties" : {
+        "overrideDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "string",
+                "description" : "The identifier of the override"
+              },
+              "description" : {
+                "type" : "string",
+                "description" : "The actual override message"
+              },
+              "options" : {
+                "type" : "array",
+                "description" : "The usable options for the override",
+                "items" : {
+                  "type" : "string"
+                }
+              },
+              "type" : {
+                "type" : "string",
+                "description" : "The type of the override"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/ScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "ScreenErrorResponse"
+    },
+    "ScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message "
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "BusinessScreenErrorResponse"
+    },
+    "BusinessScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message for bad requests"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "SystemScreenErrorResponse"
+    },
+    "SystemScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message caused by server"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    },
+    "ServiceElasticParameter" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ServiceElasticParameterBody"
+        }
+      },
+      "description" : "ServiceElasticParameter"
+    },
+    "ServiceElasticParameterBody" : {
+      "type" : "object",
+      "properties" : {
+        "dynamicProvisioning" : {
+          "type" : "string",
+          "description" : "Contains the setting for elastic scaling e.g Yes or No. When set to Yes the dynamic upscaling and downscaling system feature is enabled.",
+          "minLength" : 0,
+          "maxLength" : 19
+        },
+        "queueJobs" : {
+          "type" : "string",
+          "description" : "Contains the setting for queue processing e.g ALL or particular job name. If set to ALL or a particular job name then the system will use the JMS queue processing otherwise system will use the standard job list processing feature.",
+          "minLength" : 0,
+          "maxLength" : 85
+        }
+      }
+    },
+    "ServiceElasticParameterResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ServiceElasticParameterResponseBody"
+        }
+      },
+      "description" : "ServiceElasticParameterResponse"
+    },
+    "ServiceElasticParameterResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "dynamicProvisioning" : {
+          "type" : "string",
+          "description" : "Contains the setting for elastic scaling e.g Yes or No. When set to Yes the dynamic upscaling and downscaling system feature is enabled.",
+          "minLength" : 0,
+          "maxLength" : 19
+        },
+        "queueJobs" : {
+          "type" : "string",
+          "description" : "Contains the setting for queue processing e.g ALL or particular job name. If set to ALL or a particular job name then the system will use the JMS queue processing otherwise system will use the standard job list processing feature.",
+          "minLength" : 0,
+          "maxLength" : 85
+        }
+      }
+    },
+    "ServiceElasticProfile" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ServiceElasticProfileBody"
+        }
+      },
+      "description" : "ServiceElasticProfile"
+    },
+    "ServiceElasticProfileBody" : {
+      "type" : "object",
+      "properties" : {
+        "elasticity" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "elasticDateTime" : {
+                "type" : "string",
+                "description" : "Contains the date and time for elastic profile of the service at which the upscaling and downscaling of the processing agents would take place. If blank then the default number of agents is used for the processing.",
+                "minLength" : 0,
+                "maxLength" : 18
+              },
+              "elasticQueueDepth" : {
+                "type" : "string",
+                "description" : "Contains the number of records for the elastic profile which controls the number of processing agents to be spawned or downscaled.",
+                "minLength" : 0,
+                "maxLength" : 18
+              },
+              "elasticJob" : {
+                "type" : "string",
+                "description" : "Contains the name of the job for which the elastic profile is enabled for upscaling and downscaling.",
+                "minLength" : 0,
+                "maxLength" : 25
+              },
+              "elasticMinimum" : {
+                "type" : "string",
+                "description" : "Contains minimum number of agents for elastic profile.",
+                "minLength" : 0,
+                "maxLength" : 14
+              },
+              "elasticMaximum" : {
+                "type" : "string",
+                "description" : "Contains maximum number of processing agents for elastic profile.",
+                "minLength" : 0,
+                "maxLength" : 14
+              },
+              "elasticTotal" : {
+                "type" : "string",
+                "description" : "Contains total number of processing agents for elastic profile.",
+                "minLength" : 0,
+                "maxLength" : 13
+              }
+            }
+          }
+        },
+        "displayName" : {
+          "type" : "string",
+          "description" : "Name used for display or enrichment purposes",
+          "minLength" : 0,
+          "maxLength" : 25
+        },
+        "startTime" : {
+          "type" : "string",
+          "description" : "The time job was started",
+          "minLength" : 0,
+          "maxLength" : 25
+        },
+        "agentsRequired" : {
+          "type" : "string",
+          "description" : "The number of agents required",
+          "minLength" : 0,
+          "maxLength" : 25
+        }
+      }
+    },
+    "ServiceElasticProfileResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ServiceElasticProfileResponseBody"
+        }
+      },
+      "description" : "ServiceElasticProfileResponse"
+    },
+    "ServiceElasticProfileResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "elasticity" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "elasticDateTime" : {
+                "type" : "string",
+                "description" : "Contains the date and time for elastic profile of the service at which the upscaling and downscaling of the processing agents would take place. If blank then the default number of agents is used for the processing.",
+                "minLength" : 0,
+                "maxLength" : 18
+              },
+              "elasticQueueDepth" : {
+                "type" : "string",
+                "description" : "Contains the number of records for the elastic profile which controls the number of processing agents to be spawned or downscaled.",
+                "minLength" : 0,
+                "maxLength" : 18
+              },
+              "elasticJob" : {
+                "type" : "string",
+                "description" : "Contains the name of the job for which the elastic profile is enabled for upscaling and downscaling.",
+                "minLength" : 0,
+                "maxLength" : 25
+              },
+              "elasticMinimum" : {
+                "type" : "string",
+                "description" : "Contains minimum number of agents for elastic profile.",
+                "minLength" : 0,
+                "maxLength" : 14
+              },
+              "elasticMaximum" : {
+                "type" : "string",
+                "description" : "Contains maximum number of processing agents for elastic profile.",
+                "minLength" : 0,
+                "maxLength" : 14
+              },
+              "elasticTotal" : {
+                "type" : "string",
+                "description" : "Contains total number of processing agents for elastic profile.",
+                "minLength" : 0,
+                "maxLength" : 13
+              }
+            }
+          }
+        },
+        "displayName" : {
+          "type" : "string",
+          "description" : "Name used for display or enrichment purposes",
+          "minLength" : 0,
+          "maxLength" : 25
+        },
+        "startTime" : {
+          "type" : "string",
+          "description" : "The time job was started",
+          "minLength" : 0,
+          "maxLength" : 25
+        },
+        "agentsRequired" : {
+          "type" : "string",
+          "description" : "The number of agents required",
+          "minLength" : 0,
+          "maxLength" : 25
+        }
+      }
+    },
+    "SystemParameterElastic" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/SystemParameterElasticBody"
+        }
+      },
+      "description" : "SystemParameterElastic"
+    },
+    "SystemParameterElasticBody" : {
+      "type" : "object",
+      "properties" : {
+        "deploymentMode" : {
+          "type" : "string",
+          "description" : "Indicates the deployment mode setting. For example CLOUD for cloud deployment, otherwise null.",
+          "minLength" : 0,
+          "maxLength" : 14
+        }
+      }
+    },
+    "SystemParameterElasticResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/SystemParameterElasticResponseBody"
+        }
+      },
+      "description" : "SystemParameterElasticResponse"
+    },
+    "SystemParameterElasticResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "deploymentMode" : {
+          "type" : "string",
+          "description" : "Indicates the deployment mode setting. For example CLOUD for cloud deployment, otherwise null.",
+          "minLength" : 0,
+          "maxLength" : 14
+        }
+      }
+    },
+    "QueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records per page"
+        },
+        "page_start" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The record from which the response should be displayed"
+        },
+        "total_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records present"
+        },
+        "page_token" : {
+          "type" : "string",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request"
+        }
+      }
+    },
+    "AgentElasticCheckResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/AgentElasticCheckResponseBody"
+        }
+      },
+      "description" : "AgentElasticCheckResponse"
+    },
+    "AgentElasticCheckResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "result" : {
+            "type" : "string",
+            "description" : "Contains the total number of agents currently required at a particular point of time.",
+            "maxLength" : 2
+          }
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessQueryErrorResponseBody"
+        }
+      },
+      "description" : "BusinessQueryErrorResponse"
+    },
+    "BusinessQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message for bad requests"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemQueryErrorResponseBody"
+        }
+      },
+      "description" : "SystemQueryErrorResponse"
+    },
+    "SystemQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message "
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message caused by server"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    },
+    "AgentElasticCheckDetailsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/AgentElasticCheckDetailsResponseBody"
+        }
+      },
+      "description" : "AgentElasticCheckDetailsResponse"
+    },
+    "AgentElasticCheckDetailsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "serviceId" : {
+            "type" : "string",
+            "description" : "Provides the id of the service that has to be run.",
+            "maxLength" : 70
+          },
+          "dateTime" : {
+            "type" : "string",
+            "format" : "date-time",
+            "description" : "Date and time separated by '-'"
+          },
+          "queueDepth" : {
+            "type" : "string",
+            "description" : "Contains the number of records to be processed for the particular job.",
+            "maxLength" : 70
+          },
+          "minimumAgent" : {
+            "type" : "number",
+            "description" : "Contains the minimum agents configured for the service.",
+            "maximum" : 70
+          },
+          "maximumAgent" : {
+            "type" : "number",
+            "description" : "Contains the maximum agent configured for the service.",
+            "maximum" : 70
+          },
+          "totalAgent" : {
+            "type" : "number",
+            "description" : "Contains the total number of agents for the service.",
+            "maximum" : 70
+          },
+          "runningAgent" : {
+            "type" : "number",
+            "description" : "Contains the number of agents currently running.",
+            "maximum" : 70
+          }
+        }
+      }
+    }
+  }
+}
