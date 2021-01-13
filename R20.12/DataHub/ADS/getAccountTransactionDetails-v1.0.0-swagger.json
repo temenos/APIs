@@ -1,0 +1,308 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Api to retrieve all transaction details per customer and account/contract, for a specific business date or for the current date",
+    "version" : "v1.0.0",
+    "title" : "Account Transaction details"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "https", "http" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/holdings/customers/metrics/transactions" : {
+      "get" : {
+        "summary" : "Retrieves all transaction details per customer and account/contract, for a specific business date or for the current date",
+        "operationId" : "getAccountTransactionDetails",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "useCurrentDate",
+          "in" : "query",
+          "description" : "Current Date flag for the Business date",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "businessDate",
+          "in" : "query",
+          "description" : "Business snapshot date of the source data",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Account Transaction detailsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getAccountTransactionDetailsResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "getAccountTransactionDetailsResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getAccountTransactionDetailsResponseBody"
+        }
+      },
+      "description" : "getAccountTransactionDetailsResponse"
+    },
+    "getAccountTransactionDetailsResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "accountTransaction" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "businessDate" : {
+                "type" : "string",
+                "description" : "Business snapshot date of the source data"
+              },
+              "transactionTime" : {
+                "type" : "string",
+                "description" : "Time stamp of the transaction"
+              },
+              "debitOrCredit" : {
+                "type" : "string",
+                "description" : "Identifies if the transaction is a Debit or a Credit"
+              },
+              "effectiveDate" : {
+                "type" : "string",
+                "description" : "Effective date of the transaction"
+              },
+              "foreignExchangeRate" : {
+                "type" : "string",
+                "description" : "The foreign exchange rate for the foreign currency the transaction was completed in if applicable"
+              },
+              "interestAmount" : {
+                "type" : "string",
+                "description" : "The interest portion of the transaction amount"
+              },
+              "isCustomerTransaction" : {
+                "type" : "string",
+                "description" : "Yes/No to indicate if the transaction relates to; or is initiated by a customer"
+              },
+              "principalAmount" : {
+                "type" : "string",
+                "description" : "The principal portion of the transaction amount"
+              },
+              "traceNumber" : {
+                "type" : "string",
+                "description" : "Transaction trace number; a unique reference number usually used for clearing or ATM/POS transactions"
+              },
+              "transacationAmount" : {
+                "type" : "string",
+                "description" : "Transaction amount"
+              },
+              "transacationChannel" : {
+                "type" : "string",
+                "description" : "Channel through which the transaction was processed. (ie. ATM; Branch; System)"
+              },
+              "transacationCurrency" : {
+                "type" : "string",
+                "description" : "The currency  the transaction was completed in"
+              },
+              "transacationDescription" : {
+                "type" : "string",
+                "description" : "The transaction narrative description (not transaction code)"
+              },
+              "transacationForeignCurrencyAmount" : {
+                "type" : "string",
+                "description" : "The transaction amount expressed in the foreign currency"
+              },
+              "transacationInitiation" : {
+                "type" : "string",
+                "description" : "Transaction initiation code"
+              },
+              "transactionCode" : {
+                "type" : "string",
+                "description" : "Transaction code used to post a transaction"
+              },
+              "transactionDate" : {
+                "type" : "string",
+                "description" : "Date stamp of the transacation"
+              },
+              "transactionNarrative" : {
+                "type" : "string",
+                "description" : "The comment field from the account transaction posting"
+              },
+              "transactionType" : {
+                "type" : "string",
+                "description" : "Additional classification for Transaction from Insight Master Data"
+              },
+              "transacationServiceCharge" : {
+                "type" : "string",
+                "description" : "Service Charge portion of transaction"
+              },
+              "cashFlowType" : {
+                "type" : "string",
+                "description" : "The type of the transaction with respect to the Customer's Cash Flow - Income; Expense or Neutral."
+              },
+              "transacationLabel" : {
+                "type" : "string",
+                "description" : "Transaction Label assigned by the Transaction Classification predictive model."
+              },
+              "isOutlier" : {
+                "type" : "string",
+                "description" : "Transaction Outlier flag assigned by the Transaction Outlier predictive model."
+              },
+              "transacationAmountGroup" : {
+                "type" : "string",
+                "description" : "Transaction amount group"
+              },
+              "company" : {
+                "type" : "string",
+                "description" : "The main company associated with the branch when this is a multi-company implementation"
+              },
+              "transactionBranchName" : {
+                "type" : "string",
+                "description" : "Branch Name where the transaction was posted"
+              },
+              "transactionBranchNumber" : {
+                "type" : "string",
+                "description" : "Branch Number where the transaction was posted"
+              },
+              "transacationEmployeeFullName" : {
+                "type" : "string",
+                "description" : "Full employee name associated with the Account Transaction"
+              },
+              "transactionEmployeeNumber" : {
+                "type" : "string",
+                "description" : "Employee number associated with the Account Transaction"
+              },
+              "transacationEmployeePosition" : {
+                "type" : "string",
+                "description" : "Position of the employee associated with the Account Transaction"
+              },
+              "transacationRegion" : {
+                "type" : "string",
+                "description" : "Region of the Branch associated with the Transaction"
+              }
+            }
+          }
+        },
+        "date" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "useCurrentDate" : {
+                "type" : "string",
+                "description" : "Current Date flag for the Business date"
+              }
+            }
+          }
+        },
+        "account" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "accountNumber" : {
+                "type" : "string",
+                "description" : "Account number of specific savings; chequing; term deposit; loan etc."
+              }
+            }
+          }
+        },
+        "customer" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "customerNumber" : {
+                "type" : "string",
+                "description" : "The customer number or customer identification number"
+              }
+            }
+          }
+        },
+        "contract" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "contractNumber" : {
+                "type" : "string",
+                "description" : "Contract number of specific savings; chequing; term deposit; loan, letter of credit, etc."
+              }
+            }
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    }
+  }
+}

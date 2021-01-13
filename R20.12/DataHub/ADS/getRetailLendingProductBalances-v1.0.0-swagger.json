@@ -1,0 +1,230 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Api to retrieve retail lending product balances and metrics such as counts for current date and new/closed accounts in the period",
+    "version" : "v1.0.0",
+    "title" : "Retail Lending Product balances"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/product/loans/metrics/balances" : {
+      "get" : {
+        "summary" : "Retrieves the retail lending product balances and counts",
+        "operationId" : "getRetailLendingProductBalances",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "useCurrentDate",
+          "in" : "query",
+          "description" : "Current Date flag for the Business date",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "businessDate",
+          "in" : "query",
+          "description" : "Business snapshot date of the source data",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "accountClass",
+          "in" : "query",
+          "description" : "Indicates if account is commercial; retail or other",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Retail Lending Product balancesResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getRetailLendingProductBalancesResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "getRetailLendingProductBalancesResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getRetailLendingProductBalancesResponseBody"
+        }
+      },
+      "description" : "getRetailLendingProductBalancesResponse"
+    },
+    "getRetailLendingProductBalancesResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "customerTransactionSummary" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "productLineDescription" : {
+                "type" : "string",
+                "description" : "Line description of the product"
+              },
+              "productGroupDescription" : {
+                "type" : "string",
+                "description" : "Description of product groups"
+              },
+              "productCategory" : {
+                "type" : "string",
+                "description" : "Category description for a product"
+              },
+              "accountClass" : {
+                "type" : "string",
+                "description" : "Indicates if account is commercial; retail or other"
+              },
+              "contractCount" : {
+                "type" : "string",
+                "description" : "Number of Contracts"
+              },
+              "contractsNewThisMonthCount" : {
+                "type" : "string",
+                "description" : "Number of Contracts New this Month"
+              },
+              "contractsClosedThisMonthCount" : {
+                "type" : "string",
+                "description" : "Number of Contracts Closed this Month"
+              },
+              "totalLcyPrincipalAmount" : {
+                "type" : "string",
+                "description" : "Total Principal Amount in local currency"
+              },
+              "averageLcyPrincipalAmount" : {
+                "type" : "string",
+                "description" : "Average Principal Amount in local currency"
+              },
+              "totalLcyDueAmount" : {
+                "type" : "string",
+                "description" : "Total Due Amount in local currency"
+              },
+              "averageLcyDueAmount" : {
+                "type" : "string",
+                "description" : "Average Total Due Amount in local currency"
+              },
+              "averageLcyAvailableFunds" : {
+                "type" : "string",
+                "description" : "Average amount in local currency of the contract's available funds"
+              },
+              "totalLcyAvailableFunds" : {
+                "type" : "string",
+                "description" : "Total amount in local currency of the contract's available funds"
+              },
+              "averageLcyAuthorizedFunds" : {
+                "type" : "string",
+                "description" : "Average amount in local currency of the contract's authorized funds"
+              },
+              "totalLcyAuthorizedFunds" : {
+                "type" : "string",
+                "description" : "Total amount in local currency of the contract's authorized funds"
+              },
+              "deliquentAccounts" : {
+                "type" : "string",
+                "description" : "Number of Delinquent Contracts/Accounts"
+              },
+              "averageDelinquentDays" : {
+                "type" : "string",
+                "description" : "Average number of days a�loan is delinquent"
+              },
+              "averageLcyDelinquentAmount" : {
+                "type" : "string",
+                "description" : "Average Delinquent Amount in local currency"
+              },
+              "totalLcyDelinquentAmount" : {
+                "type" : "string",
+                "description" : "Total Delinquent Amount in local currency"
+              },
+              "businessDate" : {
+                "type" : "string",
+                "description" : "Business snapshot date of the source data"
+              },
+              "useCurrentDate" : {
+                "type" : "string",
+                "description" : "Current Date flag for the Business date"
+              },
+              "averageInterestRate" : {
+                "type" : "string",
+                "description" : "Weighted Average Interest Rate"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    }
+  }
+}

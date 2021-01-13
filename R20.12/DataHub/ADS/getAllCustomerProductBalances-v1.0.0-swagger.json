@@ -1,0 +1,204 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Api to retrieve customer product balances in local currency and 30 Day average and minimum/maximum balances. This also provides counts of opened/closed accounts and can be used to analyse the product portfolio by customer",
+    "version" : "v1.0.0",
+    "title" : "Customer Product balances"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "https", "http" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/holdings/customers/metrics/balances" : {
+      "get" : {
+        "summary" : "Retrieves customer product balances in local currency and can be filtered for a configurable date range or defaulted to current date",
+        "operationId" : "getAllCustomerProductBalances",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "businessDate",
+          "in" : "query",
+          "description" : "Business snapshot date of the source data",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "useCurrentDate",
+          "in" : "query",
+          "description" : "Current Date flag for the Business date",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Customer Product balancesResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getAllCustomerProductBalancesResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "getAllCustomerProductBalancesResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getAllCustomerProductBalancesResponseBody"
+        }
+      },
+      "description" : "getAllCustomerProductBalancesResponse"
+    },
+    "getAllCustomerProductBalancesResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "customerProductSummary" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "ageGroup" : {
+                "type" : "string",
+                "description" : "Age Group"
+              },
+              "customerType" : {
+                "type" : "string",
+                "description" : "A classification for the customer usually originating from the banking system"
+              },
+              "customerBranchName" : {
+                "type" : "string",
+                "description" : "Branch Name where Contract was created"
+              },
+              "productLineDescription" : {
+                "type" : "string",
+                "description" : "Line description of the product"
+              },
+              "productGroupDescription" : {
+                "type" : "string",
+                "description" : "Description of product groups"
+              },
+              "productDescription" : {
+                "type" : "string",
+                "description" : "The description of the product based on the product code"
+              },
+              "productCategory" : {
+                "type" : "string",
+                "description" : "Category description for a product"
+              },
+              "businessDate" : {
+                "type" : "string",
+                "description" : "Business snapshot date of the source data"
+              },
+              "productLcyBalance" : {
+                "type" : "string",
+                "description" : "Total Balance in local currency of all Products"
+              },
+              "productLcyBalance30DayAvg" : {
+                "type" : "string",
+                "description" : "Average Balance in local currency of all Products in the last 30 days"
+              },
+              "productLcyBalance30DayMin" : {
+                "type" : "string",
+                "description" : "Min Balance in local currency of all Products in the last 30 days"
+              },
+              "productLcyBalance30DayMax" : {
+                "type" : "string",
+                "description" : "Max Balance in local currency of all Products in the last 30 days"
+              },
+              "contractCount" : {
+                "type" : "string",
+                "description" : "Number of Contracts"
+              },
+              "contractsNewThisMonthCount" : {
+                "type" : "string",
+                "description" : "Number of Contracts New this Month"
+              },
+              "contractsClosedThisMonthCount" : {
+                "type" : "string",
+                "description" : "Number of Contracts Closed this Month"
+              },
+              "customerNumber" : {
+                "type" : "string",
+                "description" : "The customer number or customer identification number"
+              },
+              "useCurrentDate" : {
+                "type" : "string",
+                "description" : "Current Date flag for the Business date"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    }
+  }
+}

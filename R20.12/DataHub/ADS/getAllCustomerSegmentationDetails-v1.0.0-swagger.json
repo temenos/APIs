@@ -1,0 +1,204 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Api to retrieve a list of customers with associated segmentation categories for customer demographic and sectoral analysis",
+    "version" : "v1.0.0",
+    "title" : "Customer Segmentation details"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "https", "http" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/party/customers/metrics/segmentation" : {
+      "get" : {
+        "summary" : "Retrieves a list of customers including segmentation categories. Default filter to current banking date",
+        "operationId" : "getAllCustomerSegmentationDetails",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "businessDate",
+          "in" : "query",
+          "description" : "Business snapshot date of the source data",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "useCurrentDate",
+          "in" : "query",
+          "description" : "Current Date flag for the Business date",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Customer Segmentation detailsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getAllCustomerSegmentationDetailsResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "getAllCustomerSegmentationDetailsResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getAllCustomerSegmentationDetailsResponseBody"
+        }
+      },
+      "description" : "getAllCustomerSegmentationDetailsResponse"
+    },
+    "getAllCustomerSegmentationDetailsResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "customer" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "businessDate" : {
+                "type" : "string",
+                "description" : "Business snapshot date of the source data"
+              },
+              "customerBranchNumber" : {
+                "type" : "string",
+                "description" : "Branch Number"
+              },
+              "age" : {
+                "type" : "string",
+                "description" : "The age of the customer in years"
+              },
+              "ageGroup" : {
+                "type" : "string",
+                "description" : "Age Group"
+              },
+              "customerClosedThisMonth" : {
+                "type" : "string",
+                "description" : "A Yes/No flag indicating if the customer has been closed within a month of the business date"
+              },
+              "customerNewThisMonth" : {
+                "type" : "string",
+                "description" : "A Yes/No flag indication if the customer has been opened within a month of the business date"
+              },
+              "customerClass" : {
+                "type" : "string",
+                "description" : "The classification for the member either retail or commercial"
+              },
+              "customerIndustry" : {
+                "type" : "string",
+                "description" : "Customer's principal business Industry code"
+              },
+              "customerSector" : {
+                "type" : "string",
+                "description" : "The code or description?for the grouping of customers by business sector"
+              },
+              "customerStartDate" : {
+                "type" : "string",
+                "description" : "Date Customer started with the FI (customer opened date)"
+              },
+              "gender" : {
+                "type" : "string",
+                "description" : "Customer's gender"
+              },
+              "maritalStatus" : {
+                "type" : "string",
+                "description" : "Marital status of the customer such as single; married; divorced; separated"
+              },
+              "affluentSegment" : {
+                "type" : "string",
+                "description" : "The affluent bucket of total balance to identify customer segment"
+              },
+              "occupation" : {
+                "type" : "string",
+                "description" : "The working occupation of the customer."
+              },
+              "generation" : {
+                "type" : "string",
+                "description" : "The generation gap to identify the suitable product for the group of customers"
+              },
+              "isSME" : {
+                "type" : "string",
+                "description" : "Indicates if the customer is small/medium/enterprise corporate (yes/no))"
+              },
+              "customerNumber" : {
+                "type" : "string",
+                "description" : "The customer number or customer identification number"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    }
+  }
+}

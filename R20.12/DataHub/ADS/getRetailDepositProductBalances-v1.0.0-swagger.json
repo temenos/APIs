@@ -1,0 +1,216 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Api to retrieve retail deposit balance metrics such as counts for current date and new/closed accounts in the period",
+    "version" : "v1.0.0",
+    "title" : "Retail Deposit Product balances"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/product/deposits/metrics/balances" : {
+      "get" : {
+        "summary" : "Retrieves the retail deposit balances and counts",
+        "operationId" : "getRetailDepositProductBalances",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "useCurrentDate",
+          "in" : "query",
+          "description" : "Current Date flag for the Business date",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "businessDate",
+          "in" : "query",
+          "description" : "Business snapshot date of the source data",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Retail Deposit Product balancesResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getRetailDepositProductBalancesResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "getRetailDepositProductBalancesResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getRetailDepositProductBalancesResponseBody"
+        }
+      },
+      "description" : "getRetailDepositProductBalancesResponse"
+    },
+    "getRetailDepositProductBalancesResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "depositProductsSummary" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "productLineDescription" : {
+                "type" : "string",
+                "description" : "Line description of the product"
+              },
+              "productGroupDescription" : {
+                "type" : "string",
+                "description" : "Description of product groups"
+              },
+              "productCategory" : {
+                "type" : "string",
+                "description" : "Category description for a product"
+              },
+              "accountClass" : {
+                "type" : "string",
+                "description" : "Indicates if account is commercial; retail or other"
+              },
+              "totalLcyBalance" : {
+                "type" : "string",
+                "description" : "Total Balance in local currency"
+              },
+              "contractCount" : {
+                "type" : "string",
+                "description" : "Number of Contracts"
+              },
+              "contractsNewThisMonthCount" : {
+                "type" : "string",
+                "description" : "Number of Contracts New this Month"
+              },
+              "contractsClosedThisMonthCount" : {
+                "type" : "string",
+                "description" : "Number of Contracts Closed this Month"
+              },
+              "averageLcyBalance30Days" : {
+                "type" : "string",
+                "description" : "Average Balance in local currency in the last 30 Days"
+              },
+              "minimumLcyBalance30Days" : {
+                "type" : "string",
+                "description" : "Min Balance in local currency in the last 30 Days"
+              },
+              "maximumLcyBalance30Days" : {
+                "type" : "string",
+                "description" : "Max Balance in local currency in the last 30 Days"
+              },
+              "averageTermToMaturity" : {
+                "type" : "string",
+                "description" : "Average value of the remaining term to the maturity date of the product."
+              },
+              "contractsMaturing30Days" : {
+                "type" : "string",
+                "description" : "Number of Contracts Maturing within 30 days"
+              },
+              "overdrawnContractsCount" : {
+                "type" : "string",
+                "description" : "Number of contracts that are overdrawn"
+              },
+              "totalLcyHoldsAmount" : {
+                "type" : "string",
+                "description" : "Total Holds Amount in local currency"
+              },
+              "averageLcyHoldsAmount" : {
+                "type" : "string",
+                "description" : "Average Total Holds Amount in local currency"
+              },
+              "businessDate" : {
+                "type" : "string",
+                "description" : "Business snapshot date of the source data"
+              },
+              "averageLcyOverdrawnAmount" : {
+                "type" : "string",
+                "description" : "Average Overdrawn Amount in local currency"
+              },
+              "totalLcyOverdrawnAmount" : {
+                "type" : "string",
+                "description" : "Total Overdrawn Amount in local currency"
+              },
+              "useCurrentDate" : {
+                "type" : "string",
+                "description" : "Current Date flag for the Business date"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    }
+  }
+}

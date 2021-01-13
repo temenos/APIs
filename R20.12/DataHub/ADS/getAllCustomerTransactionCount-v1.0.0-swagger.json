@@ -1,0 +1,158 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Api to retrieve the summary statistics by customer for all transactions with the transaction count and classifications",
+    "version" : "v1.0.0",
+    "title" : "Customer Transaction classifications"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/holdings/customers/metrics/transactions/itemCount" : {
+      "get" : {
+        "summary" : "Retrieves the summary statistics for all customer transactions for a particular date or date range",
+        "operationId" : "getAllCustomerTransactionCount",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "businessDate",
+          "in" : "query",
+          "description" : "Business snapshot date of the source data",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Customer Transaction classificationsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getAllCustomerTransactionCountResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "getAllCustomerTransactionCountResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getAllCustomerTransactionCountResponseBody"
+        }
+      },
+      "description" : "getAllCustomerTransactionCountResponse"
+    },
+    "getAllCustomerTransactionCountResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "customerTransactionSummary" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "totalPrincipalAmount" : {
+                "type" : "string",
+                "description" : "Total Principal Amount in local currency of the transactions"
+              },
+              "transactionCount" : {
+                "type" : "string",
+                "description" : "Number of Transactions"
+              },
+              "transacationLabel" : {
+                "type" : "string",
+                "description" : "Transaction Label assigned by the Transaction Classification predictive model."
+              },
+              "customerNumber" : {
+                "type" : "string",
+                "description" : "The customer number or customer identification number"
+              },
+              "ageGroup" : {
+                "type" : "string",
+                "description" : "Age Group"
+              },
+              "customerType" : {
+                "type" : "string",
+                "description" : "A classification for the customer usually originating from the banking system"
+              },
+              "businessDate" : {
+                "type" : "string",
+                "description" : "Business snapshot date of the source data"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    }
+  }
+}

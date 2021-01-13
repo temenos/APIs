@@ -1,0 +1,550 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Api to retrieve Loan accounts/contracts details with customer information for loans delinquent for more than 30 days for a specific business date or for the current date",
+    "version" : "v1.0.0",
+    "title" : "Customer Loan delinquency"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/holdings/loans/metrics/deliquencies" : {
+      "get" : {
+        "summary" : "Retrieves Loan accounts/contracts details with customer information for loans delinquent for more than 30 days for a specific business date or for the current date",
+        "operationId" : "getCustomerLoanDelinquency30Days",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "businessDate",
+          "in" : "query",
+          "description" : "Business snapshot date of the source data",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "useCurrentDate",
+          "in" : "query",
+          "description" : "Current Date flag for the Business date",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "delinquentDays",
+          "in" : "query",
+          "description" : "Number of Days a loan is delinquent",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Customer Loan delinquencyResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getCustomerLoanDelinquency30DaysResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "getCustomerLoanDelinquency30DaysResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getCustomerLoanDelinquency30DaysResponseBody"
+        }
+      },
+      "description" : "getCustomerLoanDelinquency30DaysResponse"
+    },
+    "getCustomerLoanDelinquency30DaysResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "lendingCustomerAccountDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "accountClass" : {
+                "type" : "string",
+                "description" : "Indicates if account is commercial; retail or other"
+              },
+              "affluentSegment" : {
+                "type" : "string",
+                "description" : "The affluent bucket of total balance to identify customer segment"
+              },
+              "ageGroup" : {
+                "type" : "string",
+                "description" : "Age Group"
+              },
+              "amortizationMatureDate" : {
+                "type" : "string",
+                "description" : "The amortization maturity date."
+              },
+              "authorizedAmount" : {
+                "type" : "string",
+                "description" : "Authorized amount (approved credit limit of the loan; mortgage or LOC)"
+              },
+              "lcyAuthorizedAmount" : {
+                "type" : "string",
+                "description" : "Authorized amount in local currency (approved credit limit of the loan; mortgage or LOC)"
+              },
+              "balance" : {
+                "type" : "string",
+                "description" : "Current balance of the account in reporting currency."
+              },
+              "balanceGroup" : {
+                "type" : "string",
+                "description" : "Groups based on balance"
+              },
+              "lcyBalance" : {
+                "type" : "string",
+                "description" : "Current balance in local currency of the contract"
+              },
+              "brokerName" : {
+                "type" : "string",
+                "description" : "The name of the broker for the contract if applicable"
+              },
+              "businessDate" : {
+                "type" : "string",
+                "description" : "Business snapshot date of the source data"
+              },
+              "closedDate" : {
+                "type" : "string",
+                "description" : "Date the contract was closed"
+              },
+              "contractBranchKey" : {
+                "type" : "string",
+                "description" : "Identifier field with no business meaning - Foreign key linking to Contract to Branch"
+              },
+              "contractBranchName" : {
+                "type" : "string",
+                "description" : "Branch name where Contract was created"
+              },
+              "contractBranchNumber" : {
+                "type" : "string",
+                "description" : "Branch Number"
+              },
+              "contractDelinquencyDayGroup" : {
+                "type" : "string",
+                "description" : "Grouping for delinquency days: 'N/A', '1-29 days', '30-89 days', '90-179 days', '180-364 days', '365-999 days', '1000+ days'"
+              },
+              "contractEmployeeFullName" : {
+                "type" : "string",
+                "description" : "Full name of the employee associated with the Contract"
+              },
+              "contractEmployeeKey" : {
+                "type" : "string",
+                "description" : "Identifier field with no business meaning - Foreign key linking to Contract to Employee"
+              },
+              "contractEmployeeNumber" : {
+                "type" : "string",
+                "description" : "Employee number of the employee associated with the Contract"
+              },
+              "contractNumber" : {
+                "type" : "string",
+                "description" : "Contract number of specific savings; chequing; term deposit; loan, letter of credit, etc."
+              },
+              "contractRegion" : {
+                "type" : "string",
+                "description" : "Region of the branch associated with the Contract"
+              },
+              "contractStatus" : {
+                "type" : "string",
+                "description" : "The status of the Contract. i.e Active, Closed, Dormant, Inactive etc"
+              },
+              "currency" : {
+                "type" : "string",
+                "description" : "The currency type for the contract.  Typically the standard ISO 3 character country code such as CAD; USD; EUR."
+              },
+              "useCurrentDate" : {
+                "type" : "string",
+                "description" : "Current Date flag for the Business date"
+              },
+              "customerClosedThisMonth" : {
+                "type" : "string",
+                "description" : "A Yes/No flag indicating if the customer has been closed within a month of the business date"
+              },
+              "customerNewThisMonth" : {
+                "type" : "string",
+                "description" : "A Yes/No flag indication if the customer has been opened within a month of the business date"
+              },
+              "customerClass" : {
+                "type" : "string",
+                "description" : "The classification for the member either retail or commercial"
+              },
+              "customerNumber" : {
+                "type" : "string",
+                "description" : "The customer number or customer identification number"
+              },
+              "customerStartDate" : {
+                "type" : "string",
+                "description" : "Date Customer started with�the FI�(customer opened date)"
+              },
+              "delinquentAmount" : {
+                "type" : "string",
+                "description" : "The amount that is past due on the loan contract. Immediate payment of this amount is required to put the loan in good standing"
+              },
+              "delinquentAmountLcy" : {
+                "type" : "string",
+                "description" : "The amount in local currency that is past due on the loan contract. Immediate payment of this amount is required to put the loan in good standing"
+              },
+              "delinquentDays" : {
+                "type" : "string",
+                "description" : "Number of Days a loan is delinquent"
+              },
+              "delinquencyDayGroup" : {
+                "type" : "string",
+                "description" : "Grouping for delinquency days: 'N/A', '1-29 days', '30-89 days', '90-179 days', '180-364 days', '365-999 days', '1000+ days'"
+              },
+              "disburseDate" : {
+                "type" : "string",
+                "description" : "The date that loan has been disbursed/funded. If more than 1 disbursal; this will be the last disbursal date"
+              },
+              "drawdownAccount" : {
+                "type" : "string",
+                "description" : "Drawdown Account"
+              },
+              "extenalRiskCode" : {
+                "type" : "string",
+                "description" : "The external risk rating code for the account.  This is typically used for reporting to external regulators."
+              },
+              "externalRiskDescription" : {
+                "type" : "string",
+                "description" : "The description for the external risk rating code"
+              },
+              "fixedOrVariable" : {
+                "type" : "string",
+                "description" : "Indicates if contract interest rate is fixed or variable"
+              },
+              "gender" : {
+                "type" : "string",
+                "description" : "Customer's gender"
+              },
+              "generation" : {
+                "type" : "string",
+                "description" : "The generation gap to identify the suitable product for the group of customers"
+              },
+              "interestAccrued" : {
+                "type" : "string",
+                "description" : "Contract interest; not paid"
+              },
+              "interestAccruedLcy" : {
+                "type" : "string",
+                "description" : "Contract interest in local currency; not paid"
+              },
+              "interestPaidFreq" : {
+                "type" : "string",
+                "description" : "Interest paid  frequency. Determines when interest is paid to the contract. Entry provides information indicating appropriate frequency.   Ex: Monthend; SemiAnn"
+              },
+              "interestRate" : {
+                "type" : "string",
+                "description" : "The interest rate for the contract"
+              },
+              "interestRateGroup" : {
+                "type" : "string",
+                "description" : "Groups based on account�interest rate�- '0' -.50%; .50 - 1.00%; 1% - 3% etc."
+              },
+              "interestRateIndex" : {
+                "type" : "string",
+                "description" : "Interest rate index Ex:Prime + 1.00. Usually configured on the banking system at the product level; defines the rate."
+              },
+              "interestRateType" : {
+                "type" : "string",
+                "description" : "Interest Rate Type."
+              },
+              "interestRateTypeDescription" : {
+                "type" : "string",
+                "description" : "Interest Rate Type Description - LD loans and deps."
+              },
+              "interestRateVariance" : {
+                "type" : "string",
+                "description" : "The contract interest rate variance. Eg. Prime -.50. -.50 is the variance."
+              },
+              "interpolate" : {
+                "type" : "string",
+                "description" : "BL Bill Interpolate"
+              },
+              "interestIncomeOrExpense" : {
+                "type" : "string",
+                "description" : "Daily interest for an contract on the business date; based on the balance and the rate. Negative if it's a demand contract; positive if it's a loan contract."
+              },
+              "interestIncomeOrExpenseLcy" : {
+                "type" : "string",
+                "description" : "Daily interest in local currency for an contract on the business date; based on the balance and the rate. Negative if it's a demand contract; positive if it's a loan contract."
+              },
+              "isClosedThisMonth" : {
+                "type" : "string",
+                "description" : "Yes/No flag indicating if the account was closed less than a month before the business date"
+              },
+              "isClosedToday" : {
+                "type" : "string",
+                "description" : "Yes/No flag indicating if the account was closed on the business date"
+              },
+              "isNewThisMonth" : {
+                "type" : "string",
+                "description" : "A Yes/No flag indicating if the account has been opened less than one month before the business date"
+              },
+              "isNewToday" : {
+                "type" : "string",
+                "description" : "A Yes/No flag indicating if the account has been opened on the business date"
+              },
+              "isSME" : {
+                "type" : "string",
+                "description" : "Indicates if the customer is small/medium/enterprise corporate (yes/no))"
+              },
+              "liquidationMode" : {
+                "type" : "string",
+                "description" : "BL BILL Liquidation Mode"
+              },
+              "loanCode" : {
+                "type" : "string",
+                "description" : "A user defined code used to classify loans into specific descriptive categories for analysis"
+              },
+              "loanDescription" : {
+                "type" : "string",
+                "description" : "The text description of the loan code"
+              },
+              "loanToValue" : {
+                "type" : "string",
+                "description" : "Loan To Value"
+              },
+              "maritalStatus" : {
+                "type" : "string",
+                "description" : "Marital status of the customer such as single; married; divorced; separated"
+              },
+              "maturityDate" : {
+                "type" : "string",
+                "description" : "Date the loan or term account will mature"
+              },
+              "occupation" : {
+                "type" : "string",
+                "description" : "The working occupation of the customer."
+              },
+              "originalStartDate" : {
+                "type" : "string",
+                "description" : "The original start date or open date of the contract for contracts that have been renewed"
+              },
+              "overdrawnAmount" : {
+                "type" : "string",
+                "description" : "The amount the account is overdrawn"
+              },
+              "overdrawnAmountLcy" : {
+                "type" : "string",
+                "description" : "The amount the account is overdrawn in local currency"
+              },
+              "paymentFrequency" : {
+                "type" : "string",
+                "description" : "The frequency that the payment should be made on the loan contract"
+              },
+              "primaryCollateralCode" : {
+                "type" : "string",
+                "description" : "Primary collateral code for the loan account"
+              },
+              "primaryCollateralDescription" : {
+                "type" : "string",
+                "description" : "Primary collateral code for the loan account"
+              },
+              "productGroupCode" : {
+                "type" : "string",
+                "description" : "Grouping of product codes"
+              },
+              "productGroupDescription" : {
+                "type" : "string",
+                "description" : "Description of product groups"
+              },
+              "productGroupType" : {
+                "type" : "string",
+                "description" : "Grouping of product types"
+              },
+              "productLineCode" : {
+                "type" : "string",
+                "description" : "Line code of the product"
+              },
+              "productLineDescription" : {
+                "type" : "string",
+                "description" : "Line description of the product"
+              },
+              "productCode" : {
+                "type" : "string",
+                "description" : "The code used to identify the type of product the account represents.  This  code is the base for classifying products into  classifications; categories; groups and classes."
+              },
+              "productDescription" : {
+                "type" : "string",
+                "description" : "The description of the product based on the product code"
+              },
+              "productType" : {
+                "type" : "string",
+                "description" : "A classification field for product which is typically less granular than product code"
+              },
+              "purposeCode" : {
+                "type" : "string",
+                "description" : "Purpose code (usually a numeric value) on the loan contract; also know as purpose for borrowing."
+              },
+              "purposeDescription" : {
+                "type" : "string",
+                "description" : "A text description of the Purpose Code."
+              },
+              "reasonClosed" : {
+                "type" : "string",
+                "description" : "ReasonClosed"
+              },
+              "reviewDate" : {
+                "type" : "string",
+                "description" : "contract next review date; usually used for Lines of Credit"
+              },
+              "riskCode" : {
+                "type" : "string",
+                "description" : "Code used to assign risk level to an account - FI defined"
+              },
+              "riskDescription" : {
+                "type" : "string",
+                "description" : "Text description for Risk Rating Code."
+              },
+              "schedulePaymentAmount" : {
+                "type" : "string",
+                "description" : "Scheduled Payment Amount"
+              },
+              "schedulePaymentAmountLcy" : {
+                "type" : "string",
+                "description" : "Scheduled Payment Amount in local currency"
+              },
+              "standardizedTerm" : {
+                "type" : "string",
+                "description" : "The term length of the product calculated in standard months. i.e. 12; 24; 36 ....60.  If the term length is not a standard number; this value is rounded to the nearest standard term. For example a 13 month term is rounded to 12 months."
+              },
+              "startDate" : {
+                "type" : "string",
+                "description" : "Date the contract was opened"
+              },
+              "statementDescription" : {
+                "type" : "string",
+                "description" : "Text description of the account that is printed on statements. i.e Vacation Account"
+              },
+              "term" : {
+                "type" : "string",
+                "description" : "Term Length (0;1;3;6;9;12;18;24;36;48;60;84) could be months; days; years - see term unit."
+              },
+              "termInMonths" : {
+                "type" : "string",
+                "description" : "Term length converted to months. Calculated based on term and term Unit"
+              },
+              "termToMaturity" : {
+                "type" : "string",
+                "description" : "The integer value of the remaining term to the maturity date of the product."
+              },
+              "termToMaturityGroup" : {
+                "type" : "string",
+                "description" : "The groups or bucketing for term to maturity"
+              },
+              "termUnit" : {
+                "type" : "string",
+                "description" : "Unit of term length (days; months; years)"
+              },
+              "totalBalance" : {
+                "type" : "string",
+                "description" : "The sum of all deposit and loan balances"
+              },
+              "totalBalanceLcy" : {
+                "type" : "string",
+                "description" : "Total Balance Amount in local currency)"
+              },
+              "totalCharges" : {
+                "type" : "string",
+                "description" : "Amount that is charged for operation by customer"
+              },
+              "totalChargesLcy" : {
+                "type" : "string",
+                "description" : "Amount in local currency that is charged for operation by customer"
+              },
+              "totalDue" : {
+                "type" : "string",
+                "description" : "Total Due Amount"
+              },
+              "totalDueLcy" : {
+                "type" : "string",
+                "description" : "Total Due Amount in local currency"
+              },
+              "unspecifiedAmount" : {
+                "type" : "string",
+                "description" : "Unspecified Amount"
+              },
+              "unspecifiedAmountLcy" : {
+                "type" : "string",
+                "description" : "Unspecified Amount in local currency"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    }
+  }
+}
