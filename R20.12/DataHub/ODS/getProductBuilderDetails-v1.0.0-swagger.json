@@ -1,0 +1,313 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "API to retrieve the list of available Product builder details",
+    "version" : "v1.0.0",
+    "title" : "Product Builder"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/product/properties/" : {
+      "get" : {
+        "summary" : "Retrieves the product builder project details such as Id, description, detailed description, property class, property type",
+        "operationId" : "getProperties",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "getPropertiesResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getPropertiesResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/product/productBuilder/projects" : {
+      "get" : {
+        "summary" : "Retrieves the record details created in a project using AA Product Builder. The details such as description of the project, USER who created the project are retrieved. ",
+        "operationId" : "getProjects",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "recordId",
+          "in" : "query",
+          "description" : "Unique identifier of an entity",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "displayName",
+          "in" : "query",
+          "description" : "Contains the name used for display or enrichment purposes",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "user",
+          "in" : "query",
+          "description" : "Describes the USER who created the project",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "getProjectsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getProjectsResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/product/productBuilder/productConditions" : {
+      "get" : {
+        "summary" : "Retrieves the list of available Product Conditions",
+        "operationId" : "getProductConditions",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "recordId",
+          "in" : "query",
+          "description" : "Unique identifier of an entity",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "displayName",
+          "in" : "query",
+          "description" : "Contains the name used for display or enrichment purposes",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "getProductConditionsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getProductConditionsResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "getPropertiesResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getPropertiesResponseBody"
+        }
+      },
+      "description" : "getPropertiesResponse"
+    },
+    "getPropertiesResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "aaProperty" : {
+          "type" : "array",
+          "description" : "Holds the Property definition",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "recordId" : {
+                "type" : "string",
+                "description" : "Unique identifier of an entity"
+              },
+              "language" : {
+                "type" : "object",
+                "description" : "Language specific fields will be displayed under this entity",
+                "properties" : {
+                  "displayName" : {
+                    "type" : "string",
+                    "description" : "Contains the name used for display or enrichment purposes"
+                  }
+                }
+              },
+              "displayName" : {
+                "type" : "object",
+                "description" : "Contains the name used for display or enrichment purposes",
+                "properties" : {
+                  "fullDescription" : {
+                    "type" : "string",
+                    "description" : "Contains the name used for display or enrichment purposes"
+                  }
+                }
+              },
+              "propertyType" : {
+                "type" : "object",
+                "description" : "Values selected to determine action on condition e.g. accounting rules only changed at product level. Standard set of values to select from.",
+                "properties" : {
+                  "propertyType" : {
+                    "type" : "string",
+                    "description" : "Values selected to determine action on condition e.g. accounting rules only changed at product level. Standard set of values to select from."
+                  }
+                }
+              },
+              "propertyClass" : {
+                "type" : "string",
+                "description" : "Condition that is used to build a product"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "getProjectsResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getProjectsResponseBody"
+        }
+      },
+      "description" : "getProjectsResponse"
+    },
+    "getProjectsResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "projectManager" : {
+          "type" : "array",
+          "description" : "Holds the records which are create using AA product builder",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "recordId" : {
+                "type" : "string",
+                "description" : "Unique identifier of an entity"
+              },
+              "language" : {
+                "type" : "object",
+                "description" : "Language specific fields will be displayed under this entity",
+                "properties" : {
+                  "displayName" : {
+                    "type" : "string",
+                    "description" : "Contains the name used for display or enrichment purposes"
+                  }
+                }
+              },
+              "claimStatus" : {
+                "type" : "string",
+                "description" : "Status update of the claim records"
+              }
+            }
+          }
+        }
+      }
+    },
+    "getProductConditionsResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getProductConditionsResponseBody"
+        }
+      },
+      "description" : "getProductConditionsResponse"
+    },
+    "getProductConditionsResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "productCondition" : {
+          "type" : "array",
+          "description" : "allows to add description and group the product conditions",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "recordId" : {
+                "type" : "string",
+                "description" : "Unique identifier of an entity"
+              },
+              "language" : {
+                "type" : "object",
+                "description" : "Language specific fields will be displayed under this entity",
+                "properties" : {
+                  "displayName" : {
+                    "type" : "string",
+                    "description" : "Contains the name used for display or enrichment purposes"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

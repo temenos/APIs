@@ -1,0 +1,144 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "API to retrieve the list of Beneficiary Role type definitions and the information that is mandatory for the role definition",
+    "version" : "v1.0.0",
+    "title" : "US model bank  beneficiary roles"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/reference/us/beneficialOwnerTypes" : {
+      "get" : {
+        "summary" : "Retrieves the list of Beneficiary Role type definitions and the information that is mandatory for the role definition",
+        "operationId" : "getBeneficialOwnerRules",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "getBeneficialOwnerRulesResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getBeneficialOwnerRulesResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "getBeneficialOwnerRulesResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getBeneficialOwnerRulesResponseBody"
+        }
+      },
+      "description" : "getBeneficialOwnerRulesResponse"
+    },
+    "getBeneficialOwnerRulesResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "finExemptControlParam" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "recordId" : {
+                "type" : "string",
+                "description" : "Unique identifier of an entity"
+              },
+              "ownershipRuleId" : {
+                "type" : "string",
+                "description" : "Capture the rule id that defines the Beneficial ownership information required for the Customer. The rule will be defined in the system based on the customer type and determines which of the beneficiary rule information like ownership, control person and certifier details are mandatory for a corporate customer type or group."
+              },
+              "ownershipProng" : {
+                "type" : "string",
+                "description" : "Based on the type of corporate, FinCen regulation requires ownership, control prong and certifier information are collected for customer before opening an account. Indicates if the corporate customer requires liability information along with ownership information"
+              },
+              "controlProng" : {
+                "type" : "string",
+                "description" : "Indicates if the corporate customer requires information on person who controls the corporate and will operate the corporate accounts when opened."
+              },
+              "certificationInfo" : {
+                "type" : "string",
+                "description" : "Certifier of the ownership information for beneficiary customer Rules for corporate customer"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,171 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "API to retrieve the details of all holds placed on an account ",
+    "version" : "v1.0.0",
+    "title" : "US Model Bank  Cash transaction"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "https", "http" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/order/us/payment/accounts/{accountId}/holdSummary" : {
+      "get" : {
+        "summary" : "Retrieves the details of all holds placed on an account ",
+        "operationId" : "getAccountHoldDetails",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "accountId",
+          "in" : "path",
+          "description" : "Identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId. Accepts both IBAN & BBAN",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "fromDate",
+          "in" : "query",
+          "description" : "Indicates the business date from when the balance reservation event is active.",
+          "required" : false,
+          "type" : "string",
+          "format" : "date"
+        }, {
+          "name" : "holdTypeId",
+          "in" : "query",
+          "description" : "Purpose or the type of hold placed on the account  The available list of hold types can be retrieved through getHoldTypes",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "getAccountHoldDetailsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getAccountHoldDetailsResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "getAccountHoldDetailsResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getAccountHoldDetailsResponseBody"
+        }
+      },
+      "description" : "getAccountHoldDetailsResponse"
+    },
+    "getAccountHoldDetailsResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "acLockedEvent" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "holdTypeId" : {
+                "type" : "string",
+                "description" : "Purpose or the type of hold placed on the account  The available list of hold types can be retrieved through getHoldTypes"
+              },
+              "accountId" : {
+                "type" : "string",
+                "description" : "Identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId. Accepts both IBAN & BBAN"
+              },
+              "displayName" : {
+                "type" : "string",
+                "description" : "Contains the name used for display or enrichment purposes"
+              },
+              "fromDate" : {
+                "type" : "string",
+                "description" : "Indicates the business date from when the balance reservation event is active."
+              },
+              "toDate" : {
+                "type" : "string",
+                "description" : "Indicates the business date until when the balance reservation event is active."
+              },
+              "lockedAmount" : {
+                "type" : "string",
+                "description" : "Shows reserved amount for the underlying account for a given balance reservation event."
+              },
+              "blockPriorityId" : {
+                "type" : "string",
+                "description" : "When there are multiple holds or locks placed on an account, it holds the priority of releasing the holds for a payment, while performing retry process in an account"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    }
+  }
+}

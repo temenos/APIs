@@ -1,0 +1,147 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "API to retrieve the details of all the available Balance types",
+    "version" : "v1.0.0",
+    "title" : "Balance Types"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "https", "http" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/reference/balanceTypes" : {
+      "get" : {
+        "summary" : "Retrieves the details of all the available Balance types",
+        "operationId" : "getBalanceTypes",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Balance TypesResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getBalanceTypesResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "getBalanceTypesResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getBalanceTypesResponseBody"
+        }
+      },
+      "description" : "getBalanceTypesResponse"
+    },
+    "getBalanceTypesResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "acBalanceType" : {
+          "type" : "array",
+          "description" : "Balance Types represent the financial components of a product; the definition of the product specifies which balance types the product should be comprised of",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "recordId" : {
+                "type" : "string",
+                "description" : "Unique identifier of an entity"
+              },
+              "language" : {
+                "type" : "object",
+                "description" : "Language specific fields will be displayed under this entity",
+                "properties" : {
+                  "displayName" : {
+                    "type" : "string",
+                    "description" : "Contains the name used for display or enrichment purposes"
+                  }
+                }
+              },
+              "reportingType" : {
+                "type" : "string",
+                "description" : "Defines how the balance type should be used with respect to reporting"
+              },
+              "updateAcctActivity" : {
+                "type" : "string",
+                "description" : "Defines whether the account activity table is to be updated for a particular balance type"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    }
+  }
+}

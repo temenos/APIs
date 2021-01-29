@@ -1,0 +1,155 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "API to retrieve the Origination Application definition details",
+    "version" : "v1.0.0",
+    "title" : "Origination Definitions"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/reference/originationDefinitions/{recordId}" : {
+      "get" : {
+        "summary" : "Retrieves the Origination Application definition details such as role Id, display name ",
+        "operationId" : "getOriginationDefinitions",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "recordId",
+          "in" : "path",
+          "description" : "Unique identifier of an entity",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Origination DefinitionsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getOriginationDefinitionsResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "getOriginationDefinitionsResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getOriginationDefinitionsResponseBody"
+        }
+      },
+      "description" : "getOriginationDefinitionsResponse"
+    },
+    "getOriginationDefinitionsResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "oaApplicationDef" : {
+          "type" : "array",
+          "description" : "Design time table for defining an Application.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "recordId" : {
+                "type" : "string",
+                "description" : "Unique identifier of an entity"
+              },
+              "language" : {
+                "type" : "object",
+                "description" : "Language specific fields will be displayed under this entity",
+                "properties" : {
+                  "displayName" : {
+                    "type" : "string",
+                    "description" : "Contains the name used for display or enrichment purposes"
+                  }
+                }
+              },
+              "domainClass" : {
+                "type" : "object",
+                "description" : " The Domain Class is High Level grouping or Category of information that features on the FORM",
+                "properties" : {
+                  "jointRelationRoleId" : {
+                    "type" : "string",
+                    "description" : "Role of joint customer with the main customer"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    }
+  }
+}

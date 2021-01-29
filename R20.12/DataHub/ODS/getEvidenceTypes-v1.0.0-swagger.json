@@ -1,0 +1,165 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "API to retrieve the details of evidence type definition",
+    "version" : "v1.0.0",
+    "title" : "Evidence Types"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/reference/evidenceTypes" : {
+      "get" : {
+        "summary" : "Retrieves the details of evidence type definition with status as PUBLISHED",
+        "operationId" : "getEvidenceTypes",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "claimStatus",
+          "in" : "query",
+          "description" : "Status update of the claim records",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "getEvidenceTypesResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getEvidenceTypesResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "getEvidenceTypesResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getEvidenceTypesResponseBody"
+        }
+      },
+      "description" : "getEvidenceTypesResponse"
+    },
+    "getEvidenceTypesResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "evidenceType" : {
+          "type" : "array",
+          "description" : "System maintained and is updated when a new evidence type definition is published through AA.DEFINITION.MANAGER application.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "recordId" : {
+                "type" : "string",
+                "description" : "Unique identifier of an entity"
+              },
+              "language" : {
+                "type" : "object",
+                "description" : "Language specific fields will be displayed under this entity",
+                "properties" : {
+                  "displayName" : {
+                    "type" : "string",
+                    "description" : "Contains the name used for display or enrichment purposes"
+                  }
+                }
+              },
+              "claimStatus" : {
+                "type" : "string",
+                "description" : "Status update of the claim records"
+              },
+              "availableFromDate" : {
+                "type" : "string",
+                "description" : "The date the product is available in the catalogue for sale to customers"
+              },
+              "expiryDate" : {
+                "type" : "string",
+                "description" : "The date an agreement such as an arrangement, product, credit facility or limit is due to expire"
+              },
+              "lastPublished" : {
+                "type" : "string",
+                "description" : "The Date at which the Evidence Type is published"
+              },
+              "className" : {
+                "type" : "string",
+                "description" : "Name of the class as given in AA.DEFINITION.MANAGER."
+              }
+            }
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    }
+  }
+}

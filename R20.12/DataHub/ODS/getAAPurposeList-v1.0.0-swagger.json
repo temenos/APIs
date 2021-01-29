@@ -1,0 +1,143 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "API to retrieve the list of Purposes available",
+    "version" : "v1.0.0",
+    "title" : "List of Purposes"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/reference/purposes/" : {
+      "get" : {
+        "summary" : "Retrieves the list of Purposes available",
+        "operationId" : "getAAPurposeList",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "List of PurposesResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getAAPurposeListResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "getAAPurposeListResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getAAPurposeListResponseBody"
+        }
+      },
+      "description" : "getAAPurposeListResponse"
+    },
+    "getAAPurposeListResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "purposeId" : {
+          "type" : "array",
+          "description" : "State the name of a purpose for which they would collate and attach the various forms",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "recordId" : {
+                "type" : "string",
+                "description" : "Unique identifier of an entity"
+              },
+              "language" : {
+                "type" : "object",
+                "description" : "Language specific fields will be displayed under this entity",
+                "properties" : {
+                  "displayName" : {
+                    "type" : "string",
+                    "description" : "Contains the name used for display or enrichment purposes"
+                  }
+                }
+              },
+              "fullDescription" : {
+                "type" : "string",
+                "description" : "Contains the name used for display or enrichment purposes"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    }
+  }
+}

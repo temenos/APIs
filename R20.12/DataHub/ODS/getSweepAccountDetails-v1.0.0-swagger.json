@@ -1,0 +1,269 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "API to retrieve the account sweep details",
+    "version" : "v1.0.0",
+    "title" : "Account Sweeps"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/order/sweeps/accounts/{creditAccount}/creditAccounts" : {
+      "get" : {
+        "summary" : "Retrieves the account sweep details set for credit",
+        "operationId" : "getSweepCreditAccountDetails",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "creditAccount",
+          "in" : "path",
+          "description" : "Identifier of the creditAccounts.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "getSweepCreditAccountDetailsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getSweepCreditAccountDetailsResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/sweeps/accounts/{debitAccount}/debitAccounts" : {
+      "get" : {
+        "summary" : "Retrieves the account sweep details set for debit",
+        "operationId" : "getSweepDebitAccountDetails",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "debitAccount",
+          "in" : "path",
+          "description" : " Refers to the account which will be debited and funds moved out.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "getSweepDebitAccountDetailsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getSweepDebitAccountDetailsResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "getSweepCreditAccountDetailsResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getSweepCreditAccountDetailsResponseBody"
+        }
+      },
+      "description" : "getSweepCreditAccountDetailsResponse"
+    },
+    "getSweepCreditAccountDetailsResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "accountLine" : {
+          "type" : "array",
+          "description" : "Helps to create a link between accounts for a sweep to occour",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "recordId" : {
+                "type" : "string",
+                "description" : "Unique identifier of an entity"
+              },
+              "sweepType" : {
+                "type" : "string",
+                "description" : "Sweep types defined to the user"
+              },
+              "debitAccount" : {
+                "type" : "object",
+                "description" : " Refers to the account which will be debited and funds moved out.",
+                "properties" : {
+                  "fromAccountCurrency" : {
+                    "type" : "string",
+                    "description" : "Is the currency of the account which funds will be transferred from."
+                  },
+                  "debitAccount" : {
+                    "type" : "string",
+                    "description" : " Refers to the account which will be debited and funds moved out."
+                  }
+                }
+              },
+              "creditAccount" : {
+                "type" : "object",
+                "description" : "Account Number to which the outstanding balance is to be transferred",
+                "properties" : {
+                  "toAccountCurrency" : {
+                    "type" : "string",
+                    "description" : "For Surplus sweep this refers to the account which will be debited and funds moved out. For maintenance sweep, this will be the account where funds are credited to maintain the account."
+                  },
+                  "creditAccount" : {
+                    "type" : "string",
+                    "description" : "Account Number to which the outstanding balance is to be transferred"
+                  },
+                  "maximumAmount" : {
+                    "type" : "string",
+                    "description" : "The maximum account balance allowed."
+                  },
+                  "minimumAmount" : {
+                    "type" : "string",
+                    "description" : "The minimum account balance required."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "getSweepDebitAccountDetailsResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getSweepDebitAccountDetailsResponseBody"
+        }
+      },
+      "description" : "getSweepDebitAccountDetailsResponse"
+    },
+    "getSweepDebitAccountDetailsResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "accountLine" : {
+          "type" : "array",
+          "description" : "Helps to create a link between accounts for a sweep to occour",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "recordId" : {
+                "type" : "string",
+                "description" : "Unique identifier of an entity"
+              },
+              "sweepType" : {
+                "type" : "string",
+                "description" : "Sweep types defined to the user"
+              },
+              "debitAccount" : {
+                "type" : "object",
+                "description" : " Refers to the account which will be debited and funds moved out.",
+                "properties" : {
+                  "fromAccountCurrency" : {
+                    "type" : "string",
+                    "description" : "Is the currency of the account which funds will be transferred from."
+                  },
+                  "debitAccount" : {
+                    "type" : "string",
+                    "description" : " Refers to the account which will be debited and funds moved out."
+                  }
+                }
+              },
+              "creditAccount" : {
+                "type" : "object",
+                "description" : "Account Number to which the outstanding balance is to be transferred",
+                "properties" : {
+                  "toAccountCurrency" : {
+                    "type" : "string",
+                    "description" : "For Surplus sweep this refers to the account which will be debited and funds moved out. For maintenance sweep, this will be the account where funds are credited to maintain the account."
+                  },
+                  "creditAccount" : {
+                    "type" : "string",
+                    "description" : "Account Number to which the outstanding balance is to be transferred"
+                  },
+                  "maximumAmount" : {
+                    "type" : "string",
+                    "description" : "The maximum account balance allowed."
+                  },
+                  "minimumAmount" : {
+                    "type" : "string",
+                    "description" : "The minimum account balance required."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

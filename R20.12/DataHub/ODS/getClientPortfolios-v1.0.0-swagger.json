@@ -1,0 +1,142 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "API to retrieve the own book portfolio list details",
+    "version" : "v1.0.0",
+    "title" : "Own Book Portfolio"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/reference/ownBookPortfolios" : {
+      "get" : {
+        "summary" : "Retrieves the own book portfolio list details such as portfolio id, reference currency and account name",
+        "operationId" : "getClientPortfolios",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "dealerBook",
+          "in" : "query",
+          "description" : "Indicates the portfolio is an Own Account Trading/Investment portfolio",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "getClientPortfoliosResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getClientPortfoliosResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "getClientPortfoliosResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getClientPortfoliosResponseBody"
+        }
+      },
+      "description" : "getClientPortfoliosResponse"
+    },
+    "getClientPortfoliosResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "secAccMaster" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "recordId" : {
+                "type" : "string",
+                "description" : "Unique identifier of an entity"
+              },
+              "referenceCurrency" : {
+                "type" : "string",
+                "description" : "The reference currency"
+              },
+              "accountName" : {
+                "type" : "string",
+                "description" : "Display name or short name of the account specified."
+              }
+            }
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    }
+  }
+}

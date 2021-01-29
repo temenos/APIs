@@ -1,0 +1,163 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "API to retrieve the portfolio information ",
+    "version" : "v1.0.0",
+    "title" : "Portfolio details"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/holdings/portfolios/" : {
+      "get" : {
+        "summary" : "Retrieves the portfolio informations such as portfolio Id, security account title, account officer, investment policy, management regime, valuation currency, valuation amount, margin value",
+        "operationId" : "getPortfolios",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "getPortfoliosResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getPortfoliosResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "getPortfoliosResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getPortfoliosResponseBody"
+        }
+      },
+      "description" : "getPortfoliosResponse"
+    },
+    "getPortfoliosResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "secAccountMaster" : {
+          "type" : "array",
+          "description" : "contains information relating to a customers security account.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "recordId" : {
+                "type" : "string",
+                "description" : "Unique identifier of an entity"
+              },
+              "accountName" : {
+                "type" : "string",
+                "description" : "Display name or short name of the account specified."
+              },
+              "accountOfficerId" : {
+                "type" : "string",
+                "description" : "The identifier of the department head or specific account officer responsible for the customer"
+              },
+              "investmentProgram" : {
+                "type" : "string",
+                "description" : "The identifier of the investment strategy followed by the Portfolio"
+              },
+              "managedAccount" : {
+                "type" : "string",
+                "description" : "The type of managed account- Discretionary or otherwise"
+              },
+              "valuationCurrency" : {
+                "type" : "string",
+                "description" : "The currency in which the account or portfolio is valued"
+              },
+              "marginValue" : {
+                "type" : "string",
+                "description" : "Margin value for the associated position"
+              },
+              "valuationAmount" : {
+                "type" : "object",
+                "description" : "This is the valuation amount of the portfolio in reference currency",
+                "properties" : {
+                  "valuationAmount" : {
+                    "type" : "string",
+                    "description" : "This is the valuation amount of the portfolio in reference currency"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    }
+  }
+}

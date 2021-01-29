@@ -1,0 +1,1366 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "API to retrieve the customer details",
+    "version" : "v1.0.0",
+    "title" : "Customer Details"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "https", "http" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/party/customers/{recordId}/KYC" : {
+      "get" : {
+        "summary" : "Retrieves the KYC details of a Customer",
+        "operationId" : "getCustomerKycDetails",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "recordId",
+          "in" : "path",
+          "description" : "Unique identifier of an entity",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "getCustomerKycDetailsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getCustomerKycDetailsResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/party/customers/kyclist" : {
+      "get" : {
+        "summary" : "Retrieves the list of customers having the Kyc details",
+        "operationId" : "getCustomerKycList",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "kycRelationship",
+          "in" : "query",
+          "description" : "Indicates the Customer Relationship details of the customer",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "getCustomerKycListResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getCustomerKycListResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/party/customers/nokyclist" : {
+      "get" : {
+        "summary" : "Retrieves the list of customers not having the Kyc details",
+        "operationId" : "getCustomerNoKycList",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "kycRelationship",
+          "in" : "query",
+          "description" : "Indicates the Customer Relationship details of the customer",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "getCustomerNoKycListResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getCustomerNoKycListResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/party/customer/{recordId}/details" : {
+      "get" : {
+        "summary" : "Retrieves the details of a Customer",
+        "operationId" : "getCustomerForMDAL",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "recordId",
+          "in" : "path",
+          "description" : "Unique identifier of an entity",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "getCustomerForMDALResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getCustomerForMDALResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/party/customers/relationships" : {
+      "get" : {
+        "summary" : "Retrieves the customer relationship details",
+        "operationId" : "getCustomerRelationshipDetails",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "customerRelationGroupId",
+          "in" : "query",
+          "description" : "Identifies the key to Customer Relationship Group to form a relation",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "partyId",
+          "in" : "query",
+          "description" : "Allows capturing of customers or person entities to be part of the relationship. If partyType is selected as Customer, then the system will allow only customer Ids to be captured into this field. If partyType is selected as Person or Entity, then system will allow only personEntity Ids to be captured into this field.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "relationPartyId",
+          "in" : "query",
+          "description" : "Related customers or persons/entities that are part of the relationship.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "recordId",
+          "in" : "query",
+          "description" : "Unique identifier of an entity",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "getCustomerRelationshipDetailsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getCustomerRelationshipDetailsResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/party/customers/{fromCustomerId}/secureMessages" : {
+      "get" : {
+        "summary" : "Retrieves the list of messages of a customer from Bank to Customer and from customer to Bank",
+        "operationId" : "getSecureMessagesForCustomer",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "fromCustomerId",
+          "in" : "path",
+          "description" : "The Customer ID from which the message is triggered.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "recordId",
+          "in" : "query",
+          "description" : "Unique identifier of an entity",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "parentMessageId",
+          "in" : "query",
+          "description" : "Identifier of the parent message.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "toCustomerId",
+          "in" : "query",
+          "description" : "The unique customer identifier of the Payee, to whom the payment message is to be sent",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "messageStatus",
+          "in" : "query",
+          "description" : "Status of the message",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "getSecureMessagesForCustomerResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getSecureMessagesForCustomerResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/party/customers/secureMessages" : {
+      "get" : {
+        "summary" : "Retrieves the list of messages from Bank to Customer and from Customer to Bank ",
+        "operationId" : "getSecureMessages",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "recordId",
+          "in" : "query",
+          "description" : "Unique identifier of an entity",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "parentMessageId",
+          "in" : "query",
+          "description" : "Identifier of the parent message.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "toCustomerId",
+          "in" : "query",
+          "description" : "The unique customer identifier of the Payee, to whom the payment message is to be sent",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "fromCustomerId",
+          "in" : "query",
+          "description" : "The Customer ID from which the message is triggered.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "messageStatus",
+          "in" : "query",
+          "description" : "Status of the message",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "getSecureMessagesResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getSecureMessagesResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/party/customers/{customerId}/travelNotifications" : {
+      "get" : {
+        "summary" : "API to retrieve the list of travel notification details for specific customer",
+        "operationId" : "getCustomerTravelNotifications",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "customerId",
+          "in" : "path",
+          "description" : "Identifier of the customer",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "overallStatus",
+          "in" : "query",
+          "description" : "Contains the overall status",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "recordId",
+          "in" : "query",
+          "description" : "Unique identifier of an entity",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "getCustomerTravelNotificationsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getCustomerTravelNotificationsResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/party/customers/prospects" : {
+      "get" : {
+        "summary" : "Retrieves the Prospect customer details ",
+        "operationId" : "getProspectCustomers",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "getProspectCustomersResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getProspectCustomersResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/party/customers/{recordId}/deliveryPreferences" : {
+      "get" : {
+        "summary" : "Retrieves the list of preferred communication channels for the customer",
+        "operationId" : "getCustomerDeliveryPreferences",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "path",
+          "required" : true
+        }, {
+          "name" : "recordId",
+          "in" : "query",
+          "description" : "Unique identifier of an entity",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "getCustomerDeliveryPreferencesResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getCustomerDeliveryPreferencesResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "getCustomerKycDetailsResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getCustomerKycDetailsResponseBody"
+        }
+      },
+      "description" : "getCustomerKycDetailsResponse"
+    },
+    "getCustomerKycDetailsResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "customerId" : {
+          "type" : "array",
+		  "description" : "Identifier of the customer",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "contactDate" : {
+                "type" : "string",
+                "description" : "Date that first contact was made with the Customer."
+              },
+              "amlLastResultDate" : {
+                "type" : "string",
+                "description" : "The last date when Anti Money Laundering result is performed and updated"
+              },
+              "introducer" : {
+                "type" : "string",
+                "description" : "Name of the person who introduced the Customer to the bank"
+              },
+              "kycRelationship" : {
+                "type" : "string",
+                "description" : "Indicates the Customer Relationship details of the customer"
+              },
+              "isKycComplete" : {
+                "type" : "string",
+                "description" : "Whether information related to the customer has been collected and verified"
+              },
+              "kycLastReviewDate" : {
+                "type" : "string",
+                "description" : "Date customer KYC information was last reviewed"
+              },
+              "kycNextSystemReviewDate" : {
+                "type" : "string",
+                "description" : "Date system has calculated customer should next be reviewed."
+              },
+              "kycNextReviewDate" : {
+                "type" : "string",
+                "description" : "Next date of KYC review defined manually by the User"
+              },
+              "amlCheck" : {
+                "type" : "string",
+                "description" : "Describe the legal controls that is required by institutions to prevent or report Anti Money Laundering activities. It can have YES, SENT or NULL values."
+              },
+              "amlResult" : {
+                "type" : "string",
+                "description" : "Describe the results of Anti Money Laundering."
+              }
+            }
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "getCustomerKycListResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getCustomerKycListResponseBody"
+        }
+      },
+      "description" : "getCustomerKycListResponse"
+    },
+    "getCustomerKycListResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "customerId" : {
+          "type" : "array",
+          "description" : "Identifier of the customer",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "recordId" : {
+                "type" : "string",
+                "description" : "Unique identifier of an entity"
+              },
+              "mnemonic" : {
+                "type" : "string",
+                "description" : "Shortcut code for referring an Entity/Company/Branch."
+              },
+              "language" : {
+                "type" : "object",
+                "description" : "Language specific fields will be displayed under this entity",
+                "properties" : {
+                  "shortName" : {
+                    "type" : "string",
+                    "description" : "Contains the name of the account, basically the short title of the account."
+                  }
+                }
+              },
+              "nationalityId" : {
+                "type" : "string",
+                "description" : "The identifier of the nationality of a customer"
+              },
+              "accountOfficerId" : {
+                "type" : "string",
+                "description" : "The identifier of the department head or specific account officer responsible for the customer"
+              },
+              "kycRelationship" : {
+                "type" : "string",
+                "description" : "Indicates the Customer Relationship details of the customer"
+              }
+            }
+          }
+        }
+      }
+    },
+    "getCustomerNoKycListResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getCustomerNoKycListResponseBody"
+        }
+      },
+      "description" : "getCustomerNoKycListResponse"
+    },
+    "getCustomerNoKycListResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "customerId" : {
+          "type" : "array",
+          "description" : "Identifier of the customer",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "recordId" : {
+                "type" : "string",
+                "description" : "Unique identifier of an entity"
+              },
+              "mnemonic" : {
+                "type" : "string",
+                "description" : "Shortcut code for referring an Entity/Company/Branch."
+              },
+              "language" : {
+                "type" : "object",
+                "description" : "Language specific fields will be displayed under this entity",
+                "properties" : {
+                  "shortName" : {
+                    "type" : "string",
+                    "description" : "Contains the name of the account, basically the short title of the account."
+                  }
+                }
+              },
+              "nationalityId" : {
+                "type" : "string",
+                "description" : "The identifier of the nationality of a customer"
+              },
+              "accountOfficerId" : {
+                "type" : "string",
+                "description" : "The identifier of the department head or specific account officer responsible for the customer"
+              }
+            }
+          }
+        }
+      }
+    },
+    "getCustomerForMDALResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getCustomerForMDALResponseBody"
+        }
+      },
+      "description" : "getCustomerForMDALResponse"
+    },
+    "getCustomerForMDALResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "customerId" : {
+          "type" : "array",
+          "description" : "Identifier of the customer",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "recordId" : {
+                "type" : "string",
+                "description" : "Unique identifier of an entity"
+              },
+              "title" : {
+                "type" : "string",
+                "description" : "Main menu title or header which the user wants to display on the screen when requesting the display of this main menu. This field can be expanded to allow the user to enter the description of the main menu in various languages."
+              },
+              "firstName" : {
+                "type" : "string",
+                "description" : "Specifies customer's first name"
+              },
+              "lastName" : {
+                "type" : "string",
+                "description" : "The last name of an individual customer"
+              },
+              "mnemonic" : {
+                "type" : "string",
+                "description" : "Shortcut code for referring an Entity/Company/Branch."
+              },
+              "dateOfBirth" : {
+                "type" : "string",
+                "description" : "The date of birth of an individual customer"
+              },
+              "gender" : {
+                "type" : "string",
+                "description" : "Gender of the Individual Customer"
+              },
+              "maritalstatus" : {
+                "type" : "string",
+                "description" : "Marital status of the customer"
+              },
+              "nationalityId" : {
+                "type" : "string",
+                "description" : "The identifier of the nationality of a customer"
+              },
+              "numberOfDependents" : {
+                "type" : "string",
+                "description" : "Specifies the number of dependents to the customer"
+              },
+              "birthIncorpDate" : {
+                "type" : "string",
+                "description" : "Date on which the entity is incorporated"
+              },
+              "industryId" : {
+                "type" : "string",
+                "description" : "An institution-defined identifier of the industry in which the customer is trading, operating or is associated with"
+              },
+              "target" : {
+                "type" : "string",
+                "description" : "Specifies how the Customer is considered by the bank and how he fits in with the Account Officer's overall marketing strategy"
+              },
+              "residenceId" : {
+                "type" : "string",
+                "description" : "The identifier of the country of residence of a customer"
+              },
+              "buildingName" : {
+                "type" : "string",
+                "description" : "Represents the name of the building, entrance"
+              },
+              "buildingNumber" : {
+                "type" : "string",
+                "description" : "Represents the number that identifies the position of a building on a street"
+              },
+              "flatNumber" : {
+                "type" : "string",
+                "description" : "The number that identifies apartment and unit that have other dwellings above or below, often with shared access and common areas"
+              },
+              "language" : {
+                "type" : "object",
+                "description" : "Language specific fields will be displayed under this entity",
+                "properties" : {
+                  "address" : {
+                    "type" : "string",
+                    "description" : "Communication Address of the Customer"
+                  },
+                  "street" : {
+                    "type" : "string",
+                    "description" : "Contains the first line of customer's base address, example building number, street number etc."
+                  },
+                  "postCode" : {
+                    "type" : "string",
+                    "description" : "Identifies the address postal code for the customer."
+                  },
+                  "countryName" : {
+                    "type" : "string",
+                    "description" : "This is the country name that the financial institution resides in."
+                  },
+                  "townCountry" : {
+                    "type" : "string",
+                    "description" : "The town and country associated with the address"
+                  },
+                  "customerName" : {
+                    "type" : "string",
+                    "description" : "Name of the customer"
+                  }
+                }
+              },
+              "legalId" : {
+                "type" : "object",
+                "description" : "Unique reference number of the legal documents submitted as identification proof",
+                "properties" : {
+                  "legalIssueDate" : {
+                    "type" : "string",
+                    "description" : "Date of Issue of the legal document"
+                  },
+                  "legalId" : {
+                    "type" : "string",
+                    "description" : "Unique reference number of the legal documents submitted as identification proof"
+                  },
+                  "toDate" : {
+                    "type" : "string",
+                    "description" : "Indicates the business date until when the balance reservation event is active."
+                  },
+                  "legalDocumentName" : {
+                    "type" : "string",
+                    "description" : "Name of the legal documents such as passport, driving licence etc., provided as identification proof"
+                  },
+                  "legalIssueAuthorisedDate" : {
+                    "type" : "string",
+                    "description" : "Authority who issued the legal document"
+                  },
+                  "legalHolderName" : {
+                    "type" : "string",
+                    "description" : "Name of the account holder in the Legal Document"
+                  }
+                }
+              },
+              "employmentStatus" : {
+                "type" : "object",
+                "description" : "Employment status of the customer",
+                "properties" : {
+                  "fromDate" : {
+                    "type" : "string",
+                    "description" : "Indicates the business date from when the balance reservation event is active."
+                  },
+                  "employerBusiness" : {
+                    "type" : "string",
+                    "description" : "The business of customer's employer involved."
+                  },
+                  "occupation" : {
+                    "type" : "string",
+                    "description" : "Occupation of the customer"
+                  },
+                  "annualBonus" : {
+                    "type" : "string",
+                    "description" : "Annual bonus received by customer"
+                  },
+                  "salaryFrequency" : {
+                    "type" : "string",
+                    "description" : "Indicates the payment frequency of salary."
+                  },
+                  "salaryCurrency" : {
+                    "type" : "string",
+                    "description" : "Currency in which the Salary information of the customer is maintained"
+                  },
+                  "employerName" : {
+                    "type" : "string",
+                    "description" : "Name of the customer's employer"
+                  },
+                  "employmentStatus" : {
+                    "type" : "string",
+                    "description" : "Employment status of the customer"
+                  }
+                }
+              },
+              "phoneNumber" : {
+                "type" : "object",
+                "description" : "The phone number of the customer or prospect",
+                "properties" : {
+                  "phoneNumber" : {
+                    "type" : "string",
+                    "description" : "The phone number of the customer or prospect"
+                  },
+                  "addressLocation" : {
+                    "type" : "string",
+                    "description" : "Identifies the nature of the postal address, like primary, secondary or office address"
+                  },
+                  "smsNumber" : {
+                    "type" : "string",
+                    "description" : "The mobile SMS number of the customer"
+                  },
+                  "email" : {
+                    "type" : "string",
+                    "description" : "Email Identifier of the Customer"
+                  }
+                }
+              },
+              "residentialStatus" : {
+                "type" : "object",
+                "description" : "Identifies the residence status of the customer.",
+                "properties" : {
+                  "fromDate" : {
+                    "type" : "string",
+                    "description" : "Indicates the business date from when the balance reservation event is active."
+                  },
+                  "residentialStatus" : {
+                    "type" : "string",
+                    "description" : "Identifies the residence status of the customer."
+                  }
+                }
+              },
+              "taxId" : {
+                "type" : "object",
+                "description" : "Holds the Customer's TAX/SSN Id.",
+                "properties" : {
+                  "taxId" : {
+                    "type" : "string",
+                    "description" : "Holds the Customer's TAX/SSN Id."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "getCustomerRelationshipDetailsResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getCustomerRelationshipDetailsResponseBody"
+        }
+      },
+      "description" : "getCustomerRelationshipDetailsResponse"
+    },
+    "getCustomerRelationshipDetailsResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "customerRelationship" : {
+          "type" : "array",
+          "description" : "Create relationships between records held on the Customer application or the PERSON.ENTITY application",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "recordId" : {
+                "type" : "string",
+                "description" : "Unique identifier of an entity"
+              },
+              "customerRelationGroupId" : {
+                "type" : "string",
+                "description" : "Identifies the key to Customer Relationship Group to form a relation"
+              },
+              "customerRelationGroupName" : {
+                "type" : "string",
+                "description" : "Name of a Customer Relationship Group if applicable to the relationship."
+              },
+              "partyRelation" : {
+                "type" : "object",
+                "description" : "Originating Party's relationship to the underlying portfolio. Should be a valid relationship.",
+                "properties" : {
+                  "owningPercent" : {
+                    "type" : "string",
+                    "description" : "Used to record the percentage of ownership in the relationship. For example an entity may be partially or wholly owned by another entity. This will only be allowed to be entered if the relation is indicated as a type allowing Ownership"
+                  },
+                  "partyEffectiveDate" : {
+                    "type" : "string",
+                    "description" : "Effective date from which there is a relationship between originating party and the portfolio."
+                  },
+                  "relationReference" : {
+                    "type" : "string",
+                    "description" : "Customer Relationship of originating party. It is used in conjunction with the relatedRelationReference attribute."
+                  },
+                  "partyRole" : {
+                    "type" : "string",
+                    "description" : "Indicates the role of a customer or party, Eg: Benefial Owner, Nominee etc"
+                  },
+                  "relatedPartyEffectiveDate" : {
+                    "type" : "string",
+                    "description" : "To state the effective date of the relationship."
+                  },
+                  "relatedRelationReference" : {
+                    "type" : "object",
+                    "description" : "To relate the Customer Relationship between Originating party and other parties. It is used in conjunction with the relationReference attribute",
+                    "properties" : {
+                      "owningPercent" : {
+                        "type" : "string",
+                        "description" : "Used to record the percentage of ownership in the relationship. For example an entity may be partially or wholly owned by another entity. This will only be allowed to be entered if the relation is indicated as a type allowing Ownership"
+                      }
+                    }
+                  },
+                  "relationPartyId" : {
+                    "type" : "string",
+                    "description" : "Related customers or persons/entities that are part of the relationship."
+                  },
+                  "jointRelationRoleId" : {
+                    "type" : "string",
+                    "description" : "Role of joint customer with the main customer"
+                  },
+                  "partyId" : {
+                    "type" : "string",
+                    "description" : "Allows capturing of customers or person entities to be part of the relationship. If partyType is selected as Customer, then the system will allow only customer Ids to be captured into this field. If partyType is selected as Person or Entity, then system will allow only personEntity Ids to be captured into this field."
+                  },
+                  "relation" : {
+                    "type" : "string",
+                    "description" : "Specify the various types of relation that could exist between Customers and /or Person Entities"
+                  }
+                }
+              },
+              "purposeOfRelationship" : {
+                "type" : "string",
+                "description" : "The purpose of the relationship between the Originating Party and the Related Party. Valid options - TAX, LIMIT, ADVICES, OTHERS or can be left blank"
+              }
+            }
+          }
+        }
+      }
+    },
+    "getSecureMessagesForCustomerResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getSecureMessagesForCustomerResponseBody"
+        }
+      },
+      "description" : "getSecureMessagesForCustomerResponse"
+    },
+    "getSecureMessagesForCustomerResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "ebSecureMessage" : {
+          "type" : "array",
+          "description" : "To establish a secure messaging system in a bank.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "messageStatus" : {
+                "type" : "string",
+                "description" : "Indicates the status of Secured mail between the Customer and bank.  Allowed values: - READ - UNREAD"
+              },
+              "recordId" : {
+                "type" : "string",
+                "description" : "Unique identifier of an entity"
+              },
+              "subject" : {
+                "type" : "string",
+                "description" : "The subject of the message to be sent or received."
+              },
+              "dateSent" : {
+                "type" : "string",
+                "description" : "The date when the message is sent."
+              },
+              "sentAt" : {
+                "type" : "string",
+                "description" : "The time on which the message was sent."
+              },
+              "fromDepartmentId" : {
+                "type" : "string",
+                "description" : "The identifier of the originating department"
+              },
+              "toDepartmentId" : {
+                "type" : "string",
+                "description" : "The unique department identifier, to which the message is to be sent."
+              },
+              "parentMessageId" : {
+                "type" : "string",
+                "description" : "Identifier of the parent message."
+              },
+              "fromCustomerId" : {
+                "type" : "string",
+                "description" : "The Customer ID from which the message is triggered."
+              },
+              "toCustomerId" : {
+                "type" : "string",
+                "description" : "The unique customer identifier of the Payee, to whom the payment message is to be sent"
+              },
+              "uploadId" : {
+                "type" : "string",
+                "description" : "The unique identifier of the uploaded file"
+              },
+              "uploadPath" : {
+                "type" : "string",
+                "description" : "The directory path to which the file is uploaded"
+              },
+              "message" : {
+                "type" : "object",
+                "description" : "Specifies the record ID of parent message. ",
+                "properties" : {
+                  "message" : {
+                    "type" : "string",
+                    "description" : "Specifies the record ID of parent message. "
+                  }
+                }
+              }
+            }
+          }
+        },
+        "accountOfficer" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "name" : {
+                "type" : "string",
+                "description" : "Name of the Customer or Bank Employee or a Person"
+              }
+            }
+          }
+        }
+      }
+    },
+    "getSecureMessagesResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getSecureMessagesResponseBody"
+        }
+      },
+      "description" : "getSecureMessagesResponse"
+    },
+    "getSecureMessagesResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "ebSecureMessage" : {
+          "type" : "array",
+          "description" : "To establish a secure messaging system in a bank.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "messageStatus" : {
+                "type" : "string",
+                "description" : "Indicates the status of Secured mail between the Customer and bank.  Allowed values: - READ - UNREAD"
+              },
+              "recordId" : {
+                "type" : "string",
+                "description" : "Unique identifier of an entity"
+              },
+              "subject" : {
+                "type" : "string",
+                "description" : "The subject of the message to be sent or received."
+              },
+              "dateSent" : {
+                "type" : "string",
+                "description" : "The date when the message is sent."
+              },
+              "sentAt" : {
+                "type" : "string",
+                "description" : "The time on which the message was sent."
+              },
+              "fromDepartmentId" : {
+                "type" : "string",
+                "description" : "The identifier of the originating department"
+              },
+              "toDepartmentId" : {
+                "type" : "string",
+                "description" : "The unique department identifier, to which the message is to be sent."
+              },
+              "parentMessageId" : {
+                "type" : "string",
+                "description" : "Identifier of the parent message."
+              },
+              "fromCustomerId" : {
+                "type" : "string",
+                "description" : "The Customer ID from which the message is triggered."
+              },
+              "toCustomerId" : {
+                "type" : "string",
+                "description" : "The unique customer identifier of the Payee, to whom the payment message is to be sent"
+              },
+              "uploadId" : {
+                "type" : "string",
+                "description" : "The unique identifier of the uploaded file"
+              },
+              "uploadPath" : {
+                "type" : "string",
+                "description" : "The directory path to which the file is uploaded"
+              },
+              "message" : {
+                "type" : "object",
+                "description" : "Specifies the record ID of parent message. ",
+                "properties" : {
+                  "message" : {
+                    "type" : "string",
+                    "description" : "Specifies the record ID of parent message. "
+                  }
+                }
+              }
+            }
+          }
+        },
+        "accountOfficer" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "name" : {
+                "type" : "string",
+                "description" : "Name of the Customer or Bank Employee or a Person"
+              }
+            }
+          }
+        }
+      }
+    },
+    "getCustomerTravelNotificationsResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getCustomerTravelNotificationsResponseBody"
+        }
+      },
+      "description" : "getCustomerTravelNotificationsResponse"
+    },
+    "getCustomerTravelNotificationsResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "travelNotification" : {
+          "type" : "array",
+          "description" : "Holds the travel details of the CUSTOMER",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "recordId" : {
+                "type" : "string",
+                "description" : "Unique identifier of an entity"
+              },
+              "customerId" : {
+                "type" : "string",
+                "description" : "Identifier of the customer"
+              },
+              "travelCountry" : {
+                "type" : "object",
+                "description" : "The country to which the customer travels",
+                "properties" : {
+                  "accountId" : {
+                    "type" : "object",
+                    "description" : "Identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId. Accepts both IBAN & BBAN",
+                    "properties" : {
+                      "accountId" : {
+                        "type" : "string",
+                        "description" : "Identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId. Accepts both IBAN & BBAN"
+                      }
+                    }
+                  },
+                  "additionalInformation" : {
+                    "type" : "string",
+                    "description" : "Additional Information provided to add context"
+                  },
+                  "visitTimeFrom" : {
+                    "type" : "string",
+                    "description" : "The time period from which the customer is going to travel to the country on the VISIT.PERIOD.START date"
+                  },
+                  "contactDetail" : {
+                    "type" : "object",
+                    "description" : "Holds the contact details of the customer during his stay",
+                    "properties" : {
+                      "contactDetail" : {
+                        "type" : "string",
+                        "description" : "Holds the contact details of the customer during his stay"
+                      }
+                    }
+                  },
+                  "travelStatus" : {
+                    "type" : "string",
+                    "description" : "Indicates the status of travel."
+                  },
+                  "visitTimeTo" : {
+                    "type" : "string",
+                    "description" : "Holds the time of arrival to the native"
+                  },
+                  "scheduleType" : {
+                    "type" : "string",
+                    "description" : "The type of event schedule. The main ones are interest payment (IP) , principal increase (PI), rate reset (RR)."
+                  },
+                  "travelCountry" : {
+                    "type" : "string",
+                    "description" : "The country to which the customer travels"
+                  },
+                  "visitPurpose" : {
+                    "type" : "string",
+                    "description" : "Holds the purpose of traveling to the country"
+                  },
+                  "visitPeriodStart" : {
+                    "type" : "string",
+                    "description" : "The country to which the customer travels"
+                  },
+                  "visitPeriodEnd" : {
+                    "type" : "string",
+                    "description" : "The date when the customer completes his travel and returns to his native"
+                  }
+                }
+              },
+              "overallStatus" : {
+                "type" : "string",
+                "description" : "Contains the overall status"
+              },
+              "currNo" : {
+                "type" : "string",
+                "description" : "Current Number which indicates how many times the record is modified."
+              }
+            }
+          }
+        }
+      }
+    },
+    "getProspectCustomersResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getProspectCustomersResponseBody"
+        }
+      },
+      "description" : "getProspectCustomersResponse"
+    },
+    "getProspectCustomersResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "personEntity" : {
+          "type" : "array",
+          "description" : "Identifies if the record is for a real person or a legal entity. Allowed Options: Person or Entity.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "personEntity" : {
+                "type" : "string",
+                "description" : "Identifies if the record is for a real person or a legal entity. Allowed Options: Person or Entity."
+              },
+              "carrierPosition" : {
+                "type" : "string",
+                "description" : "Specifies the Version of address to which the message should be sent to"
+              },
+              "gender" : {
+                "type" : "string",
+                "description" : "Gender of the Individual Customer"
+              },
+              "birthIncorpDate" : {
+                "type" : "string",
+                "description" : "Date on which the entity is incorporated"
+              },
+              "language" : {
+                "type" : "object",
+                "description" : "Language specific fields will be displayed under this entity",
+                "properties" : {
+                  "street" : {
+                    "type" : "string",
+                    "description" : "Contains the first line of customer's base address, example building number, street number etc."
+                  },
+                  "name" : {
+                    "type" : "string",
+                    "description" : "Name of the Customer or Bank Employee or a Person"
+                  },
+                  "postCode" : {
+                    "type" : "string",
+                    "description" : "Identifies the address postal code for the customer."
+                  },
+                  "countryName" : {
+                    "type" : "string",
+                    "description" : "This is the country name that the financial institution resides in."
+                  },
+                  "townCountry" : {
+                    "type" : "string",
+                    "description" : "The town and country associated with the address"
+                  }
+                }
+              },
+              "phoneNumber" : {
+                "type" : "object",
+                "description" : "The phone number of the customer or prospect",
+                "properties" : {
+                  "phoneNumber" : {
+                    "type" : "string",
+                    "description" : "The phone number of the customer or prospect"
+                  },
+                  "email" : {
+                    "type" : "string",
+                    "description" : "Email Identifier of the Customer"
+                  }
+                }
+              },
+              "legalId" : {
+                "type" : "object",
+                "description" : "Unique reference number of the legal documents submitted as identification proof",
+                "properties" : {
+                  "legalId" : {
+                    "type" : "string",
+                    "description" : "Unique reference number of the legal documents submitted as identification proof"
+                  },
+                  "legalDocumentName" : {
+                    "type" : "string",
+                    "description" : "Name of the legal documents such as passport, driving licence etc., provided as identification proof"
+                  }
+                }
+              },
+              "socialNetworkId" : {
+                "type" : "object",
+                "description" : "Social Network Identification of the person/entity",
+                "properties" : {
+                  "socialNetworkId" : {
+                    "type" : "string",
+                    "description" : "Social Network Identification of the person/entity"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "getCustomerDeliveryPreferencesResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getCustomerDeliveryPreferencesResponseBody"
+        }
+      },
+      "description" : "getCustomerDeliveryPreferencesResponse"
+    },
+    "getCustomerDeliveryPreferencesResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "customerPreferences" : {
+          "type" : "array",
+          "description" : "Holds the Customer preferences such as message carrier, message delivery address, message format, language definition, customer/employee to receive that message group, number of copies needed, blackout SMS start and end times, local time offset from UST",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "recordId" : {
+                "type" : "string",
+                "description" : "Unique identifier of an entity"
+              },
+              "messageGroupId" : {
+                "type" : "object",
+                "description" : "Specifies the Message group name that provides details of all Messages to be triggered",
+                "properties" : {
+                  "messageGroupId" : {
+                    "type" : "string",
+                    "description" : "Specifies the Message group name that provides details of all Messages to be triggered"
+                  },
+                  "carrierPosition" : {
+                    "type" : "string",
+                    "description" : "Specifies the Version of address to which the message should be sent to"
+                  },
+                  "carrierId" : {
+                    "type" : "object",
+                    "description" : "Contains the identifier associated to the carrier respective to a transaction of the account",
+                    "properties" : {
+                      "carrierPosition" : {
+                        "type" : "string",
+                        "description" : "Specifies the Version of address to which the message should be sent to"
+                      }
+                    }
+                  },
+                  "required" : {
+                    "type" : "string",
+                    "description" : "Flag to set the channel to communicate"
+                  }
+                }
+              },
+              "currNo" : {
+                "type" : "string",
+                "description" : "Current Number which indicates how many times the record is modified."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

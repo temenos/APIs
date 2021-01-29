@@ -1,0 +1,209 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "API to retrieve the Letter of credit details",
+    "version" : "v1.0.0",
+    "title" : "Letter of Credits"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/holdings/letterOfCredits/incoTerms" : {
+      "get" : {
+        "summary" : "Retrieves the Letter of credit enrichment details",
+        "operationId" : "getIncoTerms",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "recordId",
+          "in" : "query",
+          "description" : "Unique identifier of an entity",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "getIncoTermsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getIncoTermsResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/letterOfCredits/tenors" : {
+      "get" : {
+        "summary" : "Retrieves the Letter of credit tenor details",
+        "operationId" : "getLcTenors",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "recordId",
+          "in" : "query",
+          "description" : "Unique identifier of an entity",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "getLcTenorsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getLcTenorsResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "getIncoTermsResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getIncoTermsResponseBody"
+        }
+      },
+      "description" : "getIncoTermsResponse"
+    },
+    "getIncoTermsResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "lcEnrichment" : {
+          "type" : "array",
+          "description" : "The file contains enrichment data that the user requires to be displayed when inputting L/C transactions.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "recordId" : {
+                "type" : "string",
+                "description" : "Unique identifier of an entity"
+              },
+              "language" : {
+                "type" : "object",
+                "description" : "Language specific fields will be displayed under this entity",
+                "properties" : {
+                  "incoTerms" : {
+                    "type" : "string",
+                    "description" : "This field holds the valid incoterms code"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "getLcTenorsResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getLcTenorsResponseBody"
+        }
+      },
+      "description" : "getLcTenorsResponse"
+    },
+    "getLcTenorsResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "lcPayTypeId" : {
+          "type" : "array",
+          "description" : "Indicates the identifier of payment type enrichment for letter of credit.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "recordId" : {
+                "type" : "string",
+                "description" : "Unique identifier of an entity"
+              },
+              "language" : {
+                "type" : "object",
+                "description" : "Language specific fields will be displayed under this entity",
+                "properties" : {
+                  "displayName" : {
+                    "type" : "string",
+                    "description" : "Contains the name used for display or enrichment purposes"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

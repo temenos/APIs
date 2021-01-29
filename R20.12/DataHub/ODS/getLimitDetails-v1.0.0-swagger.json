@@ -1,0 +1,630 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Api to retrieve the credit limit details",
+    "version" : "v1.0.0",
+    "title" : "Limit Details"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "https", "http" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/holdings/limits/expiringLimits" : {
+      "get" : {
+        "summary" : "Retrieves the expiring credit limit details",
+        "operationId" : "getExpiringLimits",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "expiryDate",
+          "in" : "query",
+          "description" : "The date an agreement such as an arrangement, product, credit facility or limit is due to expire",
+          "required" : false,
+          "type" : "string",
+          "format" : "date"
+        }, {
+          "name" : "approvalDate",
+          "in" : "query",
+          "description" : "Indicates the date on which the Limit was last approved by the credit committee of the bank",
+          "required" : false,
+          "type" : "string",
+          "format" : "date"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "getExpiringLimitsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getExpiringLimitsResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/limits/reviewLimits" : {
+      "get" : {
+        "summary" : "Retrieves Credit Limits to be reviewed",
+        "operationId" : "getLimitsToReview",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "limitReviewDate",
+          "in" : "query",
+          "description" : "Specifies the next date on which the limit is reviewed",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "approvalDate",
+          "in" : "query",
+          "description" : "Indicates the date on which the Limit was last approved by the credit committee of the bank",
+          "required" : false,
+          "type" : "string",
+          "format" : "date"
+        }, {
+          "name" : "liabilityNumber",
+          "in" : "query",
+          "description" : "Identifier of the Liability Customer to the credit limit",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "getLimitsToReviewResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getLimitsToReviewResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/limits/groups/{masterGroupKey}/allocations" : {
+      "get" : {
+        "summary" : "Retrieves the Limit Group allocation details",
+        "operationId" : "getLimitGroupAllocations",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "masterGroupKey",
+          "in" : "path",
+          "description" : "Automatically updated by system during authorization with the master group key in which the sharing group key is linked. It will be updated only for the Main group and not for the sub groups.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "getLimitGroupAllocationsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getLimitGroupAllocationsResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/limits/customers/{recordId}/sharingPriorities" : {
+      "get" : {
+        "summary" : "Retrieves the group and individual limits orders for the particular customer ",
+        "operationId" : "getCustomerLimitSharingPriorities",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "recordId",
+          "in" : "path",
+          "description" : "Unique identifier of an entity",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "getCustomerLimitSharingPrioritiesResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getCustomerLimitSharingPrioritiesResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/limits/customers/masterGroups" : {
+      "get" : {
+        "summary" : "Retrieves the Limit Master group details such as priority details of the Limit Sharing group",
+        "operationId" : "getCustomerLimitMasterGroups",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "recordId",
+          "in" : "query",
+          "description" : "Unique identifier of an entity",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "getCustomerLimitMasterGroupsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getCustomerLimitMasterGroupsResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/limits/sharedLimits" : {
+      "get" : {
+        "summary" : "Retrieves the group limits details",
+        "operationId" : "getLimitSharingGroup",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "recordId",
+          "in" : "query",
+          "description" : "Unique identifier of an entity",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "getLimitSharingGroupResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getLimitSharingGroupResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "getExpiringLimitsResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getExpiringLimitsResponseBody"
+        }
+      },
+      "description" : "getExpiringLimitsResponse"
+    },
+    "getExpiringLimitsResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "limit" : {
+          "type" : "array",
+          "description" : "Designed to monitor the availability and utilisation of Limits",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "recordId" : {
+                "type" : "string",
+                "description" : "Unique identifier of an entity"
+              },
+              "liabilityNumber" : {
+                "type" : "string",
+                "description" : "Identifier of the Liability Customer to the credit limit"
+              },
+              "limitCurrency" : {
+                "type" : "string",
+                "description" : "Currency in which the credit limit is granted"
+              },
+              "internalAmount" : {
+                "type" : "string",
+                "description" : "Specifies the amount actually approved or authorised by Management or the Credit Committee."
+              },
+              "timeCode" : {
+                "type" : "object",
+                "description" : "Specifies time sub-divisions of a Limit, each of which is available for a different maturity period",
+                "properties" : {
+                  "onlineLimit" : {
+                    "type" : "string",
+                    "description" : "The limit amount which is actually available for use"
+                  },
+                  "availableAmount" : {
+                    "type" : "string",
+                    "description" : "The credit limit available to the customer for use"
+                  }
+                }
+              },
+              "expiryDate" : {
+                "type" : "string",
+                "description" : "The date an agreement such as an arrangement, product, credit facility or limit is due to expire"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "getLimitsToReviewResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getLimitsToReviewResponseBody"
+        }
+      },
+      "description" : "getLimitsToReviewResponse"
+    },
+    "getLimitsToReviewResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "limit" : {
+          "type" : "array",
+		  "description" : "Designed to monitor the availability and utilisation of Limits",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "recordId" : {
+                "type" : "string",
+                "description" : "Unique identifier of an entity"
+              },
+              "liabilityNumber" : {
+                "type" : "string",
+                "description" : "Identifier of the Liability Customer to the credit limit"
+              },
+              "limitCurrency" : {
+                "type" : "string",
+                "description" : "Currency in which the credit limit is granted"
+              },
+              "internalAmount" : {
+                "type" : "string",
+                "description" : "Specifies the amount actually approved or authorised by Management or the Credit Committee."
+              },
+              "advisedAmount" : {
+                "type" : "string",
+                "description" : "The amount advised to the Customer"
+              },
+              "limitReviewDate" : {
+                "type" : "string",
+                "description" : "Specifies the next date on which the limit is reviewed"
+              },
+              "expiryDate" : {
+                "type" : "string",
+                "description" : "The date an agreement such as an arrangement, product, credit facility or limit is due to expire"
+              }
+            }
+          }
+        }
+      }
+    },
+    "getLimitGroupAllocationsResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getLimitGroupAllocationsResponseBody"
+        }
+      },
+      "description" : "getLimitGroupAllocationsResponse"
+    },
+    "getLimitGroupAllocationsResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "groupAllocation" : {
+          "type" : "array",
+          "description" : "Holds the Limit Group allocation details ",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "recordId" : {
+                "type" : "string",
+                "description" : "Unique identifier of an entity"
+              },
+              "relatedReference" : {
+                "type" : "object",
+                "description" : "An external reference id for the transaction.",
+                "properties" : {
+                  "relatedReference" : {
+                    "type" : "string",
+                    "description" : "An external reference id for the transaction."
+                  },
+                  "dealCurrency" : {
+                    "type" : "string",
+                    "description" : "Identifies the transaction currency involved in the Deal"
+                  },
+                  "dealAmount" : {
+                    "type" : "string",
+                    "description" : "Identifies the transaction amount involved in the Deal"
+                  },
+                  "commitOverdrawnAmount" : {
+                    "type" : "string",
+                    "description" : "Excess amount that are made as commitments under the Deal using the Group Limit"
+                  },
+                  "limitAmount" : {
+                    "type" : "string",
+                    "description" : "The Limit amount that is actually available for use. The system limit checks are preformed against the online limit"
+                  },
+                  "limitId" : {
+                    "type" : "object",
+                    "description" : "The identifier of credit limit",
+                    "properties" : {
+                      "commitAmountAlloc" : {
+                        "type" : "string",
+                        "description" : "Allocated Group limit amount for the commitments under the Deal"
+                      }
+                    }
+                  },
+                  "commitAmountAlloc" : {
+                    "type" : "string",
+                    "description" : "Allocated Group limit amount for the commitments under the Deal"
+                  },
+                  "limitKey" : {
+                    "type" : "string",
+                    "description" : "The identifier of credit limit"
+                  }
+                }
+              },
+              "masterGroupKey" : {
+                "type" : "object",
+                "description" : "Automatically updated by system during authorization with the master group key in which the sharing group key is linked. It will be updated only for the Main group and not for the sub groups.",
+                "properties" : {
+                  "totalAllocation" : {
+                    "type" : "string",
+                    "description" : "The total amount allocated for different deals under the limit"
+                  },
+                  "groupCurrency" : {
+                    "type" : "string",
+                    "description" : "Identifies the currency of the Limit under the Limit sharing group"
+                  },
+                  "masterGroupKey" : {
+                    "type" : "string",
+                    "description" : "Automatically updated by system during authorization with the master group key in which the sharing group key is linked. It will be updated only for the Main group and not for the sub groups."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "getCustomerLimitSharingPrioritiesResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getCustomerLimitSharingPrioritiesResponseBody"
+        }
+      },
+      "description" : "getCustomerLimitSharingPrioritiesResponse"
+    },
+    "getCustomerLimitSharingPrioritiesResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "limitDefinePriority" : {
+          "type" : "array",
+          "description" : "Holds the Limit Priority details",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "recordId" : {
+                "type" : "string",
+                "description" : "Unique identifier of an entity"
+              },
+              "priority" : {
+                "type" : "object",
+                "description" : "Defines the Campaign priority",
+                "properties" : {
+                  "priority" : {
+                    "type" : "string",
+                    "description" : "Defines the Campaign priority"
+                  }
+                }
+              },
+              "customerPriority" : {
+                "type" : "string",
+                "description" : "Customer's Limit Sharing Priority to the Group"
+              }
+            }
+          }
+        }
+      }
+    },
+    "getCustomerLimitMasterGroupsResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getCustomerLimitMasterGroupsResponseBody"
+        }
+      },
+      "description" : "getCustomerLimitMasterGroupsResponse"
+    },
+    "getCustomerLimitMasterGroupsResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "liMaterGroup" : {
+          "type" : "array",
+          "description" : "Holds the limit Master Group details",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "recordId" : {
+                "type" : "string",
+                "description" : "Unique identifier of an entity"
+              },
+              "masterGroupKey" : {
+                "type" : "object",
+                "description" : "Automatically updated by system during authorization with the master group key in which the sharing group key is linked. It will be updated only for the Main group and not for the sub groups.",
+                "properties" : {
+                  "masterGroupKey" : {
+                    "type" : "string",
+                    "description" : "Automatically updated by system during authorization with the master group key in which the sharing group key is linked. It will be updated only for the Main group and not for the sub groups."
+                  }
+                }
+              },
+              "allowedCustomer" : {
+                "type" : "object",
+                "description" : "Customers who are part of Limit sharing Group.",
+                "properties" : {
+                  "allowedCustomer" : {
+                    "type" : "string",
+                    "description" : "Customers who are part of Limit sharing Group."
+                  },
+                  "customerPriority" : {
+                    "type" : "string",
+                    "description" : "Customer's Limit Sharing Priority to the Group"
+                  }
+                }
+              },
+              "isSingleCreditLine" : {
+                "type" : "string",
+                "description" : "whether the group sharing limit is single credit line or not"
+              }
+            }
+          }
+        }
+      }
+    },
+    "getLimitSharingGroupResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getLimitSharingGroupResponseBody"
+        }
+      },
+      "description" : "getLimitSharingGroupResponse"
+    },
+    "getLimitSharingGroupResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "limitSharingGroup" : {
+          "type" : "array",
+          "description" : "Application allows defining group limits which can be granted to a group of customer and product in addition to their individual limit",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "recordId" : {
+                "type" : "string",
+                "description" : "Unique identifier of an entity"
+              },
+              "limitProduct" : {
+                "type" : "string",
+                "description" : "Identifier of the credit limit product"
+              },
+              "parentGroup" : {
+                "type" : "string",
+                "description" : "Used for sub groups to create a hierarchy with main group. It is not required for Main groups and is mandatory for sub groups."
+              },
+              "singleLineSerialNumber" : {
+                "type" : "string",
+                "description" : "Serial number of credit limit of the Single Line limit sharing group"
+              },
+              "masterGroupKey" : {
+                "type" : "string",
+                "description" : "Automatically updated by system during authorization with the master group key in which the sharing group key is linked. It will be updated only for the Main group and not for the sub groups."
+              },
+              "language" : {
+                "type" : "object",
+                "description" : "Language specific fields will be displayed under this entity",
+                "properties" : {
+                  "displayName" : {
+                    "type" : "string",
+                    "description" : "Contains the name used for display or enrichment purposes"
+                  }
+                }
+              },
+              "allowedProduct" : {
+                "type" : "object",
+                "description" : "Product or products allowed to be used within the product bundle.",
+                "properties" : {
+                  "allowedProduct" : {
+                    "type" : "string",
+                    "description" : "Product or products allowed to be used within the product bundle."
+                  }
+                }
+              },
+              "allowedCustomer" : {
+                "type" : "object",
+                "description" : "Customers who are part of Limit sharing Group.",
+                "properties" : {
+                  "allowedCustomer" : {
+                    "type" : "string",
+                    "description" : "Customers who are part of Limit sharing Group."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,419 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "API to retrieve the Product Details",
+    "version" : "v1.0.0",
+    "title" : "Product Details"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "https", "http" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/product/productLines/{productLineId}/productGroups" : {
+      "get" : {
+        "summary" : "Retrieves the product group information such as product line Id, product line Id, product group description for a product line",
+        "operationId" : "getProductGroup",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "productLineId",
+          "in" : "path",
+          "description" : "The top level product line, which the product is ultimately attached to. May be a Temenos-defined product line such as ACCOUNTS, AGENT, BUNDLE, CONSENT, DEPOSITS, LENDING, REWARDS, etc. or one defined by the institution to manage external products.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "getProductGroupResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getProductGroupResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/product/productLines/{productLineId}/activities" : {
+      "get" : {
+        "summary" : "Retrieves product line activity information such as activity class Id, description",
+        "operationId" : "getProductLineActivities",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "productLineId",
+          "in" : "path",
+          "description" : "The top level product line, which the product is ultimately attached to. May be a Temenos-defined product line such as ACCOUNTS, AGENT, BUNDLE, CONSENT, DEPOSITS, LENDING, REWARDS, etc. or one defined by the institution to manage external products.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "getProductLineActivitiesResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getProductLineActivitiesResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/product/productLines" : {
+      "get" : {
+        "summary" : "Retrieves product line information such as product line Id, description",
+        "operationId" : "getProductLines",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "getProductLinesResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getProductLinesResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/product/productGroups" : {
+      "get" : {
+        "summary" : "Retrieves the product group information such as product line Id, product line Id, product group description",
+        "operationId" : "getProductGroups",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "getProductGroupsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getProductGroupsResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/product/productDetails/propertyClasses" : {
+      "get" : {
+        "summary" : "Retrieves the product's property class information, which is used for building products",
+        "operationId" : "getPropertyClasses",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "recordId",
+          "in" : "query",
+          "description" : "Unique identifier of an entity",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "displayName",
+          "in" : "query",
+          "description" : "Contains the name used for display or enrichment purposes",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "fullDescription",
+          "in" : "query",
+          "description" : "Contains the name used for display or enrichment purposes",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "getPropertyClassesResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getPropertyClassesResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "getProductGroupResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getProductGroupResponseBody"
+        }
+      },
+      "description" : "getProductGroupResponse"
+    },
+    "getProductGroupResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "productGroupId" : {
+          "type" : "array",
+          "description" : "The group, as defined by the institution, that the product belongs to.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "recordId" : {
+                "type" : "string",
+                "description" : "Unique identifier of an entity"
+              },
+              "language" : {
+                "type" : "object",
+                "description" : "Language specific fields will be displayed under this entity",
+                "properties" : {
+                  "displayName" : {
+                    "type" : "string",
+                    "description" : "Contains the name used for display or enrichment purposes"
+                  }
+                }
+              },
+              "productLineId" : {
+                "type" : "string",
+                "description" : "The top level product line, which the product is ultimately attached to. May be a Temenos-defined product line such as ACCOUNTS, AGENT, BUNDLE, CONSENT, DEPOSITS, LENDING, REWARDS, etc. or one defined by the institution to manage external products."
+              }
+            }
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "getProductLineActivitiesResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getProductLineActivitiesResponseBody"
+        }
+      },
+      "description" : "getProductLineActivitiesResponse"
+    },
+    "getProductLineActivitiesResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "activityClass" : {
+          "type" : "array",
+          "description" : "Arrangement activity class details",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "recordId" : {
+                "type" : "string",
+                "description" : "Unique identifier of an entity"
+              },
+              "language" : {
+                "type" : "object",
+                "description" : "Language specific fields will be displayed under this entity",
+                "properties" : {
+                  "displayName" : {
+                    "type" : "string",
+                    "description" : "Contains the name used for display or enrichment purposes"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "getProductLinesResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getProductLinesResponseBody"
+        }
+      },
+      "description" : "getProductLinesResponse"
+    },
+    "getProductLinesResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "productLine" : {
+          "type" : "array",
+          "description" : "The top level product line, which the product is ultimately attached to. May be a Temenos-defined product line such as ACCOUNTS, AGENT, BUNDLE, CONSENT, DEPOSITS, LENDING, REWARDS, etc. or one defined by the institution to manage external products.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "recordId" : {
+                "type" : "string",
+                "description" : "Unique identifier of an entity"
+              },
+              "language" : {
+                "type" : "object",
+                "description" : "Language specific fields will be displayed under this entity",
+                "properties" : {
+                  "displayName" : {
+                    "type" : "string",
+                    "description" : "Contains the name used for display or enrichment purposes"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "getProductGroupsResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getProductGroupsResponseBody"
+        }
+      },
+      "description" : "getProductGroupsResponse"
+    },
+    "getProductGroupsResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "productGroupId" : {
+          "type" : "array",
+          "description" : "The group, as defined by the institution, that the product belongs to.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "recordId" : {
+                "type" : "string",
+                "description" : "Unique identifier of an entity"
+              },
+              "productLineId" : {
+                "type" : "string",
+                "description" : "The top level product line, which the product is ultimately attached to. May be a Temenos-defined product line such as ACCOUNTS, AGENT, BUNDLE, CONSENT, DEPOSITS, LENDING, REWARDS, etc. or one defined by the institution to manage external products."
+              },
+              "language" : {
+                "type" : "object",
+                "description" : "Language specific fields will be displayed under this entity",
+                "properties" : {
+                  "displayName" : {
+                    "type" : "string",
+                    "description" : "Contains the name used for display or enrichment purposes"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "getPropertyClassesResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getPropertyClassesResponseBody"
+        }
+      },
+      "description" : "getPropertyClassesResponse"
+    },
+    "getPropertyClassesResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "propertyClass" : {
+          "type" : "array",
+          "description" : "A Product Line is described by the Property Classes which constitute it and those which do not",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "recordId" : {
+                "type" : "string",
+                "description" : "Unique identifier of an entity"
+              },
+              "language" : {
+                "type" : "object",
+                "description" : "Language specific fields will be displayed under this entity",
+                "properties" : {
+                  "displayName" : {
+                    "type" : "string",
+                    "description" : "Contains the name used for display or enrichment purposes"
+                  }
+                }
+              },
+              "displayName" : {
+                "type" : "object",
+                "description" : "Contains the name used for display or enrichment purposes",
+                "properties" : {
+                  "fullDescription" : {
+                    "type" : "string",
+                    "description" : "Contains the name used for display or enrichment purposes"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

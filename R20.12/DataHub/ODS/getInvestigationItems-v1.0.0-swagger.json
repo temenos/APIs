@@ -1,0 +1,167 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "API to retrieve funds which require manual authorisation",
+    "version" : "v1.0.0",
+    "title" : "Transaction stops"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/order/transactionStops/investigations" : {
+      "get" : {
+        "summary" : "Retrieves the funds which require manual authorisation",
+        "operationId" : "getInvestigationItems",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "getInvestigationItemsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getInvestigationItemsResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "getInvestigationItemsResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getInvestigationItemsResponseBody"
+        }
+      },
+      "description" : "getInvestigationItemsResponse"
+    },
+    "getInvestigationItemsResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "fundsAuthorisation" : {
+          "type" : "array",
+          "description" : "Holds the manual funds authorisation details ",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "recordId" : {
+                "type" : "string",
+                "description" : "Unique identifier of an entity"
+              },
+              "debitAccountId" : {
+                "type" : "string",
+                "description" : "Indicates the debit account number of the payment or transaction."
+              },
+              "requestedAmount" : {
+                "type" : "string",
+                "description" : "Requested amount for funds authorisation"
+              },
+              "originalTransferReference" : {
+                "type" : "string",
+                "description" : "Original transfer reference for funds authorisation"
+              },
+              "setTypeOrOriginalDecision" : {
+                "type" : "string",
+                "description" : "Original decision status for funds authorisation"
+              },
+              "requestSource" : {
+                "type" : "string",
+                "description" : "Request source for funds authorisation"
+              },
+              "requestCode" : {
+                "type" : "string",
+                "description" : "Request code for funds authorisation"
+              },
+              "instructionId" : {
+                "type" : "object",
+                "description" : "Id of the Transaction Stop instruction against which the transaction has been matched.",
+                "properties" : {
+                  "relatedDecision" : {
+                    "type" : "string",
+                    "description" : "Related decision for funds authorisation"
+                  },
+                  "instructionId" : {
+                    "type" : "string",
+                    "description" : "Id of the Transaction Stop instruction against which the transaction has been matched."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    }
+  }
+}

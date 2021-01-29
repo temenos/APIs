@@ -1,0 +1,241 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "API to get the list of Accounts",
+    "version" : "v1.0.0",
+    "title" : "Nostro  Vostro Account list"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/holdings/accounts/nostro/" : {
+      "get" : {
+        "summary" : "Retrieve the list of Nostro accounts",
+        "operationId" : "getNostroAccountList",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "getNostroAccountListResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getNostroAccountListResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/accounts/vostro/" : {
+      "get" : {
+        "summary" : "Retrieve the list of Vostro accounts",
+        "operationId" : "getVostroAccountList",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "recordId",
+          "in" : "query",
+          "description" : "Unique identifier of an entity",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "customerId",
+          "in" : "query",
+          "description" : "Identifier of the customer",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "productName",
+          "in" : "query",
+          "description" : "Product name of the bank for this account, proprietary definition.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "currencyId",
+          "in" : "query",
+          "description" : "Identifier of the currency. This is the 3-letter ISO 4217 code of the currency.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "getVostroAccountListResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getVostroAccountListResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "getNostroAccountListResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getNostroAccountListResponseBody"
+        }
+      },
+      "description" : "getNostroAccountListResponse"
+    },
+    "getNostroAccountListResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "accountId" : {
+          "type" : "array",
+          "description" : "Identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId. Accepts both IBAN & BBAN",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "recordId" : {
+                "type" : "string",
+                "description" : "Unique identifier of an entity"
+              },
+              "productName" : {
+                "type" : "string",
+                "description" : "Product name of the bank for this account, proprietary definition."
+              },
+              "displayName" : {
+                "type" : "object",
+                "description" : "Contains the name used for display or enrichment purposes",
+                "properties" : {
+                  "displayName" : {
+                    "type" : "string",
+                    "description" : "Contains the name used for display or enrichment purposes"
+                  }
+                }
+              },
+              "currencyId" : {
+                "type" : "string",
+                "description" : "Identifier of the currency. This is the 3-letter ISO 4217 code of the currency."
+              }
+            }
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "getVostroAccountListResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getVostroAccountListResponseBody"
+        }
+      },
+      "description" : "getVostroAccountListResponse"
+    },
+    "getVostroAccountListResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "accountId" : {
+          "type" : "array",
+          "description" : "Identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId. Accepts both IBAN & BBAN",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "recordId" : {
+                "type" : "string",
+                "description" : "Unique identifier of an entity"
+              },
+              "displayName" : {
+                "type" : "object",
+                "description" : "Contains the name used for display or enrichment purposes",
+                "properties" : {
+                  "displayName" : {
+                    "type" : "string",
+                    "description" : "Contains the name used for display or enrichment purposes"
+                  }
+                }
+              },
+              "productName" : {
+                "type" : "string",
+                "description" : "Product name of the bank for this account, proprietary definition."
+              },
+              "customerId" : {
+                "type" : "string",
+                "description" : "Identifier of the customer"
+              },
+              "currencyId" : {
+                "type" : "string",
+                "description" : "Identifier of the currency. This is the 3-letter ISO 4217 code of the currency."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

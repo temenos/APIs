@@ -1,0 +1,242 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "API to retrieve the details of date",
+    "version" : "v1.0.0",
+    "title" : "System business dates"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "https", "http" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/reference/dates/{recordId}" : {
+      "get" : {
+        "summary" : "Retrieves the details of date for a specific company identifier ",
+        "operationId" : "getDatesByCompany",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "recordId",
+          "in" : "path",
+          "description" : "Unique identifier of an entity",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "currentWorkingDate",
+          "in" : "query",
+          "description" : "Date of the current business day for all online activities in the selected Company. This field is updated automatically with the date from 'nextWorkingDay' during the Close of Business processing.",
+          "required" : false,
+          "type" : "string",
+          "format" : "date"
+        }, {
+          "name" : "lastWorkingDate",
+          "in" : "query",
+          "description" : "Date of the last business day processed for this Company. This field will be set with the date from Today table by the batch (overnight) processing system.",
+          "required" : false,
+          "type" : "string",
+          "format" : "date"
+        }, {
+          "name" : "nextWorkingDate",
+          "in" : "query",
+          "description" : "Date of the next business day which will be processed in this Company.",
+          "required" : false,
+          "type" : "string",
+          "format" : "date"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "getDatesByCompanyResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getDatesByCompanyResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/reference/dates" : {
+      "get" : {
+        "summary" : "Retrieves the run dates informations such as the previous, the current and the next working days of all legal entities",
+        "operationId" : "getDates",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "recordId",
+          "in" : "query",
+          "description" : "Unique identifier of an entity",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "nextWorkingDate",
+          "in" : "query",
+          "description" : "Date of the next business day which will be processed in this Company.",
+          "required" : false,
+          "type" : "string",
+          "format" : "date"
+        }, {
+          "name" : "lastWorkingDate",
+          "in" : "query",
+          "description" : "Date of the last business day processed for this Company. This field will be set with the date from Today table by the batch (overnight) processing system.",
+          "required" : false,
+          "type" : "string",
+          "format" : "date"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "getDatesResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getDatesResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "getDatesByCompanyResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getDatesByCompanyResponseBody"
+        }
+      },
+      "description" : "getDatesByCompanyResponse"
+    },
+    "getDatesByCompanyResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "dates" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "recordId" : {
+                "type" : "string",
+                "description" : "Unique identifier of an entity"
+              },
+              "currentWorkingDate" : {
+                "type" : "string",
+                "description" : "Date of the current business day for all online activities in the selected Company. This field is updated automatically with the date from 'nextWorkingDay' during the Close of Business processing."
+              },
+              "lastWorkingDate" : {
+                "type" : "string",
+                "description" : "Date of the last business day processed for this Company. This field will be set with the date from Today table by the batch (overnight) processing system."
+              },
+              "nextWorkingDate" : {
+                "type" : "string",
+                "description" : "Date of the next business day which will be processed in this Company."
+              }
+            }
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "getDatesResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getDatesResponseBody"
+        }
+      },
+      "description" : "getDatesResponse"
+    },
+    "getDatesResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "dates" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "recordId" : {
+                "type" : "string",
+                "description" : "Unique identifier of an entity"
+              },
+              "lastWorkingDate" : {
+                "type" : "string",
+                "description" : "Date of the last business day processed for this Company. This field will be set with the date from Today table by the batch (overnight) processing system."
+              },
+              "nextWorkingDate" : {
+                "type" : "string",
+                "description" : "Date of the next business day which will be processed in this Company."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

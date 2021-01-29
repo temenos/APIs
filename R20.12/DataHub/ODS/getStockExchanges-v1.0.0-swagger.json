@@ -1,0 +1,157 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "API to retrieve the stock exchange details",
+    "version" : "v1.0.0",
+    "title" : "Stock Exchange   "
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/reference/stockExchanges/" : {
+      "get" : {
+        "summary" : "Retrieves the stock exchange details such as stock exchange code, description, short version of description, calculation country code, settlement days",
+        "operationId" : "getStockExchanges",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Stock Exchange   Response",
+            "schema" : {
+              "$ref" : "#/definitions/getStockExchangesResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "getStockExchangesResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getStockExchangesResponseBody"
+        }
+      },
+      "description" : "getStockExchangesResponse"
+    },
+    "getStockExchangesResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "stockExchange" : {
+          "type" : "array",
+          "description" : "The stock exchange identifier",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "recordId" : {
+                "type" : "string",
+                "description" : "Unique identifier of an entity"
+              },
+              "calculationCountry" : {
+                "type" : "string",
+                "description" : "Stock Exchange to a country code which then will access the Stock Exchange calculation tables for automatic calculation of commissions and charges applicable"
+              },
+              "language" : {
+                "type" : "object",
+                "description" : "Language specific fields will be displayed under this entity",
+                "properties" : {
+                  "stockExchange" : {
+                    "type" : "string",
+                    "description" : "The stock exchange identifier"
+                  },
+                  "displayName" : {
+                    "type" : "string",
+                    "description" : "Contains the name used for display or enrichment purposes"
+                  }
+                }
+              },
+              "settlementDays" : {
+                "type" : "object",
+                "description" : "Indicates the number of days forward the value date is it be",
+                "properties" : {
+                  "settlementDays" : {
+                    "type" : "string",
+                    "description" : "Indicates the number of days forward the value date is it be"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    }
+  }
+}

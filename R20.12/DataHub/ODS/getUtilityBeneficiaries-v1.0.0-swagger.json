@@ -1,0 +1,198 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "API to retrieve the beneficiary informations",
+    "version" : "v1.0.0",
+    "title" : "Utility Beneficiaries"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/reference/beneficiaries/utilityBeneficiaries" : {
+      "get" : {
+        "summary" : "Retrieves the beneficiary informations such as beneficiary Id, nick name, category,  beneficiary account number, sort code, payment amount",
+        "operationId" : "getUtilityBeneficiaries",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "productName",
+          "in" : "query",
+          "description" : "Product name of the bank for this account, proprietary definition.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "recordId",
+          "in" : "query",
+          "description" : "Unique identifier of an entity",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "beneficiaryAccountId",
+          "in" : "query",
+          "description" : "Unique account identifier of the beneficiary account number.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "bankSortCode",
+          "in" : "query",
+          "description" : "The sort code or the national clearing code of the beneficiary bank. ",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "transactionType",
+          "in" : "query",
+          "description" : "Identifies the transaction type applicable to the transaction being processed, i.e. outward or inward payment. For example: ACPX, OTPX etc.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "paymentProduct",
+          "in" : "query",
+          "description" : "Preferred payment product can be specified for Beneficiary. This will be used for defaulting the payment product for specific beneficiary. ",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyName",
+          "in" : "query",
+          "description" : "The company in which payment is processed",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "beneficiaryIBAN",
+          "in" : "query",
+          "description" : "International Bank Account Number (IBAN) of the beneficiary account, required only for International transfers/payments outside the Bank. For example: GB98 MIDL07009312345678, FR7630006000011234567890189",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "owningCustomerId",
+          "in" : "query",
+          "description" : "This field specifies the customer to which beneficiary is linked to. Allowed only in case of customer defined beneficiaries",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "getUtilityBeneficiariesResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getUtilityBeneficiariesResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "getUtilityBeneficiariesResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getUtilityBeneficiariesResponseBody"
+        }
+      },
+      "description" : "getUtilityBeneficiariesResponse"
+    },
+    "getUtilityBeneficiariesResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "beneficiaryId" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "recordId" : {
+                "type" : "string",
+                "description" : "Unique identifier of an entity"
+              },
+              "productName" : {
+                "type" : "string",
+                "description" : "Product name of the bank for this account, proprietary definition."
+              },
+              "beneficiaryAccountId" : {
+                "type" : "string",
+                "description" : "Unique account identifier of the beneficiary account number."
+              },
+              "bankSortCode" : {
+                "type" : "string",
+                "description" : "The sort code or the national clearing code of the beneficiary bank. "
+              },
+              "paymentProduct" : {
+                "type" : "string",
+                "description" : "Preferred payment product can be specified for Beneficiary. This will be used for defaulting the payment product for specific beneficiary. "
+              }
+            }
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    }
+  }
+}

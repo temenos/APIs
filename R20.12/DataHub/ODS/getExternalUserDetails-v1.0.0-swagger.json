@@ -1,0 +1,359 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "API to retrieve the external user details",
+    "version" : "v1.0.0",
+    "title" : "External user details"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/party/externalUsers/{recordId}" : {
+      "get" : {
+        "summary" : "Retrieves the external user details",
+        "operationId" : "getExternalUser",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "recordId",
+          "in" : "path",
+          "description" : "Unique identifier of an entity",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "getExternalUserResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getExternalUserResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/party/externalUsers/externalUserPreferences" : {
+      "get" : {
+        "summary" : "Retrieves the external user preferences",
+        "operationId" : "getExternalUserPreferences",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "recordId",
+          "in" : "query",
+          "description" : "Unique identifier of an entity",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "getExternalUserPreferencesResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getExternalUserPreferencesResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "getExternalUserResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getExternalUserResponseBody"
+        }
+      },
+      "description" : "getExternalUserResponse"
+    },
+    "getExternalUserResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "ebExternalUser" : {
+          "type" : "array",
+          "description" : "application holding details about users of the system who are not staff of the bank. Examples include Internet banking users.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "recordId" : {
+                "type" : "string",
+                "description" : "Unique identifier of an entity"
+              },
+              "name" : {
+                "type" : "string",
+                "description" : "Name of the Customer or Bank Employee or a Person"
+              },
+              "customerId" : {
+                "type" : "string",
+                "description" : "Identifier of the customer"
+              },
+              "companyId" : {
+                "type" : "string",
+                "description" : "The identifier of the underlying Entity/Company/Branch."
+              },
+              "channelId" : {
+                "type" : "object",
+                "description" : "Id of the (digital) channel",
+                "properties" : {
+                  "statusChangeReason" : {
+                    "type" : "string",
+                    "description" : "Customer status update with respective reasons"
+                  },
+                  "arrangementId" : {
+                    "type" : "string",
+                    "description" : "The unique identifier of an arrangement contract."
+                  },
+                  "loginMethod" : {
+                    "type" : "string",
+                    "description" : "The type of login method e.g. password, PIN, OTP"
+                  },
+                  "expiryDate" : {
+                    "type" : "string",
+                    "description" : "The date an agreement such as an arrangement, product, credit facility or limit is due to expire"
+                  },
+                  "termsAccepted" : {
+                    "type" : "string",
+                    "description" : "Defines whether the user has accepted the Terms and Conditions first displayed when the user logs in to the system for the very first time."
+                  },
+                  "startTime" : {
+                    "type" : "string",
+                    "description" : "The beginning of the time interval in the current Day"
+                  },
+                  "endTime" : {
+                    "type" : "string",
+                    "description" : "The end of the time interval in corresponding Day"
+                  },
+                  "userType" : {
+                    "type" : "string",
+                    "description" : "The type of the user. Can be CORPORATE, INTERMEDIARY,PERSONAL"
+                  },
+                  "channelId" : {
+                    "type" : "string",
+                    "description" : "Id of the (digital) channel"
+                  },
+                  "claimStatus" : {
+                    "type" : "string",
+                    "description" : "Status update of the claim records"
+                  },
+                  "startDate" : {
+                    "type" : "string",
+                    "description" : "Contains the date on which the transaction or payment gets initiated."
+                  },
+                  "productLineId" : {
+                    "type" : "string",
+                    "description" : "The top level product line, which the product is ultimately attached to. May be a Temenos-defined product line such as ACCOUNTS, AGENT, BUNDLE, CONSENT, DEPOSITS, LENDING, REWARDS, etc. or one defined by the institution to manage external products."
+                  },
+                  "subArrangementId" : {
+                    "type" : "string",
+                    "description" : "The subset of Master arrangement."
+                  }
+                }
+              },
+              "authenticationServerUpdate" : {
+                "type" : "string",
+                "description" : "Authenticate on customer login update"
+              },
+              "authorizationType" : {
+                "type" : "string",
+                "description" : "Determines the transaction signing method"
+              },
+              "languageId" : {
+                "type" : "string",
+                "description" : "Represents the language code of the underlying Entity/Company/Branch."
+              },
+              "dateFormat" : {
+                "type" : "string",
+                "description" : "Used for deciding in which format the dates are to be displayed for a user / for a language"
+              },
+              "override" : {
+                "type" : "object",
+                "description" : "The override message is captured  that was generated at the time of commitment of the transaction to the database.",
+                "properties" : {
+                  "override" : {
+                    "type" : "string",
+                    "description" : "The override message is captured  that was generated at the time of commitment of the transaction to the database."
+                  }
+                }
+              },
+              "currNo" : {
+                "type" : "string",
+                "description" : "Current Number which indicates how many times the record is modified."
+              },
+              "recordStatus" : {
+                "type" : "string",
+                "description" : "General status of the record. Possible values: - null - authorised - IHLD - input, on hold - INAU - input, not authorised - INA2 - input, authorised, pending second authorisation - INAO - input, not authorised with blocking overrides - RNAU - reversed, not authorised - RNAO - reversed, not authorised with blocking overrides"
+              },
+              "inputter" : {
+                "type" : "object",
+                "description" : "The user identifier who input the transaction",
+                "properties" : {
+                  "inputter" : {
+                    "type" : "string",
+                    "description" : "The user identifier who input the transaction"
+                  }
+                }
+              },
+              "createdAt" : {
+                "type" : "object",
+                "description" : "Contains the time at which the arrangement was created",
+                "properties" : {
+                  "createdAt" : {
+                    "type" : "string",
+                    "description" : "Contains the time at which the arrangement was created"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "getExternalUserPreferencesResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getExternalUserPreferencesResponseBody"
+        }
+      },
+      "description" : "getExternalUserPreferencesResponse"
+    },
+    "getExternalUserPreferencesResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "externalUserPreference" : {
+          "type" : "array",
+          "description" : "Holds the external user's preferences",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "recordId" : {
+                "type" : "string",
+                "description" : "Unique identifier of an entity"
+              },
+              "customerRelationGroupName" : {
+                "type" : "string",
+                "description" : "Name of a Customer Relationship Group if applicable to the relationship."
+              },
+              "groupDisplayName" : {
+                "type" : "string",
+                "description" : "Display the details of group name"
+              },
+              "groupPosition" : {
+                "type" : "string",
+                "description" : "Group position"
+              },
+              "favouriteGroup" : {
+                "type" : "string",
+                "description" : "Favourite group"
+              },
+              "balanceCustomer" : {
+                "type" : "object",
+                "description" : "View the balance of customer",
+                "properties" : {
+                  "balanceProductLine" : {
+                    "type" : "object",
+                    "description" : "Id of the product line (e.g. DEPOSITS), which is used in the calculation of the total balance.",
+                    "properties" : {
+                      "balanceProductLine" : {
+                        "type" : "string",
+                        "description" : "Id of the product line (e.g. DEPOSITS), which is used in the calculation of the total balance."
+                      }
+                    }
+                  }
+                }
+              },
+              "serviceName" : {
+                "type" : "object",
+                "description" : "The service related to an arrangement",
+                "properties" : {
+                  "serviceName" : {
+                    "type" : "string",
+                    "description" : "The service related to an arrangement"
+                  }
+                }
+              },
+              "currNo" : {
+                "type" : "string",
+                "description" : "Current Number which indicates how many times the record is modified."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

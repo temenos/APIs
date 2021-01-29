@@ -1,0 +1,380 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "API to retrieve the product condition details",
+    "version" : "v1.0.0",
+    "title" : "Product Conditions"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/product/{productId}/protectionLimitConditions" : {
+      "get" : {
+        "summary" : "Retrieves the Protection Limit Property details like arrangement number, actual Limit amount, Limit amount currency for a product",
+        "operationId" : "getProtectionLimitConditions",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "productId",
+          "in" : "path",
+          "description" : "Contains the unique identifier of the product, e.g. the product id of the arrangement account.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "propertyId",
+          "in" : "query",
+          "description" : "The identifier of the product condition",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "getProtectionLimitConditionsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getProtectionLimitConditionsResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/product/{productId}/availabilityConditions" : {
+      "get" : {
+        "summary" : "Retrieves the product availability details such as the day/time from which the specific product conditions are available",
+        "operationId" : "getAvailabilityConditions",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "productId",
+          "in" : "path",
+          "description" : "Contains the unique identifier of the product, e.g. the product id of the arrangement account.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "propertyId",
+          "in" : "query",
+          "description" : "The identifier of the product condition",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "getAvailabilityConditionsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getAvailabilityConditionsResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/product/{productId}/licensingConditions" : {
+      "get" : {
+        "summary" : "Retrieves the published product conditions record details like arrangement number, property name, maximum number of roles linked to the master arrangement, maximum number of users linked to a master arrangement or its roles for a product",
+        "operationId" : "getLicensingConditions",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "productId",
+          "in" : "path",
+          "description" : "Contains the unique identifier of the product, e.g. the product id of the arrangement account.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "propertyId",
+          "in" : "query",
+          "description" : "The identifier of the product condition",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "getLicensingConditionsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getLicensingConditionsResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "getProtectionLimitConditionsResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getProtectionLimitConditionsResponseBody"
+        }
+      },
+      "description" : "getProtectionLimitConditionsResponse"
+    },
+    "getProtectionLimitConditionsResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "catProtectionLimit" : {
+          "type" : "array",
+          "description" : "The Protection Limit Property class is used by products which have daily limits on the cumulative amount of transactions that can be done via an external channel.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "productId" : {
+                "type" : "string",
+                "description" : "Contains the unique identifier of the product, e.g. the product id of the arrangement account."
+              },
+              "propertyId" : {
+                "type" : "string",
+                "description" : "The identifier of the product condition"
+              },
+              "limitAmount" : {
+                "type" : "string",
+                "description" : "The Limit amount that is actually available for use. The system limit checks are preformed against the online limit"
+              },
+              "currencyId" : {
+                "type" : "string",
+                "description" : "Identifier of the currency. This is the 3-letter ISO 4217 code of the currency."
+              },
+              "negotiationRulesAttribute" : {
+                "type" : "object",
+                "description" : "Defines which individual attribute (field) has the negotiation rules defined in fields",
+                "properties" : {
+                  "negotiationRulesMessage" : {
+                    "type" : "string",
+                    "description" : "This field indicates whether to raise error or override message when rule is broken,Allows only two values ERROR or OVERRIDE,ERROR - Error message is raisedOVERRIDE - Override message is generated."
+                  },
+                  "negotiationRulesOptions" : {
+                    "type" : "object",
+                    "description" : "Defines named values to indicate if an option applies to the associated NR.ATTRIBUTE. More than one option can be associated with the NR.ATTRIBUTE, with certain restrictions.",
+                    "properties" : {
+                      "negotiationRulesOptions" : {
+                        "type" : "string",
+                        "description" : "Defines named values to indicate if an option applies to the associated NR.ATTRIBUTE. More than one option can be associated with the NR.ATTRIBUTE, with certain restrictions."
+                      }
+                    }
+                  },
+                  "negotiationRulesValue" : {
+                    "type" : "string",
+                    "description" : "Defines the value that links to the rule in field Nr.Type"
+                  },
+                  "negotiationRulesAttribute" : {
+                    "type" : "string",
+                    "description" : "Defines which individual attribute (field) has the negotiation rules defined in fields"
+                  },
+                  "negotiationRulesType" : {
+                    "type" : "object",
+                    "description" : "Defines the negotiation rule that is linked to the field defined in Nr.Attribute. If an attribute has a negotiation rule linked to it. It is possible to define more than one negotiation rule for an attribute.",
+                    "properties" : {
+                      "negotiationRulesMessage" : {
+                        "type" : "string",
+                        "description" : "This field indicates whether to raise error or override message when rule is broken,Allows only two values ERROR or OVERRIDE,ERROR - Error message is raisedOVERRIDE - Override message is generated."
+                      }
+                    }
+                  }
+                }
+              },
+              "cusMaxLimit" : {
+                "type" : "string",
+                "description" : "Holds the value of the customer level limit amount to be used for all defined customers"
+              },
+              "definedCustomer" : {
+                "type" : "object",
+                "description" : "Allowed customers for the selected arrangement; where in they can see their product in Internet Banking",
+                "properties" : {
+                  "customerLimitId" : {
+                    "type" : "string",
+                    "description" : "Limit reference of the customer"
+                  },
+                  "definedCustomer" : {
+                    "type" : "string",
+                    "description" : "Allowed customers for the selected arrangement; where in they can see their product in Internet Banking"
+                  }
+                }
+              },
+              "usageUpdate" : {
+                "type" : "string",
+                "description" : "Holds the value of the customer level limit amount to be used for all defined customers"
+              },
+              "utilisationReset" : {
+                "type" : "string",
+                "description" : "Indicates whether the Protection Limit reset should take place as the calendar date changes or at close of business"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "getAvailabilityConditionsResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getAvailabilityConditionsResponseBody"
+        }
+      },
+      "description" : "getAvailabilityConditionsResponse"
+    },
+    "getAvailabilityConditionsResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "tcAvailability" : {
+          "type" : "array",
+          "description" : "The published product conditions records for the property TC.AVAILABILITY.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "productId" : {
+                "type" : "string",
+                "description" : "Contains the unique identifier of the product, e.g. the product id of the arrangement account."
+              },
+              "propertyId" : {
+                "type" : "string",
+                "description" : "The identifier of the product condition"
+              },
+              "dayName" : {
+                "type" : "object",
+                "description" : "Day name of the week,The Day for which availabilities are defined. This is a multi value set of fields, one set for each week day",
+                "properties" : {
+                  "dayName" : {
+                    "type" : "string",
+                    "description" : "Day name of the week,The Day for which availabilities are defined. This is a multi value set of fields, one set for each week day"
+                  },
+                  "startTime" : {
+                    "type" : "object",
+                    "description" : "The beginning of the time interval in the current Day",
+                    "properties" : {
+                      "endTime" : {
+                        "type" : "string",
+                        "description" : "The end of the time interval in corresponding Day"
+                      }
+                    }
+                  },
+                  "daySelect" : {
+                    "type" : "string",
+                    "description" : "Allowed days to access Internet Banking,The permissions for the current Day.Possible values: Null/Yes/No"
+                  },
+                  "endTime" : {
+                    "type" : "string",
+                    "description" : "The end of the time interval in corresponding Day"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "getLicensingConditionsResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getLicensingConditionsResponseBody"
+        }
+      },
+      "description" : "getLicensingConditionsResponse"
+    },
+    "getLicensingConditionsResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "tcLicensing" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "productId" : {
+                "type" : "string",
+                "description" : "Contains the unique identifier of the product, e.g. the product id of the arrangement account."
+              },
+              "propertyId" : {
+                "type" : "string",
+                "description" : "The identifier of the product condition"
+              },
+              "noOfUsers" : {
+                "type" : "string",
+                "description" : "The maximum number of users that can be linked to a master arrangement or its roles"
+              },
+              "noOfRoles" : {
+                "type" : "string",
+                "description" : "The maximum number of roles that can be linked to the master arrangement"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

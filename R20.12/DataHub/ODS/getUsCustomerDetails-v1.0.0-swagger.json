@@ -1,0 +1,197 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "API to retrieve the US customer details",
+    "version" : "v1.0.0",
+    "title" : "US model bank  customer details"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/party/us/customers/{recordId}/documents" : {
+      "get" : {
+        "summary" : "Retrieves the US customer details such as document reference, status, validity, issuer details, and version information details",
+        "operationId" : "searchUsDocuments",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "recordId",
+          "in" : "path",
+          "description" : "Unique identifier of an entity",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "searchUsDocumentsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/searchUsDocumentsResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "searchUsDocumentsResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/searchUsDocumentsResponseBody"
+        }
+      },
+      "description" : "searchUsDocumentsResponse"
+    },
+    "searchUsDocumentsResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "customerDocument" : {
+          "type" : "array",
+          "description" : "Stores details of   non-contract specific documents tracked for customers. Such documents could be Customer level documents tracked for CUSTOMER record input or Non-Contract specific documents tracked for record input in any application other than CUSTOMER.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "referenceNumber" : {
+                "type" : "string",
+                "description" : "Specifies the reference for the document, if any."
+              },
+              "recordId" : {
+                "type" : "string",
+                "description" : "Unique identifier of an entity"
+              },
+              "startDate" : {
+                "type" : "string",
+                "description" : "Contains the date on which the transaction or payment gets initiated."
+              },
+              "claimStatus" : {
+                "type" : "string",
+                "description" : "Status update of the claim records"
+              },
+              "statusDate" : {
+                "type" : "string",
+                "description" : "Specifies the Date from which the status applies to the document."
+              },
+              "signatureDate" : {
+                "type" : "string",
+                "description" : "The date when the document was signed"
+              },
+              "stateId" : {
+                "type" : "string",
+                "description" : "Represents the US State to which the address belongs to."
+              },
+              "countryName" : {
+                "type" : "string",
+                "description" : "This is the country name that the financial institution resides in."
+              },
+              "issuedBy" : {
+                "type" : "string",
+                "description" : "The issuer of a security or a bond."
+              },
+              "issueDate" : {
+                "type" : "string",
+                "description" : "The date the item was issued."
+              },
+              "expiryDate" : {
+                "type" : "string",
+                "description" : "The date an agreement such as an arrangement, product, credit facility or limit is due to expire"
+              },
+              "documentSequence" : {
+                "type" : "string",
+                "description" : "Specifies the sequence number of a document, to distinguish a new document obtained on expiry of the original one."
+              },
+              "receivedDate" : {
+                "type" : "string",
+                "description" : "Identifies the date on which the document was received"
+              },
+              "additionalInformation" : {
+                "type" : "object",
+                "description" : "Additional Information provided to add context",
+                "properties" : {
+                  "additionalInformation" : {
+                    "type" : "string",
+                    "description" : "Additional Information provided to add context"
+                  }
+                }
+              },
+              "imageReference" : {
+                "type" : "string",
+                "description" : "Indicates the reference no. E.g. contract no./customer no./payments no. to which the image/document is attached to"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    }
+  }
+}

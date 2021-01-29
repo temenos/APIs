@@ -1,0 +1,281 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "API to retrieves the guarantee records ",
+    "version" : "v1.0.0",
+    "title" : "Guarantees"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "basicAuth" : [ ]
+  } ],
+  "paths" : {
+    "/holdings/guarantees/requests" : {
+      "get" : {
+        "summary" : "Retrieves the Corporate customer's guarantees issuance request details",
+        "operationId" : "getGuaranteeIssuanceRequests",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "recordId",
+          "in" : "query",
+          "description" : "Unique identifier of an entity",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "customerId",
+          "in" : "query",
+          "description" : "Identifier of the customer",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "eventStatus",
+          "in" : "query",
+          "description" : "Specifies the status of the request.Allowed values are - With Bank_With Customer_Approved_Rejected.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "getGuaranteeIssuanceRequestsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/getGuaranteeIssuanceRequestsResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "getGuaranteeIssuanceRequestsResponse" : {
+      "properties" : {
+        "data" : {
+          "$ref" : "#/definitions/getGuaranteeIssuanceRequestsResponseBody"
+        }
+      },
+      "description" : "getGuaranteeIssuanceRequestsResponse"
+    },
+    "getGuaranteeIssuanceRequestsResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "ibRequest" : {
+          "type" : "array",
+          "description" : "Corporate customer to initiate requests for issuance of guarantees through Internet Banking",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "recordId" : {
+                "type" : "string",
+                "description" : "Unique identifier of an entity"
+              },
+              "productName" : {
+                "type" : "string",
+                "description" : "Product name of the bank for this account, proprietary definition."
+              },
+              "customerId" : {
+                "type" : "string",
+                "description" : "Identifier of the customer"
+              },
+              "currencyId" : {
+                "type" : "string",
+                "description" : "Identifier of the currency. This is the 3-letter ISO 4217 code of the currency."
+              },
+              "principalAmount" : {
+                "type" : "string",
+                "description" : "Indicates the Principal Amount of the loan or a deposit"
+              },
+              "startDate" : {
+                "type" : "string",
+                "description" : "Contains the date on which the transaction or payment gets initiated."
+              },
+              "maturityDate" : {
+                "type" : "string",
+                "description" : "Indicates maturity date of the contract"
+              },
+              "beneficiaryId" : {
+                "type" : "object",
+                "description" : "Indicates the Id of beneficiary when beneficiary details are stored",
+                "properties" : {
+                  "beneficiaryId" : {
+                    "type" : "string",
+                    "description" : "Indicates the Id of beneficiary when beneficiary details are stored"
+                  }
+                }
+              },
+              "detailOfGuarantee" : {
+                "type" : "object",
+                "description" : "This field contains all terms, conditions and details of the guarantee undertaking. ",
+                "properties" : {
+                  "detailOfGuarantee" : {
+                    "type" : "string",
+                    "description" : "This field contains all terms, conditions and details of the guarantee undertaking. "
+                  }
+                }
+              },
+              "clientReference" : {
+                "type" : "string",
+                "description" : "To specify the Corporate customer's reference"
+              },
+              "chargeDebitAccountId" : {
+                "type" : "string",
+                "description" : "Specifies the account from which charges is to be collected."
+              },
+              "marginDebitAccount" : {
+                "type" : "string",
+                "description" : "Field to state the account from which the provision amount is to be debited"
+              },
+              "commissionDebitAccountId" : {
+                "type" : "string",
+                "description" : "Specifies the account from which the invocation amount is to be debited at the time of settlement of the claim."
+              },
+              "claimDebitAccount" : {
+                "type" : "string",
+                "description" : "The account from which the invocation amount will be settled"
+              },
+              "shippingGuaranteeIssuedFor" : {
+                "type" : "string",
+                "description" : "This field determines whether the shipping guarantee is issued under LC Documents or Import Collection documents. Allowed values: - LC - COLLECTION"
+              },
+              "collectionReference" : {
+                "type" : "string",
+                "description" : "The ID of the Letter of Credit, to be linked to this Guarantee for the purpose of apportioning the Margin"
+              },
+              "supportDocument" : {
+                "type" : "object",
+                "description" : "Holds the attached/uploaded documents.",
+                "properties" : {
+                  "supportDocument" : {
+                    "type" : "string",
+                    "description" : "Holds the attached/uploaded documents."
+                  },
+                  "documentName" : {
+                    "type" : "string",
+                    "description" : "The accepted forms of identification taken by the bank when enrolling a Customer"
+                  }
+                }
+              },
+              "limitExceedReason" : {
+                "type" : "object",
+                "description" : "Specifies the reason for request of the guarantee when the system prompts that the limit is exceeded.",
+                "properties" : {
+                  "limitExceedReason" : {
+                    "type" : "string",
+                    "description" : "Specifies the reason for request of the guarantee when the system prompts that the limit is exceeded."
+                  }
+                }
+              },
+              "messageFromBank" : {
+                "type" : "object",
+                "description" : "Field to input queries/clarifications by bank to be sought from Corporate customer on the request.",
+                "properties" : {
+                  "messageFromBank" : {
+                    "type" : "string",
+                    "description" : "Field to input queries/clarifications by bank to be sought from Corporate customer on the request."
+                  }
+                }
+              },
+              "messageFromCustomer" : {
+                "type" : "object",
+                "description" : "Field to input any additional information/clarifications to be provided to the bank, by Corporate customer.",
+                "properties" : {
+                  "messageFromCustomer" : {
+                    "type" : "string",
+                    "description" : "Field to input any additional information/clarifications to be provided to the bank, by Corporate customer."
+                  }
+                }
+              },
+              "otherInformation" : {
+                "type" : "object",
+                "description" : "Field to input any information that needs to be provided with regard to the issuance of guarantee.",
+                "properties" : {
+                  "otherInformation" : {
+                    "type" : "string",
+                    "description" : "Field to input any information that needs to be provided with regard to the issuance of guarantee."
+                  }
+                }
+              },
+              "eventStatus" : {
+                "type" : "string",
+                "description" : "Specifies the status of the request.Allowed values are - With Bank_With Customer_Approved_Rejected."
+              },
+              "currNo" : {
+                "type" : "string",
+                "description" : "Current Number which indicates how many times the record is modified."
+              }
+            }
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    }
+  }
+}
