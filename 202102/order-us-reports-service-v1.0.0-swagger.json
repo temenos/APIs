@@ -1,0 +1,835 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Updates and retrieves information on cash transactions performed by a customer",
+    "version" : "v1.0.0",
+    "title" : "US Model Bank - Cash transaction management"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "apiKey" : [ ]
+  } ],
+  "paths" : {
+    "/order/us/reports/customers/{ctrId}/payment/cashTransactions" : {
+      "get" : {
+        "summary" : "Retrieves the currency transaction details for the customer",
+        "description" : "Retrieve Currency Transaction details",
+        "operationId" : "getCTRDetails",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "ctrId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "CTRDetailsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/CTRDetailsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Updates the currency transaction information performed by a Customer for the day. Consolidated transaction wise details should be updated by Customer. To add more transaction information, retrieved existing updates and append new transaction information",
+        "description" : "Update Currency Transaction details",
+        "operationId" : "updateCTRDetails",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "ctrId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/CTRDetails"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "CTRDetailsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/CTRDetailsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "apiKey" : {
+      "type" : "apiKey",
+      "name" : "Authorization",
+      "in" : "header"
+    }
+  },
+  "definitions" : {
+    "ScreenHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "uniqueIdentifier" : {
+          "type" : "string",
+          "description" : "The unique identifier/Message Reference of the record created."
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "CTRDetailsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/CTRDetailsResponseBody"
+        }
+      },
+      "description" : "CTRDetailsResponse"
+    },
+    "CTRDetailsResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "transactionIds" : {
+          "type" : "array",
+          "description" : "Unique transaction identifier for retrieving the details of the transaction. For example: FT0102030333 etc.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "transactionId" : {
+                "type" : "string",
+                "description" : "Unique transaction identifier for retrieving the details of the transaction. For example: FT0102030333 etc.",
+                "minLength" : 0,
+                "maxLength" : 13
+              },
+              "transactor" : {
+                "type" : "string",
+                "description" : "Third party identifier or an Existing customer who is performing the transaction",
+                "minLength" : 0,
+                "maxLength" : 10
+              },
+              "legalId" : {
+                "type" : "string",
+                "description" : "Unique reference number of the legal documents submitted as identification proof",
+                "minLength" : 0,
+                "maxLength" : 7
+              },
+              "accountId" : {
+                "type" : "string",
+                "description" : "Identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId. Accepts both IBAN & BBAN",
+                "minLength" : 0,
+                "maxLength" : 9
+              },
+              "currency" : {
+                "type" : "string",
+                "description" : "Indicates the type of currency to which the account belongs",
+                "minLength" : 0,
+                "maxLength" : 8
+              },
+              "localCurrencyAmount" : {
+                "type" : "string",
+                "description" : "Transaction Amount in USD for deposit or withdrawal.",
+                "minLength" : 0,
+                "maxLength" : 19
+              },
+              "foreignCurrencyCountry" : {
+                "type" : "string",
+                "description" : "Country code for Foreign currency deposit or withdrawal.",
+                "minLength" : 0,
+                "maxLength" : 22
+              },
+              "transactionDescription" : {
+                "type" : "string",
+                "description" : "Indicates the description based on the transaction type",
+                "minLength" : 0,
+                "maxLength" : 22
+              }
+            }
+          }
+        },
+        "overrides" : {
+          "type" : "array",
+          "description" : "The override message is captured  that was generated at the time of commitment of the transaction to the database.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "override" : {
+                "type" : "string",
+                "description" : "The override message is captured  that was generated at the time of commitment of the transaction to the database.",
+                "minLength" : 0,
+                "maxLength" : 8
+              }
+            }
+          }
+        },
+        "inputters" : {
+          "type" : "array",
+          "description" : "The user identifier who input the transaction",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "inputter" : {
+                "type" : "string",
+                "description" : "The user identifier who input the transaction",
+                "minLength" : 0,
+                "maxLength" : 8
+              }
+            }
+          }
+        },
+        "dateTimes" : {
+          "type" : "array",
+          "description" : "Contains the date and time separated by '-'",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "dateTime" : {
+                "type" : "number",
+                "description" : "Contains the date and time separated by '-'",
+                "minimum" : 0,
+                "maximum" : 8
+              }
+            }
+          }
+        },
+        "customerName" : {
+          "type" : "string",
+          "description" : "Name of the customer",
+          "minLength" : 0,
+          "maxLength" : 12
+        },
+        "ctrExempt" : {
+          "type" : "string",
+          "description" : "Indicates if customer is exempt from CTR(Currency transaction reporting) or not. If set to YES, CTR report will not be generated for the customer when the cumulative transactions for the day was more than 10,000 dollars.",
+          "minLength" : 0,
+          "maxLength" : 9,
+          "enum" : [ "Yes", "No" ]
+        },
+        "foreignCurrencyCashWithdrawal" : {
+          "type" : "number",
+          "description" : "Withdrawal ccurrency",
+          "minimum" : 0,
+          "maximum" : 29
+        },
+        "totalDepositAmount" : {
+          "type" : "number",
+          "description" : "Total of all LCY and FCY deposits for the day in USD.",
+          "minimum" : 0,
+          "maximum" : 18
+        },
+        "totalWithdrawalAmount" : {
+          "type" : "number",
+          "description" : "Total of all LCY and FCY withdrawals for the day in USD.",
+          "minimum" : 0,
+          "maximum" : 21
+        },
+        "limitExceed" : {
+          "type" : "string",
+          "description" : "Whether the total cash deposits or withdrawals has exceeded the threshold amount set.",
+          "minLength" : 0,
+          "maxLength" : 11,
+          "enum" : [ "Yes" ]
+        },
+        "reportCTR" : {
+          "type" : "string",
+          "description" : "Indicates if the Cash transactions for the account are to be reported or not. When mentioned as Y indicates that cash transactions are to be rePorted. A null or N indicates that cash transactions will not be reported.",
+          "minLength" : 0,
+          "maxLength" : 9,
+          "enum" : [ "YES", "NO" ]
+        },
+        "transactionDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Contains the date on which the deal was booked."
+        },
+        "recordStatus" : {
+          "type" : "string",
+          "description" : "General status of the record. Possible values: - null - authorised - IHLD - input, on hold - INAU - input, not authorised - INA2 - input, authorised, pending second authorisation - INAO - input, not authorised with blocking overrides - RNAU - reversed, not authorised - RNAO - reversed, not authorised with blocking overrides",
+          "minLength" : 0,
+          "maxLength" : 12
+        },
+        "currNo" : {
+          "type" : "number",
+          "description" : "Current Number which indicates how many times the record is modified.",
+          "minimum" : 0,
+          "maximum" : 6
+        },
+        "authoriser" : {
+          "type" : "string",
+          "description" : "This indicates the user who authorized the transaction.",
+          "minLength" : 0,
+          "maxLength" : 10
+        },
+        "companyId" : {
+          "type" : "string",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "minLength" : 0,
+          "maxLength" : 9,
+          "enum" : [ "@ref:reference-companies-service-v1.0.0" ]
+        },
+        "deptCode" : {
+          "type" : "string",
+          "description" : "The department code where the transaction was authorized.",
+          "minLength" : 0,
+          "maxLength" : 10,
+          "enum" : [ "@ref:reference-accountOfficers-service-v1.0.0" ]
+        },
+        "auditorCode" : {
+          "type" : "string",
+          "description" : "Reference to the auditor code.",
+          "minLength" : 0,
+          "maxLength" : 11
+        },
+        "auditTimeDate" : {
+          "type" : "number",
+          "description" : "Reference to the audit date and time.",
+          "minimum" : 0,
+          "maximum" : 13
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "uniqueIdentifier" : {
+          "type" : "string",
+          "description" : "The unique identifier/Message Reference of the record created."
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "overrideBody" : {
+      "properties" : {
+        "overrideDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "string",
+                "description" : "The identifier of the override"
+              },
+              "description" : {
+                "type" : "string",
+                "description" : "The actual override message"
+              },
+              "options" : {
+                "type" : "array",
+                "description" : "The usable options for the override",
+                "items" : {
+                  "type" : "string"
+                }
+              },
+              "type" : {
+                "type" : "string",
+                "description" : "The type of the override"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/ScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "ScreenErrorResponse"
+    },
+    "ScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message "
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "BusinessScreenErrorResponse"
+    },
+    "BusinessScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message for bad requests"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "SystemScreenErrorResponse"
+    },
+    "SystemScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message caused by server"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    },
+    "PayloadHeader" : {
+      "properties" : {
+        "override" : {
+          "type" : "object",
+          "properties" : {
+            "overrideDetails" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "id" : {
+                    "type" : "string",
+                    "description" : "The identifier of the override"
+                  },
+                  "description" : {
+                    "type" : "string",
+                    "description" : "The actual override message"
+                  },
+                  "responseCode" : {
+                    "type" : "string",
+                    "description" : "The user input to accept/reject the override."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            }
+          }
+        }
+      }
+    },
+    "CTRDetails" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/CTRDetailsBody"
+        }
+      },
+      "description" : "CTRDetails"
+    },
+    "CTRDetailsBody" : {
+      "type" : "object",
+      "properties" : {
+        "transactionIds" : {
+          "type" : "array",
+          "description" : "Unique transaction identifier for retrieving the details of the transaction. For example: FT0102030333 etc.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "transactionId" : {
+                "type" : "string",
+                "description" : "Unique transaction identifier for retrieving the details of the transaction. For example: FT0102030333 etc.",
+                "minLength" : 0,
+                "maxLength" : 13
+              },
+              "transactor" : {
+                "type" : "string",
+                "description" : "Third party identifier or an Existing customer who is performing the transaction",
+                "minLength" : 0,
+                "maxLength" : 10
+              },
+              "legalId" : {
+                "type" : "string",
+                "description" : "Unique reference number of the legal documents submitted as identification proof",
+                "minLength" : 0,
+                "maxLength" : 7
+              },
+              "accountId" : {
+                "type" : "string",
+                "description" : "Identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId. Accepts both IBAN & BBAN",
+                "minLength" : 0,
+                "maxLength" : 9
+              },
+              "currency" : {
+                "type" : "string",
+                "description" : "Indicates the type of currency to which the account belongs",
+                "minLength" : 0,
+                "maxLength" : 8
+              },
+              "localCurrencyAmount" : {
+                "type" : "string",
+                "description" : "Transaction Amount in USD for deposit or withdrawal.",
+                "minLength" : 0,
+                "maxLength" : 19
+              },
+              "foreignCurrencyCountry" : {
+                "type" : "string",
+                "description" : "Country code for Foreign currency deposit or withdrawal.",
+                "minLength" : 0,
+                "maxLength" : 22
+              },
+              "transactionDescription" : {
+                "type" : "string",
+                "description" : "Indicates the description based on the transaction type",
+                "minLength" : 0,
+                "maxLength" : 22
+              }
+            }
+          }
+        },
+        "overrides" : {
+          "type" : "array",
+          "description" : "The override message is captured  that was generated at the time of commitment of the transaction to the database.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "override" : {
+                "type" : "string",
+                "description" : "The override message is captured  that was generated at the time of commitment of the transaction to the database.",
+                "minLength" : 0,
+                "maxLength" : 8
+              }
+            }
+          }
+        },
+        "inputters" : {
+          "type" : "array",
+          "description" : "The user identifier who input the transaction",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "inputter" : {
+                "type" : "string",
+                "description" : "The user identifier who input the transaction",
+                "minLength" : 0,
+                "maxLength" : 8
+              }
+            }
+          }
+        },
+        "dateTimes" : {
+          "type" : "array",
+          "description" : "Contains the date and time separated by '-'",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "dateTime" : {
+                "type" : "number",
+                "description" : "Contains the date and time separated by '-'",
+                "minimum" : 0,
+                "maximum" : 8
+              }
+            }
+          }
+        },
+        "customerName" : {
+          "type" : "string",
+          "description" : "Name of the customer",
+          "minLength" : 0,
+          "maxLength" : 12
+        },
+        "ctrExempt" : {
+          "type" : "string",
+          "description" : "Indicates if customer is exempt from CTR(Currency transaction reporting) or not. If set to YES, CTR report will not be generated for the customer when the cumulative transactions for the day was more than 10,000 dollars.",
+          "minLength" : 0,
+          "maxLength" : 9,
+          "enum" : [ "Yes", "No" ]
+        },
+        "foreignCurrencyCashWithdrawal" : {
+          "type" : "number",
+          "description" : "Withdrawal ccurrency",
+          "minimum" : 0,
+          "maximum" : 29
+        },
+        "totalDepositAmount" : {
+          "type" : "number",
+          "description" : "Total of all LCY and FCY deposits for the day in USD.",
+          "minimum" : 0,
+          "maximum" : 18
+        },
+        "totalWithdrawalAmount" : {
+          "type" : "number",
+          "description" : "Total of all LCY and FCY withdrawals for the day in USD.",
+          "minimum" : 0,
+          "maximum" : 21
+        },
+        "limitExceed" : {
+          "type" : "string",
+          "description" : "Whether the total cash deposits or withdrawals has exceeded the threshold amount set.",
+          "minLength" : 0,
+          "maxLength" : 11,
+          "enum" : [ "Yes" ]
+        },
+        "reportCTR" : {
+          "type" : "string",
+          "description" : "Indicates if the Cash transactions for the account are to be reported or not. When mentioned as Y indicates that cash transactions are to be rePorted. A null or N indicates that cash transactions will not be reported.",
+          "minLength" : 0,
+          "maxLength" : 9,
+          "enum" : [ "YES", "NO" ]
+        },
+        "transactionDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Contains the date on which the deal was booked."
+        },
+        "recordStatus" : {
+          "type" : "string",
+          "description" : "General status of the record. Possible values: - null - authorised - IHLD - input, on hold - INAU - input, not authorised - INA2 - input, authorised, pending second authorisation - INAO - input, not authorised with blocking overrides - RNAU - reversed, not authorised - RNAO - reversed, not authorised with blocking overrides",
+          "minLength" : 0,
+          "maxLength" : 12
+        },
+        "currNo" : {
+          "type" : "number",
+          "description" : "Current Number which indicates how many times the record is modified.",
+          "minimum" : 0,
+          "maximum" : 6
+        },
+        "authoriser" : {
+          "type" : "string",
+          "description" : "This indicates the user who authorized the transaction.",
+          "minLength" : 0,
+          "maxLength" : 10
+        },
+        "companyId" : {
+          "type" : "string",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "minLength" : 0,
+          "maxLength" : 9,
+          "enum" : [ "@ref:reference-companies-service-v1.0.0" ]
+        },
+        "deptCode" : {
+          "type" : "string",
+          "description" : "The department code where the transaction was authorized.",
+          "minLength" : 0,
+          "maxLength" : 10,
+          "enum" : [ "@ref:reference-accountOfficers-service-v1.0.0" ]
+        },
+        "auditorCode" : {
+          "type" : "string",
+          "description" : "Reference to the auditor code.",
+          "minLength" : 0,
+          "maxLength" : 11
+        },
+        "auditTimeDate" : {
+          "type" : "number",
+          "description" : "Reference to the audit date and time.",
+          "minimum" : 0,
+          "maximum" : 13
+        }
+      }
+    }
+  }
+}

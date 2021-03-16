@@ -1,0 +1,3431 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "API to create, update and manage the customers' (data subjects') data protection consent and rights for the processing of their personal data. It defines a set of enhanced rights for individuals over the collection, usage of their personal data and the right to restrict processing.",
+    "version" : "v1.3.0",
+    "title" : "Customer Data protection rights management"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.3.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "apiKey" : [ ]
+  } ],
+  "paths" : {
+    "/party/dataProtection/customers/consentApprovals/{consentId}" : {
+      "put" : {
+        "summary" : "Approves customer consent request",
+        "description" : "Approves the consent request of the customer for processing of personal data which contains type of a consent, subtype of a type entered, consent withdraw etc.",
+        "operationId" : "approveConsent",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "consentId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "Identifier of the lead company of the underlying Entity/Company/Branch for the respective contract for customer data protection purposes. Example US0010001",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "approveConsentResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ConsentResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessArrangementErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessArrangementErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemArrangementErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemArrangementErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ArrangementErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ArrangementErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/party/dataProtection/customers/consents" : {
+      "get" : {
+        "summary" : "Retrieves customer consent details",
+        "description" : "Retrieves the details of the consent recorded in system for processing of personal data For example - consentType, consentSubType, consentGiven etc. details of the customer consent can be fetched.. For example - the details include consent type, consent sub type, withdrawal of consent, to check whether the consent is given for a type, for a sub type etc.",
+        "operationId" : "getConsent",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "customerId",
+          "in" : "query",
+          "description" : "Identifier of the customer",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "consentId",
+          "in" : "query",
+          "description" : "Identifier of the corresponding consent object as retrieved by an account Information consent Request.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "Identifier of the lead company of the underlying Entity/Company/Branch for the respective contract for customer data protection purposes. Example US0010001",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "disablePagination",
+          "in" : "header",
+          "description" : "Indicates the pagination header attributes availability. If set to 'true', it fetches all the data",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "ConsentResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ConsentResponse2"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Updates customer consent details",
+        "description" : "Updates the consent details of the customer for processing of personal data. For example - consentType, consentSubType, consentWithdrawn etc. details of the customer consent will be updated.",
+        "operationId" : "updateConsent",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Consent"
+          }
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "Identifier of the lead company of the underlying Entity/Company/Branch for the respective contract for customer data protection purposes. Example US0010001",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "updateConsentResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ConsentResponse1"
+            }
+          },
+          "400" : {
+            "description" : "BusinessArrangementErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessArrangementErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemArrangementErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemArrangementErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ArrangementErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ArrangementErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/party/dataProtection/customers/consents/revocations" : {
+      "put" : {
+        "summary" : "Revokes the consent provided by the customer",
+        "description" : "Allows the revocation of the consent provided by the customer so as to stop any further processing of personal data. The consent cannot be processed further once it is revoked.",
+        "operationId" : "withdrawConsent",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Consent1"
+          }
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "Identifier of the lead company of the underlying Entity/Company/Branch for the respective contract for customer data protection purposes. Example US0010001",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "withdrawConsentResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ConsentResponse3"
+            }
+          },
+          "400" : {
+            "description" : "BusinessArrangementErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessArrangementErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemArrangementErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemArrangementErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ArrangementErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ArrangementErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/party/dataProtection/customers/consentInitiation" : {
+      "post" : {
+        "summary" : "Initiates customer consent request",
+        "description" : "Initiates the consent request of the customer for processing of personal data. The details used to initiate a consent are consent type, sub type of a consent type, to check whether the consent is provided, consent withdrawal etc.",
+        "operationId" : "createConsent",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Consent2"
+          }
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "Identifier of the lead company of the underlying Entity/Company/Branch for the respective contract for customer data protection purposes. Example US0010001",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "createConsentResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ConsentResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessArrangementErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessArrangementErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemArrangementErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemArrangementErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ArrangementErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ArrangementErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/party/dataProtection/consents" : {
+      "get" : {
+        "summary" : "Returns the status of a customer Consent. i.e., if the consent is valid or not ",
+        "description" : "API to return the validity of a customer consent by returning the status of customer consent.",
+        "operationId" : "getCdpConsentStatus",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "customerId",
+          "in" : "query",
+          "description" : "Identifier of the customer",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "arrangement",
+          "in" : "query",
+          "description" : "Unique identifier for the arrangement contract",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "consentType",
+          "in" : "query",
+          "description" : "Consent Type for which the consent is given",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "consentSubType",
+          "in" : "query",
+          "description" : "Indicates the consent sub type linked to corresponding consent type.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "Identifier of the lead company of the underlying Entity/Company/Branch for the respective contract for customer data protection purposes. Example US0010001",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "disablePagination",
+          "in" : "header",
+          "description" : "Indicates the pagination header attributes availability. If set to 'true', it fetches all the data",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "CdpConsentStatusResponse",
+            "schema" : {
+              "$ref" : "#/definitions/CdpConsentStatusResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/party/dataProtection/customers/dataRightsInitiation" : {
+      "post" : {
+        "summary" : "Initiates the data rights request",
+        "description" : "Initiates the data rights management request of the customer for exercising the various rights under the data protection rules, which defines significant new privacy requirements for companies and provides rights for individuals over the collection and usage of their personal data and the right to restrict processing. It creates a request with following details of a customer. For example - request type, request status, original expiry date of request etc.",
+        "operationId" : "createDataRightsRequest",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/DataRightsRequest"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "Identifier of the lead company of the underlying Entity/Company/Branch for the respective contract for customer data protection purposes. Example US0010001",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "DataRightsRequestResponse",
+            "schema" : {
+              "$ref" : "#/definitions/DataRightsRequestResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/party/dataProtection/customers/dataRightsApprovals/{dataRightsId}" : {
+      "put" : {
+        "summary" : "Approves data rights details",
+        "description" : "Approves the data rights management request of the customer for exercising the various rights under the data protection rules, which has significant enhanced rights for individuals over the collection and usage of their personal data and the right to restrict processing.It approves a request with following details of a customer. For example - request type, request status, original expiry date of request etc.",
+        "operationId" : "approveDataRightsRequest",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "dataRightsId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "Identifier of the lead company of the underlying Entity/Company/Branch for the respective contract for customer data protection purposes. Example US0010001",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "DataRightsRequestResponse",
+            "schema" : {
+              "$ref" : "#/definitions/DataRightsRequestResponse1"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/party/dataProtection/customers/dataRights/{dataRightsId}" : {
+      "put" : {
+        "summary" : "Updates data rights details",
+        "description" : "Updates the data rights management details of the customer for processing of personal data. It has significantly enhanced rights for individuals over the collection and usage of their personal data and the right to restrict processing. It updates a request with following details of a customer. For example - request type, request status, original expiry date of request etc.",
+        "operationId" : "updateDataRightsRequest",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "dataRightsId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/DataRightsRequest1"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "Identifier of the lead company of the underlying Entity/Company/Branch for the respective contract for customer data protection purposes. Example US0010001",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "DataRightsRequestResponse",
+            "schema" : {
+              "$ref" : "#/definitions/DataRightsRequestResponse2"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/party/dataProtection/customers/dataRights" : {
+      "get" : {
+        "summary" : "Retrieves data rights details.",
+        "description" : "Retrieves the data rights details of the customer for processing of personal data. It has significantly enhanced rights for individuals over the collection and usage of their personal data and the right to restrict processing. It returns significant details of request of a customer. For example - request type, request status, original expiry date of request etc.",
+        "operationId" : "getDataRightsRequest",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "dataRightsId",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "partyId",
+          "in" : "query",
+          "description" : "Allows capturing of customers or person entities to be part of the relationship. If partyType is selected as Customer, then the system will allow only customer Ids to be captured into this field. If partyType is selected as Person or Entity, then system will allow only personEntity Ids to be captured into this field.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "status",
+          "in" : "query",
+          "description" : "Contains status of the data rights request.Allowed values are INITIATED, INPROGESS, EXTENDED, COMPLETED, REJECTED.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "currExpiryDate",
+          "in" : "query",
+          "description" : "Contains the current expiry date of the data rights request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "requestType",
+          "in" : "query",
+          "description" : "Contains customer data rights request type. Example: ERASURE/DATAPORTABILITY.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "Identifier of the lead company of the underlying Entity/Company/Branch for the respective contract for customer data protection purposes. Example US0010001",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "disablePagination",
+          "in" : "header",
+          "description" : "Indicates the pagination header attributes availability. If set to 'true', it fetches all the data",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "DataRightsRequestResponse",
+            "schema" : {
+              "$ref" : "#/definitions/DataRightsRequestResponse3"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "apiKey" : {
+      "type" : "apiKey",
+      "name" : "Authorization",
+      "in" : "header"
+    }
+  },
+  "definitions" : {
+    "ArrangementHeader" : {
+      "properties" : {
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "aaaId" : {
+          "type" : "string",
+          "description" : "The Identifier of the aa record created"
+        },
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        },
+        "uniqueIdentifier" : {
+          "type" : "string",
+          "description" : "The unique identifier/Message Reference of the record created."
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "ConsentResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ArrangementHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ConsentResponseBody"
+        }
+      },
+      "description" : "ConsentResponse"
+    },
+    "ConsentResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "arrangementActivity" : {
+          "type" : "object",
+          "properties" : {
+            "customers" : {
+              "type" : "array",
+              "description" : "Indicates role of a customer for an arrangement.",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "customer" : {
+                    "type" : "string",
+                    "description" : "Contains the customer identifier to fetch list of consent arrangements for the customer or customer identifier of the debtor account. This will be populated once the SCA(Strong Customer Authentication) is completed.",
+                    "minLength" : 0,
+                    "maxLength" : 35
+                  },
+                  "customerRoles" : {
+                    "type" : "array",
+                    "items" : {
+                      "type" : "object",
+                      "properties" : {
+                        "customerRole" : {
+                          "type" : "string",
+                          "description" : "Indicates role of a customer for an arrangement.",
+                          "minLength" : 0,
+                          "maxLength" : 35
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "arrangement" : {
+              "type" : "string",
+              "description" : "Unique identifier for the arrangement contract",
+              "minLength" : 0,
+              "maxLength" : 35
+            },
+            "product" : {
+              "type" : "string",
+              "description" : "Indicates an id or name of a product",
+              "minLength" : 0,
+              "maxLength" : 35
+            },
+            "arrangementEffectiveDate" : {
+              "type" : "string",
+              "description" : "It is a date on/upon which an account is considered to take effect",
+              "minLength" : 0,
+              "maxLength" : 35
+            },
+            "activity" : {
+              "type" : "string",
+              "description" : "Defines the activity to be processed against the Arrangement. The activity may be a user activity or a system generated activity.",
+              "minLength" : 0,
+              "maxLength" : 35
+            },
+            "reason" : {
+              "type" : "string",
+              "description" : "Contains the reason for performing the current activity",
+              "minLength" : 0,
+              "maxLength" : 35
+            }
+          }
+        },
+        "activities" : {
+          "type" : "object",
+          "properties" : {
+            "{activityName}" : {
+              "type" : "object",
+              "properties" : {
+                "activity" : {
+                  "type" : "string"
+                },
+                "transactionStatus" : {
+                  "type" : "string",
+                  "description" : "The status of the transaction"
+                },
+                "id" : {
+                  "type" : "string",
+                  "description" : "The Identifier of the record created"
+                }
+              }
+            }
+          }
+        },
+        "properties" : {
+          "type" : "object",
+          "properties" : {
+            "customer" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "officers" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string"
+                    },
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "cdpConsent" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string",
+                      "description" : "The status of the transaction"
+                    },
+                    "audit" : {
+                      "type" : "object",
+                      "properties" : {
+                        "T24_time" : {
+                          "type" : "integer",
+                          "format" : "int32",
+                          "description" : "Time taken to response by T24"
+                        },
+                        "versionNumber" : {
+                          "type" : "string",
+                          "description" : "Current number of the record"
+                        },
+                        "requestParse_time" : {
+                          "type" : "number",
+                          "description" : "Time taken to parse the request by IRIS"
+                        },
+                        "responseParse_time" : {
+                          "type" : "number",
+                          "description" : "Time taken to parse the response by IRIS"
+                        }
+                      }
+                    },
+                    "id" : {
+                      "type" : "string",
+                      "description" : "The Identifier of the record created"
+                    },
+                    "status" : {
+                      "type" : "string",
+                      "description" : "The status of the record"
+                    }
+                  }
+                },
+                "body" : {
+                  "type" : "object",
+                  "properties" : {
+                    "consentTypes" : {
+                      "type" : "array",
+                      "description" : "Indicates the consent sub type linked to corresponding consent type.",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "consentType" : {
+                            "type" : "string",
+                            "description" : "Consent Type for which the consent is given",
+                            "minLength" : 0,
+                            "maxLength" : 35
+                          },
+                          "isConsentGiven" : {
+                            "type" : "string",
+                            "description" : "Indicates whether the consent is given for a specific type. Allowed values:  - YES,NO",
+                            "minLength" : 0,
+                            "maxLength" : 35
+                          },
+                          "consentGivenDate" : {
+                            "type" : "string",
+                            "format" : "date",
+                            "description" : "Indicates the date on which the consent was given by a customer for a specific consent type."
+                          },
+                          "isConsentWithdrawn" : {
+                            "type" : "string",
+                            "description" : "Indicates if the consent given for the particular consent type is withdrawn.",
+                            "minLength" : 0,
+                            "maxLength" : 35
+                          },
+                          "consentWithdrawDate" : {
+                            "type" : "string",
+                            "format" : "date",
+                            "description" : "Indicates the date on which the consent was withdrawn."
+                          },
+                          "consentTypeExpiryDate" : {
+                            "type" : "string",
+                            "format" : "date",
+                            "description" : "Indicates the expiry date of a consent type."
+                          },
+                          "consentBlock" : {
+                            "type" : "string",
+                            "description" : "Indicates whether consent is blocked or not. No personal data of the Client will be shared by the Bank for any purpose when the consent is blocked.",
+                            "minLength" : 0,
+                            "maxLength" : 35
+                          },
+                          "blockNotes" : {
+                            "type" : "string",
+                            "description" : "Indicates the reason for which the consent is blocked.",
+                            "minLength" : 0,
+                            "maxLength" : 35
+                          },
+                          "consentWithdrawNotes" : {
+                            "type" : "string",
+                            "description" : "Indicates the reason for which the consent is withdrawn.",
+                            "minLength" : 0,
+                            "maxLength" : 35
+                          },
+                          "channelId" : {
+                            "type" : "string",
+                            "description" : "Id of the (digital) channel.It is a conditional field for customer data protection consent.",
+                            "minLength" : 0,
+                            "maxLength" : 9
+                          },
+                          "consentSubTypes" : {
+                            "type" : "array",
+                            "items" : {
+                              "type" : "object",
+                              "properties" : {
+                                "consentSubType" : {
+                                  "type" : "string",
+                                  "description" : "Indicates the consent sub type linked to corresponding consent type.",
+                                  "minLength" : 0,
+                                  "maxLength" : 35
+                                },
+                                "isSubTypeConsentGiven" : {
+                                  "type" : "string",
+                                  "description" : "Indicates whether consent is given for specific consent subtype. Allowed values:  - YES,NO",
+                                  "minLength" : 0,
+                                  "maxLength" : 35
+                                },
+                                "isSubTypeConsentWithdrawn" : {
+                                  "type" : "string",
+                                  "description" : "Indicates whether the consent for a specific sub type of a consent type is withdrawn or not.",
+                                  "minLength" : 0,
+                                  "maxLength" : 35
+                                },
+                                "consentStWithdrawDate" : {
+                                  "type" : "string",
+                                  "format" : "date",
+                                  "description" : "Indicates the date on which a specific sub type of a consent type is withdrawn."
+                                },
+                                "consentStGivenDate" : {
+                                  "type" : "string",
+                                  "format" : "date",
+                                  "description" : "Indicates the date on which the consent was given by a customer for a specific consent sub type."
+                                },
+                                "consentStExpiryDate" : {
+                                  "type" : "string",
+                                  "format" : "date",
+                                  "description" : "Indicates the expiry date of a consent subtype."
+                                },
+                                "channel" : {
+                                  "type" : "string",
+                                  "description" : "The ID of the Channel. It is a conditional field for customer data protection consent.",
+                                  "minLength" : 0,
+                                  "maxLength" : 7
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "expiryDate" : {
+                      "type" : "string",
+                      "description" : "The date an agreement such as an arrangement, product, credit facility or limit is due to expire",
+                      "minLength" : 0,
+                      "maxLength" : 11
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "overrideBody" : {
+      "properties" : {
+        "overrideDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "string",
+                "description" : "The identifier of the override."
+              },
+              "description" : {
+                "type" : "string",
+                "description" : "The actual override message."
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The code related to override message."
+              },
+              "options" : {
+                "type" : "array",
+                "description" : "The usable options for the override.",
+                "items" : {
+                  "type" : "string"
+                }
+              },
+              "type" : {
+                "type" : "string",
+                "description" : "The type of the override."
+              }
+            }
+          }
+        }
+      }
+    },
+    "ArrangementErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ArrangementHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/ArrangementErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "ArrangementErrorResponse"
+    },
+    "ArrangementErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message "
+              },
+              "property" : {
+                "type" : "string",
+                "description" : "Id of the product property"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessArrangementErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ArrangementHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessArrangementErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "BusinessArrangementErrorResponse"
+    },
+    "BusinessArrangementErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message for bad requests"
+              },
+              "property" : {
+                "type" : "string",
+                "description" : "Id of the product property"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemArrangementErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ArrangementHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemArrangementErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "SystemArrangementErrorResponse"
+    },
+    "SystemArrangementErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message caused by server"
+              },
+              "property" : {
+                "type" : "string",
+                "description" : "Id of the product property"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    },
+    "PayloadHeader" : {
+      "properties" : {
+        "override" : {
+          "type" : "object",
+          "properties" : {
+            "overrideDetails" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "id" : {
+                    "type" : "string",
+                    "description" : "The identifier of the override."
+                  },
+                  "description" : {
+                    "type" : "string",
+                    "description" : "The actual override message."
+                  },
+                  "code" : {
+                    "type" : "string",
+                    "description" : "The code related to override message."
+                  },
+                  "responseCode" : {
+                    "type" : "string",
+                    "description" : "The user input to accept/reject the override."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            }
+          }
+        }
+      }
+    },
+    "Consent" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ConsentBody"
+        }
+      },
+      "description" : "Consent"
+    },
+    "ConsentBody" : {
+      "type" : "object",
+      "properties" : {
+        "customers" : {
+          "type" : "array",
+          "description" : "Indicates role of a customer for an arrangement.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "customer" : {
+                "type" : "string",
+                "description" : "Contains the customer identifier to fetch list of consent arrangements for the customer or customer identifier of the debtor account. This will be populated once the SCA(Strong Customer Authentication) is completed.",
+                "minLength" : 0,
+                "maxLength" : 35
+              },
+              "customerRoles" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "customerRole" : {
+                      "type" : "string",
+                      "description" : "Indicates role of a customer for an arrangement.",
+                      "minLength" : 0,
+                      "maxLength" : 35
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "arrangement" : {
+          "type" : "string",
+          "description" : "Unique identifier for the arrangement contract",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "product" : {
+          "type" : "string",
+          "description" : "Indicates an id or name of a product",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "arrangementEffectiveDate" : {
+          "type" : "string",
+          "description" : "It is a date on/upon which an account is considered to take effect",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "activity" : {
+          "type" : "string",
+          "description" : "Defines the activity to be processed against the Arrangement. The activity may be a user activity or a system generated activity.",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "reason" : {
+          "type" : "string",
+          "description" : "Contains the reason for performing the current activity",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "cdpConsent" : {
+          "type" : "object",
+          "properties" : {
+            "consentTypes" : {
+              "type" : "array",
+              "description" : "Indicates the consent sub type linked to corresponding consent type.",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "consentType" : {
+                    "type" : "string",
+                    "description" : "Consent Type for which the consent is given",
+                    "minLength" : 0,
+                    "maxLength" : 35
+                  },
+                  "isConsentGiven" : {
+                    "type" : "string",
+                    "description" : "Indicates whether the consent is given for a specific type. Allowed values:  - YES,NO",
+                    "minLength" : 0,
+                    "maxLength" : 35
+                  },
+                  "consentGivenDate" : {
+                    "type" : "string",
+                    "format" : "date",
+                    "description" : "Indicates the date on which the consent was given by a customer for a specific consent type."
+                  },
+                  "isConsentWithdrawn" : {
+                    "type" : "string",
+                    "description" : "Indicates if the consent given for the particular consent type is withdrawn.",
+                    "minLength" : 0,
+                    "maxLength" : 35
+                  },
+                  "consentWithdrawDate" : {
+                    "type" : "string",
+                    "format" : "date",
+                    "description" : "Indicates the date on which the consent was withdrawn."
+                  },
+                  "consentTypeExpiryDate" : {
+                    "type" : "string",
+                    "format" : "date",
+                    "description" : "Indicates the expiry date of a consent type."
+                  },
+                  "consentBlock" : {
+                    "type" : "string",
+                    "description" : "Indicates whether consent is blocked or not. No personal data of the Client will be shared by the Bank for any purpose when the consent is blocked.",
+                    "minLength" : 0,
+                    "maxLength" : 35
+                  },
+                  "blockNotes" : {
+                    "type" : "string",
+                    "description" : "Indicates the reason for which the consent is blocked.",
+                    "minLength" : 0,
+                    "maxLength" : 35
+                  },
+                  "consentWithdrawNotes" : {
+                    "type" : "string",
+                    "description" : "Indicates the reason for which the consent is withdrawn.",
+                    "minLength" : 0,
+                    "maxLength" : 35
+                  },
+                  "channelId" : {
+                    "type" : "string",
+                    "description" : "Id of the (digital) channel.It is a conditional field for customer data protection consent.",
+                    "minLength" : 0,
+                    "maxLength" : 9
+                  },
+                  "consentSubTypes" : {
+                    "type" : "array",
+                    "items" : {
+                      "type" : "object",
+                      "properties" : {
+                        "consentSubType" : {
+                          "type" : "string",
+                          "description" : "Indicates the consent sub type linked to corresponding consent type.",
+                          "minLength" : 0,
+                          "maxLength" : 35
+                        },
+                        "isSubTypeConsentGiven" : {
+                          "type" : "string",
+                          "description" : "Indicates whether consent is given for specific consent subtype. Allowed values:  - YES,NO",
+                          "minLength" : 0,
+                          "maxLength" : 35
+                        },
+                        "isSubTypeConsentWithdrawn" : {
+                          "type" : "string",
+                          "description" : "Indicates whether the consent for a specific sub type of a consent type is withdrawn or not.",
+                          "minLength" : 0,
+                          "maxLength" : 35
+                        },
+                        "consentStWithdrawDate" : {
+                          "type" : "string",
+                          "format" : "date",
+                          "description" : "Indicates the date on which a specific sub type of a consent type is withdrawn."
+                        },
+                        "consentStGivenDate" : {
+                          "type" : "string",
+                          "format" : "date",
+                          "description" : "Indicates the date on which the consent was given by a customer for a specific consent sub type."
+                        },
+                        "consentStExpiryDate" : {
+                          "type" : "string",
+                          "format" : "date",
+                          "description" : "Indicates the expiry date of a consent subtype."
+                        },
+                        "channel" : {
+                          "type" : "string",
+                          "description" : "The ID of the Channel. It is a conditional field for customer data protection consent.",
+                          "minLength" : 0,
+                          "maxLength" : 7
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "expiryDate" : {
+              "type" : "string",
+              "description" : "The date an agreement such as an arrangement, product, credit facility or limit is due to expire",
+              "minLength" : 0,
+              "maxLength" : 11
+            }
+          }
+        }
+      }
+    },
+    "ConsentResponse1" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ArrangementHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ConsentResponse1Body"
+        }
+      },
+      "description" : "ConsentResponse1"
+    },
+    "ConsentResponse1Body" : {
+      "type" : "object",
+      "properties" : {
+        "arrangementActivity" : {
+          "type" : "object",
+          "properties" : {
+            "customers" : {
+              "type" : "array",
+              "description" : "Indicates role of a customer for an arrangement.",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "customer" : {
+                    "type" : "string",
+                    "description" : "Contains the customer identifier to fetch list of consent arrangements for the customer or customer identifier of the debtor account. This will be populated once the SCA(Strong Customer Authentication) is completed.",
+                    "minLength" : 0,
+                    "maxLength" : 35
+                  },
+                  "customerRoles" : {
+                    "type" : "array",
+                    "items" : {
+                      "type" : "object",
+                      "properties" : {
+                        "customerRole" : {
+                          "type" : "string",
+                          "description" : "Indicates role of a customer for an arrangement.",
+                          "minLength" : 0,
+                          "maxLength" : 35
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "arrangement" : {
+              "type" : "string",
+              "description" : "Unique identifier for the arrangement contract",
+              "minLength" : 0,
+              "maxLength" : 35
+            },
+            "product" : {
+              "type" : "string",
+              "description" : "Indicates an id or name of a product",
+              "minLength" : 0,
+              "maxLength" : 35
+            },
+            "arrangementEffectiveDate" : {
+              "type" : "string",
+              "description" : "It is a date on/upon which an account is considered to take effect",
+              "minLength" : 0,
+              "maxLength" : 35
+            },
+            "activity" : {
+              "type" : "string",
+              "description" : "Defines the activity to be processed against the Arrangement. The activity may be a user activity or a system generated activity.",
+              "minLength" : 0,
+              "maxLength" : 35
+            },
+            "reason" : {
+              "type" : "string",
+              "description" : "Contains the reason for performing the current activity",
+              "minLength" : 0,
+              "maxLength" : 35
+            }
+          }
+        },
+        "activities" : {
+          "type" : "object",
+          "properties" : {
+            "{activityName}" : {
+              "type" : "object",
+              "properties" : {
+                "activity" : {
+                  "type" : "string"
+                },
+                "transactionStatus" : {
+                  "type" : "string",
+                  "description" : "The status of the transaction"
+                },
+                "id" : {
+                  "type" : "string",
+                  "description" : "The Identifier of the record created"
+                }
+              }
+            }
+          }
+        },
+        "properties" : {
+          "type" : "object",
+          "properties" : {
+            "cdpConsent" : {
+              "type" : "object",
+              "properties" : {
+                "header" : {
+                  "type" : "object",
+                  "properties" : {
+                    "transactionStatus" : {
+                      "type" : "string",
+                      "description" : "The status of the transaction"
+                    },
+                    "audit" : {
+                      "type" : "object",
+                      "properties" : {
+                        "T24_time" : {
+                          "type" : "integer",
+                          "format" : "int32",
+                          "description" : "Time taken to response by T24"
+                        },
+                        "versionNumber" : {
+                          "type" : "string",
+                          "description" : "Current number of the record"
+                        },
+                        "requestParse_time" : {
+                          "type" : "number",
+                          "description" : "Time taken to parse the request by IRIS"
+                        },
+                        "responseParse_time" : {
+                          "type" : "number",
+                          "description" : "Time taken to parse the response by IRIS"
+                        }
+                      }
+                    },
+                    "id" : {
+                      "type" : "string",
+                      "description" : "The Identifier of the record created"
+                    },
+                    "status" : {
+                      "type" : "string",
+                      "description" : "The status of the record"
+                    }
+                  }
+                },
+                "body" : {
+                  "type" : "object",
+                  "properties" : {
+                    "consentTypes" : {
+                      "type" : "array",
+                      "description" : "Indicates the consent sub type linked to corresponding consent type.",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "consentType" : {
+                            "type" : "string",
+                            "description" : "Consent Type for which the consent is given",
+                            "minLength" : 0,
+                            "maxLength" : 35
+                          },
+                          "isConsentGiven" : {
+                            "type" : "string",
+                            "description" : "Indicates whether the consent is given for a specific type. Allowed values:  - YES,NO",
+                            "minLength" : 0,
+                            "maxLength" : 35
+                          },
+                          "consentGivenDate" : {
+                            "type" : "string",
+                            "format" : "date",
+                            "description" : "Indicates the date on which the consent was given by a customer for a specific consent type."
+                          },
+                          "isConsentWithdrawn" : {
+                            "type" : "string",
+                            "description" : "Indicates if the consent given for the particular consent type is withdrawn.",
+                            "minLength" : 0,
+                            "maxLength" : 35
+                          },
+                          "consentWithdrawDate" : {
+                            "type" : "string",
+                            "format" : "date",
+                            "description" : "Indicates the date on which the consent was withdrawn."
+                          },
+                          "consentTypeExpiryDate" : {
+                            "type" : "string",
+                            "format" : "date",
+                            "description" : "Indicates the expiry date of a consent type."
+                          },
+                          "consentBlock" : {
+                            "type" : "string",
+                            "description" : "Indicates whether consent is blocked or not. No personal data of the Client will be shared by the Bank for any purpose when the consent is blocked.",
+                            "minLength" : 0,
+                            "maxLength" : 35
+                          },
+                          "blockNotes" : {
+                            "type" : "string",
+                            "description" : "Indicates the reason for which the consent is blocked.",
+                            "minLength" : 0,
+                            "maxLength" : 35
+                          },
+                          "consentWithdrawNotes" : {
+                            "type" : "string",
+                            "description" : "Indicates the reason for which the consent is withdrawn.",
+                            "minLength" : 0,
+                            "maxLength" : 35
+                          },
+                          "channelId" : {
+                            "type" : "string",
+                            "description" : "Id of the (digital) channel.It is a conditional field for customer data protection consent.",
+                            "minLength" : 0,
+                            "maxLength" : 9
+                          },
+                          "consentSubTypes" : {
+                            "type" : "array",
+                            "items" : {
+                              "type" : "object",
+                              "properties" : {
+                                "consentSubType" : {
+                                  "type" : "string",
+                                  "description" : "Indicates the consent sub type linked to corresponding consent type.",
+                                  "minLength" : 0,
+                                  "maxLength" : 35
+                                },
+                                "isSubTypeConsentGiven" : {
+                                  "type" : "string",
+                                  "description" : "Indicates whether consent is given for specific consent subtype. Allowed values:  - YES,NO",
+                                  "minLength" : 0,
+                                  "maxLength" : 35
+                                },
+                                "isSubTypeConsentWithdrawn" : {
+                                  "type" : "string",
+                                  "description" : "Indicates whether the consent for a specific sub type of a consent type is withdrawn or not.",
+                                  "minLength" : 0,
+                                  "maxLength" : 35
+                                },
+                                "consentStWithdrawDate" : {
+                                  "type" : "string",
+                                  "format" : "date",
+                                  "description" : "Indicates the date on which a specific sub type of a consent type is withdrawn."
+                                },
+                                "consentStGivenDate" : {
+                                  "type" : "string",
+                                  "format" : "date",
+                                  "description" : "Indicates the date on which the consent was given by a customer for a specific consent sub type."
+                                },
+                                "consentStExpiryDate" : {
+                                  "type" : "string",
+                                  "format" : "date",
+                                  "description" : "Indicates the expiry date of a consent subtype."
+                                },
+                                "channel" : {
+                                  "type" : "string",
+                                  "description" : "The ID of the Channel. It is a conditional field for customer data protection consent.",
+                                  "minLength" : 0,
+                                  "maxLength" : 7
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "expiryDate" : {
+                      "type" : "string",
+                      "description" : "The date an agreement such as an arrangement, product, credit facility or limit is due to expire",
+                      "minLength" : 0,
+                      "maxLength" : 11
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "QueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records per page"
+        },
+        "page_start" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The record from which the response should be displayed"
+        },
+        "total_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records present"
+        },
+        "page_token" : {
+          "type" : "string",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request"
+        }
+      }
+    },
+    "ConsentResponse2" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ConsentResponse2Body"
+        }
+      },
+      "description" : "ConsentResponse2"
+    },
+    "ConsentResponse2Body" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "consentTypes" : {
+            "type" : "array",
+            "description" : "Indicates the consent sub type linked to corresponding consent type.",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "consentType" : {
+                  "type" : "string",
+                  "description" : "Consent Type for which the consent is given"
+                },
+                "isConsentGiven" : {
+                  "type" : "string",
+                  "description" : "Indicates whether the consent is given for a specific type. Allowed values:  - YES,NO"
+                },
+                "consentGivenDate" : {
+                  "type" : "string",
+                  "format" : "date",
+                  "description" : "Indicates the date on which the consent was given by a customer for a specific consent type."
+                },
+                "consentTypeExpiryDate" : {
+                  "type" : "string",
+                  "format" : "date",
+                  "description" : "Indicates the expiry date of a consent type."
+                },
+                "consentBlock" : {
+                  "type" : "string",
+                  "description" : "Indicates whether consent is blocked or not. No personal data of the Client will be shared by the Bank for any purpose when the consent is blocked."
+                },
+                "blockNotes" : {
+                  "type" : "string",
+                  "description" : "Indicates the reason for which the consent is blocked."
+                },
+                "isConsentWithdrawn" : {
+                  "type" : "string",
+                  "description" : "Indicates if the consent given for the particular consent type is withdrawn."
+                },
+                "consentWithdrawNotes" : {
+                  "type" : "string",
+                  "description" : "Indicates the reason for which the consent is withdrawn."
+                },
+                "channelId" : {
+                  "type" : "string",
+                  "description" : "Id of the (digital) channel.It is a conditional field for customer data protection consent."
+                },
+                "consentSubTypes" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object",
+                    "properties" : {
+                      "consentSubType" : {
+                        "type" : "string",
+                        "description" : "Indicates the consent sub type linked to corresponding consent type."
+                      },
+                      "isSubTypeConsentGiven" : {
+                        "type" : "string",
+                        "description" : "Indicates whether consent is given for specific consent subtype. Allowed values:  - YES,NO"
+                      },
+                      "consentStGivenDate" : {
+                        "type" : "string",
+                        "format" : "date",
+                        "description" : "Indicates the date on which the consent was given by a customer for a specific consent sub type."
+                      },
+                      "consentStExpiryDate" : {
+                        "type" : "string",
+                        "format" : "date",
+                        "description" : "Indicates the expiry date of a consent subtype."
+                      },
+                      "isSubTypeConsentWithdrawn" : {
+                        "type" : "string",
+                        "description" : "Indicates whether the consent for a specific sub type of a consent type is withdrawn or not."
+                      },
+                      "consentStWithdrawDate" : {
+                        "type" : "string",
+                        "format" : "date",
+                        "description" : "Indicates the date on which a specific sub type of a consent type is withdrawn."
+                      },
+                      "channel" : {
+                        "type" : "string",
+                        "description" : "The ID of the Channel. It is a conditional field for customer data protection consent."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "consentId" : {
+            "type" : "string",
+            "description" : "Identifier of the corresponding consent object as retrieved by an account Information consent Request.",
+            "maxLength" : 35
+          },
+          "customerId" : {
+            "type" : "string",
+            "description" : "Identifier of the customer",
+            "maxLength" : 35
+          },
+          "arrangementEffectiveDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "It is a date on/upon which an account is considered to take effect"
+          },
+          "productId" : {
+            "type" : "string",
+            "description" : "Contains the unique identifier of the product, e.g. the product id of the arrangement account."
+          },
+          "activity" : {
+            "type" : "string",
+            "description" : "Defines the activity to be processed against the Arrangement. The activity may be a user activity or a system generated activity."
+          },
+          "customerRole" : {
+            "type" : "string",
+            "description" : "Indicates role of a customer for an arrangement."
+          },
+          "arrangementStatus" : {
+            "type" : "string",
+            "description" : "Status of the arrangement. E.g. AUTH, CLOSE, UNAUTH etc."
+          },
+          "expiryDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "The date an agreement such as an arrangement, product, credit facility or limit is due to expire"
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessQueryErrorResponseBody"
+        }
+      },
+      "description" : "BusinessQueryErrorResponse"
+    },
+    "BusinessQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message for bad requests"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemQueryErrorResponseBody"
+        }
+      },
+      "description" : "SystemQueryErrorResponse"
+    },
+    "SystemQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message caused by server"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    },
+    "Consent1" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/Consent1Body"
+        }
+      },
+      "description" : "Consent1"
+    },
+    "Consent1Body" : {
+      "type" : "object",
+      "properties" : {
+        "customers" : {
+          "type" : "array",
+          "description" : "Indicates role of a customer for an arrangement.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "customer" : {
+                "type" : "string",
+                "description" : "Contains the customer identifier to fetch list of consent arrangements for the customer or customer identifier of the debtor account. This will be populated once the SCA(Strong Customer Authentication) is completed.",
+                "minLength" : 0,
+                "maxLength" : 35
+              },
+              "customerRoles" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "customerRole" : {
+                      "type" : "string",
+                      "description" : "Indicates role of a customer for an arrangement.",
+                      "minLength" : 0,
+                      "maxLength" : 35
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "arrangement" : {
+          "type" : "string",
+          "description" : "Unique identifier for the arrangement contract",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "product" : {
+          "type" : "string",
+          "description" : "Indicates an id or name of a product",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "arrangementEffectiveDate" : {
+          "type" : "string",
+          "description" : "It is a date on/upon which an account is considered to take effect",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "activity" : {
+          "type" : "string",
+          "description" : "Defines the activity to be processed against the Arrangement. The activity may be a user activity or a system generated activity.",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "reason" : {
+          "type" : "string",
+          "description" : "Contains the reason for performing the current activity",
+          "minLength" : 0,
+          "maxLength" : 35
+        }
+      }
+    },
+    "ConsentResponse3" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ArrangementHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ConsentResponse3Body"
+        }
+      },
+      "description" : "ConsentResponse3"
+    },
+    "ConsentResponse3Body" : {
+      "type" : "object",
+      "properties" : {
+        "arrangementActivity" : {
+          "type" : "object",
+          "properties" : {
+            "customers" : {
+              "type" : "array",
+              "description" : "Indicates role of a customer for an arrangement.",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "customer" : {
+                    "type" : "string",
+                    "description" : "Contains the customer identifier to fetch list of consent arrangements for the customer or customer identifier of the debtor account. This will be populated once the SCA(Strong Customer Authentication) is completed.",
+                    "minLength" : 0,
+                    "maxLength" : 35
+                  },
+                  "customerRoles" : {
+                    "type" : "array",
+                    "items" : {
+                      "type" : "object",
+                      "properties" : {
+                        "customerRole" : {
+                          "type" : "string",
+                          "description" : "Indicates role of a customer for an arrangement.",
+                          "minLength" : 0,
+                          "maxLength" : 35
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "arrangement" : {
+              "type" : "string",
+              "description" : "Unique identifier for the arrangement contract",
+              "minLength" : 0,
+              "maxLength" : 35
+            },
+            "product" : {
+              "type" : "string",
+              "description" : "Indicates an id or name of a product",
+              "minLength" : 0,
+              "maxLength" : 35
+            },
+            "arrangementEffectiveDate" : {
+              "type" : "string",
+              "description" : "It is a date on/upon which an account is considered to take effect",
+              "minLength" : 0,
+              "maxLength" : 35
+            },
+            "activity" : {
+              "type" : "string",
+              "description" : "Defines the activity to be processed against the Arrangement. The activity may be a user activity or a system generated activity.",
+              "minLength" : 0,
+              "maxLength" : 35
+            },
+            "reason" : {
+              "type" : "string",
+              "description" : "Contains the reason for performing the current activity",
+              "minLength" : 0,
+              "maxLength" : 35
+            }
+          }
+        },
+        "activities" : {
+          "type" : "object",
+          "properties" : {
+            "{activityName}" : {
+              "type" : "object",
+              "properties" : {
+                "activity" : {
+                  "type" : "string"
+                },
+                "transactionStatus" : {
+                  "type" : "string",
+                  "description" : "The status of the transaction"
+                },
+                "id" : {
+                  "type" : "string",
+                  "description" : "The Identifier of the record created"
+                }
+              }
+            }
+          }
+        },
+        "properties" : {
+          "type" : "object"
+        }
+      }
+    },
+    "Consent2" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/Consent2Body"
+        }
+      },
+      "description" : "Consent2"
+    },
+    "Consent2Body" : {
+      "type" : "object",
+      "properties" : {
+        "customers" : {
+          "type" : "array",
+          "description" : "Indicates role of a customer for an arrangement.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "customer" : {
+                "type" : "string",
+                "description" : "Contains the customer identifier to fetch list of consent arrangements for the customer or customer identifier of the debtor account. This will be populated once the SCA(Strong Customer Authentication) is completed.",
+                "minLength" : 0,
+                "maxLength" : 35
+              },
+              "customerRoles" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "customerRole" : {
+                      "type" : "string",
+                      "description" : "Indicates role of a customer for an arrangement.",
+                      "minLength" : 0,
+                      "maxLength" : 35
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "arrangement" : {
+          "type" : "string",
+          "description" : "Unique identifier for the arrangement contract",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "product" : {
+          "type" : "string",
+          "description" : "Indicates an id or name of a product",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "arrangementEffectiveDate" : {
+          "type" : "string",
+          "description" : "It is a date on/upon which an account is considered to take effect",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "activity" : {
+          "type" : "string",
+          "description" : "Defines the activity to be processed against the Arrangement. The activity may be a user activity or a system generated activity.",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "reason" : {
+          "type" : "string",
+          "description" : "Contains the reason for performing the current activity",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "cdpConsent" : {
+          "type" : "object",
+          "properties" : {
+            "consentTypes" : {
+              "type" : "array",
+              "description" : "Indicates the consent sub type linked to corresponding consent type.",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "consentType" : {
+                    "type" : "string",
+                    "description" : "Consent Type for which the consent is given",
+                    "minLength" : 0,
+                    "maxLength" : 35
+                  },
+                  "isConsentGiven" : {
+                    "type" : "string",
+                    "description" : "Indicates whether the consent is given for a specific type. Allowed values:  - YES,NO",
+                    "minLength" : 0,
+                    "maxLength" : 35
+                  },
+                  "consentGivenDate" : {
+                    "type" : "string",
+                    "format" : "date",
+                    "description" : "Indicates the date on which the consent was given by a customer for a specific consent type."
+                  },
+                  "isConsentWithdrawn" : {
+                    "type" : "string",
+                    "description" : "Indicates if the consent given for the particular consent type is withdrawn.",
+                    "minLength" : 0,
+                    "maxLength" : 35
+                  },
+                  "consentWithdrawDate" : {
+                    "type" : "string",
+                    "format" : "date",
+                    "description" : "Indicates the date on which the consent was withdrawn."
+                  },
+                  "consentTypeExpiryDate" : {
+                    "type" : "string",
+                    "format" : "date",
+                    "description" : "Indicates the expiry date of a consent type."
+                  },
+                  "consentBlock" : {
+                    "type" : "string",
+                    "description" : "Indicates whether consent is blocked or not. No personal data of the Client will be shared by the Bank for any purpose when the consent is blocked.",
+                    "minLength" : 0,
+                    "maxLength" : 35
+                  },
+                  "blockNotes" : {
+                    "type" : "string",
+                    "description" : "Indicates the reason for which the consent is blocked.",
+                    "minLength" : 0,
+                    "maxLength" : 35
+                  },
+                  "consentWithdrawNotes" : {
+                    "type" : "string",
+                    "description" : "Indicates the reason for which the consent is withdrawn.",
+                    "minLength" : 0,
+                    "maxLength" : 35
+                  },
+                  "channelId" : {
+                    "type" : "string",
+                    "description" : "Id of the (digital) channel.It is a conditional field for customer data protection consent.",
+                    "minLength" : 0,
+                    "maxLength" : 9
+                  },
+                  "consentSubTypes" : {
+                    "type" : "array",
+                    "items" : {
+                      "type" : "object",
+                      "properties" : {
+                        "consentSubType" : {
+                          "type" : "string",
+                          "description" : "Indicates the consent sub type linked to corresponding consent type.",
+                          "minLength" : 0,
+                          "maxLength" : 35
+                        },
+                        "isSubTypeConsentGiven" : {
+                          "type" : "string",
+                          "description" : "Indicates whether consent is given for specific consent subtype. Allowed values:  - YES,NO",
+                          "minLength" : 0,
+                          "maxLength" : 35
+                        },
+                        "isSubTypeConsentWithdrawn" : {
+                          "type" : "string",
+                          "description" : "Indicates whether the consent for a specific sub type of a consent type is withdrawn or not.",
+                          "minLength" : 0,
+                          "maxLength" : 35
+                        },
+                        "consentStWithdrawDate" : {
+                          "type" : "string",
+                          "format" : "date",
+                          "description" : "Indicates the date on which a specific sub type of a consent type is withdrawn."
+                        },
+                        "consentStGivenDate" : {
+                          "type" : "string",
+                          "format" : "date",
+                          "description" : "Indicates the date on which the consent was given by a customer for a specific consent sub type."
+                        },
+                        "consentStExpiryDate" : {
+                          "type" : "string",
+                          "format" : "date",
+                          "description" : "Indicates the expiry date of a consent subtype."
+                        },
+                        "channel" : {
+                          "type" : "string",
+                          "description" : "The ID of the Channel. It is a conditional field for customer data protection consent.",
+                          "minLength" : 0,
+                          "maxLength" : 7
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "expiryDate" : {
+              "type" : "string",
+              "description" : "The date an agreement such as an arrangement, product, credit facility or limit is due to expire",
+              "minLength" : 0,
+              "maxLength" : 11
+            }
+          }
+        }
+      }
+    },
+    "CdpConsentStatusResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/CdpConsentStatusResponseBody"
+        }
+      },
+      "description" : "CdpConsentStatusResponse"
+    },
+    "CdpConsentStatusResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "customerId" : {
+            "type" : "number",
+            "description" : "Identifier of the customer",
+            "maximum" : 35
+          },
+          "arrangement" : {
+            "type" : "string",
+            "description" : "Unique identifier for the arrangement contract",
+            "maxLength" : 35
+          },
+          "consentType" : {
+            "type" : "string",
+            "description" : "Consent Type for which the consent is given",
+            "maxLength" : 35
+          },
+          "isConsentGiven" : {
+            "type" : "string",
+            "description" : "Indicates whether the consent is given for a specific type. Allowed values:  - YES,NO",
+            "maxLength" : 35
+          },
+          "isConsentWithdrawn" : {
+            "type" : "string",
+            "description" : "Indicates if the consent given for the particular consent type is withdrawn.",
+            "maxLength" : 35
+          },
+          "consentSubType" : {
+            "type" : "string",
+            "description" : "Indicates the consent sub type linked to corresponding consent type.",
+            "maxLength" : 35
+          },
+          "isSubTypeConsentGiven" : {
+            "type" : "string",
+            "description" : "Indicates whether consent is given for specific consent subtype. Allowed values:  - YES,NO",
+            "maxLength" : 35
+          },
+          "isSubTypeWithdrawn" : {
+            "type" : "string",
+            "description" : "Indicates if the consent given for the consent sub type is withdrawn.",
+            "maxLength" : 35
+          },
+          "isBlocked" : {
+            "type" : "string",
+            "description" : "Balance Netting is blocked or Not",
+            "maxLength" : 35
+          },
+          "consentStatus" : {
+            "type" : "boolean",
+            "description" : "Status of the consent. This can be of received, valid, expired, terminatedByTpp or revokedByPsu."
+          }
+        }
+      }
+    },
+    "DataRightsRequest" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/DataRightsRequestBody"
+        }
+      },
+      "description" : "DataRightsRequest"
+    },
+    "DataRightsRequestBody" : {
+      "type" : "object",
+      "properties" : {
+        "purposeDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "erasurePurpose" : {
+                "type" : "string",
+                "description" : "Specifies the customer data protection purpose for erasure. For example - CONSENT, LEGAL, TAX, MARKETING, LEGITIMATE, CONTRACT.",
+                "minLength" : 0,
+                "maxLength" : 14
+              }
+            }
+          }
+        },
+        "partyId" : {
+          "type" : "string",
+          "description" : "Allows capturing of customers or person entities to be part of the relationship. If partyType is selected as Customer, then the system will allow only customer Ids to be captured into this field. If partyType is selected as Person or Entity, then system will allow only personEntity Ids to be captured into this field.",
+          "minLength" : 0,
+          "maxLength" : 7
+        },
+        "partyType" : {
+          "type" : "string",
+          "description" : "Indicates the type of customer which is part of the relationship. It may be Customer, Person or Entity.",
+          "minLength" : 0,
+          "maxLength" : 16
+        },
+        "requestType" : {
+          "type" : "string",
+          "description" : "Contains customer data rights request type. Example: ERASURE/DATAPORTABILITY.",
+          "minLength" : 0,
+          "maxLength" : 11
+        },
+        "newExpiryDate" : {
+          "type" : "string",
+          "description" : "Contains the new expiry date of data rights request.",
+          "minLength" : 0,
+          "maxLength" : 13
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Contains status of the data rights request.Allowed values are INITIATED, INPROGESS, EXTENDED, COMPLETED, REJECTED.",
+          "minLength" : 0,
+          "maxLength" : 13
+        },
+        "requestNewAction" : {
+          "type" : "string",
+          "description" : "Contains the action which the account officer has initiated.Values allowed are NEW, EXTEND, COMPLETE, REJECT.",
+          "minLength" : 0,
+          "maxLength" : 16
+        },
+        "newAmendmentNotes" : {
+          "type" : "string",
+          "description" : "Contains the new amendment notes of the data rights request.",
+          "minLength" : 0,
+          "maxLength" : 17
+        },
+        "approveRequest" : {
+          "type" : "string",
+          "description" : "Indicates whether the data rights request is to be approved. Allowed values:  - YES,NO",
+          "minLength" : 0,
+          "maxLength" : 14
+        },
+        "channelId" : {
+          "type" : "string",
+          "description" : "Id of the (digital) channel.It is a conditional field for customer data protection consent.",
+          "minLength" : 0,
+          "maxLength" : 9
+        },
+        "accountOfficer" : {
+          "type" : "string",
+          "description" : "Identifier of Department Account Officer",
+          "minLength" : 0,
+          "maxLength" : 14
+        },
+        "applicationName" : {
+          "type" : "string",
+          "description" : "Specifies the name of the application to be considered for erasure of details for customer data protection purposes",
+          "minLength" : 0,
+          "maxLength" : 19
+        },
+        "contractId" : {
+          "type" : "string",
+          "description" : "Identifies the unique identifier of the transaction or contract.",
+          "minLength" : 0,
+          "maxLength" : 10
+        },
+        "companyId" : {
+          "type" : "string",
+          "description" : "Identifier of the lead company of the underlying Entity/Company/Branch for the respective contract for customer data protection purposes. Example US0010001",
+          "minLength" : 0,
+          "maxLength" : 19
+        }
+      }
+    },
+    "ScreenHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "uniqueIdentifier" : {
+          "type" : "string",
+          "description" : "The unique identifier/Message Reference of the record created."
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "DataRightsRequestResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/DataRightsRequestResponseBody"
+        }
+      },
+      "description" : "DataRightsRequestResponse"
+    },
+    "DataRightsRequestResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "purposeDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "erasurePurpose" : {
+                "type" : "string",
+                "description" : "Specifies the customer data protection purpose for erasure. For example - CONSENT, LEGAL, TAX, MARKETING, LEGITIMATE, CONTRACT.",
+                "minLength" : 0,
+                "maxLength" : 14
+              }
+            }
+          }
+        },
+        "partyId" : {
+          "type" : "string",
+          "description" : "Allows capturing of customers or person entities to be part of the relationship. If partyType is selected as Customer, then the system will allow only customer Ids to be captured into this field. If partyType is selected as Person or Entity, then system will allow only personEntity Ids to be captured into this field.",
+          "minLength" : 0,
+          "maxLength" : 7
+        },
+        "partyType" : {
+          "type" : "string",
+          "description" : "Indicates the type of customer which is part of the relationship. It may be Customer, Person or Entity.",
+          "minLength" : 0,
+          "maxLength" : 16
+        },
+        "requestType" : {
+          "type" : "string",
+          "description" : "Contains customer data rights request type. Example: ERASURE/DATAPORTABILITY.",
+          "minLength" : 0,
+          "maxLength" : 11
+        },
+        "newExpiryDate" : {
+          "type" : "string",
+          "description" : "Contains the new expiry date of data rights request.",
+          "minLength" : 0,
+          "maxLength" : 13
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Contains status of the data rights request.Allowed values are INITIATED, INPROGESS, EXTENDED, COMPLETED, REJECTED.",
+          "minLength" : 0,
+          "maxLength" : 13
+        },
+        "requestNewAction" : {
+          "type" : "string",
+          "description" : "Contains the action which the account officer has initiated.Values allowed are NEW, EXTEND, COMPLETE, REJECT.",
+          "minLength" : 0,
+          "maxLength" : 16
+        },
+        "newAmendmentNotes" : {
+          "type" : "string",
+          "description" : "Contains the new amendment notes of the data rights request.",
+          "minLength" : 0,
+          "maxLength" : 17
+        },
+        "approveRequest" : {
+          "type" : "string",
+          "description" : "Indicates whether the data rights request is to be approved. Allowed values:  - YES,NO",
+          "minLength" : 0,
+          "maxLength" : 14
+        },
+        "channelId" : {
+          "type" : "string",
+          "description" : "Id of the (digital) channel.It is a conditional field for customer data protection consent.",
+          "minLength" : 0,
+          "maxLength" : 9
+        },
+        "accountOfficer" : {
+          "type" : "string",
+          "description" : "Identifier of Department Account Officer",
+          "minLength" : 0,
+          "maxLength" : 14
+        },
+        "applicationName" : {
+          "type" : "string",
+          "description" : "Specifies the name of the application to be considered for erasure of details for customer data protection purposes",
+          "minLength" : 0,
+          "maxLength" : 19
+        },
+        "contractId" : {
+          "type" : "string",
+          "description" : "Identifies the unique identifier of the transaction or contract.",
+          "minLength" : 0,
+          "maxLength" : 10
+        },
+        "companyId" : {
+          "type" : "string",
+          "description" : "Identifier of the lead company of the underlying Entity/Company/Branch for the respective contract for customer data protection purposes. Example US0010001",
+          "minLength" : 0,
+          "maxLength" : 19
+        }
+      }
+    },
+    "ScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/ScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "ScreenErrorResponse"
+    },
+    "ScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message "
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "BusinessScreenErrorResponse"
+    },
+    "BusinessScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message for bad requests"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "SystemScreenErrorResponse"
+    },
+    "SystemScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message caused by server"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    },
+    "DataRightsRequestResponse1" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/DataRightsRequestResponse1Body"
+        }
+      },
+      "description" : "DataRightsRequestResponse1"
+    },
+    "DataRightsRequestResponse1Body" : {
+      "type" : "object",
+      "properties" : {
+        "purposeDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "erasurePurpose" : {
+                "type" : "string",
+                "description" : "Specifies the customer data protection purpose for erasure. For example - CONSENT, LEGAL, TAX, MARKETING, LEGITIMATE, CONTRACT.",
+                "minLength" : 0,
+                "maxLength" : 14
+              }
+            }
+          }
+        },
+        "partyId" : {
+          "type" : "string",
+          "description" : "Allows capturing of customers or person entities to be part of the relationship. If partyType is selected as Customer, then the system will allow only customer Ids to be captured into this field. If partyType is selected as Person or Entity, then system will allow only personEntity Ids to be captured into this field.",
+          "minLength" : 0,
+          "maxLength" : 7
+        },
+        "partyType" : {
+          "type" : "string",
+          "description" : "Indicates the type of customer which is part of the relationship. It may be Customer, Person or Entity.",
+          "minLength" : 0,
+          "maxLength" : 16
+        },
+        "requestType" : {
+          "type" : "string",
+          "description" : "Contains customer data rights request type. Example: ERASURE/DATAPORTABILITY.",
+          "minLength" : 0,
+          "maxLength" : 11
+        },
+        "newExpiryDate" : {
+          "type" : "string",
+          "description" : "Contains the new expiry date of data rights request.",
+          "minLength" : 0,
+          "maxLength" : 13
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Contains status of the data rights request.Allowed values are INITIATED, INPROGESS, EXTENDED, COMPLETED, REJECTED.",
+          "minLength" : 0,
+          "maxLength" : 13
+        },
+        "requestNewAction" : {
+          "type" : "string",
+          "description" : "Contains the action which the account officer has initiated.Values allowed are NEW, EXTEND, COMPLETE, REJECT.",
+          "minLength" : 0,
+          "maxLength" : 16
+        },
+        "newAmendmentNotes" : {
+          "type" : "string",
+          "description" : "Contains the new amendment notes of the data rights request.",
+          "minLength" : 0,
+          "maxLength" : 17
+        },
+        "approveRequest" : {
+          "type" : "string",
+          "description" : "Indicates whether the data rights request is to be approved. Allowed values:  - YES,NO",
+          "minLength" : 0,
+          "maxLength" : 14
+        },
+        "channelId" : {
+          "type" : "string",
+          "description" : "Id of the (digital) channel.It is a conditional field for customer data protection consent.",
+          "minLength" : 0,
+          "maxLength" : 9
+        },
+        "accountOfficer" : {
+          "type" : "string",
+          "description" : "Identifier of Department Account Officer",
+          "minLength" : 0,
+          "maxLength" : 14
+        },
+        "applicationName" : {
+          "type" : "string",
+          "description" : "Specifies the name of the application to be considered for erasure of details for customer data protection purposes",
+          "minLength" : 0,
+          "maxLength" : 19
+        },
+        "contractId" : {
+          "type" : "string",
+          "description" : "Identifies the unique identifier of the transaction or contract.",
+          "minLength" : 0,
+          "maxLength" : 10
+        },
+        "companyId" : {
+          "type" : "string",
+          "description" : "Identifier of the lead company of the underlying Entity/Company/Branch for the respective contract for customer data protection purposes. Example US0010001",
+          "minLength" : 0,
+          "maxLength" : 19
+        }
+      }
+    },
+    "DataRightsRequest1" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/DataRightsRequest1Body"
+        }
+      },
+      "description" : "DataRightsRequest1"
+    },
+    "DataRightsRequest1Body" : {
+      "type" : "object",
+      "properties" : {
+        "purposeDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "erasurePurpose" : {
+                "type" : "string",
+                "description" : "Specifies the customer data protection purpose for erasure. For example - CONSENT, LEGAL, TAX, MARKETING, LEGITIMATE, CONTRACT.",
+                "minLength" : 0,
+                "maxLength" : 14
+              }
+            }
+          }
+        },
+        "partyId" : {
+          "type" : "string",
+          "description" : "Allows capturing of customers or person entities to be part of the relationship. If partyType is selected as Customer, then the system will allow only customer Ids to be captured into this field. If partyType is selected as Person or Entity, then system will allow only personEntity Ids to be captured into this field.",
+          "minLength" : 0,
+          "maxLength" : 10
+        },
+        "partyType" : {
+          "type" : "string",
+          "description" : "Indicates the type of customer which is part of the relationship. It may be Customer, Person or Entity.",
+          "minLength" : 0,
+          "maxLength" : 16
+        },
+        "requestType" : {
+          "type" : "string",
+          "description" : "Contains customer data rights request type. Example: ERASURE/DATAPORTABILITY.",
+          "minLength" : 0,
+          "maxLength" : 11
+        },
+        "newExpiryDate" : {
+          "type" : "string",
+          "description" : "Contains the new expiry date of data rights request.",
+          "minLength" : 0,
+          "maxLength" : 13
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Contains status of the data rights request.Allowed values are INITIATED, INPROGESS, EXTENDED, COMPLETED, REJECTED.",
+          "minLength" : 0,
+          "maxLength" : 13
+        },
+        "requestNewAction" : {
+          "type" : "string",
+          "description" : "Contains the action which the account officer has initiated.Values allowed are NEW, EXTEND, COMPLETE, REJECT.",
+          "minLength" : 0,
+          "maxLength" : 16
+        },
+        "newAmendmentNotes" : {
+          "type" : "string",
+          "description" : "Contains the new amendment notes of the data rights request.",
+          "minLength" : 0,
+          "maxLength" : 17
+        },
+        "accountOfficer" : {
+          "type" : "string",
+          "description" : "Identifier of Department Account Officer",
+          "minLength" : 0,
+          "maxLength" : 14
+        },
+        "isReqComplete" : {
+          "type" : "string",
+          "description" : "Specifies whether the data rights request is complete or not.",
+          "minLength" : 0,
+          "maxLength" : 13
+        },
+        "approveRequest" : {
+          "type" : "string",
+          "description" : "Indicates whether the data rights request is to be approved. Allowed values:  - YES,NO",
+          "minLength" : 0,
+          "maxLength" : 14
+        },
+        "channelId" : {
+          "type" : "string",
+          "description" : "Id of the (digital) channel.It is a conditional field for customer data protection consent.",
+          "minLength" : 0,
+          "maxLength" : 9
+        },
+        "internalAction" : {
+          "type" : "string",
+          "description" : "Indicates if the request is to be resubmitted or cancelled. Allowed values are RESUBMIT, CANCELLED",
+          "minLength" : 0,
+          "maxLength" : 14
+        },
+        "applicationName" : {
+          "type" : "string",
+          "description" : "Specifies the name of the application to be considered for erasure of details for customer data protection purposes",
+          "minLength" : 0,
+          "maxLength" : 19
+        },
+        "contractId" : {
+          "type" : "string",
+          "description" : "Identifies the unique identifier of the transaction or contract.",
+          "minLength" : 0,
+          "maxLength" : 10
+        },
+        "companyId" : {
+          "type" : "string",
+          "description" : "Identifier of the lead company of the underlying Entity/Company/Branch for the respective contract for customer data protection purposes. Example US0010001",
+          "minLength" : 0,
+          "maxLength" : 19
+        }
+      }
+    },
+    "DataRightsRequestResponse2" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/DataRightsRequestResponse2Body"
+        }
+      },
+      "description" : "DataRightsRequestResponse2"
+    },
+    "DataRightsRequestResponse2Body" : {
+      "type" : "object",
+      "properties" : {
+        "purposeDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "erasurePurpose" : {
+                "type" : "string",
+                "description" : "Specifies the customer data protection purpose for erasure. For example - CONSENT, LEGAL, TAX, MARKETING, LEGITIMATE, CONTRACT.",
+                "minLength" : 0,
+                "maxLength" : 14
+              }
+            }
+          }
+        },
+        "partyId" : {
+          "type" : "string",
+          "description" : "Allows capturing of customers or person entities to be part of the relationship. If partyType is selected as Customer, then the system will allow only customer Ids to be captured into this field. If partyType is selected as Person or Entity, then system will allow only personEntity Ids to be captured into this field.",
+          "minLength" : 0,
+          "maxLength" : 10
+        },
+        "partyType" : {
+          "type" : "string",
+          "description" : "Indicates the type of customer which is part of the relationship. It may be Customer, Person or Entity.",
+          "minLength" : 0,
+          "maxLength" : 16
+        },
+        "requestType" : {
+          "type" : "string",
+          "description" : "Contains customer data rights request type. Example: ERASURE/DATAPORTABILITY.",
+          "minLength" : 0,
+          "maxLength" : 11
+        },
+        "newExpiryDate" : {
+          "type" : "string",
+          "description" : "Contains the new expiry date of data rights request.",
+          "minLength" : 0,
+          "maxLength" : 13
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Contains status of the data rights request.Allowed values are INITIATED, INPROGESS, EXTENDED, COMPLETED, REJECTED.",
+          "minLength" : 0,
+          "maxLength" : 13
+        },
+        "requestNewAction" : {
+          "type" : "string",
+          "description" : "Contains the action which the account officer has initiated.Values allowed are NEW, EXTEND, COMPLETE, REJECT.",
+          "minLength" : 0,
+          "maxLength" : 16
+        },
+        "newAmendmentNotes" : {
+          "type" : "string",
+          "description" : "Contains the new amendment notes of the data rights request.",
+          "minLength" : 0,
+          "maxLength" : 17
+        },
+        "accountOfficer" : {
+          "type" : "string",
+          "description" : "Identifier of Department Account Officer",
+          "minLength" : 0,
+          "maxLength" : 14
+        },
+        "isReqComplete" : {
+          "type" : "string",
+          "description" : "Specifies whether the data rights request is complete or not.",
+          "minLength" : 0,
+          "maxLength" : 13
+        },
+        "approveRequest" : {
+          "type" : "string",
+          "description" : "Indicates whether the data rights request is to be approved. Allowed values:  - YES,NO",
+          "minLength" : 0,
+          "maxLength" : 14
+        },
+        "channelId" : {
+          "type" : "string",
+          "description" : "Id of the (digital) channel.It is a conditional field for customer data protection consent.",
+          "minLength" : 0,
+          "maxLength" : 9
+        },
+        "internalAction" : {
+          "type" : "string",
+          "description" : "Indicates if the request is to be resubmitted or cancelled. Allowed values are RESUBMIT, CANCELLED",
+          "minLength" : 0,
+          "maxLength" : 14
+        },
+        "applicationName" : {
+          "type" : "string",
+          "description" : "Specifies the name of the application to be considered for erasure of details for customer data protection purposes",
+          "minLength" : 0,
+          "maxLength" : 19
+        },
+        "contractId" : {
+          "type" : "string",
+          "description" : "Identifies the unique identifier of the transaction or contract.",
+          "minLength" : 0,
+          "maxLength" : 10
+        },
+        "companyId" : {
+          "type" : "string",
+          "description" : "Identifier of the lead company of the underlying Entity/Company/Branch for the respective contract for customer data protection purposes. Example US0010001",
+          "minLength" : 0,
+          "maxLength" : 19
+        }
+      }
+    },
+    "DataRightsRequestResponse3" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/DataRightsRequestResponse3Body"
+        }
+      },
+      "description" : "DataRightsRequestResponse3"
+    },
+    "DataRightsRequestResponse3Body" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "purposeDetails" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "erasurePurpose" : {
+                  "type" : "string",
+                  "description" : "Specifies the customer data protection purpose for erasure. For example - CONSENT, LEGAL, TAX, MARKETING, LEGITIMATE, CONTRACT.",
+                  "maxLength" : 35
+                }
+              }
+            }
+          },
+          "partyId" : {
+            "type" : "string",
+            "description" : "Allows capturing of customers or person entities to be part of the relationship. If partyType is selected as Customer, then the system will allow only customer Ids to be captured into this field. If partyType is selected as Person or Entity, then system will allow only personEntity Ids to be captured into this field.",
+            "maxLength" : 20
+          },
+          "dataRightsId" : {
+            "type" : "string",
+            "maxLength" : 16
+          },
+          "requestType" : {
+            "type" : "string",
+            "description" : "Contains customer data rights request type. Example: ERASURE/DATAPORTABILITY.",
+            "maxLength" : 20
+          },
+          "originalExpiryDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "Contains date calculated based on the Request Type entered along with the expiry days as prescribed under GDPR towards compliance."
+          },
+          "creationDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "Contains the creation date of data rights request."
+          },
+          "newExpiryDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "Contains the new expiry date of data rights request."
+          },
+          "status" : {
+            "type" : "string",
+            "description" : "Contains status of the data rights request.Allowed values are INITIATED, INPROGESS, EXTENDED, COMPLETED, REJECTED.",
+            "maxLength" : 35
+          },
+          "requestNewAction" : {
+            "type" : "string",
+            "description" : "Contains the action which the account officer has initiated.Values allowed are NEW, EXTEND, COMPLETE, REJECT.",
+            "maxLength" : 55
+          },
+          "newAmendmentNotes" : {
+            "type" : "string",
+            "description" : "Contains the new amendment notes of the data rights request.",
+            "maxLength" : 65
+          },
+          "newOfficer" : {
+            "type" : "string",
+            "description" : "Specifies officer in charge of action specified. Contains valid id from DEPT.ACCT.OFFICER.",
+            "maxLength" : 55
+          },
+          "internalAction" : {
+            "type" : "string",
+            "description" : "Indicates if the request is to be resubmitted or cancelled. Allowed values are RESUBMIT, CANCELLED",
+            "maxLength" : 20
+          },
+          "isReqComplete" : {
+            "type" : "boolean",
+            "description" : "Specifies whether the data rights request is complete or not."
+          },
+          "approveRequest" : {
+            "type" : "boolean",
+            "description" : "Indicates whether the data rights request is to be approved. Allowed values:  - YES,NO"
+          },
+          "systemStatus" : {
+            "type" : "string",
+            "description" : "Contains status of request in the system. Examples are INITIATED, ERROR, COMPLETED.",
+            "maxLength" : 20
+          },
+          "currExpiryDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "Contains the current expiry date of the data rights request."
+          },
+          "applicationName" : {
+            "type" : "string",
+            "description" : "Specifies the name of the application to be considered for erasure of details for customer data protection purposes",
+            "maxLength" : 35
+          },
+          "contractId" : {
+            "type" : "string",
+            "description" : "Identifies the unique identifier of the transaction or contract.",
+            "maxLength" : 35
+          },
+          "companyId" : {
+            "type" : "string",
+            "description" : "Identifier of the lead company of the underlying Entity/Company/Branch for the respective contract for customer data protection purposes. Example US0010001",
+            "maxLength" : 9
+          }
+        }
+      }
+    }
+  }
+}

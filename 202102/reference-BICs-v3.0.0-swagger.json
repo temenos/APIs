@@ -1,0 +1,834 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "API to validate and retrieve the Bank Identifier Code (BIC) related details. The BIC is the SWIFT Address assigned to a bank in order to send automated payments to the banks concerned. It uniquely identifies the name and country of the bank and consists of 8-11 characters. Example format AAAABBCCDDD, where AAAA: 4 character bank code, BB: 2 character country code, CC: 2 character location code, DDD: optional 3 character branch code.",
+    "version" : "v3.0.0",
+    "title" : "Bank Identifier Codes"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v3.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "apiKey" : [ ]
+  } ],
+  "paths" : {
+    "/reference/bankCodes/bics/{bicId}" : {
+      "get" : {
+        "summary" : "Retrieves the status on the validity of the requested BIC along with its details",
+        "description" : "Retrieves the status on the validity of the requested BIC along with its details, such as institution name, address, location etc. ",
+        "operationId" : "getBICStatus",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "bicId",
+          "in" : "path",
+          "description" : "Bank Identifier Code (BIC) of the Beneficiary bank.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "BICStatusResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BICStatusResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/reference/bankCodes/bics/{bicId}/validity" : {
+      "get" : {
+        "summary" : "Retrieves the status on the validity of the BIC code",
+        "description" : "Retrieves the status on the validity of the BIC code, returns YES if BIC is valid",
+        "operationId" : "validateBIC",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "bicId",
+          "in" : "path",
+          "description" : "Bank Identifier Code (BIC) of the Beneficiary bank.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "effectiveDate",
+          "in" : "query",
+          "description" : "The date on which the principal movement is effected",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "BICResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BICResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/reference/bankCodes/bics/{bicId}/lei" : {
+      "get" : {
+        "summary" : "Retrieves the Bank's legal entity identifier of the requested BIC",
+        "description" : "Retrieves the Bank's Legal Entity Identifier (LEI) of the requested BIC. The LEI is the International ISO standard 17442. LEIs are identification codes that enable consistent and accurate identification of all legal entities that are parties to financial transactions, including non-financial institutions.",
+        "operationId" : "getLEIFromBIC",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "bicId",
+          "in" : "path",
+          "description" : "Bank Identifier Code (BIC) of the Beneficiary bank.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "LEIFromBICResponse",
+            "schema" : {
+              "$ref" : "#/definitions/LEIFromBICResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/reference/bankCodes/bics" : {
+      "get" : {
+        "summary" : "Retrieves the matching bank identification codes for the specified search criterions",
+        "description" : "Retrieves the matching bank identification codes available in a country with matching BIC Code or institution name or city.",
+        "operationId" : "getBICIdentifier",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "countryCode",
+          "in" : "query",
+          "description" : "ISO 3166-1-alpha-2 or alpha-3 country code of financial institution",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "bicId",
+          "in" : "query",
+          "description" : "Bank Identifier Code (BIC) of the Beneficiary bank.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "institutionName",
+          "in" : "query",
+          "description" : "Indicates the name of the institution",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "city",
+          "in" : "query",
+          "description" : "City of residence of customer or the City in which the bank/financial institution is located. For Example LONDON, NEW YORK",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "BICIdentifierResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BICIdentifierResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "apiKey" : {
+      "type" : "apiKey",
+      "name" : "Authorization",
+      "in" : "header"
+    }
+  },
+  "definitions" : {
+    "QueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records per page"
+        },
+        "page_start" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The record from which the response should be displayed"
+        },
+        "total_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records present"
+        },
+        "page_token" : {
+          "type" : "string",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request"
+        }
+      }
+    },
+    "BICStatusResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/BICStatusResponseBody"
+        }
+      },
+      "description" : "BICStatusResponse"
+    },
+    "BICStatusResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "addressInformation" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "addressCity" : {
+                  "type" : "string",
+                  "description" : "The town and/or city component of the base address of a customer"
+                },
+                "addressLine1" : {
+                  "type" : "string",
+                  "description" : "Indicates first line of the address of the BIC"
+                },
+                "addressLine2" : {
+                  "type" : "string",
+                  "description" : "Indicates second line of the address of the BIC"
+                },
+                "addressLine3" : {
+                  "type" : "string",
+                  "description" : "Indicates third line of the address of the BIC"
+                },
+                "addressLine4" : {
+                  "type" : "string",
+                  "description" : "Indicates fourth line of the address of the BIC"
+                },
+                "postCode" : {
+                  "type" : "string",
+                  "description" : "Identifies the address postal code for the customer."
+                },
+                "bicLocation1" : {
+                  "type" : "string",
+                  "description" : "Indicates first line of branch location of the financial institution"
+                },
+                "bicLocation2" : {
+                  "type" : "string",
+                  "description" : "Indicates second line of branch location of the financial institution"
+                },
+                "countryName" : {
+                  "type" : "string",
+                  "description" : "This is the country name that the financial institution resides in."
+                },
+                "postBoxNumber" : {
+                  "type" : "string",
+                  "description" : "Post Office Box (POB) number that relates to financial institution"
+                }
+              }
+            }
+          },
+          "serviceCodes" : {
+            "type" : "array",
+            "description" : "Indicates the Value added services that the financial institution has subscribed to",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "serviceCode" : {
+                  "type" : "string",
+                  "description" : "Indicates the Value added services that the financial institution has subscribed to"
+                }
+              }
+            }
+          },
+          "entityInformation" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "officeType" : {
+                  "type" : "string",
+                  "description" : "Indicates the status of the entity in the office hierarchy e.g. Head Office, Main Payments Office"
+                },
+                "legalType" : {
+                  "type" : "string",
+                  "description" : "Indicates the status of the entity in the legal hierarchy eg. L - Legal Entity"
+                },
+                "groupType" : {
+                  "type" : "string",
+                  "description" : "Indicates the type of entity that identifies the group eg. Parent or Member"
+                },
+                "institutionStatus" : {
+                  "type" : "string",
+                  "description" : "Indicates the status of the institution like Bank, Money Exchange, Payment institution etc.,"
+                }
+              }
+            }
+          },
+          "excludedCompanies" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "excludedCompany" : {
+                  "type" : "string",
+                  "description" : "Indicates the companies where Central Directory record is excluded to use"
+                }
+              }
+            }
+          },
+          "allowedCompanies" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "allowedCompany" : {
+                  "type" : "string",
+                  "description" : "Indicates the companies where Central Directory record is allowed to use"
+                }
+              }
+            }
+          },
+          "bicId" : {
+            "type" : "string",
+            "description" : "Bank Identifier Code (BIC) of the Beneficiary bank.",
+            "maxLength" : 12
+          },
+          "isBICValid" : {
+            "type" : "string",
+            "description" : "Indicates whether the BIC is valid"
+          },
+          "institutionName" : {
+            "type" : "string",
+            "description" : "Indicates the name of the institution"
+          },
+          "branch" : {
+            "type" : "string",
+            "description" : "The branch information relevant to this BIC code."
+          },
+          "bicbranchCode" : {
+            "type" : "string",
+            "description" : "Indicates the branch Code associated to the BIC Code"
+          },
+          "routingBiccode" : {
+            "type" : "string",
+            "description" : "Indicates the routing or processing BIC to which Euro payment must be sent"
+          },
+          "countryId" : {
+            "type" : "string",
+            "description" : "ISO country code of the financial institution. "
+          },
+          "nationalId" : {
+            "type" : "string",
+            "description" : "Indicates the ISO Country code of the financial institution"
+          },
+          "nationalIdtype" : {
+            "type" : "string",
+            "description" : "Indicates the national bank code of the financial institution"
+          },
+          "chipsuid" : {
+            "type" : "string",
+            "description" : "Indicates the Clearing House Interbank Payments System Universal Identifier (CHIPS) of the institution"
+          },
+          "subtypeInd" : {
+            "type" : "string",
+            "description" : "Indicates the type of financial institution"
+          },
+          "branchQualifier" : {
+            "type" : "string",
+            "description" : "Indicates the branch qualifiers of the Bank Identifier Code (BIC). Branch Qualifiers are the operational type of the entity. Eg: ADM-Administration, BKO for Back Office"
+          },
+          "validFrom" : {
+            "type" : "string",
+            "description" : "Indicates the date from which the data set becomes effective due to a change of its attributes e.g. BIC activates/deactivates in future"
+          },
+          "bankLegalEntityIdentifier" : {
+            "type" : "string",
+            "description" : "Legal entity identifier for the bank."
+          },
+          "timeZone" : {
+            "type" : "string",
+            "description" : "Defines the timezone of the entity"
+          },
+          "networkConnection" : {
+            "type" : "string",
+            "description" : "Indicates the status of the entity being connected to SWIFT"
+          },
+          "bicStatus" : {
+            "type" : "string",
+            "description" : "Indicates the status of the BIC"
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessQueryErrorResponseBody"
+        }
+      },
+      "description" : "BusinessQueryErrorResponse"
+    },
+    "BusinessQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message for bad requests"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemQueryErrorResponseBody"
+        }
+      },
+      "description" : "SystemQueryErrorResponse"
+    },
+    "SystemQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message caused by server"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    },
+    "BICResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/BICResponseBody"
+        }
+      },
+      "description" : "BICResponse"
+    },
+    "BICResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "isBICValid" : {
+            "type" : "string",
+            "description" : "Indicates whether the BIC is valid",
+            "maxLength" : 11
+          }
+        }
+      }
+    },
+    "LEIFromBICResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/LEIFromBICResponseBody"
+        }
+      },
+      "description" : "LEIFromBICResponse"
+    },
+    "LEIFromBICResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "bankLegalEntityIdentifier" : {
+            "type" : "string",
+            "description" : "Legal entity identifier for the bank."
+          }
+        }
+      }
+    },
+    "BICIdentifierResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/BICIdentifierResponseBody"
+        }
+      },
+      "description" : "BICIdentifierResponse"
+    },
+    "BICIdentifierResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "institutionNames" : {
+            "type" : "array",
+            "description" : "Indicates the name of the institution",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "institutionName" : {
+                  "type" : "string",
+                  "description" : "Indicates the name of the institution",
+                  "maxLength" : 35
+                }
+              }
+            }
+          },
+          "countryNames" : {
+            "type" : "array",
+            "description" : "This is the country name that the financial institution resides in.",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "countryName" : {
+                  "type" : "string",
+                  "description" : "This is the country name that the financial institution resides in.",
+                  "maxLength" : 35
+                }
+              }
+            }
+          },
+          "countryCode" : {
+            "type" : "string",
+            "description" : "ISO 3166-1-alpha-2 or alpha-3 country code of financial institution",
+            "maxLength" : 2
+          },
+          "bicId" : {
+            "type" : "string",
+            "description" : "Bank Identifier Code (BIC) of the Beneficiary bank.",
+            "maxLength" : 11
+          },
+          "city" : {
+            "type" : "string",
+            "description" : "City of residence of customer or the City in which the bank/financial institution is located. For Example LONDON, NEW YORK",
+            "maxLength" : 35
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,891 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Management of payments configuration APIs",
+    "version" : "v1.0.0",
+    "title" : "Payments Configuration APIs"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "apiKey" : [ ]
+  } ],
+  "paths" : {
+    "/order/payments/localClearings/{systemId}" : {
+      "put" : {
+        "summary" : "Update local clearing parameters",
+        "description" : "Update the parameters required by Funds Transfer for control of local clearing payments",
+        "operationId" : "updateLocalClearing",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "systemId",
+          "in" : "path",
+          "description" : "The system application identifier from which the entry was generated",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/LocalClearing"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "LocalClearingResponse",
+            "schema" : {
+              "$ref" : "#/definitions/LocalClearingResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/payments/parameters/{companyId}" : {
+      "put" : {
+        "summary" : "Update the payment order parameter",
+        "description" : "Update the parameter which connects Payment Order and Payment System",
+        "operationId" : "updatePaymentOrderParameter",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "companyId",
+          "in" : "path",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PaymentOrderParameter"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "PaymentOrderParameterResponse",
+            "schema" : {
+              "$ref" : "#/definitions/PaymentOrderParameterResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/payments/products/{productId}" : {
+      "put" : {
+        "summary" : "Update the payment order product",
+        "description" : "Update the Payment features that are specific to a product",
+        "operationId" : "updatePaymentOrderProduct",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "productId",
+          "in" : "path",
+          "description" : "Id of the product.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PaymentOrderProduct"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "PaymentOrderProductResponse",
+            "schema" : {
+              "$ref" : "#/definitions/PaymentOrderProductResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "apiKey" : {
+      "type" : "apiKey",
+      "name" : "Authorization",
+      "in" : "header"
+    }
+  },
+  "definitions" : {
+    "PayloadHeader" : {
+      "properties" : {
+        "override" : {
+          "type" : "object",
+          "properties" : {
+            "overrideDetails" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "id" : {
+                    "type" : "string",
+                    "description" : "The identifier of the override"
+                  },
+                  "description" : {
+                    "type" : "string",
+                    "description" : "The actual override message"
+                  },
+                  "responseCode" : {
+                    "type" : "string",
+                    "description" : "The user input to accept/reject the override."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            }
+          }
+        }
+      }
+    },
+    "LocalClearing" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/LocalClearingBody"
+        }
+      },
+      "description" : "LocalClearing"
+    },
+    "LocalClearingBody" : {
+      "type" : "object",
+      "properties" : {
+        "clearingTypes" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "transactionType" : {
+                "type" : "string",
+                "description" : "This is the type of transaction for which Beneficiary is created i.e. within bank account transfer or other bank transfer etc."
+              },
+              "inOutType" : {
+                "type" : "string",
+                "description" : "Defines whether the associated transaction type is used for inward or outward payments"
+              },
+              "debitCreditId" : {
+                "type" : "string",
+                "description" : "Determines whether the associated transaction type processes debits, credits or both to the customer account"
+              }
+            }
+          }
+        },
+        "clearingSystem" : {
+          "type" : "string",
+          "description" : "The clearing system defined here will customise the funds transfer field specifications for BC transcations"
+        }
+      }
+    },
+    "ScreenHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "parse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "LocalClearingResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/LocalClearingResponseBody"
+        }
+      },
+      "description" : "LocalClearingResponse"
+    },
+    "LocalClearingResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "clearingTypes" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "transactionType" : {
+                "type" : "string",
+                "description" : "This is the type of transaction for which Beneficiary is created i.e. within bank account transfer or other bank transfer etc."
+              },
+              "inOutType" : {
+                "type" : "string",
+                "description" : "Defines whether the associated transaction type is used for inward or outward payments"
+              },
+              "debitCreditId" : {
+                "type" : "string",
+                "description" : "Determines whether the associated transaction type processes debits, credits or both to the customer account"
+              }
+            }
+          }
+        },
+        "clearingSystem" : {
+          "type" : "string",
+          "description" : "The clearing system defined here will customise the funds transfer field specifications for BC transcations"
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "parse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "overrideBody" : {
+      "properties" : {
+        "overrideDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "string",
+                "description" : "The identifier of the override"
+              },
+              "description" : {
+                "type" : "string",
+                "description" : "The actual override message"
+              },
+              "options" : {
+                "type" : "array",
+                "description" : "The usable options for the override",
+                "items" : {
+                  "type" : "string"
+                }
+              },
+              "type" : {
+                "type" : "string",
+                "description" : "The type of the override"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/ScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "ScreenErrorResponse"
+    },
+    "ScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message "
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "BusinessScreenErrorResponse"
+    },
+    "BusinessScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message for bad requests"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "SystemScreenErrorResponse"
+    },
+    "SystemScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message caused by server"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    },
+    "PaymentOrderParameter" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/PaymentOrderParameterBody"
+        }
+      },
+      "description" : "PaymentOrderParameter"
+    },
+    "PaymentOrderParameterBody" : {
+      "type" : "object",
+      "properties" : {
+        "paymentConnectionMethod" : {
+          "type" : "string",
+          "description" : "Define the connection between the Payment system and the Payment order"
+        },
+        "warehouseRequired" : {
+          "type" : "string",
+          "description" : "To define if warehouse is required at Payment order level or not"
+        }
+      }
+    },
+    "PaymentOrderParameterResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/PaymentOrderParameterResponseBody"
+        }
+      },
+      "description" : "PaymentOrderParameterResponse"
+    },
+    "PaymentOrderParameterResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "paymentConnectionMethod" : {
+          "type" : "string",
+          "description" : "Define the connection between the Payment system and the Payment order"
+        },
+        "warehouseRequired" : {
+          "type" : "string",
+          "description" : "To define if warehouse is required at Payment order level or not"
+        }
+      }
+    },
+    "PaymentOrderProduct" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/PaymentOrderProductBody"
+        }
+      },
+      "description" : "PaymentOrderProduct"
+    },
+    "PaymentOrderProductBody" : {
+      "type" : "object",
+      "properties" : {
+        "payments" : {
+          "type" : "array",
+          "description" : "Groups the payment currency and country details",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "currencyId" : {
+                "type" : "string",
+                "description" : "Identifier of the currency. This is the 3-letter ISO 4217 code of the currency."
+              },
+              "countryId" : {
+                "type" : "string",
+                "description" : "ISO country code of the financial institution. "
+              }
+            }
+          }
+        },
+        "orders" : {
+          "type" : "array",
+          "description" : "Groups the order currency and country details",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "currencyId" : {
+                "type" : "string",
+                "description" : "Identifier of the currency. This is the 3-letter ISO 4217 code of the currency."
+              },
+              "countryId" : {
+                "type" : "string",
+                "description" : "ISO country code of the financial institution. "
+              }
+            }
+          }
+        },
+        "chargeOptions" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "chargeOption" : {
+                "type" : "string",
+                "description" : "This field will hold the charge applicable for the order"
+              }
+            }
+          }
+        },
+        "clearingChannelIds" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "clearingChannelId" : {
+                "type" : "string",
+                "description" : "Indicates the clearing channel details to be used"
+              }
+            }
+          }
+        },
+        "additionalInformations" : {
+          "type" : "array",
+          "description" : "Additional Information provided to add context",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "additionalInformation" : {
+                "type" : "string",
+                "description" : "Additional Information provided to add context"
+              }
+            }
+          }
+        },
+        "weblinks" : {
+          "type" : "array",
+          "description" : "The web link for additional information",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "weblink" : {
+                "type" : "string",
+                "description" : "The web link for additional information"
+              }
+            }
+          }
+        },
+        "payThroughBeneficiary" : {
+          "type" : "string",
+          "description" : "Defines whether payment initiation can be done by providing beneficiary details. This is applicable when beneficiary is not within the same bank"
+        },
+        "futureDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Indicates if a future dated instruction can be inputted for the specific payment order product"
+        },
+        "defaultChargeOption" : {
+          "type" : "string",
+          "description" : "Indicates the charge option which will be defaulted at the time of payment initiation for specific payment order product i.e. Recipient To Pay All Charges, Pay My Bank's Charges or Pay My Bank Charges Only."
+        },
+        "FX" : {
+          "type" : "string",
+          "description" : "To define whether credit and debit can be in different currencies"
+        },
+        "FXRate" : {
+          "type" : "string",
+          "description" : "Rate for execution of the order that involves FX"
+        },
+        "IBAN" : {
+          "type" : "string",
+          "description" : "Indicates if IBAN can be inputted while initiating a payment order. Allowed options are either 'Mandatory', 'Allowed' or 'Not Allowed'."
+        },
+        "BIC" : {
+          "type" : "string",
+          "description" : "The BIC code of the Beneficiary bank"
+        },
+        "sortCode" : {
+          "type" : "string",
+          "description" : "The bank identifier code which identifies both the bank and the branch where the account is held."
+        },
+        "warehouseRequired" : {
+          "type" : "string",
+          "description" : "To define if warehouse is required at Payment order level or not"
+        },
+        "checkTransparency" : {
+          "type" : "string",
+          "description" : "Used to set if simulation is required or not"
+        },
+        "fraudCheckRequired" : {
+          "type" : "string",
+          "description" : "Field will decide whether Fraud check is required or not"
+        }
+      }
+    },
+    "PaymentOrderProductResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/PaymentOrderProductResponseBody"
+        }
+      },
+      "description" : "PaymentOrderProductResponse"
+    },
+    "PaymentOrderProductResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "payments" : {
+          "type" : "array",
+          "description" : "Groups the payment currency and country details",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "currencyId" : {
+                "type" : "string",
+                "description" : "Identifier of the currency. This is the 3-letter ISO 4217 code of the currency."
+              },
+              "countryId" : {
+                "type" : "string",
+                "description" : "ISO country code of the financial institution. "
+              }
+            }
+          }
+        },
+        "orders" : {
+          "type" : "array",
+          "description" : "Groups the order currency and country details",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "currencyId" : {
+                "type" : "string",
+                "description" : "Identifier of the currency. This is the 3-letter ISO 4217 code of the currency."
+              },
+              "countryId" : {
+                "type" : "string",
+                "description" : "ISO country code of the financial institution. "
+              }
+            }
+          }
+        },
+        "chargeOptions" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "chargeOption" : {
+                "type" : "string",
+                "description" : "This field will hold the charge applicable for the order"
+              }
+            }
+          }
+        },
+        "clearingChannelIds" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "clearingChannelId" : {
+                "type" : "string",
+                "description" : "Indicates the clearing channel details to be used"
+              }
+            }
+          }
+        },
+        "additionalInformations" : {
+          "type" : "array",
+          "description" : "Additional Information provided to add context",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "additionalInformation" : {
+                "type" : "string",
+                "description" : "Additional Information provided to add context"
+              }
+            }
+          }
+        },
+        "weblinks" : {
+          "type" : "array",
+          "description" : "The web link for additional information",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "weblink" : {
+                "type" : "string",
+                "description" : "The web link for additional information"
+              }
+            }
+          }
+        },
+        "payThroughBeneficiary" : {
+          "type" : "string",
+          "description" : "Defines whether payment initiation can be done by providing beneficiary details. This is applicable when beneficiary is not within the same bank"
+        },
+        "futureDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Indicates if a future dated instruction can be inputted for the specific payment order product"
+        },
+        "defaultChargeOption" : {
+          "type" : "string",
+          "description" : "Indicates the charge option which will be defaulted at the time of payment initiation for specific payment order product i.e. Recipient To Pay All Charges, Pay My Bank's Charges or Pay My Bank Charges Only."
+        },
+        "FX" : {
+          "type" : "string",
+          "description" : "To define whether credit and debit can be in different currencies"
+        },
+        "FXRate" : {
+          "type" : "string",
+          "description" : "Rate for execution of the order that involves FX"
+        },
+        "IBAN" : {
+          "type" : "string",
+          "description" : "Indicates if IBAN can be inputted while initiating a payment order. Allowed options are either 'Mandatory', 'Allowed' or 'Not Allowed'."
+        },
+        "BIC" : {
+          "type" : "string",
+          "description" : "The BIC code of the Beneficiary bank"
+        },
+        "sortCode" : {
+          "type" : "string",
+          "description" : "The bank identifier code which identifies both the bank and the branch where the account is held."
+        },
+        "warehouseRequired" : {
+          "type" : "string",
+          "description" : "To define if warehouse is required at Payment order level or not"
+        },
+        "checkTransparency" : {
+          "type" : "string",
+          "description" : "Used to set if simulation is required or not"
+        },
+        "fraudCheckRequired" : {
+          "type" : "string",
+          "description" : "Field will decide whether Fraud check is required or not"
+        }
+      }
+    }
+  }
+}

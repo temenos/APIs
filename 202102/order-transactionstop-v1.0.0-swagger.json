@@ -1,0 +1,1361 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "API to create, update and manage transaction stop instructions based on the on the nature of the transaction and any associated fund authorisation requests",
+    "version" : "v1.0.0",
+    "title" : "Transaction Stop Request"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "apiKey" : [ ]
+  } ],
+  "paths" : {
+    "/order/transactionStops" : {
+      "post" : {
+        "summary" : "Create Transaction Stop Instruction",
+        "description" : "Create Transaction Stop Instruction specific to a Customer or Account to stop the Transactions matching the Instructions",
+        "operationId" : "createTransactionStop",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/TransactionStop"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "TransactionStopResponse",
+            "schema" : {
+              "$ref" : "#/definitions/TransactionStopResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/transactionStops/{transactionStopId}" : {
+      "get" : {
+        "summary" : "Retrieves list of transaction stop instruction details",
+        "description" : "Retrieves the list of Stop Instruction Details for a specific Account based on which the Transactions are stopped",
+        "operationId" : "getStopInstructions",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "transactionStopId",
+          "in" : "path",
+          "description" : "Identifier  of the Transaction Stops.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "StopInstructionsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/StopInstructionsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Amend Transaction Stop Instruction",
+        "description" : "Update or Cancel the Transaction Stop Instruction for a specific Customer or Account",
+        "operationId" : "updateTransactionStop",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "transactionStopId",
+          "in" : "path",
+          "description" : "Identifier  of the Transaction Stops.",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "18554"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/TransactionStop"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "TransactionStopResponse",
+            "schema" : {
+              "$ref" : "#/definitions/TransactionStopResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/transactionStops/investigations" : {
+      "get" : {
+        "summary" : "Retrieves list of Pending Funds Authorisation Requests",
+        "description" : "Retrieves the list of Funds Authorisation requests that are pending for approvals related to the Account or Customer Stop Instructions",
+        "operationId" : "getInvestigationItems",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "InvestigationItemsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/InvestigationItemsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/order/transactionStops/{transactionStopId}/investigations" : {
+      "put" : {
+        "summary" : "Update the Status of Pending Funds Authorisation Request",
+        "description" : "Update Approval decision on Pending Funds Authorisation requests for a Transaction stopped by the Stop Instruction",
+        "operationId" : "updateTransactionStopInvestigations",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "transactionStopId",
+          "in" : "path",
+          "description" : "Identifier  of the Transaction Stops.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/TransactionStopInvestigations"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "TransactionStopInvestigationsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/TransactionStopInvestigationsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "apiKey" : {
+      "type" : "apiKey",
+      "name" : "Authorization",
+      "in" : "header"
+    }
+  },
+  "definitions" : {
+    "PayloadHeader" : {
+      "properties" : {
+        "override" : {
+          "type" : "object",
+          "properties" : {
+            "overrideDetails" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "id" : {
+                    "type" : "string",
+                    "description" : "The identifier of the override."
+                  },
+                  "description" : {
+                    "type" : "string",
+                    "description" : "The actual override message."
+                  },
+                  "code" : {
+                    "type" : "string",
+                    "description" : "The code related to override message."
+                  },
+                  "responseCode" : {
+                    "type" : "string",
+                    "description" : "The user input to accept/reject the override."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            }
+          }
+        }
+      }
+    },
+    "TransactionStop" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/TransactionStopBody"
+        }
+      },
+      "description" : "TransactionStop"
+    },
+    "TransactionStopBody" : {
+      "type" : "object",
+      "properties" : {
+        "attributes" : {
+          "type" : "array",
+          "description" : "The value of the field on which the Alert criteria is based",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "attributeName" : {
+                "type" : "string",
+                "description" : "Attribute name for  transaction stop",
+                "minLength" : 0,
+                "maxLength" : 35
+              },
+              "operand" : {
+                "type" : "string",
+                "description" : "This field along with fieldName and value, defines the conditions for the alert to be triggered.",
+                "minLength" : 0,
+                "maxLength" : 35
+              },
+              "values" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "value" : {
+                      "type" : "string",
+                      "description" : "The value of the field on which the Alert criteria is based",
+                      "minLength" : 0,
+                      "maxLength" : 35
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "customerId" : {
+          "type" : "number",
+          "description" : "Identifier of the customer",
+          "minimum" : 0,
+          "maximum" : 35
+        },
+        "accountId" : {
+          "type" : "number",
+          "description" : "Identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId. Accepts both IBAN & BBAN",
+          "minimum" : 0,
+          "maximum" : 35
+        },
+        "transactionStopConditionId" : {
+          "type" : "string",
+          "description" : "Identifier of the Transaction Stop Condition record.",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "transactionStopChannel" : {
+          "type" : "string",
+          "description" : "Used to determine if the stop instruction applies to a specific Channel/Payment type.",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "stopInstructionChannel" : {
+          "type" : "string",
+          "description" : "Stop instruction channel for  transaction stop",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "stopReason" : {
+          "type" : "string",
+          "description" : "Stop reason for  transaction stop",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Contains the description of purpose of the payment.",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "cancelInstruction" : {
+          "type" : "string",
+          "description" : "Will allow the user to cancel an active Transaction Stop Instruction and this will move the Status of the instruction to Cancelled",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "issueDate" : {
+          "type" : "string",
+          "description" : "The date the item was issued.",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "stopInstructionAppliesTo" : {
+          "type" : "string",
+          "description" : "Identifies if the stop instruction applies to next payment only or all payments",
+          "minLength" : 0,
+          "maxLength" : 35
+        }
+      }
+    },
+    "ScreenHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "uniqueIdentifier" : {
+          "type" : "string",
+          "description" : "The unique identifier/Message Reference of the record created."
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "TransactionStopResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/TransactionStopResponseBody"
+        }
+      },
+      "description" : "TransactionStopResponse"
+    },
+    "TransactionStopResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "attributes" : {
+          "type" : "array",
+          "description" : "The value of the field on which the Alert criteria is based",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "attributeName" : {
+                "type" : "string",
+                "description" : "Attribute name for  transaction stop",
+                "minLength" : 0,
+                "maxLength" : 35
+              },
+              "operand" : {
+                "type" : "string",
+                "description" : "This field along with fieldName and value, defines the conditions for the alert to be triggered.",
+                "minLength" : 0,
+                "maxLength" : 35
+              },
+              "values" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "value" : {
+                      "type" : "string",
+                      "description" : "The value of the field on which the Alert criteria is based",
+                      "minLength" : 0,
+                      "maxLength" : 35
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "customerId" : {
+          "type" : "number",
+          "description" : "Identifier of the customer",
+          "minimum" : 0,
+          "maximum" : 35
+        },
+        "accountId" : {
+          "type" : "number",
+          "description" : "Identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId. Accepts both IBAN & BBAN",
+          "minimum" : 0,
+          "maximum" : 35
+        },
+        "transactionStopConditionId" : {
+          "type" : "string",
+          "description" : "Identifier of the Transaction Stop Condition record.",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "transactionStopChannel" : {
+          "type" : "string",
+          "description" : "Used to determine if the stop instruction applies to a specific Channel/Payment type.",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "stopInstructionChannel" : {
+          "type" : "string",
+          "description" : "Stop instruction channel for  transaction stop",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "stopReason" : {
+          "type" : "string",
+          "description" : "Stop reason for  transaction stop",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Contains the description of purpose of the payment.",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "cancelInstruction" : {
+          "type" : "string",
+          "description" : "Will allow the user to cancel an active Transaction Stop Instruction and this will move the Status of the instruction to Cancelled",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "issueDate" : {
+          "type" : "string",
+          "description" : "The date the item was issued.",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "stopInstructionAppliesTo" : {
+          "type" : "string",
+          "description" : "Identifies if the stop instruction applies to next payment only or all payments",
+          "minLength" : 0,
+          "maxLength" : 35
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "uniqueIdentifier" : {
+          "type" : "string",
+          "description" : "The unique identifier/Message Reference of the record created."
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "overrideBody" : {
+      "properties" : {
+        "overrideDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "string",
+                "description" : "The identifier of the override."
+              },
+              "description" : {
+                "type" : "string",
+                "description" : "The actual override message."
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The code related to override message."
+              },
+              "options" : {
+                "type" : "array",
+                "description" : "The usable options for the override.",
+                "items" : {
+                  "type" : "string"
+                }
+              },
+              "type" : {
+                "type" : "string",
+                "description" : "The type of the override."
+              }
+            }
+          }
+        }
+      }
+    },
+    "ScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/ScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "ScreenErrorResponse"
+    },
+    "ScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message "
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "BusinessScreenErrorResponse"
+    },
+    "BusinessScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message for bad requests"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "SystemScreenErrorResponse"
+    },
+    "SystemScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message caused by server"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    },
+    "QueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records per page"
+        },
+        "page_start" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The record from which the response should be displayed"
+        },
+        "total_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records present"
+        },
+        "page_token" : {
+          "type" : "string",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request"
+        }
+      }
+    },
+    "StopInstructionsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/StopInstructionsResponseBody"
+        }
+      },
+      "description" : "StopInstructionsResponse"
+    },
+    "StopInstructionsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "multigroup" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "attributeName" : {
+                  "type" : "array",
+                  "description" : "Attribute name for  transaction stop",
+                  "items" : {
+                    "type" : "string"
+                  }
+                },
+                "operand" : {
+                  "type" : "array",
+                  "description" : "This field along with fieldName and value, defines the conditions for the alert to be triggered.",
+                  "items" : {
+                    "type" : "string"
+                  }
+                },
+                "attributeValues" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object",
+                    "properties" : {
+                      "attributeValue" : {
+                        "type" : "array",
+                        "description" : "This field along with 'attribute type' acts as a place holder for storing any parameters which are unique to that service.",
+                        "items" : {
+                          "type" : "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "stopInstructionId" : {
+            "type" : "string",
+            "description" : "ID of stop instruction",
+            "maxLength" : 16
+          },
+          "createDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "create date for transaction stop"
+          },
+          "customerId" : {
+            "type" : "number",
+            "description" : "Identifier of the customer",
+            "maximum" : 10
+          },
+          "expiryDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "The date an agreement such as an arrangement, product, credit facility or limit is due to expire"
+          },
+          "cancelDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "Cancel date for  transaction stop"
+          },
+          "transactionStopStatus" : {
+            "type" : "string",
+            "description" : "Transaction stop status for  transaction stop",
+            "maxLength" : 35
+          },
+          "stopConditionId" : {
+            "type" : "string",
+            "description" : "Stop condition id for  transaction stop",
+            "maxLength" : 35
+          },
+          "stopInstructionChannel" : {
+            "type" : "string",
+            "description" : "Stop instruction channel for  transaction stop",
+            "maxLength" : 35
+          },
+          "stopReason" : {
+            "type" : "string",
+            "description" : "Stop reason for  transaction stop",
+            "maxLength" : 35
+          },
+          "transactionChannel" : {
+            "type" : "string",
+            "description" : "The channel through which the transaction has been placed",
+            "maxLength" : 35
+          },
+          "status" : {
+            "type" : "string",
+            "description" : "Status identifier of the account. The values are 'DELETED' if the account is closed, 'BLOCKED' is there are any posting restrictions & 'ENABLED' for active accounts.",
+            "maxLength" : 35
+          },
+          "accountId" : {
+            "type" : "string",
+            "description" : "Identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId. Accepts both IBAN & BBAN",
+            "maxLength" : 16
+          },
+          "description" : {
+            "type" : "string",
+            "description" : "Contains the description of purpose of the payment.",
+            "maxLength" : 35
+          },
+          "issueDate" : {
+            "type" : "string",
+            "description" : "The date the item was issued.",
+            "maxLength" : 11
+          },
+          "stopInstructionAppliesTo" : {
+            "type" : "string",
+            "description" : "Identifies if the stop instruction applies to next payment only or all payments",
+            "maxLength" : 11
+          }
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessQueryErrorResponseBody"
+        }
+      },
+      "description" : "BusinessQueryErrorResponse"
+    },
+    "BusinessQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message for bad requests"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemQueryErrorResponseBody"
+        }
+      },
+      "description" : "SystemQueryErrorResponse"
+    },
+    "SystemQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message caused by server"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    },
+    "InvestigationItemsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/InvestigationItemsResponseBody"
+        }
+      },
+      "description" : "InvestigationItemsResponse"
+    },
+    "InvestigationItemsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "multigroup" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "relatedInsructionid" : {
+                  "type" : "array",
+                  "description" : "Related instruction id for funds authorisation",
+                  "items" : {
+                    "type" : "string"
+                  }
+                },
+                "relatedDecision" : {
+                  "type" : "array",
+                  "description" : "Related decision for funds authorisation",
+                  "items" : {
+                    "type" : "string"
+                  }
+                }
+              }
+            }
+          },
+          "acFundsAuthorisationId" : {
+            "type" : "string",
+            "description" : "ID for funds authorisation",
+            "maxLength" : 16
+          },
+          "debitAccount" : {
+            "type" : "number",
+            "description" : " Refers to the account which will be debited and funds moved out.",
+            "maximum" : 36
+          },
+          "requestedAmount" : {
+            "type" : "number",
+            "description" : "Requested amount for funds authorisation",
+            "maximum" : 19
+          },
+          "originalTransactionReference" : {
+            "type" : "string",
+            "description" : "Identifies the Original Transaction Reference that created the Funds Authorisation request",
+            "maxLength" : 35
+          },
+          "setTypeOrOriginalDecision" : {
+            "type" : "string",
+            "description" : "Original decision status for funds authorisation",
+            "maxLength" : 4
+          },
+          "requestSource" : {
+            "type" : "string",
+            "description" : "Request source for funds authorisation",
+            "maxLength" : 6
+          },
+          "requestCode" : {
+            "type" : "string",
+            "description" : "Request code for funds authorisation",
+            "maxLength" : 15
+          }
+        }
+      }
+    },
+    "TransactionStopInvestigations" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/TransactionStopInvestigationsBody"
+        }
+      },
+      "description" : "TransactionStopInvestigations"
+    },
+    "TransactionStopInvestigationsBody" : {
+      "type" : "object",
+      "properties" : {
+        "decisionReasons" : {
+          "type" : "array",
+          "description" : "Contains the narrative describing the reason for rejection by CAO officer.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "decisionReason" : {
+                "type" : "string",
+                "description" : "Contains the narrative describing the reason for rejection by CAO officer.",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "transactionStopInstruction" : {
+          "type" : "array",
+          "description" : "Identifier of the Transaction Stop instruction record",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "instructionId" : {
+                "type" : "string",
+                "description" : "Id of the Transaction Stop instruction against which the transaction has been matched.",
+                "minLength" : 0,
+                "maxLength" : 35
+              },
+              "instructionDecision" : {
+                "type" : "string",
+                "description" : "This will store the decision Pay/Return decision took when the instruction has been matched with the Transaction Stop Instruction indicated in the associated field.",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "debitAccount" : {
+          "type" : "string",
+          "description" : " Refers to the account which will be debited and funds moved out.",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "accountCurrency" : {
+          "type" : "string",
+          "description" : "Currency of the account. For example: USD, GBP.",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "requestedCurrency" : {
+          "type" : "string",
+          "description" : "The currency the amount is requested in.",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "requestedAmount" : {
+          "type" : "number",
+          "description" : "Requested amount for funds authorisation"
+        },
+        "fundsDecision" : {
+          "type" : "string",
+          "description" : "Contains the approval decision entered by the CAO.",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "transactionReference" : {
+          "type" : "string",
+          "description" : "Transaction reference identifier.",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "fundsAuthorisationStatus" : {
+          "type" : "string",
+          "description" : "Contains the status of the request based on which level of authorisation, the request has gone through in its lifecycle.",
+          "minLength" : 0,
+          "maxLength" : 35
+        }
+      }
+    },
+    "TransactionStopInvestigationsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/TransactionStopInvestigationsResponseBody"
+        }
+      },
+      "description" : "TransactionStopInvestigationsResponse"
+    },
+    "TransactionStopInvestigationsResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "decisionReasons" : {
+          "type" : "array",
+          "description" : "Contains the narrative describing the reason for rejection by CAO officer.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "decisionReason" : {
+                "type" : "string",
+                "description" : "Contains the narrative describing the reason for rejection by CAO officer.",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "transactionStopInstruction" : {
+          "type" : "array",
+          "description" : "Identifier of the Transaction Stop instruction record",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "instructionId" : {
+                "type" : "string",
+                "description" : "Id of the Transaction Stop instruction against which the transaction has been matched.",
+                "minLength" : 0,
+                "maxLength" : 35
+              },
+              "instructionDecision" : {
+                "type" : "string",
+                "description" : "This will store the decision Pay/Return decision took when the instruction has been matched with the Transaction Stop Instruction indicated in the associated field.",
+                "minLength" : 0,
+                "maxLength" : 35
+              }
+            }
+          }
+        },
+        "debitAccount" : {
+          "type" : "string",
+          "description" : " Refers to the account which will be debited and funds moved out.",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "accountCurrency" : {
+          "type" : "string",
+          "description" : "Currency of the account. For example: USD, GBP.",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "requestedCurrency" : {
+          "type" : "string",
+          "description" : "The currency the amount is requested in.",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "requestedAmount" : {
+          "type" : "number",
+          "description" : "Requested amount for funds authorisation"
+        },
+        "fundsDecision" : {
+          "type" : "string",
+          "description" : "Contains the approval decision entered by the CAO.",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "transactionReference" : {
+          "type" : "string",
+          "description" : "Transaction reference identifier.",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "fundsAuthorisationStatus" : {
+          "type" : "string",
+          "description" : "Contains the status of the request based on which level of authorisation, the request has gone through in its lifecycle.",
+          "minLength" : 0,
+          "maxLength" : 35
+        }
+      }
+    }
+  }
+}

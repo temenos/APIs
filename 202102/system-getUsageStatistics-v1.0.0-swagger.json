@@ -1,0 +1,365 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "API to retrieve the usage count of metrics of various channels and business transactions for a particular date",
+    "version" : "v1.0.0",
+    "title" : "Transaction Usage Statistics"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "apiKey" : [ ]
+  } ],
+  "paths" : {
+    "/system/metrics/transactions/itemCount" : {
+      "get" : {
+        "summary" : "To get Usage statistics by date",
+        "description" : "To get Usage statistics",
+        "operationId" : "getUsageStats",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "resourceReference",
+          "in" : "query",
+          "description" : "Contains the resource name. This is a broader classification of the grouped records. Example: Arrangements are displayed as CONTRACTS, PAYMENT.ORDER records as PAYMENT.ORDER, POR.TRANSACTION records as PAYMENTS etc.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "metricType",
+          "in" : "query",
+          "description" : "Contains the type of metering metric that are to be displayed. Example: ENTRIES, QUERIES, PAYMENTS etc.  For Arrangements, it will contain product line DEPOSITS#<<each product group under the product line>>, LOANS#<<each product group under the product line>>, ACCOUNTS#<<each product group under the product line>> etc.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "metricTypeMatches",
+          "in" : "query",
+          "description" : "Contains the strings that the metricType of a record has to match for the record to be selected",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "meteredDate",
+          "in" : "query",
+          "description" : "Contains the metering date stored in the recorded profile",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "meteredDateLessThan",
+          "in" : "query",
+          "description" : "Indicates the meteredDate value below which selection has to be made",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "meteredDateLessThanOrEquals",
+          "in" : "query",
+          "description" : "Indicates the meteredDate value below or equal to which selection has to be made",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "meteredDateGreaterThan",
+          "in" : "query",
+          "description" : "Indicates the meteredDate value above which selection has to be made",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "meteredDateGreaterThanOrEquals",
+          "in" : "query",
+          "description" : "Indicates the meteredDate value above or equal to which selection has to be made",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "meteredDateBetween",
+          "in" : "query",
+          "description" : "Indicates the range in which meteredDate has to be in for the record to be selected",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "Identifier of the lead company of the underlying Entity/Company/Branch for the respective contract for customer data protection purposes. Example US0010001.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "disablePagination",
+          "in" : "header",
+          "description" : "Indicates the pagination header attributes availability. If set to 'true', it fetches all the data",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "UsageStatsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/UsageStatsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "apiKey" : {
+      "type" : "apiKey",
+      "name" : "Authorization",
+      "in" : "header"
+    }
+  },
+  "definitions" : {
+    "QueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records per page"
+        },
+        "page_start" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The record from which the response should be displayed"
+        },
+        "total_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records present"
+        },
+        "page_token" : {
+          "type" : "string",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request"
+        }
+      }
+    },
+    "UsageStatsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/UsageStatsResponseBody"
+        }
+      },
+      "description" : "UsageStatsResponse"
+    },
+    "UsageStatsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "resourceReference" : {
+            "type" : "string",
+            "description" : "Contains the resource name. This is a broader classification of the grouped records. Example: Arrangements are displayed as CONTRACTS, PAYMENT.ORDER records as PAYMENT.ORDER, POR.TRANSACTION records as PAYMENTS etc.",
+            "maxLength" : 70
+          },
+          "meteredDate" : {
+            "type" : "string",
+            "description" : "Contains the metering date stored in the recorded profile",
+            "maxLength" : 70
+          },
+          "metricType" : {
+            "type" : "string",
+            "description" : "Contains the type of metering metric that are to be displayed. Example: ENTRIES, QUERIES, PAYMENTS etc.  For Arrangements, it will contain product line DEPOSITS#<<each product group under the product line>>, LOANS#<<each product group under the product line>>, ACCOUNTS#<<each product group under the product line>> etc.",
+            "maxLength" : 70
+          },
+          "metricCount" : {
+            "type" : "string",
+            "description" : "Contains the number of transactions posted for a given metric",
+            "maxLength" : 70
+          },
+          "isIncremental" : {
+            "type" : "string",
+            "description" : "Indicates whether the metric count measured is incremental or total count for the specific metric type. This will contain, either  'true' or a 'false'.",
+            "maxLength" : 70
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessQueryErrorResponseBody"
+        }
+      },
+      "description" : "BusinessQueryErrorResponse"
+    },
+    "BusinessQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message for bad requests"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemQueryErrorResponseBody"
+        }
+      },
+      "description" : "SystemQueryErrorResponse"
+    },
+    "SystemQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message caused by server"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    }
+  }
+}

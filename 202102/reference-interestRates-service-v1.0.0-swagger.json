@@ -1,0 +1,2321 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "API to retrieve the details of  Basic and Periodic Interest Rates, history of interest rate changes and base rate identifiers and associated descriptions available in the system.",
+    "version" : "v1.0.0",
+    "title" : "Interest Rates"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "apiKey" : [ ]
+  } ],
+  "paths" : {
+    "/reference/rateTexts" : {
+      "get" : {
+        "summary" : "Retrieves details of interest conditions",
+        "description" : "Retrieves descriptions of the interest conditions",
+        "operationId" : "getRateTexts",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "rateTextId",
+          "in" : "query",
+          "description" : "The basic interest rate ID / name.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "displayName",
+          "in" : "query",
+          "description" : "Contains the name used for display or enrichment purposes",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "disablePagination",
+          "in" : "header",
+          "description" : "Indicates the pagination header attributes availability. If set to 'true', it fetches all the data",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "RateTextsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/RateTextsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/reference/interestRates/{rateId}/floatingRates" : {
+      "get" : {
+        "summary" : "Retrieves basic interest rate",
+        "description" : "Retrieves Interest rate and negative interest rate. Input rate Id format example - 1USD20001025; 1USD20101025 ",
+        "operationId" : "getBasicInterest",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "rateId",
+          "in" : "path",
+          "description" : "Identifies the periodic or floating interest rates",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "BasicInterestResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BasicInterestResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Creates basic interest rate record",
+        "description" : "Creates basic interest rate record. Input rate Id format example - 1USD20001025; 1USD20101025 ",
+        "operationId" : "createBasicInterest",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "rateId",
+          "in" : "path",
+          "description" : "Identifies the periodic or floating interest rates",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/BasicInterest"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "BasicInterestResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BasicInterestResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Updates basic interest rate",
+        "description" : "Updates Interest rate and negative interest rate. Input rate Id format example - 1USD20001025; 1USD20101025 ",
+        "operationId" : "updateBasicInterest",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "rateId",
+          "in" : "path",
+          "description" : "Identifies the periodic or floating interest rates",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/BasicInterest"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "BasicInterestResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BasicInterestResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/reference/interestRates/{rateId}/floatingRates/dates" : {
+      "get" : {
+        "summary" : "Retrieves effective date of floating rates",
+        "description" : "Retrieves the effective date of the floating rate interest. Input rate Id format example - 1USD; 2USD; 1EUR ",
+        "operationId" : "getBasicInterestChangeDates",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "rateId",
+          "in" : "path",
+          "description" : "Identifies the periodic or floating interest rates",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "disablePagination",
+          "in" : "header",
+          "description" : "Indicates the pagination header attributes availability. If set to 'true', it fetches all the data",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "BasicInterestChangeDatesResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BasicInterestChangeDatesResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/reference/interestRates/dates/{date}/floatingRates" : {
+      "get" : {
+        "summary" : "Retrieves floating rates for a specified date",
+        "description" : "Retrieves currency, date and rates for the specified date ",
+        "operationId" : "getBasicInterestRateChanges",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "date",
+          "in" : "path",
+          "description" : "Indicates the date on which activity was performed",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "BasicInterestRateChangesResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BasicInterestRateChangesResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/reference/interestRates/{rateId}/periodicRates" : {
+      "get" : {
+        "summary" : "Retrieves periodic interest details",
+        "description" : "Retrieves details such as description, rest period,  rates, amount and history details. Input rate of format example - 01USD20091101; 01CAD20091101",
+        "operationId" : "getPeriodicInterest",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "rateId",
+          "in" : "path",
+          "description" : "Identifies the periodic or floating interest rates",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "PeriodicInterestResponse",
+            "schema" : {
+              "$ref" : "#/definitions/PeriodicInterestResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Creates periodic interest details",
+        "description" : "Creates details such as description, rest period,  rates, amount and history details. Input rate of format example - 01USD20091101; 01CAD20091101",
+        "operationId" : "createPeriodicInterest",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "rateId",
+          "in" : "path",
+          "description" : "Identifies the periodic or floating interest rates",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PeriodicInterest"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "PeriodicInterestResponse",
+            "schema" : {
+              "$ref" : "#/definitions/PeriodicInterestResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Updates periodic interest details",
+        "description" : "Updates details such as description, rest period,  rates, amount and history details. Input rate of format example - 01USD20091101; 01CAD20091101",
+        "operationId" : "updatePeriodicInterest",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "rateId",
+          "in" : "path",
+          "description" : "Identifies the periodic or floating interest rates",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PeriodicInterest"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "PeriodicInterestResponse",
+            "schema" : {
+              "$ref" : "#/definitions/PeriodicInterestResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/reference/interestRates/dates/{date}/periodicRates" : {
+      "get" : {
+        "summary" : "Retrieves periodic rates for a specified date",
+        "description" : "Retrieves periodic rate changes for a specified date",
+        "operationId" : "getPeriodicRateChanges",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "date",
+          "in" : "path",
+          "description" : "Indicates the date on which activity was performed",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "disablePagination",
+          "in" : "header",
+          "description" : "Indicates the pagination header attributes availability. If set to 'true', it fetches all the data",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "PeriodicRateChangesResponse",
+            "schema" : {
+              "$ref" : "#/definitions/PeriodicRateChangesResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/reference/interestRates/{rateId}/floatingRates/names" : {
+      "get" : {
+        "summary" : "Retrieves floating rate name",
+        "description" : "Retrieves floating rate description",
+        "operationId" : "getBasicInterestName",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "rateId",
+          "in" : "path",
+          "description" : "Identifies the periodic or floating interest rates",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "BasicInterestNameResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BasicInterestNameResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Creates floating rate name",
+        "description" : "Creates floating rate description",
+        "operationId" : "createBasicInterestName",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "rateId",
+          "in" : "path",
+          "description" : "Identifies the periodic or floating interest rates",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/BasicInterestName"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "BasicInterestNameResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BasicInterestNameResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Updates floating rate name",
+        "description" : "Updates floating rate description",
+        "operationId" : "updateBasicInterestName",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "rateId",
+          "in" : "path",
+          "description" : "Identifies the periodic or floating interest rates",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/BasicInterestName"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "BasicInterestNameResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BasicInterestNameResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/reference/interestRates/{rateId}/periodicRates/names" : {
+      "get" : {
+        "summary" : "Retrieves periodic rate name",
+        "description" : "Retrieves periodic rate description",
+        "operationId" : "getPeriodicRateName",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "rateId",
+          "in" : "path",
+          "description" : "Identifies the periodic or floating interest rates",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "PeriodicRateNameResponse",
+            "schema" : {
+              "$ref" : "#/definitions/PeriodicRateNameResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Creates periodic rate name",
+        "description" : "Creates periodic rate description",
+        "operationId" : "createPeriodicRateName",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "rateId",
+          "in" : "path",
+          "description" : "Identifies the periodic or floating interest rates",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PeriodicRateName"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "PeriodicRateNameResponse",
+            "schema" : {
+              "$ref" : "#/definitions/PeriodicRateNameResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Updates periodic rate name",
+        "description" : "Updates periodic rate description",
+        "operationId" : "updatePeriodicRateName",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "rateId",
+          "in" : "path",
+          "description" : "Identifies the periodic or floating interest rates",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PeriodicRateName"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "PeriodicRateNameResponse",
+            "schema" : {
+              "$ref" : "#/definitions/PeriodicRateNameResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Deletes periodic rate name",
+        "description" : "Deletes periodic rate description",
+        "operationId" : "deletePeriodicRateName",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "rateId",
+          "in" : "path",
+          "description" : "Identifies the periodic or floating interest rates",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/PeriodicRateNameDelete"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "PeriodicInterestResponse",
+            "schema" : {
+              "$ref" : "#/definitions/PeriodicInterestResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "apiKey" : {
+      "type" : "apiKey",
+      "name" : "Authorization",
+      "in" : "header"
+    }
+  },
+  "definitions" : {
+    "QueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records per page"
+        },
+        "page_start" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The record from which the response should be displayed"
+        },
+        "total_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records present"
+        },
+        "page_token" : {
+          "type" : "string",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request"
+        }
+      }
+    },
+    "RateTextsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/RateTextsResponseBody"
+        }
+      },
+      "description" : "RateTextsResponse"
+    },
+    "RateTextsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "rateTextId" : {
+            "type" : "string",
+            "description" : "The basic interest rate ID / name.",
+            "maxLength" : 4
+          },
+          "displayName" : {
+            "type" : "string",
+            "description" : "Contains the name used for display or enrichment purposes",
+            "maxLength" : 15
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessQueryErrorResponseBody"
+        }
+      },
+      "description" : "BusinessQueryErrorResponse"
+    },
+    "BusinessQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message for bad requests"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemQueryErrorResponseBody"
+        }
+      },
+      "description" : "SystemQueryErrorResponse"
+    },
+    "SystemQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message caused by server"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    },
+    "ScreenHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "uniqueIdentifier" : {
+          "type" : "string",
+          "description" : "The unique identifier/Message Reference of the record created."
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "BasicInterestResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/BasicInterestResponseBody"
+        }
+      },
+      "description" : "BasicInterestResponse"
+    },
+    "BasicInterestResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "interestRate" : {
+          "type" : "string",
+          "description" : "Identifies the bid rate of the related currency for the defined time period",
+          "minLength" : 0,
+          "maxLength" : 12
+        },
+        "negativeInterestRate" : {
+          "type" : "string",
+          "description" : "Contains the negative rate of interest that can be used for a contract",
+          "minLength" : 0,
+          "maxLength" : 22
+        }
+      }
+    },
+    "overrideBody" : {
+      "properties" : {
+        "overrideDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "string",
+                "description" : "The identifier of the override."
+              },
+              "description" : {
+                "type" : "string",
+                "description" : "The actual override message."
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The code related to override message."
+              },
+              "options" : {
+                "type" : "array",
+                "description" : "The usable options for the override.",
+                "items" : {
+                  "type" : "string"
+                }
+              },
+              "type" : {
+                "type" : "string",
+                "description" : "The type of the override."
+              }
+            }
+          }
+        }
+      }
+    },
+    "ScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/ScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "ScreenErrorResponse"
+    },
+    "ScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message "
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "BusinessScreenErrorResponse"
+    },
+    "BusinessScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message for bad requests"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "SystemScreenErrorResponse"
+    },
+    "SystemScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message caused by server"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    },
+    "BasicInterestChangeDatesResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/BasicInterestChangeDatesResponseBody"
+        }
+      },
+      "description" : "BasicInterestChangeDatesResponse"
+    },
+    "BasicInterestChangeDatesResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "effectiveDate" : {
+            "type" : "string",
+            "description" : "The date on which the principal movement is effected",
+            "maxLength" : 16
+          }
+        }
+      }
+    },
+    "BasicInterestRateChangesResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/BasicInterestRateChangesResponseBody"
+        }
+      },
+      "description" : "BasicInterestRateChangesResponse"
+    },
+    "BasicInterestRateChangesResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "floatingRates" : {
+          "type" : "array",
+          "description" : "The interest rate is chosen from a selection of values which represent different interest types and rates.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "floatingRate" : {
+                "type" : "string",
+                "description" : "The interest rate is chosen from a selection of values which represent different interest types and rates.",
+                "minLength" : 0,
+                "maxLength" : 14
+              }
+            }
+          }
+        },
+        "rateChanges" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "effectiveDate" : {
+                "type" : "string",
+                "description" : "The date on which the principal movement is effected",
+                "minLength" : 0,
+                "maxLength" : 14
+              },
+              "rate" : {
+                "type" : "string",
+                "description" : "The rate applied",
+                "minLength" : 0,
+                "maxLength" : 7
+              },
+              "oldRate" : {
+                "type" : "string",
+                "description" : "Contains the old rate which was used before effective date",
+                "minLength" : 0,
+                "maxLength" : 7
+              }
+            }
+          }
+        }
+      }
+    },
+    "PeriodicInterestResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/PeriodicInterestResponseBody"
+        }
+      },
+      "description" : "PeriodicInterestResponse"
+    },
+    "PeriodicInterestResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "rateNames" : {
+          "type" : "array",
+          "description" : "Specifies the name displayed for the interest rates",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "rateName" : {
+                "type" : "string",
+                "description" : "Specifies the name displayed for the interest rates",
+                "minLength" : 0,
+                "maxLength" : 16
+              }
+            }
+          }
+        },
+        "interestCondition" : {
+          "type" : "array",
+          "description" : "The rate applied",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "period" : {
+                "type" : "string",
+                "description" : "Indicates spread of time buckets.Ex: 3M,6M,9M,10Y etc.",
+                "minLength" : 0,
+                "maxLength" : 10
+              },
+              "rateDate" : {
+                "type" : "string",
+                "description" : "Specifies the date till which given rates are applicable",
+                "minLength" : 0,
+                "maxLength" : 8
+              },
+              "daysSinceStart" : {
+                "type" : "string",
+                "description" : "Specifies the number of days from the effective or value date of the contract",
+                "minLength" : 0,
+                "maxLength" : 14
+              },
+              "rates" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "bandAmount" : {
+                      "type" : "string",
+                      "description" : "Specifies the amount of the band till which given rates are applicable",
+                      "minLength" : 0,
+                      "maxLength" : 10
+                    },
+                    "bidRate" : {
+                      "type" : "string",
+                      "description" : "Identifies the BID rate of the related currency for the time period",
+                      "minLength" : 0,
+                      "maxLength" : 7
+                    },
+                    "offerRate" : {
+                      "type" : "string",
+                      "description" : "Identifies the OFFER rate of the related currency for the time period",
+                      "minLength" : 0,
+                      "maxLength" : 9
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "spreadCalcuationRoutines" : {
+          "type" : "array",
+          "description" : "Specifies the name of the routine to be used for customised spread calculation.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "spreadCalcuationRoutine" : {
+                "type" : "string",
+                "description" : "Specifies the name of the routine to be used for customised spread calculation.",
+                "minLength" : 0,
+                "maxLength" : 23
+              }
+            }
+          }
+        },
+        "negativeRateApplications" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "negativeRateApplicationId" : {
+                "type" : "string",
+                "description" : "Specifies that negative interest rates can be accessed in the application given in this field",
+                "minLength" : 0,
+                "maxLength" : 25
+              }
+            }
+          }
+        },
+        "updateHistory" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "historyCompanyId" : {
+                "type" : "string",
+                "description" : "Specifies the ID of the company through which record is modified",
+                "minLength" : 0,
+                "maxLength" : 16
+              },
+              "historyDate" : {
+                "type" : "string",
+                "description" : "Specifies the date when the record is modified",
+                "minLength" : 0,
+                "maxLength" : 11
+              },
+              "historyNumber" : {
+                "type" : "string",
+                "description" : "Specifies the previous version number of the modified record",
+                "minLength" : 0,
+                "maxLength" : 13
+              }
+            }
+          }
+        },
+        "defaultMisRateId" : {
+          "type" : "string",
+          "description" : "Identifies the default Management Information System (M.I.S.) rate to be used for the transaction.",
+          "minLength" : 0,
+          "maxLength" : 16
+        },
+        "buildForwardRate" : {
+          "type" : "string",
+          "description" : "Indicates whether the Forward rate of a currency should be calculated automatically or not",
+          "minLength" : 0,
+          "maxLength" : 16
+        },
+        "tolerancePercentage" : {
+          "type" : "string",
+          "description" : "Indicates the tolerance interest percentage cap that can be applied on a contract",
+          "minLength" : 0,
+          "maxLength" : 19
+        },
+        "maximumInterestRate" : {
+          "type" : "string",
+          "description" : "Indicates the largest possible interest rate applicable for the currency",
+          "minLength" : 0,
+          "maxLength" : 19
+        },
+        "useLastWorkingDay" : {
+          "type" : "string",
+          "description" : "Specifies when set to Y, that the Rest date will be derived as a working day if the actual date falls on an holiday",
+          "minLength" : 0,
+          "maxLength" : 17
+        },
+        "versionNumber" : {
+          "type" : "string",
+          "description" : "Current number of the record",
+          "minLength" : 0,
+          "maxLength" : 20
+        },
+        "riskFreeRate" : {
+          "type" : "string",
+          "description" : "Indicates the rate of return on an investment with zero risk",
+          "minLength" : 0,
+          "maxLength" : 20
+        },
+        "receivedDate" : {
+          "type" : "string",
+          "description" : "Identifies the date on which the document was received",
+          "minLength" : 0,
+          "maxLength" : 12
+        }
+      }
+    },
+    "PeriodicRateChangesResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/PeriodicRateChangesResponseBody"
+        }
+      },
+      "description" : "PeriodicRateChangesResponse"
+    },
+    "PeriodicRateChangesResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "periodicInterestId" : {
+            "type" : "string",
+            "description" : "Contains the id of the rate of interest assessed on a loan or investment over a set time period when compounding occurs more than once per year",
+            "maxLength" : 16
+          }
+        }
+      }
+    },
+    "BasicInterestNameResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/BasicInterestNameResponseBody"
+        }
+      },
+      "description" : "BasicInterestNameResponse"
+    },
+    "BasicInterestNameResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "rateNames" : {
+          "type" : "array",
+          "description" : "Specifies the name displayed for the interest rates",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "rateName" : {
+                "type" : "string",
+                "description" : "Specifies the name displayed for the interest rates",
+                "minLength" : 0,
+                "maxLength" : 16
+              }
+            }
+          }
+        }
+      }
+    },
+    "PeriodicRateNameResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/PeriodicRateNameResponseBody"
+        }
+      },
+      "description" : "PeriodicRateNameResponse"
+    },
+    "PeriodicRateNameResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "rateNames" : {
+          "type" : "array",
+          "description" : "Specifies the name displayed for the interest rates",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "rateName" : {
+                "type" : "string",
+                "description" : "Specifies the name displayed for the interest rates",
+                "minLength" : 0,
+                "maxLength" : 16
+              }
+            }
+          }
+        }
+      }
+    },
+    "PayloadHeader" : {
+      "properties" : {
+        "override" : {
+          "type" : "object",
+          "properties" : {
+            "overrideDetails" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "id" : {
+                    "type" : "string",
+                    "description" : "The identifier of the override."
+                  },
+                  "description" : {
+                    "type" : "string",
+                    "description" : "The actual override message."
+                  },
+                  "code" : {
+                    "type" : "string",
+                    "description" : "The code related to override message."
+                  },
+                  "responseCode" : {
+                    "type" : "string",
+                    "description" : "The user input to accept/reject the override."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            }
+          }
+        }
+      }
+    },
+    "BasicInterest" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/BasicInterestBody"
+        }
+      },
+      "description" : "BasicInterest"
+    },
+    "BasicInterestBody" : {
+      "type" : "object",
+      "properties" : {
+        "interestRate" : {
+          "type" : "string",
+          "description" : "Identifies the bid rate of the related currency for the defined time period",
+          "minLength" : 0,
+          "maxLength" : 12
+        },
+        "negativeInterestRate" : {
+          "type" : "string",
+          "description" : "Contains the negative rate of interest that can be used for a contract",
+          "minLength" : 0,
+          "maxLength" : 22
+        }
+      }
+    },
+    "BasicInterestName" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/BasicInterestNameBody"
+        }
+      },
+      "description" : "BasicInterestName"
+    },
+    "BasicInterestNameBody" : {
+      "type" : "object",
+      "properties" : {
+        "rateNames" : {
+          "type" : "array",
+          "description" : "Specifies the name displayed for the interest rates",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "rateName" : {
+                "type" : "string",
+                "description" : "Specifies the name displayed for the interest rates",
+                "minLength" : 0,
+                "maxLength" : 16
+              }
+            }
+          }
+        }
+      }
+    },
+    "PeriodicRateName" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/PeriodicRateNameBody"
+        }
+      },
+      "description" : "PeriodicRateName"
+    },
+    "PeriodicRateNameBody" : {
+      "type" : "object",
+      "properties" : {
+        "rateNames" : {
+          "type" : "array",
+          "description" : "Specifies the name displayed for the interest rates",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "rateName" : {
+                "type" : "string",
+                "description" : "Specifies the name displayed for the interest rates",
+                "minLength" : 0,
+                "maxLength" : 16
+              }
+            }
+          }
+        }
+      }
+    },
+    "PeriodicRateNameDelete" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        }
+      },
+      "description" : "PeriodicRateNameDelete"
+    },
+    "PeriodicInterest" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/PeriodicInterestBody"
+        }
+      },
+      "description" : "PeriodicInterest"
+    },
+    "PeriodicInterestBody" : {
+      "type" : "object",
+      "properties" : {
+        "rateNames" : {
+          "type" : "array",
+          "description" : "Specifies the name displayed for the interest rates",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "rateName" : {
+                "type" : "string",
+                "description" : "Specifies the name displayed for the interest rates",
+                "minLength" : 0,
+                "maxLength" : 16
+              }
+            }
+          }
+        },
+        "interestCondition" : {
+          "type" : "array",
+          "description" : "The rate applied",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "period" : {
+                "type" : "string",
+                "description" : "Indicates spread of time buckets.Ex: 3M,6M,9M,10Y etc.",
+                "minLength" : 0,
+                "maxLength" : 10
+              },
+              "rateDate" : {
+                "type" : "string",
+                "description" : "Specifies the date till which given rates are applicable",
+                "minLength" : 0,
+                "maxLength" : 8
+              },
+              "daysSinceStart" : {
+                "type" : "string",
+                "description" : "Specifies the number of days from the effective or value date of the contract",
+                "minLength" : 0,
+                "maxLength" : 14
+              },
+              "rates" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "bandAmount" : {
+                      "type" : "string",
+                      "description" : "Specifies the amount of the band till which given rates are applicable",
+                      "minLength" : 0,
+                      "maxLength" : 10
+                    },
+                    "bidRate" : {
+                      "type" : "string",
+                      "description" : "Identifies the BID rate of the related currency for the time period",
+                      "minLength" : 0,
+                      "maxLength" : 7
+                    },
+                    "offerRate" : {
+                      "type" : "string",
+                      "description" : "Identifies the OFFER rate of the related currency for the time period",
+                      "minLength" : 0,
+                      "maxLength" : 9
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "spreadCalcuationRoutines" : {
+          "type" : "array",
+          "description" : "Specifies the name of the routine to be used for customised spread calculation.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "spreadCalcuationRoutine" : {
+                "type" : "string",
+                "description" : "Specifies the name of the routine to be used for customised spread calculation.",
+                "minLength" : 0,
+                "maxLength" : 23
+              }
+            }
+          }
+        },
+        "negativeRateApplications" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "negativeRateApplicationId" : {
+                "type" : "string",
+                "description" : "Specifies that negative interest rates can be accessed in the application given in this field",
+                "minLength" : 0,
+                "maxLength" : 25
+              }
+            }
+          }
+        },
+        "updateHistory" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "historyCompanyId" : {
+                "type" : "string",
+                "description" : "Specifies the ID of the company through which record is modified",
+                "minLength" : 0,
+                "maxLength" : 16
+              },
+              "historyDate" : {
+                "type" : "string",
+                "description" : "Specifies the date when the record is modified",
+                "minLength" : 0,
+                "maxLength" : 11
+              },
+              "historyNumber" : {
+                "type" : "string",
+                "description" : "Specifies the previous version number of the modified record",
+                "minLength" : 0,
+                "maxLength" : 13
+              }
+            }
+          }
+        },
+        "defaultMisRateId" : {
+          "type" : "string",
+          "description" : "Identifies the default Management Information System (M.I.S.) rate to be used for the transaction.",
+          "minLength" : 0,
+          "maxLength" : 16
+        },
+        "buildForwardRate" : {
+          "type" : "string",
+          "description" : "Indicates whether the Forward rate of a currency should be calculated automatically or not",
+          "minLength" : 0,
+          "maxLength" : 16
+        },
+        "tolerancePercentage" : {
+          "type" : "string",
+          "description" : "Indicates the tolerance interest percentage cap that can be applied on a contract",
+          "minLength" : 0,
+          "maxLength" : 19
+        },
+        "maximumInterestRate" : {
+          "type" : "string",
+          "description" : "Indicates the largest possible interest rate applicable for the currency",
+          "minLength" : 0,
+          "maxLength" : 19
+        },
+        "useLastWorkingDay" : {
+          "type" : "string",
+          "description" : "Specifies when set to Y, that the Rest date will be derived as a working day if the actual date falls on an holiday",
+          "minLength" : 0,
+          "maxLength" : 17
+        },
+        "versionNumber" : {
+          "type" : "string",
+          "description" : "Current number of the record",
+          "minLength" : 0,
+          "maxLength" : 20
+        },
+        "allowAmount" : {
+          "type" : "string",
+          "description" : "Indicates whether amount definition is allowed for the application",
+          "minLength" : 0,
+          "maxLength" : 11
+        }
+      }
+    }
+  }
+}

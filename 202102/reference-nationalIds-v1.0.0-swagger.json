@@ -1,0 +1,946 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "API to retrieve variety of information in relation to financial institutions such as the National Identifier (nationalId) codes, Legal Entity Identifier (LEI) details and Global Payment Initiative (GPI) participant details. LEIs are identification codes that enable consistent and accurate identification of all legal entities that are parties to financial transactions, including non-financial institutions",
+    "version" : "v1.0.0",
+    "title" : "Swift Reference Data"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "apiKey" : [ ]
+  } ],
+  "paths" : {
+    "/reference/bankCodes/leis/{leiId}/bic" : {
+      "get" : {
+        "summary" : "Retrieves the BIC code of the requested Bank's legal entity identifier",
+        "description" : "Retrieves the Bank Identifier Code (BIC) of the requested Bank's legal entity identifier. The BIC is the SWIFT Address assigned to a bank in order to send automated payments to the banks concerned. It uniquely identifies the name and country of the bank and consists of 8-11 characters. Example format AAAABBCCDDD, where AAAA: 4 character bank code, BB: 2 character country code, CC: 2 character location code, DDD: optional 3 character branch code.",
+        "operationId" : "getBICFromLEI",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "leiId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "BICFromLEIResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BICFromLEIResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/reference/bankCodes/nationalIds/{nationalIdRef}/bics" : {
+      "get" : {
+        "summary" : "Retrieves the BIC or BICs for a given national ID with its country code or scheme.",
+        "description" : "Retrieves the Bank Identifier Code (BIC) or BICs for a given national ID with its country code or scheme. The BIC is the SWIFT Address assigned to a bank in order to send automated payments to the banks concerned. It uniquely identifies the name and country of the bank and consists of 8-11 characters. Example format AAAABBCCDDD, where AAAA: 4 character bank code, BB: 2 character country code, CC: 2 character location code, DDD: optional 3 character branch code.",
+        "operationId" : "getBICsFromNationalId",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "nationalIdRef",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "countryId",
+          "in" : "query",
+          "description" : "ISO country code of the financial institution. ",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "scheme",
+          "in" : "query",
+          "description" : "Represents the scheme (a synonym for the National ID type) under which the National ID is defined",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "BICsFromNationalIdResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BICsFromNationalIdResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/reference/bankCodes/nationalIds/{nationalIdRef}" : {
+      "get" : {
+        "summary" : "Retrieves the details of the given national ID",
+        "description" : "Retrieves the details of the given national ID, that is the bank name or business name, and the address.",
+        "operationId" : "getNationalIdDetails",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "nationalIdRef",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "countryId",
+          "in" : "query",
+          "description" : "ISO country code of the financial institution. ",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "scheme",
+          "in" : "query",
+          "description" : "Represents the scheme (a synonym for the National ID type) under which the National ID is defined",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "NationalIdDetailsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/NationalIdDetailsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/reference/bankCodes/bics/{bicId}/nationalIds" : {
+      "get" : {
+        "summary" : "Retrieves national IDs for a BIC",
+        "description" : "Retrieves the national ID, the country code, and the code type for the specified Bank Identifier Code (BIC). If the BIC is linked to multiple national IDs, then multiple results can be returned. The BIC is the SWIFT Address assigned to a bank in order to send automated payments to the banks concerned. It uniquely identifies the name and country of the bank and consists of 8-11 characters. Example format AAAABBCCDDD, where AAAA: 4 character bank code, BB: 2 character country code, CC: 2 character location code, DDD: optional 3 character branch code.",
+        "operationId" : "getNationalIdsFromBic",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "bicId",
+          "in" : "path",
+          "description" : "Bank Identifier Code (BIC) of the Beneficiary bank.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "NationalIdsFromBicResponse",
+            "schema" : {
+              "$ref" : "#/definitions/NationalIdsFromBicResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/reference/bankCodes/nationalIds/{nationalIdRef}/validity" : {
+      "get" : {
+        "summary" : "Retrieves the status on the validity of the given national ID",
+        "description" : "Retrieves the status on the validity of the national ID, returns YES if the given national ID is valid",
+        "operationId" : "validateNationalId",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "nationalIdRef",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "countryId",
+          "in" : "query",
+          "description" : "ISO country code of the financial institution. ",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "scheme",
+          "in" : "query",
+          "description" : "Represents the scheme (a synonym for the National ID type) under which the National ID is defined",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "NationalIdResponse",
+            "schema" : {
+              "$ref" : "#/definitions/NationalIdResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/reference/bankCodes/gpi/participants/{participantId}" : {
+      "get" : {
+        "summary" : "Retrieves GPI participant information",
+        "description" : "Retrieves the details of the participant from the Swift Global Payment Initiative (GPI) participant directory",
+        "operationId" : "getParticipantDetails",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "participantId",
+          "in" : "path",
+          "description" : "Process Workflow Participant ID",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "countryId",
+          "in" : "query",
+          "description" : "ISO country code of the financial institution. ",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "currencyCode",
+          "in" : "query",
+          "description" : "ISO Currency code, accepted in field 32A of incoming gpi MT 103 payment by the participant ID or by the gpi intermediary through which the participant can be reached for this currency",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "requestDate",
+          "in" : "query",
+          "description" : "Date on which the client's request to be classified as professional has been received.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "channelType",
+          "in" : "query",
+          "description" : "Indicates the type of the Reachable Through channel",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "reachableThrough",
+          "in" : "query",
+          "description" : "Channel through which the participant is reachable for Global Payment Initiative (GPI) payment instructions for one of its GPI currencies",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "actAsIntermediary",
+          "in" : "query",
+          "description" : "Flag specifying whether the participant acts as the Global Payment Initiative (GPI) Intermediary Agent for GPI payments in a given currency and over a given REACHABLE THROUGH channel. Y indicates that the participant will forward incoming MT 103s payments coming from a GPI participant through this channel and in this currency to an upcoming GPI participant, per the GPI business rules.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "ParticipantDetailsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ParticipantDetailsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "apiKey" : {
+      "type" : "apiKey",
+      "name" : "Authorization",
+      "in" : "header"
+    }
+  },
+  "definitions" : {
+    "QueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records per page"
+        },
+        "page_start" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The record from which the response should be displayed"
+        },
+        "total_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records present"
+        },
+        "page_token" : {
+          "type" : "string",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request"
+        }
+      }
+    },
+    "BICFromLEIResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/BICFromLEIResponseBody"
+        }
+      },
+      "description" : "BICFromLEIResponse"
+    },
+    "BICFromLEIResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "bicId" : {
+            "type" : "string",
+            "description" : "Bank Identifier Code (BIC) of the Beneficiary bank."
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessQueryErrorResponseBody"
+        }
+      },
+      "description" : "BusinessQueryErrorResponse"
+    },
+    "BusinessQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message for bad requests"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemQueryErrorResponseBody"
+        }
+      },
+      "description" : "SystemQueryErrorResponse"
+    },
+    "SystemQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message caused by server"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    },
+    "BICsFromNationalIdResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/BICsFromNationalIdResponseBody"
+        }
+      },
+      "description" : "BICsFromNationalIdResponse"
+    },
+    "BICsFromNationalIdResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "bics" : {
+            "type" : "array",
+            "description" : "The BIC code of the Beneficiary bank",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "bicId" : {
+                  "type" : "array",
+                  "description" : "Bank Identifier Code (BIC) of the Beneficiary bank.",
+                  "items" : {
+                    "type" : "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "NationalIdDetailsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/NationalIdDetailsResponseBody"
+        }
+      },
+      "description" : "NationalIdDetailsResponse"
+    },
+    "NationalIdDetailsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "addressInformation" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "addressLine1" : {
+                  "type" : "string",
+                  "description" : "First line of the address"
+                },
+                "addressLine2" : {
+                  "type" : "string",
+                  "description" : "Second line of the address"
+                },
+                "addressLine3" : {
+                  "type" : "string",
+                  "description" : "Third line of the address"
+                },
+                "addressLine4" : {
+                  "type" : "string",
+                  "description" : "Fourth line of the address"
+                },
+                "bicLocation1" : {
+                  "type" : "string",
+                  "description" : "Indicates first line of branch location of the financial institution"
+                },
+                "bicLocation2" : {
+                  "type" : "string",
+                  "description" : "Indicates second line of branch location of the financial institution"
+                },
+                "addressCity" : {
+                  "type" : "string",
+                  "description" : "The town and/or city component of the base address of a customer"
+                },
+                "postCode" : {
+                  "type" : "string",
+                  "description" : "Identifies the address postal code for the customer."
+                },
+                "countryName" : {
+                  "type" : "string",
+                  "description" : "This is the country name that the financial institution resides in."
+                },
+                "countryId" : {
+                  "type" : "string",
+                  "description" : "ISO country code of the financial institution. "
+                }
+              }
+            }
+          },
+          "nationalId" : {
+            "type" : "string",
+            "description" : "National identifier of the institution/branch. This field contains the National bank code for the financial institution (for example, BSC codes for UK banks)"
+          },
+          "scheme" : {
+            "type" : "string",
+            "description" : "Represents the scheme (a synonym for the National ID type) under which the National ID is defined"
+          },
+          "institutionName" : {
+            "type" : "string",
+            "description" : "Identifies the Financial Institution of BIC"
+          },
+          "branch" : {
+            "type" : "string",
+            "description" : "The branch information relevant to this BIC code."
+          },
+          "officeType" : {
+            "type" : "string",
+            "description" : "Indicates the status of the entity in the office hierarchy e.g. Head Office, Main Payments Office"
+          }
+        }
+      }
+    },
+    "NationalIdsFromBicResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/NationalIdsFromBicResponseBody"
+        }
+      },
+      "description" : "NationalIdsFromBicResponse"
+    },
+    "NationalIdsFromBicResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "nationalIds" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "nationalId" : {
+                  "type" : "string",
+                  "description" : "National identifier of the institution/branch. This field contains the National bank code for the financial institution (for example, BSC codes for UK banks)"
+                },
+                "scheme" : {
+                  "type" : "string",
+                  "description" : "Represents the scheme (a synonym for the National ID type) under which the National ID is defined"
+                }
+              }
+            }
+          },
+          "bicId" : {
+            "type" : "string",
+            "description" : "Bank Identifier Code (BIC) of the Beneficiary bank.",
+            "maxLength" : 35
+          }
+        }
+      }
+    },
+    "NationalIdResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/NationalIdResponseBody"
+        }
+      },
+      "description" : "NationalIdResponse"
+    },
+    "NationalIdResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "nationalId" : {
+            "type" : "string",
+            "description" : "National identifier of the institution/branch. This field contains the National bank code for the financial institution (for example, BSC codes for UK banks)"
+          },
+          "scheme" : {
+            "type" : "string",
+            "description" : "Represents the scheme (a synonym for the National ID type) under which the National ID is defined"
+          },
+          "isNationalIdValid" : {
+            "type" : "string",
+            "description" : "Indicates whether the National Id is valid",
+            "maxLength" : 35
+          }
+        }
+      }
+    },
+    "ParticipantDetailsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ParticipantDetailsResponseBody"
+        }
+      },
+      "description" : "ParticipantDetailsResponse"
+    },
+    "ParticipantDetailsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "participantId" : {
+            "type" : "string",
+            "description" : "Process Workflow Participant ID"
+          },
+          "idType" : {
+            "type" : "string",
+            "description" : "Specifies the type of the identifier used for the participant ID such as the BIC or NATIONAL.ID of a non-financial Payments Market Infrastructures (PMI)"
+          },
+          "participantName" : {
+            "type" : "string",
+            "description" : "Specifies the institution name of the participant"
+          },
+          "countryId" : {
+            "type" : "string",
+            "description" : "ISO country code of the financial institution. "
+          },
+          "currencyCode" : {
+            "type" : "string",
+            "description" : "ISO Currency code, accepted in field 32A of incoming gpi MT 103 payment by the participant ID or by the gpi intermediary through which the participant can be reached for this currency"
+          },
+          "cutOffTime" : {
+            "type" : "string",
+            "description" : "The Cut off time when all executions for the day are consolidated to create a trade"
+          },
+          "cutOffDay" : {
+            "type" : "string",
+            "description" : "Indicates the last day for Global Payment Initiative (GPI) payments in a given currency"
+          },
+          "localTimezone" : {
+            "type" : "string",
+            "description" : "Specifies the time zone of the participant"
+          },
+          "actAsIntermediary" : {
+            "type" : "string",
+            "description" : "Flag specifying whether the participant acts as the Global Payment Initiative (GPI) Intermediary Agent for GPI payments in a given currency and over a given REACHABLE THROUGH channel. Y indicates that the participant will forward incoming MT 103s payments coming from a GPI participant through this channel and in this currency to an upcoming GPI participant, per the GPI business rules."
+          },
+          "reachableThrough" : {
+            "type" : "string",
+            "description" : "Channel through which the participant is reachable for Global Payment Initiative (GPI) payment instructions for one of its GPI currencies"
+          },
+          "channelType" : {
+            "type" : "string",
+            "description" : "Indicates the type of the Reachable Through channel"
+          },
+          "startDate" : {
+            "type" : "string",
+            "description" : "Contains the date on which the transaction or payment gets initiated."
+          },
+          "stopDate" : {
+            "type" : "string",
+            "description" : "Indicates the date on which the Payment Stop is placed"
+          },
+          "ssiRecordKey" : {
+            "type" : "string",
+            "description" : "Record key of the Standing Settlement Instruction (SSI) in SWIFTRef's SSI Plus directory for this participant and currency. An SSI can list which correspondent bank and which account number at that correspondent bank to use to cover payments in a given currency directed to the participant or directed at the intermediary."
+          },
+          "delegatedTo" : {
+            "type" : "string",
+            "description" : "Bank Identifier Code (BIC) which must take the action of forwarding the payment or updating the tracker on behalf of the participant ID."
+          }
+        }
+      }
+    }
+  }
+}

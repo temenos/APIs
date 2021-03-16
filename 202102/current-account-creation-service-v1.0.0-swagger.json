@@ -1,0 +1,271 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "API for creating a current account",
+    "version" : "v1.0.0",
+    "title" : "Current account creation"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "apiKey" : [ ]
+  } ],
+  "paths" : {
+    "/party/account" : {
+      "post" : {
+        "operationId" : "createCurrentAccount",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/createCurrentAccount"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "createCurrentAccountResponse",
+            "schema" : {
+              "$ref" : "#/definitions/createCurrentAccountResponse"
+            }
+          },
+          "default" : {
+            "description" : "createCurrentAccountErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/createCurrentAccountErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "apiKey" : {
+      "type" : "apiKey",
+      "name" : "Authorization",
+      "in" : "header"
+    }
+  },
+  "definitions" : {
+    "PayloadHeader" : {
+      "type" : "object",
+      "properties" : {
+        "override_acceptId" : {
+          "type" : "string",
+          "description" : "pass the record Id to accept all its overrides"
+        }
+      }
+    },
+    "createCurrentAccount" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/createCurrentAccountBody"
+        }
+      },
+      "description" : "createCurrentAccount",
+      "example" : {
+        "body" : [ {
+          "caOpening" : {
+            "income" : {
+              "annualIncome" : 20000,
+              "currency" : "EUR"
+            },
+            "aboutYou" : {
+              "firstName" : "Arun",
+              "placeOfBirth" : "GB",
+              "gender" : "MALE",
+              "surname" : "Kumar",
+              "nickname" : "Joshi",
+              "birthCountry" : "GB",
+              "dateOfBirth" : "19711010",
+              "language" : "1",
+              "title" : "MR"
+            },
+            "employmentDetails" : {
+              "employmentStartDate" : "20001010",
+              "jobTitle" : "MANAGER",
+              "employerName" : "ABCD",
+              "employmentStatus" : "EMPLOYED"
+            },
+            "action" : "submit",
+            "homeAddress" : {
+              "country" : "GB",
+              "residenceOfCountry" : "GB",
+              "townCity" : "LONDON",
+              "postcode" : "E41",
+              "addressLine1" : "abcd",
+              "addressLine2" : "defg",
+              "yearsAtCurrentAddress" : 8
+            },
+            "uniqueIdentifier" : "Arun2"
+          }
+        } ]
+      }
+    },
+    "createCurrentAccountBody" : {
+      "type" : "object",
+      "properties" : {
+        "customerId" : {
+          "type" : "string",
+          "description" : "The identifier of the customer"
+        },
+        "currency" : {
+          "type" : "string"
+        },
+        "mnemonic" : {
+          "type" : "string",
+          "description" : "The alternative means of referencing the record"
+        },
+        "accountName" : {
+          "type" : "string",
+          "description" : "The name of the account that is displayed"
+        }
+      }
+    },
+    "ScreenHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "parse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "createCurrentAccountResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/createCurrentAccountResponseBody"
+        }
+      },
+      "description" : "createCurrentAccountResponse"
+    },
+    "createCurrentAccountResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "customerId" : {
+          "type" : "string",
+          "description" : "The identifier of the customer"
+        },
+        "currency" : {
+          "type" : "string"
+        },
+        "mnemonic" : {
+          "type" : "string",
+          "description" : "The alternative means of referencing the record"
+        },
+        "accountName" : {
+          "type" : "string",
+          "description" : "The name of the account that is displayed"
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "The status of the record"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "parse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "createCurrentAccountErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/createCurrentAccountErrorResponseBody"
+        }
+      },
+      "description" : "createCurrentAccountErrorResponse"
+    },
+    "createCurrentAccountErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type"
+        }
+      }
+    }
+  }
+}

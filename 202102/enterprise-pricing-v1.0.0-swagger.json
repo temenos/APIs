@@ -1,0 +1,3379 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "API to retrieve the pricing benefit details for activity charge, periodic charge or interest rates for enterprise product pricing arrangement or package",
+    "version" : "v1.0.0",
+    "title" : "Enterprise product pricing"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "tags" : [ {
+    "name" : "RETAIL"
+  } ],
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "apiKey" : [ ]
+  } ],
+  "paths" : {
+    "/enterprise/pricing/packages/{packageId}/pricingBenefits" : {
+      "get" : {
+        "tags" : [ "RETAIL" ],
+        "summary" : "Retrieves the package pricing benefit details",
+        "description" : "Retrieves the package pricing details for the package and the linked contracts or accounts",
+        "operationId" : "getPackageStatement",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "packageId",
+          "in" : "path",
+          "description" : "Indicates the arrangement reference of the package",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "startDate",
+          "in" : "query",
+          "description" : "Contains the date on which the transaction or payment gets initiated.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "endDate",
+          "in" : "query",
+          "description" : "Indicates the date till which the transaction history requested. If 20120101 is the start date and 20120201 is the end date, all transactions that are booked between January 1 to February 1 2012 are returned",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "Identifier of the lead company of the underlying Entity/Company/Branch for the respective contract for customer data protection purposes. Example US0010001.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "disablePagination",
+          "in" : "header",
+          "description" : "Indicates the pagination header attributes availability. If set to 'true', it fetches all the data",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "PackageStatementResponse",
+            "schema" : {
+              "$ref" : "#/definitions/PackageStatementResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/enterprise/pricing/arrangements/{baseContractReference}/activities" : {
+      "get" : {
+        "tags" : [ "RETAIL" ],
+        "summary" : "Retrieves the fee amount charged on an event",
+        "description" : "Retrieves the simulated fee amount details with benefit applied for the given event name",
+        "operationId" : "getActivityChargeAmount",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "baseContractReference",
+          "in" : "path",
+          "description" : "Contains the identifier for the contract or account in which the event is raised. This would typically be a unique reference to identify the specific contract or account in the system",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "systemReference",
+          "in" : "query",
+          "description" : "Contains the identifier for the system in which the event originated from. For ex, ‘Hogan’ or ‘TransactAccounts’ etc",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyReference",
+          "in" : "query",
+          "description" : "Contains the identifier of the underlying Entity or Company or Branch",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "eventName",
+          "in" : "query",
+          "description" : "The name that is displayed for the event",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "effectiveDate",
+          "in" : "query",
+          "description" : "Contains the identifier for the transaction date. Dates are expected in ‘YYYYMMDD’ format",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "channel",
+          "in" : "query",
+          "description" : "Contains the channel in which the activity was performed. If pricing is not determined based on channel, then this is not significant",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "branch",
+          "in" : "query",
+          "description" : "Contains the branch name/code in which the business activity was performed. If pricing is not determined based on branch, then this is not significant",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "lineOfBusiness",
+          "in" : "query",
+          "description" : "Contains the line of business in which the activity was performed. If pricing is not determined based on line of business, then this is not significant",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "transactionReference",
+          "in" : "query",
+          "description" : "Contains the identifier for the transaction in the core system",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "Identifier of the lead company of the underlying Entity/Company/Branch for the respective contract for customer data protection purposes. Example US0010001.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "disablePagination",
+          "in" : "header",
+          "description" : "Indicates the pagination header attributes availability. If set to 'true', it fetches all the data",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "ActivityChargeAmountResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ActivityChargeAmountResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/enterprise/pricing/arrangements/{baseContractReference}/periodicCharges" : {
+      "get" : {
+        "tags" : [ "RETAIL" ],
+        "summary" : "Retrieves the fee amount charged on an event",
+        "description" : "Retrieves the simulated fee amount details with benefit applied for the given event name",
+        "operationId" : "getPeriodicChargesAmount",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "baseContractReference",
+          "in" : "path",
+          "description" : "Contains the identifier for the contract or account in which the event is raised. This would typically be a unique reference to identify the specific contract or account in the system",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "systemReference",
+          "in" : "query",
+          "description" : "Contains the identifier for the system in which the event originated from. For ex, ‘Hogan’ or ‘TransactAccounts’ etc",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyReference",
+          "in" : "query",
+          "description" : "Contains the identifier of the underlying Entity or Company or Branch",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "eventName",
+          "in" : "query",
+          "description" : "The name that is displayed for the event",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "effectiveDate",
+          "in" : "query",
+          "description" : "Contains the identifier for the transaction date. Dates are expected in ‘YYYYMMDD’ format",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "channel",
+          "in" : "query",
+          "description" : "Contains the channel in which the activity was performed. If pricing is not determined based on channel, then this is not significant",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "branch",
+          "in" : "query",
+          "description" : "Contains the branch name/code in which the business activity was performed. If pricing is not determined based on branch, then this is not significant",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "lineOfBusiness",
+          "in" : "query",
+          "description" : "Contains the line of business in which the activity was performed. If pricing is not determined based on line of business, then this is not significant",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "transactionReference",
+          "in" : "query",
+          "description" : "Contains the identifier for the transaction in the core system",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "Identifier of the lead company of the underlying Entity/Company/Branch for the respective contract for customer data protection purposes. Example US0010001.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "disablePagination",
+          "in" : "header",
+          "description" : "Indicates the pagination header attributes availability. If set to 'true', it fetches all the data",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "PeriodicChargesAmountResponse",
+            "schema" : {
+              "$ref" : "#/definitions/PeriodicChargesAmountResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/enterprise/pricing/arrangements/{baseContractReference}/rates" : {
+      "get" : {
+        "tags" : [ "RETAIL" ],
+        "summary" : "Retrieves the interest rates",
+        "description" : "Retrieves the simulated interest rates with benefit applied for the given event",
+        "operationId" : "getInterestRate",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "baseContractReference",
+          "in" : "path",
+          "description" : "Contains the identifier for the contract or account in which the event is raised. This would typically be a unique reference to identify the specific contract or account in the system",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "systemReference",
+          "in" : "query",
+          "description" : "Contains the identifier for the system in which the event originated from. For ex, ‘Hogan’ or ‘TransactAccounts’ etc",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyReference",
+          "in" : "query",
+          "description" : "Contains the identifier of the underlying Entity or Company or Branch",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "eventName",
+          "in" : "query",
+          "description" : "The name that is displayed for the event",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "effectiveDate",
+          "in" : "query",
+          "description" : "Contains the identifier for the transaction date. Dates are expected in ‘YYYYMMDD’ format",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "channel",
+          "in" : "query",
+          "description" : "Contains the channel in which the activity was performed. If pricing is not determined based on channel, then this is not significant",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "branch",
+          "in" : "query",
+          "description" : "Contains the branch name/code in which the business activity was performed. If pricing is not determined based on branch, then this is not significant",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "lineOfBusiness",
+          "in" : "query",
+          "description" : "Contains the line of business in which the activity was performed. If pricing is not determined based on line of business, then this is not significant",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "transactionReference",
+          "in" : "query",
+          "description" : "Contains the identifier for the transaction in the core system",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "Identifier of the lead company of the underlying Entity/Company/Branch for the respective contract for customer data protection purposes. Example US0010001.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "disablePagination",
+          "in" : "header",
+          "description" : "Indicates the pagination header attributes availability. If set to 'true', it fetches all the data",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "InterestRateResponse",
+            "schema" : {
+              "$ref" : "#/definitions/InterestRateResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/enterprise/pricing/products/{productId}/rates" : {
+      "get" : {
+        "tags" : [ "RETAIL" ],
+        "summary" : "Retrieves the interest rates for the given product",
+        "description" : "Retrieves the interest rates with benefit applied for the given product",
+        "operationId" : "getRequestRate",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "productId",
+          "in" : "path",
+          "description" : "Contains the unique identifier of the product, e.g. the product id of the arrangement account.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "partyId",
+          "in" : "query",
+          "description" : "Allows capturing of customers or person entities to be part of the relationship. If partyType is selected as Customer, then the system will allow only customer Ids to be captured into this field. If partyType is selected as Person or Entity, then system will allow only personEntity Ids to be captured into this field.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "effectiveDate",
+          "in" : "query",
+          "description" : "Contains the identifier for the transaction date. Dates are expected in ‘YYYYMMDD’ format",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "rateName",
+          "in" : "query",
+          "description" : "Specifies the name displayed for the interest rates",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "amount",
+          "in" : "query",
+          "description" : "This is the payment amount",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "tenor",
+          "in" : "query",
+          "description" : "This field is valid for Documentary Collections only. It is used in conjunction with the following field 'DAYS' or 'COLL.MAT.CODE' to indicate the TENOR of the drafts under the collection and is used in the production of corresponding Collection messages.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "rolloverPeriod",
+          "in" : "query",
+          "description" : "Indicates the roll over period after which contract will switch on to the new set of interest or fee conditions. For contracts dealing with periodic indexes, rates are influenced by Amount or Tenor or Rollover period. So, rollover period need to be stated if accurate rate needs to be retrieved.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "Identifier of the lead company of the underlying Entity/Company/Branch for the respective contract for customer data protection purposes. Example US0010001.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "disablePagination",
+          "in" : "header",
+          "description" : "Indicates the pagination header attributes availability. If set to 'true', it fetches all the data",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "RequestRateResponse",
+            "schema" : {
+              "$ref" : "#/definitions/RequestRateResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/enterprise/pricing/products/{productId}/eligibilities" : {
+      "get" : {
+        "tags" : [ "RETAIL" ],
+        "summary" : "Retrieves the eligibility details for the product",
+        "description" : "Retrieves the eligibility details of the product for the given party or parties",
+        "operationId" : "getEligibilityDetails",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "productId",
+          "in" : "path",
+          "description" : "Contains the unique identifier of the product, e.g. the product id of the arrangement account.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "partyId",
+          "in" : "query",
+          "description" : "Allows capturing of customers or person entities to be part of the relationship. If partyType is selected as Customer, then the system will allow only customer Ids to be captured into this field. If partyType is selected as Person or Entity, then system will allow only personEntity Ids to be captured into this field.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "partyRole",
+          "in" : "query",
+          "description" : "Contains the identifier used for the role played by the party or customer in the contract or account",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "effectiveDate",
+          "in" : "query",
+          "description" : "Contains the identifier for the transaction date. Dates are expected in ‘YYYYMMDD’ format",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "Identifier of the lead company of the underlying Entity/Company/Branch for the respective contract for customer data protection purposes. Example US0010001.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "disablePagination",
+          "in" : "header",
+          "description" : "Indicates the pagination header attributes availability. If set to 'true', it fetches all the data",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "EligibilityDetailsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/EligibilityDetailsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/enterprise/pricing/arrangements/{baseContractReference}/transactions" : {
+      "get" : {
+        "tags" : [ "RETAIL" ],
+        "summary" : "Retrieves the pricing for transaction business activity",
+        "description" : "Retrieves the charge amounts with benefit applied for transaction business activity",
+        "operationId" : "getTransactionPricingRequest",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "baseContractReference",
+          "in" : "path",
+          "description" : "Contains the identifier for the contract or account in which the event is raised. This would typically be a unique reference to identify the specific contract or account in the system",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "systemReference",
+          "in" : "query",
+          "description" : "Contains the identifier for the system in which the event originated from. For ex, ‘Hogan’ or ‘TransactAccounts’ etc",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyReference",
+          "in" : "query",
+          "description" : "Contains the identifier of the underlying Entity or Company or Branch",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "eventName",
+          "in" : "query",
+          "description" : "The name that is displayed for the event",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "effectiveDate",
+          "in" : "query",
+          "description" : "Contains the identifier for the transaction date. Dates are expected in ‘YYYYMMDD’ format",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "currency",
+          "in" : "query",
+          "description" : "Identifies the currency. E.g. USD, GBP etc",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "channel",
+          "in" : "query",
+          "description" : "Contains the channel in which the activity was performed. If pricing is not determined based on channel, then this is not significant",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "branch",
+          "in" : "query",
+          "description" : "Contains the branch name/code in which the business activity was performed. If pricing is not determined based on branch, then this is not significant",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "lineOfBusiness",
+          "in" : "query",
+          "description" : "Contains the line of business in which the activity was performed. If pricing is not determined based on line of business, then this is not significant",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "transactionCurrency",
+          "in" : "query",
+          "description" : "Indicates the currency of the transaction. For example GBP, USD etc.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "transactionAmount",
+          "in" : "query",
+          "description" : "Contains the transaction amount. This is based on the currency, either local or foreign currency",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "contractAmount",
+          "in" : "query",
+          "description" : "Indicates the amount of the transaction in contract currency",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "contextName",
+          "in" : "query",
+          "description" : "Field name returned by the payment engine (TPH) for information or further processing.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "contextValue",
+          "in" : "query",
+          "description" : "Field value returned by the payment engine (TPH) for information or further processing.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "Identifier of the lead company of the underlying Entity/Company/Branch for the respective contract for customer data protection purposes. Example US0010001.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "disablePagination",
+          "in" : "header",
+          "description" : "Indicates the pagination header attributes availability. If set to 'true', it fetches all the data",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "TransactionPricingRequestResponse",
+            "schema" : {
+              "$ref" : "#/definitions/TransactionPricingRequestResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/enterprise/pricing/products/{productId}/pricing" : {
+      "get" : {
+        "tags" : [ "RETAIL" ],
+        "summary" : "Retrieves the pricing for an event",
+        "description" : "Retrieves the pricing for an event with respect to product's conditions",
+        "operationId" : "getNewActivityPricing",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "productId",
+          "in" : "path",
+          "description" : "Contains the unique identifier of the product, e.g. the product id of the arrangement account.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "companyReference",
+          "in" : "query",
+          "description" : "Contains the identifier of the underlying Entity or Company or Branch",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "eventName",
+          "in" : "query",
+          "description" : "The name that is displayed for the event",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "effectiveDate",
+          "in" : "query",
+          "description" : "Contains the identifier for the transaction date. Dates are expected in ‘YYYYMMDD’ format",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "currency",
+          "in" : "query",
+          "description" : "Identifies the currency. E.g. USD, GBP etc",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "channel",
+          "in" : "query",
+          "description" : "Contains the channel in which the activity was performed. If pricing is not determined based on channel, then this is not significant",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "branch",
+          "in" : "query",
+          "description" : "Contains the branch name/code in which the business activity was performed. If pricing is not determined based on branch, then this is not significant",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "lineOfBusiness",
+          "in" : "query",
+          "description" : "Contains the line of business in which the activity was performed. If pricing is not determined based on line of business, then this is not significant",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "partyReference",
+          "in" : "query",
+          "description" : "Contains the identifier used for the party or customer",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "partyRole",
+          "in" : "query",
+          "description" : "Contains the identifier used for the role played by the party or customer in the contract or account",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "Identifier of the lead company of the underlying Entity/Company/Branch for the respective contract for customer data protection purposes. Example US0010001.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "disablePagination",
+          "in" : "header",
+          "description" : "Indicates the pagination header attributes availability. If set to 'true', it fetches all the data",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "NewActivityPricingResponse",
+            "schema" : {
+              "$ref" : "#/definitions/NewActivityPricingResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/enterprise/pricing/arrangements/{arrangementId}/pricing" : {
+      "get" : {
+        "tags" : [ "RETAIL" ],
+        "summary" : "Retrieves the pricing details on a single Event",
+        "description" : "Retrieves the pricing details on a single Event for the given arrangement",
+        "operationId" : "getPricingDetailsEventList",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "arrangementId",
+          "in" : "path",
+          "description" : "Indicates an unique identifier of an account",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "transactionReference",
+          "in" : "query",
+          "description" : "Contains the identifier for the transaction in the core system",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "Identifier of the lead company of the underlying Entity/Company/Branch for the respective contract for customer data protection purposes. Example US0010001.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "disablePagination",
+          "in" : "header",
+          "description" : "Indicates the pagination header attributes availability. If set to 'true', it fetches all the data",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "PricingDetailsEventListResponse",
+            "schema" : {
+              "$ref" : "#/definitions/PricingDetailsEventListResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/enterprise/pricing/arrangements/packages/{packageId}/periodicCharges" : {
+      "get" : {
+        "tags" : [ "RETAIL" ],
+        "summary" : "Retrieves the periodic pricing that have happened on a package",
+        "description" : "Retrieves the periodic pricing that have happened on a package along with the details of linked arrangements",
+        "operationId" : "getPackagePeriodicPricing",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "packageId",
+          "in" : "path",
+          "description" : "Indicates the arrangement reference of the package",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "effectiveDate",
+          "in" : "query",
+          "description" : "Contains the identifier for the transaction date. Dates are expected in ‘YYYYMMDD’ format",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "Identifier of the lead company of the underlying Entity/Company/Branch for the respective contract for customer data protection purposes. Example US0010001.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "disablePagination",
+          "in" : "header",
+          "description" : "Indicates the pagination header attributes availability. If set to 'true', it fetches all the data",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "PackagePeriodicPricingResponse",
+            "schema" : {
+              "$ref" : "#/definitions/PackagePeriodicPricingResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/enterprise/pricing/arrangements/packages/{packageId}" : {
+      "get" : {
+        "tags" : [ "RETAIL" ],
+        "summary" : "Retrieves the details of packages created in enterprise product pricing",
+        "description" : "Retrieves the details of packages created in enterprise product pricing along with the linked arrangements",
+        "operationId" : "getPackageDetails",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "packageId",
+          "in" : "path",
+          "description" : "Indicates the arrangement reference of the package",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "effectiveDate",
+          "in" : "query",
+          "description" : "Contains the identifier for the transaction date. Dates are expected in ‘YYYYMMDD’ format",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "Identifier of the lead company of the underlying Entity/Company/Branch for the respective contract for customer data protection purposes. Example US0010001.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "disablePagination",
+          "in" : "header",
+          "description" : "Indicates the pagination header attributes availability. If set to 'true', it fetches all the data",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "PackageDetailsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/PackageDetailsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/enterprise/pricing/parties/{partyId}/arrangements" : {
+      "get" : {
+        "tags" : [ "RETAIL" ],
+        "summary" : "Retrieves the details of contracts held by the party",
+        "description" : "Retrieves the details of contracts held by the party at an enterprise level",
+        "operationId" : "getCustomerHeldContracts",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "partyId",
+          "in" : "path",
+          "description" : "Allows capturing of customers or person entities to be part of the relationship. If partyType is selected as Customer, then the system will allow only customer Ids to be captured into this field. If partyType is selected as Person or Entity, then system will allow only personEntity Ids to be captured into this field.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "Identifier of the lead company of the underlying Entity/Company/Branch for the respective contract for customer data protection purposes. Example US0010001.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "disablePagination",
+          "in" : "header",
+          "description" : "Indicates the pagination header attributes availability. If set to 'true', it fetches all the data",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "CustomerHeldContractsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/CustomerHeldContractsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/enterprise/pricing/arrangements/{baseContractReference}/events" : {
+      "get" : {
+        "tags" : [ "RETAIL" ],
+        "summary" : "Retrieves the details of events",
+        "description" : "Retrieves the details of events for the given enterprise product pricing arrangement",
+        "operationId" : "getContractEventList",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "baseContractReference",
+          "in" : "path",
+          "description" : "Contains the identifier for the contract or account in which the event is raised. This would typically be a unique reference to identify the specific contract or account in the system",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "systemReference",
+          "in" : "query",
+          "description" : "Contains the identifier for the system in which the event originated from. For ex, ‘Hogan’ or ‘TransactAccounts’ etc",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "numberOfTransactions",
+          "in" : "query",
+          "description" : "Indicates the number of transactions performed on the contract or the account",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "dateFrom",
+          "in" : "query",
+          "description" : "Indicates the end date till which the transactions or events performed on the contract or account is to be returned",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "dateTo",
+          "in" : "query",
+          "description" : "Indicates the start date from which the transactions or events performed on the contract or account is to be returned",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "Identifier of the lead company of the underlying Entity/Company/Branch for the respective contract for customer data protection purposes. Example US0010001.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "disablePagination",
+          "in" : "header",
+          "description" : "Indicates the pagination header attributes availability. If set to 'true', it fetches all the data",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "ContractEventListResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ContractEventListResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "apiKey" : {
+      "type" : "apiKey",
+      "name" : "Authorization",
+      "in" : "header"
+    }
+  },
+  "definitions" : {
+    "QueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records per page"
+        },
+        "page_start" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The record from which the response should be displayed"
+        },
+        "total_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records present"
+        },
+        "page_token" : {
+          "type" : "string",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request"
+        }
+      }
+    },
+    "PackageStatementResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/PackageStatementResponseBody"
+        }
+      },
+      "description" : "PackageStatementResponse"
+    },
+    "PackageStatementResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "packagePricing" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "date" : {
+                  "type" : "string",
+                  "description" : "Indicates the date on which activity was performed"
+                },
+                "arrangementId" : {
+                  "type" : "string",
+                  "description" : "Indicates an unique identifier of an account"
+                },
+                "productLine" : {
+                  "type" : "string",
+                  "description" : "The top level product line, which the product is ultimately attached to. May be a Temenos-defined product line such as ACCOUNTS, AGENT, BUNDLE, CONSENT, DEPOSITS, LENDING, REWARDS, etc. or one defined by the institution to manage external products."
+                },
+                "pricingType" : {
+                  "type" : "string",
+                  "description" : "Indicates the pricing type such as Debit,Credit"
+                },
+                "propertyName" : {
+                  "type" : "string",
+                  "description" : "Indicates the  property description to which benefit has been applied"
+                },
+                "baseValue" : {
+                  "type" : "string",
+                  "description" : "Indicates the base value for which benefit has been applied"
+                },
+                "adjustValue" : {
+                  "type" : "string",
+                  "description" : "Indicates the value by which base value has to be adjusted"
+                },
+                "netValue" : {
+                  "type" : "string",
+                  "description" : "Indicates the final adjusted net value. For example NetValue is  sum or difference of BaseValue and AdjustValue"
+                },
+                "packageBenefitValue" : {
+                  "type" : "string",
+                  "description" : "Indicates the total  benefit amount when packaged"
+                },
+                "packageBenefitName" : {
+                  "type" : "string",
+                  "description" : "Indicates the benefit names when packaged"
+                }
+              }
+            }
+          },
+          "totalPackageFees" : {
+            "type" : "string",
+            "description" : "Indicates the net pricing benefit amount  of package when pricing type is debit"
+          },
+          "totalPackageCredits" : {
+            "type" : "string",
+            "description" : "Indicates the net pricing benefit amount of package when pricing type is credit"
+          },
+          "netPackageSavings" : {
+            "type" : "string",
+            "description" : "Indicates the  total  benefit amount of the package"
+          },
+          "totalOriginalFees" : {
+            "type" : "string",
+            "description" : "Indicates the summation  of baseValue, adjustvalue, package benefit Value when pricing type is debit"
+          },
+          "totalFeeBenefits" : {
+            "type" : "string",
+            "description" : "Indicates the total  Package benefit amount  when pricing type is debit."
+          },
+          "totalOriginalCredits" : {
+            "type" : "string",
+            "description" : "Indicates the summation  of baseValue, adjustvalue, package benefit Value when pricing type is credit."
+          },
+          "totalCreditBenefits" : {
+            "type" : "string",
+            "description" : "Indicates the total  Package benefit amount  when pricing type is credit"
+          },
+          "netOriginalCost" : {
+            "type" : "string",
+            "description" : "Indicates the net original cost i.e difference of fees and credits"
+          },
+          "totalBenefits" : {
+            "type" : "string",
+            "description" : "Indicates the total benefit value when the contracts are not part of the package"
+          },
+          "netSavings" : {
+            "type" : "string",
+            "description" : "Indicates the summation of total pricing values and benefit values  when the contracts are packaged"
+          },
+          "totalPackageSavings" : {
+            "type" : "string",
+            "description" : "Indicates the summation between net savings and net package savings"
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessQueryErrorResponseBody"
+        }
+      },
+      "description" : "BusinessQueryErrorResponse"
+    },
+    "BusinessQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message for bad requests"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemQueryErrorResponseBody"
+        }
+      },
+      "description" : "SystemQueryErrorResponse"
+    },
+    "SystemQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message caused by server"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    },
+    "ActivityChargeAmountResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ActivityChargeAmountResponseBody"
+        }
+      },
+      "description" : "ActivityChargeAmountResponse"
+    },
+    "ActivityChargeAmountResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "baseDetails" : {
+            "type" : "array",
+            "description" : "Indicates the identifier for base details in which system reference, base contract reference, event name, effective date and other related details are defined",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "systemReference" : {
+                  "type" : "string",
+                  "description" : "Contains the identifier for the system in which the event originated from. For ex, ‘Hogan’ or ‘TransactAccounts’ etc",
+                  "maxLength" : 30
+                },
+                "baseContractReference" : {
+                  "type" : "string",
+                  "description" : "Contains the identifier for the contract or account in which the event is raised. This would typically be a unique reference to identify the specific contract or account in the system",
+                  "maxLength" : 30
+                },
+                "companyReference" : {
+                  "type" : "string",
+                  "description" : "Contains the identifier of the underlying Entity or Company or Branch",
+                  "maxLength" : 30
+                },
+                "eventName" : {
+                  "type" : "string",
+                  "description" : "The name that is displayed for the event",
+                  "maxLength" : 30
+                },
+                "effectiveDate" : {
+                  "type" : "string",
+                  "description" : "Contains the identifier for the transaction date. Dates are expected in ‘YYYYMMDD’ format",
+                  "maxLength" : 30
+                },
+                "channel" : {
+                  "type" : "string",
+                  "description" : "Contains the channel in which the activity was performed. If pricing is not determined based on channel, then this is not significant",
+                  "maxLength" : 30
+                },
+                "branch" : {
+                  "type" : "string",
+                  "description" : "Contains the branch name/code in which the business activity was performed. If pricing is not determined based on branch, then this is not significant",
+                  "maxLength" : 30
+                },
+                "lineOfBusiness" : {
+                  "type" : "string",
+                  "description" : "Contains the line of business in which the activity was performed. If pricing is not determined based on line of business, then this is not significant",
+                  "maxLength" : 30
+                },
+                "transactionReference" : {
+                  "type" : "string",
+                  "description" : "Contains the identifier for the transaction in the core system",
+                  "maxLength" : 30
+                }
+              }
+            }
+          },
+          "feeDetails" : {
+            "type" : "array",
+            "description" : "Indicates the identifier for pricing benefit details in which benefit program, benefit amount and benefit type are defined. Pricing benefit defines the benefits which applied for the calculated fee or interest amount which can be waived, adjusted or overrides their original amounts",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "feeName" : {
+                  "type" : "string",
+                  "description" : "Indicates the description for type of fee which is applied for payment instruction",
+                  "maxLength" : 30
+                },
+                "feeDescription" : {
+                  "type" : "string",
+                  "description" : "Indicates the description of the fee name"
+                },
+                "originalFee" : {
+                  "type" : "string",
+                  "description" : "Indicates the standard fee amount before pricing evaluation. Pricing Evaluation means fee or interest amount calculated based on the predefined rules applied for the contract. It will add or subtract the adjusted amount to the original fee or interest amount based on the predefined pricing operand and the rule value",
+                  "maxLength" : 30
+                },
+                "feeAdjusted" : {
+                  "type" : "string",
+                  "description" : "Indicates the total signed adjustment amount which is calculated during pricing evaluation. Pricing Evaluation means fee or interest amount calculated based on the predefined rules applied for the contract. It will add or subtract the adjusted amount to the original fee or interest amount based on the predefined pricing operand and the rule value",
+                  "maxLength" : 30
+                },
+                "finalFee" : {
+                  "type" : "string",
+                  "description" : "Indicates the final fee after pricing evaluation. This would typically be unsigned. Pricing Evaluation means fee or interest amount calculated based on the predefined rules applied for the contract. It will add or subtract the adjusted amount to the original fee or interest amount based on the predefined pricing operand and the rule value",
+                  "maxLength" : 30
+                },
+                "feeType" : {
+                  "type" : "string",
+                  "description" : "Indicates the type of fee which is applied for payment instruction",
+                  "maxLength" : 30
+                },
+                "feeApplicationType" : {
+                  "type" : "string",
+                  "description" : "Indicates whether the fee needs to be made Due or Pay or Capitalise. Allowed values are DUE, PAY or CAPITALISE",
+                  "maxLength" : 30
+                },
+                "benefitDetails" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object",
+                    "properties" : {
+                      "benefitProgram" : {
+                        "type" : "string",
+                        "description" : "Indicates the pricing program under which benefit was offered. Pricing benefit defines the benefits which applied for the calculated fee or interest amount which can be waived, adjusted or overrides their original amounts",
+                        "maxLength" : 30
+                      },
+                      "benefitType" : {
+                        "type" : "string",
+                        "description" : "Indicates the nature of benefit. It can be adjust, override or waive",
+                        "maxLength" : 30
+                      },
+                      "benefitAmount" : {
+                        "type" : "string",
+                        "description" : "Indicates the quantum of benefit for the benefit type. Pricing benefit defines the benefits which applied for the calculated fee or interest amount which can be waived, adjusted or overrides their original amounts",
+                        "maxLength" : 30
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "chargeCurrency" : {
+            "type" : "string",
+            "description" : "Indicates the currency code of the charge account from where the fee is deducted",
+            "maxLength" : 30
+          }
+        }
+      }
+    },
+    "PeriodicChargesAmountResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/PeriodicChargesAmountResponseBody"
+        }
+      },
+      "description" : "PeriodicChargesAmountResponse"
+    },
+    "PeriodicChargesAmountResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "baseDetails" : {
+            "type" : "array",
+            "description" : "Indicates the identifier for base details in which system reference, base contract reference, event name, effective date and other related details are defined",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "systemReference" : {
+                  "type" : "string",
+                  "description" : "Contains the identifier for the system in which the event originated from. For ex, ‘Hogan’ or ‘TransactAccounts’ etc",
+                  "maxLength" : 30
+                },
+                "baseContractReference" : {
+                  "type" : "string",
+                  "description" : "Contains the identifier for the contract or account in which the event is raised. This would typically be a unique reference to identify the specific contract or account in the system",
+                  "maxLength" : 30
+                },
+                "companyReference" : {
+                  "type" : "string",
+                  "description" : "Contains the identifier of the underlying Entity or Company or Branch",
+                  "maxLength" : 30
+                },
+                "eventName" : {
+                  "type" : "string",
+                  "description" : "The name that is displayed for the event",
+                  "maxLength" : 30
+                },
+                "effectiveDate" : {
+                  "type" : "string",
+                  "description" : "Contains the identifier for the transaction date. Dates are expected in ‘YYYYMMDD’ format",
+                  "maxLength" : 30
+                },
+                "channel" : {
+                  "type" : "string",
+                  "description" : "Contains the channel in which the activity was performed. If pricing is not determined based on channel, then this is not significant",
+                  "maxLength" : 30
+                },
+                "branch" : {
+                  "type" : "string",
+                  "description" : "Contains the branch name/code in which the business activity was performed. If pricing is not determined based on branch, then this is not significant",
+                  "maxLength" : 30
+                },
+                "lineOfBusiness" : {
+                  "type" : "string",
+                  "description" : "Contains the line of business in which the activity was performed. If pricing is not determined based on line of business, then this is not significant",
+                  "maxLength" : 30
+                },
+                "transactionReference" : {
+                  "type" : "string",
+                  "description" : "Contains the identifier for the transaction in the core system",
+                  "maxLength" : 30
+                }
+              }
+            }
+          },
+          "feeDetails" : {
+            "type" : "array",
+            "description" : "Indicates the identifier for pricing benefit details in which benefit program, benefit amount and benefit type are defined. Pricing benefit defines the benefits which applied for the calculated fee or interest amount which can be waived, adjusted or overrides their original amounts",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "feeName" : {
+                  "type" : "string",
+                  "description" : "Indicates the description for type of fee which is applied for payment instruction",
+                  "maxLength" : 30
+                },
+                "feeDescription" : {
+                  "type" : "string",
+                  "description" : "Indicates the description of the fee name"
+                },
+                "originalFee" : {
+                  "type" : "string",
+                  "description" : "Indicates the standard fee amount before pricing evaluation. Pricing Evaluation means fee or interest amount calculated based on the predefined rules applied for the contract. It will add or subtract the adjusted amount to the original fee or interest amount based on the predefined pricing operand and the rule value",
+                  "maxLength" : 30
+                },
+                "feeAdjusted" : {
+                  "type" : "string",
+                  "description" : "Indicates the total signed adjustment amount which is calculated during pricing evaluation. Pricing Evaluation means fee or interest amount calculated based on the predefined rules applied for the contract. It will add or subtract the adjusted amount to the original fee or interest amount based on the predefined pricing operand and the rule value",
+                  "maxLength" : 30
+                },
+                "finalFee" : {
+                  "type" : "string",
+                  "description" : "Indicates the final fee after pricing evaluation. This would typically be unsigned. Pricing Evaluation means fee or interest amount calculated based on the predefined rules applied for the contract. It will add or subtract the adjusted amount to the original fee or interest amount based on the predefined pricing operand and the rule value",
+                  "maxLength" : 30
+                },
+                "feeType" : {
+                  "type" : "string",
+                  "description" : "Indicates the type of fee which is applied for payment instruction",
+                  "maxLength" : 30
+                },
+                "feeApplicationType" : {
+                  "type" : "string",
+                  "description" : "Indicates whether the fee needs to be made Due or Pay or Capitalise. Allowed values are DUE, PAY or CAPITALISE",
+                  "maxLength" : 30
+                },
+                "benefitDetails" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object",
+                    "properties" : {
+                      "benefitProgram" : {
+                        "type" : "string",
+                        "description" : "Indicates the pricing program under which benefit was offered. Pricing benefit defines the benefits which applied for the calculated fee or interest amount which can be waived, adjusted or overrides their original amounts",
+                        "maxLength" : 30
+                      },
+                      "benefitType" : {
+                        "type" : "string",
+                        "description" : "Indicates the nature of benefit. It can be adjust, override or waive",
+                        "maxLength" : 30
+                      },
+                      "benefitAmount" : {
+                        "type" : "string",
+                        "description" : "Indicates the quantum of benefit for the benefit type. Pricing benefit defines the benefits which applied for the calculated fee or interest amount which can be waived, adjusted or overrides their original amounts",
+                        "maxLength" : 30
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "chargeCurrency" : {
+            "type" : "string",
+            "description" : "Indicates the currency code of the charge account from where the fee is deducted",
+            "maxLength" : 30
+          }
+        }
+      }
+    },
+    "InterestRateResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/InterestRateResponseBody"
+        }
+      },
+      "description" : "InterestRateResponse"
+    },
+    "InterestRateResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "baseDetails" : {
+            "type" : "array",
+            "description" : "Indicates the identifier for base details in which system reference, base contract reference, event name, effective date and other related details are defined",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "systemReference" : {
+                  "type" : "string",
+                  "description" : "Contains the identifier for the system in which the event originated from. For ex, ‘Hogan’ or ‘TransactAccounts’ etc",
+                  "maxLength" : 30
+                },
+                "baseContractReference" : {
+                  "type" : "string",
+                  "description" : "Contains the identifier for the contract or account in which the event is raised. This would typically be a unique reference to identify the specific contract or account in the system",
+                  "maxLength" : 30
+                },
+                "companyReference" : {
+                  "type" : "string",
+                  "description" : "Contains the identifier of the underlying Entity or Company or Branch",
+                  "maxLength" : 30
+                },
+                "eventName" : {
+                  "type" : "string",
+                  "description" : "The name that is displayed for the event",
+                  "maxLength" : 30
+                },
+                "effectiveDate" : {
+                  "type" : "string",
+                  "description" : "Contains the identifier for the transaction date. Dates are expected in ‘YYYYMMDD’ format",
+                  "maxLength" : 30
+                },
+                "channel" : {
+                  "type" : "string",
+                  "description" : "Contains the channel in which the activity was performed. If pricing is not determined based on channel, then this is not significant",
+                  "maxLength" : 30
+                },
+                "branch" : {
+                  "type" : "string",
+                  "description" : "Contains the branch name/code in which the business activity was performed. If pricing is not determined based on branch, then this is not significant",
+                  "maxLength" : 30
+                },
+                "lineOfBusiness" : {
+                  "type" : "string",
+                  "description" : "Contains the line of business in which the activity was performed. If pricing is not determined based on line of business, then this is not significant",
+                  "maxLength" : 30
+                },
+                "transactionReference" : {
+                  "type" : "string",
+                  "description" : "Contains the identifier for the transaction in the core system",
+                  "maxLength" : 30
+                }
+              }
+            }
+          },
+          "rateDetails" : {
+            "type" : "array",
+            "description" : "Indicates the identifier for pricing benefit details in which benefit program, benefit amount and benefit type are defined. Pricing benefit defines the benefits which applied for the calculated fee or interest amount which can be waived, adjusted or overrides their original amounts",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "rateName" : {
+                  "type" : "string",
+                  "description" : "Specifies the name displayed for the interest rates",
+                  "maxLength" : 30
+                },
+                "rateDescription" : {
+                  "type" : "string",
+                  "description" : "Indicates the description of the rate name"
+                },
+                "originalRate" : {
+                  "type" : "string",
+                  "description" : "Indicates the original rate or base rate before pricing evaluation. Pricing Evaluation means fee or interest amount calculated based on the predefined rules applied for the contract. It will add or subtract the adjusted amount to the original fee or interest amount based on the predefined pricing operand and the rule value",
+                  "maxLength" : 30
+                },
+                "rateAdjusted" : {
+                  "type" : "string",
+                  "description" : "Indicates the adjusted rate which is calculated during pricing evaluation. Pricing Evaluation means fee or interest amount calculated based on the predefined rules applied for the contract. It will add or subtract the adjusted amount to the original fee or interest amount based on the predefined pricing operand and the rule value",
+                  "maxLength" : 30
+                },
+                "finalRate" : {
+                  "type" : "string",
+                  "description" : "Indicates the final rate after pricing evaluation. Pricing Evaluation means fee or interest amount calculated based on the predefined rules applied for the contract. It will add or subtract the adjusted amount to the original fee or interest amount based on the predefined pricing operand and the rule value",
+                  "maxLength" : 30
+                },
+                "rateType" : {
+                  "type" : "string",
+                  "description" : "Indicates whether a debit or credit type of interest passed. Allowed values are DEBIT or CREDIT",
+                  "maxLength" : 30
+                },
+                "rateDefinition" : {
+                  "type" : "string",
+                  "description" : "Indicates the rate calculation method. For exmaple, Fixed, Floating or Periodic",
+                  "maxLength" : 30
+                },
+                "benefitDetails" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object",
+                    "properties" : {
+                      "benefitName" : {
+                        "type" : "string",
+                        "description" : "Indicates the identifier for the name of the benefit(s) passed on to the customer/party. Example: Southern Region, Account Package, Mobile Channel",
+                        "maxLength" : 30
+                      },
+                      "benefitProgram" : {
+                        "type" : "string",
+                        "description" : "Indicates the pricing program under which benefit was offered. Pricing benefit defines the benefits which applied for the calculated fee or interest amount which can be waived, adjusted or overrides their original amounts",
+                        "maxLength" : 30
+                      },
+                      "benefitType" : {
+                        "type" : "string",
+                        "description" : "Indicates the nature of benefit. It can be adjust, override or waive",
+                        "maxLength" : 30
+                      },
+                      "benefitRate" : {
+                        "type" : "string",
+                        "description" : "Indicates the rate for benefit in terms of percentage. Pricing benefit defines the benefits which applied for the calculated fee or interest amount which can be waived, adjusted or overrides their original amounts",
+                        "maxLength" : 30
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "currency" : {
+            "type" : "string",
+            "description" : "Identifies the currency. E.g. USD, GBP etc",
+            "maxLength" : 30
+          }
+        }
+      }
+    },
+    "RequestRateResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/RequestRateResponseBody"
+        }
+      },
+      "description" : "RequestRateResponse"
+    },
+    "RequestRateResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "rateDetails" : {
+            "type" : "array",
+            "description" : "Indicates the identifier for pricing benefit details in which benefit program, benefit amount and benefit type are defined. Pricing benefit defines the benefits which applied for the calculated fee or interest amount which can be waived, adjusted or overrides their original amounts",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "rateName" : {
+                  "type" : "string",
+                  "description" : "Specifies the name displayed for the interest rates",
+                  "maxLength" : 30
+                },
+                "rateDescription" : {
+                  "type" : "string",
+                  "description" : "Indicates the description of the rate name"
+                },
+                "originalRate" : {
+                  "type" : "string",
+                  "description" : "Indicates the original rate or base rate before pricing evaluation. Pricing Evaluation means fee or interest amount calculated based on the predefined rules applied for the contract. It will add or subtract the adjusted amount to the original fee or interest amount based on the predefined pricing operand and the rule value",
+                  "maxLength" : 30
+                },
+                "rateAdjusted" : {
+                  "type" : "string",
+                  "description" : "Indicates the adjusted rate which is calculated during pricing evaluation. Pricing Evaluation means fee or interest amount calculated based on the predefined rules applied for the contract. It will add or subtract the adjusted amount to the original fee or interest amount based on the predefined pricing operand and the rule value",
+                  "maxLength" : 30
+                },
+                "finalRate" : {
+                  "type" : "string",
+                  "description" : "Indicates the final rate after pricing evaluation. Pricing Evaluation means fee or interest amount calculated based on the predefined rules applied for the contract. It will add or subtract the adjusted amount to the original fee or interest amount based on the predefined pricing operand and the rule value",
+                  "maxLength" : 30
+                },
+                "rateType" : {
+                  "type" : "string",
+                  "description" : "Indicates whether a debit or credit type of interest passed. Allowed values are DEBIT or CREDIT",
+                  "maxLength" : 30
+                },
+                "rateDefinition" : {
+                  "type" : "string",
+                  "description" : "Indicates the rate calculation method. For exmaple, Fixed, Floating or Periodic",
+                  "maxLength" : 30
+                },
+                "benefitDetails" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object",
+                    "properties" : {
+                      "benefitName" : {
+                        "type" : "string",
+                        "description" : "Indicates the identifier for the name of the benefit(s) passed on to the customer/party. Example: Southern Region, Account Package, Mobile Channel",
+                        "maxLength" : 30
+                      },
+                      "benefitProgram" : {
+                        "type" : "string",
+                        "description" : "Indicates the pricing program under which benefit was offered. Pricing benefit defines the benefits which applied for the calculated fee or interest amount which can be waived, adjusted or overrides their original amounts",
+                        "maxLength" : 30
+                      },
+                      "benefitType" : {
+                        "type" : "string",
+                        "description" : "Indicates the nature of benefit. It can be adjust, override or waive",
+                        "maxLength" : 30
+                      },
+                      "benefitRate" : {
+                        "type" : "string",
+                        "description" : "Indicates the rate for benefit in terms of percentage. Pricing benefit defines the benefits which applied for the calculated fee or interest amount which can be waived, adjusted or overrides their original amounts",
+                        "maxLength" : 30
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "productCurrency" : {
+            "type" : "string",
+            "description" : "Contains the product currency",
+            "maxLength" : 30
+          }
+        }
+      }
+    },
+    "EligibilityDetailsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/EligibilityDetailsResponseBody"
+        }
+      },
+      "description" : "EligibilityDetailsResponse"
+    },
+    "EligibilityDetailsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "partyDetails" : {
+            "type" : "array",
+            "description" : "Indicates the identifier for eligibility details in which rule name, rule message and rule pass are defined",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "partyId" : {
+                  "type" : "string",
+                  "description" : "Allows capturing of customers or person entities to be part of the relationship. If partyType is selected as Customer, then the system will allow only customer Ids to be captured into this field. If partyType is selected as Person or Entity, then system will allow only personEntity Ids to be captured into this field.",
+                  "maxLength" : 30
+                },
+                "partyRole" : {
+                  "type" : "string",
+                  "description" : "Contains the identifier used for the role played by the party or customer in the contract or account",
+                  "maxLength" : 30
+                },
+                "partyEligibilityPass" : {
+                  "type" : "string",
+                  "description" : "Indicates whether the elibility is passed for the customer or customer role. For example, rules like customer should be local resident, customer's age should be greater than 18, etc. It will be applied on the customer while creating new contract or account. Result will be Pass or Fail",
+                  "maxLength" : 30
+                },
+                "eligibilityDetails" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object",
+                    "properties" : {
+                      "ruleName" : {
+                        "type" : "string",
+                        "description" : "Name of the validation rule to be checked against an online or periodic activity."
+                      },
+                      "ruleMessage" : {
+                        "type" : "string",
+                        "description" : "Indicates the failure message, if the rule applied on the customer has failed",
+                        "maxLength" : 30
+                      },
+                      "rulePass" : {
+                        "type" : "string",
+                        "description" : "Indicates whether the individual rule passed for the customer or customer role. Result will be Pass or FailIndicates whether the individual rule passed for the customer or customer role. Result will be Pass or Fail",
+                        "maxLength" : 30
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "productId" : {
+            "type" : "string",
+            "description" : "Contains the unique identifier of the product, e.g. the product id of the arrangement account.",
+            "maxLength" : 30
+          },
+          "productName" : {
+            "type" : "string",
+            "description" : "Product name of the bank for this account, proprietary definition."
+          },
+          "effectiveDate" : {
+            "type" : "string",
+            "description" : "Contains the identifier for the transaction date. Dates are expected in ‘YYYYMMDD’ format",
+            "maxLength" : 30
+          },
+          "eligibilityPass" : {
+            "type" : "string",
+            "description" : "Indicates whether the customer passed the eligibility rule for the product. For example, rules like customer should be local resident, customer's age should be greater than 18, etc. It will be applied on the customers while creating new contract or account. Result will be Pass or Fail",
+            "maxLength" : 30
+          }
+        }
+      }
+    },
+    "TransactionPricingRequestResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/TransactionPricingRequestResponseBody"
+        }
+      },
+      "description" : "TransactionPricingRequestResponse"
+    },
+    "TransactionPricingRequestResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "baseDetails" : {
+            "type" : "array",
+            "description" : "Indicates the identifier for base details in which system reference, base contract reference, event name, effective date and other related details are defined",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "systemReference" : {
+                  "type" : "string",
+                  "description" : "Contains the identifier for the system in which the event originated from. For ex, ‘Hogan’ or ‘TransactAccounts’ etc",
+                  "maxLength" : 30
+                },
+                "baseContractReference" : {
+                  "type" : "string",
+                  "description" : "Contains the identifier for the contract or account in which the event is raised. This would typically be a unique reference to identify the specific contract or account in the system",
+                  "maxLength" : 30
+                },
+                "companyReference" : {
+                  "type" : "string",
+                  "description" : "Contains the identifier of the underlying Entity or Company or Branch",
+                  "maxLength" : 30
+                },
+                "eventName" : {
+                  "type" : "string",
+                  "description" : "The name that is displayed for the event",
+                  "maxLength" : 30
+                },
+                "effectiveDate" : {
+                  "type" : "string",
+                  "description" : "Contains the identifier for the transaction date. Dates are expected in ‘YYYYMMDD’ format",
+                  "maxLength" : 30
+                },
+                "channel" : {
+                  "type" : "string",
+                  "description" : "Contains the channel in which the activity was performed. If pricing is not determined based on channel, then this is not significant",
+                  "maxLength" : 30
+                },
+                "branch" : {
+                  "type" : "string",
+                  "description" : "Contains the branch name/code in which the business activity was performed. If pricing is not determined based on branch, then this is not significant",
+                  "maxLength" : 30
+                },
+                "lineOfBusiness" : {
+                  "type" : "string",
+                  "description" : "Contains the line of business in which the activity was performed. If pricing is not determined based on line of business, then this is not significant",
+                  "maxLength" : 30
+                }
+              }
+            }
+          },
+          "context" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "contextName" : {
+                  "type" : "string",
+                  "description" : "Field name returned by the payment engine (TPH) for information or further processing.",
+                  "maxLength" : 30
+                },
+                "contextValue" : {
+                  "type" : "string",
+                  "description" : "Field value returned by the payment engine (TPH) for information or further processing.",
+                  "maxLength" : 30
+                }
+              }
+            }
+          },
+          "feeDetails" : {
+            "type" : "array",
+            "description" : "Indicates the identifier for pricing benefit details in which benefit program, benefit amount and benefit type are defined. Pricing benefit defines the benefits which applied for the calculated fee or interest amount which can be waived, adjusted or overrides their original amounts",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "feeName" : {
+                  "type" : "string",
+                  "description" : "Indicates the description for type of fee which is applied for payment instruction",
+                  "maxLength" : 30
+                },
+                "feeDescription" : {
+                  "type" : "string",
+                  "description" : "Indicates the description of the fee name"
+                },
+                "originalFee" : {
+                  "type" : "string",
+                  "description" : "Indicates the standard fee amount before pricing evaluation. Pricing Evaluation means fee or interest amount calculated based on the predefined rules applied for the contract. It will add or subtract the adjusted amount to the original fee or interest amount based on the predefined pricing operand and the rule value",
+                  "maxLength" : 30
+                },
+                "feeAdjusted" : {
+                  "type" : "string",
+                  "description" : "Indicates the total signed adjustment amount which is calculated during pricing evaluation. Pricing Evaluation means fee or interest amount calculated based on the predefined rules applied for the contract. It will add or subtract the adjusted amount to the original fee or interest amount based on the predefined pricing operand and the rule value",
+                  "maxLength" : 30
+                },
+                "finalFee" : {
+                  "type" : "string",
+                  "description" : "Indicates the final fee after pricing evaluation. This would typically be unsigned. Pricing Evaluation means fee or interest amount calculated based on the predefined rules applied for the contract. It will add or subtract the adjusted amount to the original fee or interest amount based on the predefined pricing operand and the rule value",
+                  "maxLength" : 30
+                },
+                "feeType" : {
+                  "type" : "string",
+                  "description" : "Indicates the type of fee which is applied for payment instruction",
+                  "maxLength" : 30
+                },
+                "feeApplicationType" : {
+                  "type" : "string",
+                  "description" : "Indicates whether the fee needs to be made Due or Pay or Capitalise. Allowed values are DUE, PAY or CAPITALISE",
+                  "maxLength" : 30
+                },
+                "benefitDetails" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object",
+                    "properties" : {
+                      "benefitProgram" : {
+                        "type" : "string",
+                        "description" : "Indicates the pricing program under which benefit was offered. Pricing benefit defines the benefits which applied for the calculated fee or interest amount which can be waived, adjusted or overrides their original amounts",
+                        "maxLength" : 30
+                      },
+                      "benefitType" : {
+                        "type" : "string",
+                        "description" : "Indicates the nature of benefit. It can be adjust, override or waive",
+                        "maxLength" : 30
+                      },
+                      "benefitAmount" : {
+                        "type" : "string",
+                        "description" : "Indicates the quantum of benefit for the benefit type. Pricing benefit defines the benefits which applied for the calculated fee or interest amount which can be waived, adjusted or overrides their original amounts",
+                        "maxLength" : 30
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "transactionCurrency" : {
+            "type" : "string",
+            "description" : "Indicates the currency of the transaction. For example GBP, USD etc.",
+            "maxLength" : 30
+          },
+          "transactionAmount" : {
+            "type" : "string",
+            "description" : "Contains the transaction amount. This is based on the currency, either local or foreign currency",
+            "maxLength" : 30
+          },
+          "contractAmount" : {
+            "type" : "string",
+            "description" : "Indicates the amount of the transaction in contract currency",
+            "maxLength" : 30
+          },
+          "chargeCurrency" : {
+            "type" : "string",
+            "description" : "Indicates the currency code of the charge account from where the fee is deducted",
+            "maxLength" : 30
+          }
+        }
+      }
+    },
+    "NewActivityPricingResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/NewActivityPricingResponseBody"
+        }
+      },
+      "description" : "NewActivityPricingResponse"
+    },
+    "NewActivityPricingResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "baseDetails" : {
+            "type" : "array",
+            "description" : "Identifier of individuals in terms of Customers or Person or Entities with reference to the bank",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "companyReference" : {
+                  "type" : "string",
+                  "description" : "Contains the identifier of the underlying Entity or Company or Branch",
+                  "maxLength" : 30
+                },
+                "eventName" : {
+                  "type" : "string",
+                  "description" : "The name that is displayed for the event",
+                  "maxLength" : 30
+                },
+                "effectiveDate" : {
+                  "type" : "string",
+                  "description" : "Contains the identifier for the transaction date. Dates are expected in ‘YYYYMMDD’ format",
+                  "maxLength" : 30
+                },
+                "channel" : {
+                  "type" : "string",
+                  "description" : "Contains the channel in which the activity was performed. If pricing is not determined based on channel, then this is not significant",
+                  "maxLength" : 30
+                },
+                "branch" : {
+                  "type" : "string",
+                  "description" : "Contains the branch name/code in which the business activity was performed. If pricing is not determined based on branch, then this is not significant",
+                  "maxLength" : 30
+                },
+                "lineOfBusiness" : {
+                  "type" : "string",
+                  "description" : "Contains the line of business in which the activity was performed. If pricing is not determined based on line of business, then this is not significant",
+                  "maxLength" : 30
+                },
+                "productName" : {
+                  "type" : "string",
+                  "description" : "Product name of the bank for this account, proprietary definition.",
+                  "maxLength" : 30
+                },
+                "party" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object",
+                    "properties" : {
+                      "partyReference" : {
+                        "type" : "string",
+                        "description" : "Contains the identifier used for the party or customer",
+                        "maxLength" : 30
+                      },
+                      "partyRole" : {
+                        "type" : "string",
+                        "description" : "Contains the identifier used for the role played by the party or customer in the contract or account",
+                        "maxLength" : 30
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "feeDetails" : {
+            "type" : "array",
+            "description" : "Indicates the identifier for pricing benefit details in which benefit program, benefit amount and benefit type are defined. Pricing benefit defines the benefits which applied for the calculated fee or interest amount which can be waived, adjusted or overrides their original amounts",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "feeName" : {
+                  "type" : "string",
+                  "description" : "Indicates the description for type of fee which is applied for payment instruction",
+                  "maxLength" : 30
+                },
+                "feeDescription" : {
+                  "type" : "string",
+                  "description" : "Indicates the description of the fee name"
+                },
+                "originalFee" : {
+                  "type" : "string",
+                  "description" : "Indicates the standard fee amount before pricing evaluation. Pricing Evaluation means fee or interest amount calculated based on the predefined rules applied for the contract. It will add or subtract the adjusted amount to the original fee or interest amount based on the predefined pricing operand and the rule value",
+                  "maxLength" : 30
+                },
+                "feeAdjusted" : {
+                  "type" : "string",
+                  "description" : "Indicates the total signed adjustment amount which is calculated during pricing evaluation. Pricing Evaluation means fee or interest amount calculated based on the predefined rules applied for the contract. It will add or subtract the adjusted amount to the original fee or interest amount based on the predefined pricing operand and the rule value",
+                  "maxLength" : 30
+                },
+                "finalFee" : {
+                  "type" : "string",
+                  "description" : "Indicates the final fee after pricing evaluation. This would typically be unsigned. Pricing Evaluation means fee or interest amount calculated based on the predefined rules applied for the contract. It will add or subtract the adjusted amount to the original fee or interest amount based on the predefined pricing operand and the rule value",
+                  "maxLength" : 30
+                },
+                "feeType" : {
+                  "type" : "string",
+                  "description" : "Indicates the type of fee which is applied for payment instruction",
+                  "maxLength" : 30
+                },
+                "feeApplicationType" : {
+                  "type" : "string",
+                  "description" : "Indicates whether the fee needs to be made Due or Pay or Capitalise. Allowed values are DUE, PAY or CAPITALISE",
+                  "maxLength" : 30
+                },
+                "benefitDetails" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object",
+                    "properties" : {
+                      "benefitProgram" : {
+                        "type" : "string",
+                        "description" : "Indicates the pricing program under which benefit was offered. Pricing benefit defines the benefits which applied for the calculated fee or interest amount which can be waived, adjusted or overrides their original amounts",
+                        "maxLength" : 30
+                      },
+                      "benefitType" : {
+                        "type" : "string",
+                        "description" : "Indicates the nature of benefit. It can be adjust, override or waive",
+                        "maxLength" : 30
+                      },
+                      "benefitAmount" : {
+                        "type" : "string",
+                        "description" : "Indicates the quantum of benefit for the benefit type. Pricing benefit defines the benefits which applied for the calculated fee or interest amount which can be waived, adjusted or overrides their original amounts",
+                        "maxLength" : 30
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "chargeCurrency" : {
+            "type" : "string",
+            "description" : "Indicates the currency code of the charge account from where the fee is deducted",
+            "maxLength" : 30
+          }
+        }
+      }
+    },
+    "PricingDetailsEventListResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/PricingDetailsEventListResponseBody"
+        }
+      },
+      "description" : "PricingDetailsEventListResponse"
+    },
+    "PricingDetailsEventListResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "contractDetails" : {
+            "type" : "array",
+            "description" : "Indicates the identifier for party details in which party id and party owner are defined",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "arrangementId" : {
+                  "type" : "string",
+                  "description" : "Indicates an unique identifier of an account",
+                  "maxLength" : 30
+                },
+                "baseContractReference" : {
+                  "type" : "string",
+                  "description" : "Contains the identifier for the contract or account in which the event is raised. This would typically be a unique reference to identify the specific contract or account in the system",
+                  "maxLength" : 30
+                },
+                "systemReference" : {
+                  "type" : "string",
+                  "description" : "Contains the identifier for the system in which the event originated from. For ex, ‘Hogan’ or ‘TransactAccounts’ etc",
+                  "maxLength" : 30
+                },
+                "productId" : {
+                  "type" : "string",
+                  "description" : "Contains the unique identifier of the product, e.g. the product id of the arrangement account.",
+                  "maxLength" : 30
+                },
+                "productName" : {
+                  "type" : "string",
+                  "description" : "Product name of the bank for this account, proprietary definition."
+                },
+                "creationDate" : {
+                  "type" : "string",
+                  "description" : "Contains the creation date.",
+                  "maxLength" : 30
+                },
+                "partyDetails" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object",
+                    "properties" : {
+                      "partyId" : {
+                        "type" : "string",
+                        "description" : "Allows capturing of customers or person entities to be part of the relationship. If partyType is selected as Customer, then the system will allow only customer Ids to be captured into this field. If partyType is selected as Person or Entity, then system will allow only personEntity Ids to be captured into this field.",
+                        "maxLength" : 30
+                      },
+                      "partyRole" : {
+                        "type" : "string",
+                        "description" : "Contains the identifier used for the role played by the party or customer in the contract or account",
+                        "maxLength" : 30
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "eventDetails" : {
+            "type" : "array",
+            "description" : "Indicates the identifier for event details in which transaction reference, event name and effective date are defined",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "effectiveDate" : {
+                  "type" : "string",
+                  "description" : "Contains the identifier for the transaction date. Dates are expected in ‘YYYYMMDD’ format",
+                  "maxLength" : 30
+                },
+                "eventName" : {
+                  "type" : "string",
+                  "description" : "The name that is displayed for the event",
+                  "maxLength" : 30
+                },
+                "transactionReference" : {
+                  "type" : "string",
+                  "description" : "Contains the identifier for the transaction in the core system",
+                  "maxLength" : 30
+                }
+              }
+            }
+          },
+          "feeDetails" : {
+            "type" : "array",
+            "description" : "Indicates the identifier for pricing benefit details in which benefit program, benefit amount and benefit type are defined. Pricing benefit defines the benefits which applied for the calculated fee or interest amount which can be waived, adjusted or overrides their original amounts",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "feeName" : {
+                  "type" : "string",
+                  "description" : "Indicates the description for type of fee which is applied for payment instruction",
+                  "maxLength" : 30
+                },
+                "feeDescription" : {
+                  "type" : "string",
+                  "description" : "Indicates the description of the fee name"
+                },
+                "originalFee" : {
+                  "type" : "string",
+                  "description" : "Indicates the standard fee amount before pricing evaluation. Pricing Evaluation means fee or interest amount calculated based on the predefined rules applied for the contract. It will add or subtract the adjusted amount to the original fee or interest amount based on the predefined pricing operand and the rule value",
+                  "maxLength" : 30
+                },
+                "feeAdjusted" : {
+                  "type" : "string",
+                  "description" : "Indicates the total signed adjustment amount which is calculated during pricing evaluation. Pricing Evaluation means fee or interest amount calculated based on the predefined rules applied for the contract. It will add or subtract the adjusted amount to the original fee or interest amount based on the predefined pricing operand and the rule value",
+                  "maxLength" : 30
+                },
+                "finalFee" : {
+                  "type" : "string",
+                  "description" : "Indicates the final fee after pricing evaluation. This would typically be unsigned. Pricing Evaluation means fee or interest amount calculated based on the predefined rules applied for the contract. It will add or subtract the adjusted amount to the original fee or interest amount based on the predefined pricing operand and the rule value",
+                  "maxLength" : 30
+                },
+                "feeType" : {
+                  "type" : "string",
+                  "description" : "Indicates the type of fee which is applied for payment instruction",
+                  "maxLength" : 30
+                },
+                "feeApplicationType" : {
+                  "type" : "string",
+                  "description" : "Indicates whether the fee needs to be made Due or Pay or Capitalise. Allowed values are DUE, PAY or CAPITALISE",
+                  "maxLength" : 30
+                },
+                "benefitDetails" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object",
+                    "properties" : {
+                      "benefitProgram" : {
+                        "type" : "string",
+                        "description" : "Indicates the pricing program under which benefit was offered. Pricing benefit defines the benefits which applied for the calculated fee or interest amount which can be waived, adjusted or overrides their original amounts",
+                        "maxLength" : 30
+                      },
+                      "benefitType" : {
+                        "type" : "string",
+                        "description" : "Indicates the nature of benefit. It can be adjust, override or waive",
+                        "maxLength" : 30
+                      },
+                      "benefitAmount" : {
+                        "type" : "string",
+                        "description" : "Indicates the quantum of benefit for the benefit type. Pricing benefit defines the benefits which applied for the calculated fee or interest amount which can be waived, adjusted or overrides their original amounts",
+                        "maxLength" : 30
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "chargeCurrency" : {
+            "type" : "string",
+            "description" : "Indicates the currency code of the charge account from where the fee is deducted",
+            "maxLength" : 30
+          }
+        }
+      }
+    },
+    "PackagePeriodicPricingResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/PackagePeriodicPricingResponseBody"
+        }
+      },
+      "description" : "PackagePeriodicPricingResponse"
+    },
+    "PackagePeriodicPricingResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "contractDetails" : {
+            "type" : "array",
+            "description" : "Indicates the identifier for party details in which party id and party owner are defined",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "arrangementId" : {
+                  "type" : "string",
+                  "description" : "Indicates an unique identifier of an account",
+                  "maxLength" : 30
+                },
+                "baseContractReference" : {
+                  "type" : "string",
+                  "description" : "Contains the identifier for the contract or account in which the event is raised. This would typically be a unique reference to identify the specific contract or account in the system",
+                  "maxLength" : 30
+                },
+                "systemReference" : {
+                  "type" : "string",
+                  "description" : "Contains the identifier for the system in which the event originated from. For ex, ‘Hogan’ or ‘TransactAccounts’ etc",
+                  "maxLength" : 30
+                },
+                "productId" : {
+                  "type" : "string",
+                  "description" : "Contains the unique identifier of the product, e.g. the product id of the arrangement account.",
+                  "maxLength" : 30
+                },
+                "productName" : {
+                  "type" : "string",
+                  "description" : "Product name of the bank for this account, proprietary definition."
+                },
+                "creationDate" : {
+                  "type" : "string",
+                  "description" : "Contains the creation date.",
+                  "maxLength" : 30
+                },
+                "partyDetails" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object",
+                    "properties" : {
+                      "partyId" : {
+                        "type" : "string",
+                        "description" : "Allows capturing of customers or person entities to be part of the relationship. If partyType is selected as Customer, then the system will allow only customer Ids to be captured into this field. If partyType is selected as Person or Entity, then system will allow only personEntity Ids to be captured into this field.",
+                        "maxLength" : 30
+                      },
+                      "partyRole" : {
+                        "type" : "string",
+                        "description" : "Contains the identifier used for the role played by the party or customer in the contract or account"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "eventDetails" : {
+            "type" : "array",
+            "description" : "Indicates the identifier for event details in which transaction reference, event name and effective date are defined",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "effectiveDate" : {
+                  "type" : "string",
+                  "description" : "Contains the identifier for the transaction date. Dates are expected in ‘YYYYMMDD’ format",
+                  "maxLength" : 30
+                },
+                "eventName" : {
+                  "type" : "string",
+                  "description" : "The name that is displayed for the event",
+                  "maxLength" : 30
+                },
+                "transactionReference" : {
+                  "type" : "string",
+                  "description" : "Contains the identifier for the transaction in the core system",
+                  "maxLength" : 30
+                }
+              }
+            }
+          },
+          "feeDetails" : {
+            "type" : "array",
+            "description" : "Indicates the identifier for individual fee details in which base fee name, fee description, fee amount, fee adjusted and fee net amount are defined",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "feeName" : {
+                  "type" : "string",
+                  "description" : "Indicates the description for type of fee which is applied for payment instruction",
+                  "maxLength" : 30
+                },
+                "feeDescription" : {
+                  "type" : "string",
+                  "description" : "Indicates the description of the fee name"
+                },
+                "originalFee" : {
+                  "type" : "string",
+                  "description" : "Indicates the standard fee amount before pricing evaluation. Pricing Evaluation means fee or interest amount calculated based on the predefined rules applied for the contract. It will add or subtract the adjusted amount to the original fee or interest amount based on the predefined pricing operand and the rule value",
+                  "maxLength" : 30
+                },
+                "feeAdjusted" : {
+                  "type" : "string",
+                  "description" : "Indicates the total signed adjustment amount which is calculated during pricing evaluation. Pricing Evaluation means fee or interest amount calculated based on the predefined rules applied for the contract. It will add or subtract the adjusted amount to the original fee or interest amount based on the predefined pricing operand and the rule value",
+                  "maxLength" : 30
+                },
+                "finalFee" : {
+                  "type" : "string",
+                  "description" : "Indicates the final fee after pricing evaluation. This would typically be unsigned. Pricing Evaluation means fee or interest amount calculated based on the predefined rules applied for the contract. It will add or subtract the adjusted amount to the original fee or interest amount based on the predefined pricing operand and the rule value",
+                  "maxLength" : 30
+                },
+                "feeType" : {
+                  "type" : "string",
+                  "description" : "Indicates the type of fee which is applied for payment instruction",
+                  "maxLength" : 30
+                },
+                "baseFeeAdjustment" : {
+                  "type" : "string",
+                  "description" : "Indicates the final adjusted amount for the periodic charge. Periodic charge can be calculated based on the individual fee amount and pricing benefit also applied on it if defined. Pricing benefit defines the benefits applied for the fee or interest amount calculated which can be waived, adjusted or override their original amounts",
+                  "maxLength" : 30
+                },
+                "benefitDetails" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object",
+                    "properties" : {
+                      "feeApplicationType" : {
+                        "type" : "string",
+                        "description" : "Indicates whether the fee needs to be made Due or Pay or Capitalise. Allowed values are DUE, PAY or CAPITALISE",
+                        "maxLength" : 30
+                      },
+                      "benefitProgram" : {
+                        "type" : "string",
+                        "description" : "Indicates the pricing program under which benefit was offered. Pricing benefit defines the benefits which applied for the calculated fee or interest amount which can be waived, adjusted or overrides their original amounts",
+                        "maxLength" : 30
+                      },
+                      "benefitType" : {
+                        "type" : "string",
+                        "description" : "Indicates the nature of benefit. It can be adjust, override or waive",
+                        "maxLength" : 30
+                      },
+                      "benefitAmount" : {
+                        "type" : "string",
+                        "description" : "Indicates the quantum of benefit for the benefit type. Pricing benefit defines the benefits which applied for the calculated fee or interest amount which can be waived, adjusted or overrides their original amounts",
+                        "maxLength" : 30
+                      }
+                    }
+                  }
+                },
+                "individualFeeDetails" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object",
+                    "properties" : {
+                      "baseFeeName" : {
+                        "type" : "string",
+                        "description" : "Indicates the individual fee name for the periodic charge. Periodic charge can be calculated based on the individual fee amount and pricing benefit also applied on it if defined. Pricing benefit defines the benefits applied for the fee or interest amount calculated which can be waived, adjusted or override their original amounts",
+                        "maxLength" : 30
+                      },
+                      "baseFeeDescription" : {
+                        "type" : "string",
+                        "description" : "Indicates the individual fee name description for the periodic charge. Periodic charge can be calculated based on the individual fee amount and pricing benefit also applied on it if defined. Pricing benefit defines the benefits applied for the fee or interest amount calculated which can be waived, adjusted or override their original amounts"
+                      },
+                      "baseFeeAmount" : {
+                        "type" : "string",
+                        "description" : "Indicates the individual fee amount for the periodic charge. Periodic charge can be calculated based on the individual fee amount and pricing benefit also applied on it if defined. Pricing benefit defines the benefits applied for the fee or interest amount calculated which can be waived, adjusted or override their original amounts",
+                        "maxLength" : 30
+                      },
+                      "baseFeeNetAmount" : {
+                        "type" : "string",
+                        "description" : "Indicates the final amount after adjustments are applied for the periodic charge. Periodic charge can be calculated based on the individual fee amount and pricing benefit also applied on it if defined. Pricing benefit defines the benefits applied for the fee or interest amount calculated which can be waived, adjusted or override their original amounts",
+                        "maxLength" : 30
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "periodStartDate" : {
+            "type" : "string",
+            "description" : "Indicates the date which can be used as the start date for computing the period charge",
+            "maxLength" : 30
+          },
+          "chargeCurrency" : {
+            "type" : "string",
+            "description" : "Indicates the currency code of the charge account from where the fee is deducted",
+            "maxLength" : 30
+          }
+        }
+      }
+    },
+    "PackageDetailsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/PackageDetailsResponseBody"
+        }
+      },
+      "description" : "PackageDetailsResponse"
+    },
+    "PackageDetailsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "partyDetails" : {
+            "type" : "array",
+            "description" : "Indicates the identifier for party details in which party id and party owner are defined",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "partyId" : {
+                  "type" : "string",
+                  "description" : "Allows capturing of customers or person entities to be part of the relationship. If partyType is selected as Customer, then the system will allow only customer Ids to be captured into this field. If partyType is selected as Person or Entity, then system will allow only personEntity Ids to be captured into this field.",
+                  "maxLength" : 30
+                },
+                "partyRole" : {
+                  "type" : "string",
+                  "description" : "Contains the identifier used for the role played by the party or customer in the contract or account",
+                  "maxLength" : 30
+                }
+              }
+            }
+          },
+          "packageDetails" : {
+            "type" : "array",
+            "description" : "Indicates the identifier for package details in which base contract reference, systme reference, productId are defined",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "productId" : {
+                  "type" : "string",
+                  "description" : "Contains the unique identifier of the product, e.g. the product id of the arrangement account.",
+                  "maxLength" : 30
+                },
+                "productName" : {
+                  "type" : "string",
+                  "description" : "Product name of the bank for this account, proprietary definition.",
+                  "maxLength" : 30
+                },
+                "baseContractReference" : {
+                  "type" : "string",
+                  "description" : "Contains the identifier for the contract or account in which the event is raised. This would typically be a unique reference to identify the specific contract or account in the system",
+                  "maxLength" : 30
+                },
+                "systemReference" : {
+                  "type" : "string",
+                  "description" : "Contains the identifier for the system in which the event originated from. For ex, ‘Hogan’ or ‘TransactAccounts’ etc",
+                  "maxLength" : 30
+                }
+              }
+            }
+          },
+          "packageId" : {
+            "type" : "string",
+            "description" : "Indicates the arrangement reference of the package",
+            "maxLength" : 30
+          },
+          "packageProduct" : {
+            "type" : "string",
+            "description" : "Contains the unique identifier of the product for the package or bundle. It is required at the time of package or bundle creation. It contains the predefined condition for fees, interest, pricing conditions, etc",
+            "maxLength" : 30
+          },
+          "packageProductName" : {
+            "type" : "string",
+            "description" : "Contains the unique identifier of the product for the package or bundle"
+          },
+          "creationDate" : {
+            "type" : "string",
+            "description" : "Contains the creation date.",
+            "maxLength" : 30
+          }
+        }
+      }
+    },
+    "CustomerHeldContractsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/CustomerHeldContractsResponseBody"
+        }
+      },
+      "description" : "CustomerHeldContractsResponse"
+    },
+    "CustomerHeldContractsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "partyDetails" : {
+            "type" : "array",
+            "description" : "Indicates the identifier for party details in which party id and party owner are defined",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "packageProductName" : {
+                  "type" : "string",
+                  "description" : "Contains the unique identifier of the product for the package or bundle",
+                  "maxLength" : 30
+                },
+                "partyId" : {
+                  "type" : "string",
+                  "description" : "Allows capturing of customers or person entities to be part of the relationship. If partyType is selected as Customer, then the system will allow only customer Ids to be captured into this field. If partyType is selected as Person or Entity, then system will allow only personEntity Ids to be captured into this field.",
+                  "maxLength" : 30
+                },
+                "partyRole" : {
+                  "type" : "string",
+                  "description" : "Contains the identifier used for the role played by the party or customer in the contract or account",
+                  "maxLength" : 30
+                }
+              }
+            }
+          },
+          "arrangementId" : {
+            "type" : "string",
+            "description" : "Indicates an unique identifier of an account",
+            "maxLength" : 30
+          },
+          "baseContractReference" : {
+            "type" : "string",
+            "description" : "Contains the identifier for the contract or account in which the event is raised. This would typically be a unique reference to identify the specific contract or account in the system",
+            "maxLength" : 30
+          },
+          "systemReference" : {
+            "type" : "string",
+            "description" : "Contains the identifier for the system in which the event originated from. For ex, ‘Hogan’ or ‘TransactAccounts’ etc",
+            "maxLength" : 30
+          },
+          "productId" : {
+            "type" : "string",
+            "description" : "Contains the unique identifier of the product, e.g. the product id of the arrangement account.",
+            "maxLength" : 30
+          },
+          "productName" : {
+            "type" : "string",
+            "description" : "Product name of the bank for this account, proprietary definition."
+          },
+          "creationDate" : {
+            "type" : "string",
+            "description" : "Contains the creation date.",
+            "maxLength" : 30
+          },
+          "packageId" : {
+            "type" : "string",
+            "description" : "Indicates the arrangement reference of the package",
+            "maxLength" : 30
+          }
+        }
+      }
+    },
+    "ContractEventListResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ContractEventListResponseBody"
+        }
+      },
+      "description" : "ContractEventListResponse"
+    },
+    "ContractEventListResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "partyDetails" : {
+            "type" : "array",
+            "description" : "Indicates the identifier for party details in which party id and party owner are defined",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "partyId" : {
+                  "type" : "string",
+                  "description" : "Allows capturing of customers or person entities to be part of the relationship. If partyType is selected as Customer, then the system will allow only customer Ids to be captured into this field. If partyType is selected as Person or Entity, then system will allow only personEntity Ids to be captured into this field.",
+                  "maxLength" : 30
+                },
+                "partyRole" : {
+                  "type" : "string",
+                  "description" : "Contains the identifier used for the role played by the party or customer in the contract or account",
+                  "maxLength" : 30
+                }
+              }
+            }
+          },
+          "eventDetails" : {
+            "type" : "array",
+            "description" : "Indicates the identifier for event details in which transaction reference, event name and effective date are defined",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "effectiveDate" : {
+                  "type" : "string",
+                  "description" : "Contains the identifier for the transaction date. Dates are expected in ‘YYYYMMDD’ format",
+                  "maxLength" : 30
+                },
+                "eventName" : {
+                  "type" : "string",
+                  "description" : "The name that is displayed for the event",
+                  "maxLength" : 30
+                },
+                "transactionReference" : {
+                  "type" : "string",
+                  "description" : "Contains the identifier for the transaction in the core system",
+                  "maxLength" : 30
+                },
+                "baseTransactionReference" : {
+                  "type" : "string",
+                  "description" : "Indicates the transaction reference which is triggered from external system like ‘Hogan’ or ‘TransactAccounts’ etc",
+                  "maxLength" : 30
+                }
+              }
+            }
+          },
+          "arrangementId" : {
+            "type" : "string",
+            "description" : "Indicates an unique identifier of an account",
+            "maxLength" : 30
+          },
+          "baseContractReference" : {
+            "type" : "string",
+            "description" : "Contains the identifier for the contract or account in which the event is raised. This would typically be a unique reference to identify the specific contract or account in the system",
+            "maxLength" : 30
+          },
+          "systemReference" : {
+            "type" : "string",
+            "description" : "Contains the identifier for the system in which the event originated from. For ex, ‘Hogan’ or ‘TransactAccounts’ etc",
+            "maxLength" : 30
+          },
+          "productId" : {
+            "type" : "string",
+            "description" : "Contains the unique identifier of the product, e.g. the product id of the arrangement account.",
+            "maxLength" : 30
+          },
+          "productName" : {
+            "type" : "string",
+            "description" : "Product name of the bank for this account, proprietary definition."
+          },
+          "creationDate" : {
+            "type" : "string",
+            "description" : "Contains the creation date.",
+            "maxLength" : 30
+          }
+        }
+      }
+    }
+  }
+}

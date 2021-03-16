@@ -1,0 +1,258 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Allows to view the Security Movements of the Portfolio",
+    "version" : "v1.0.0",
+    "title" : "Security Movements"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "apiKey" : [ ]
+  } ],
+  "paths" : {
+    "/holdings/securityMovements/portfolios/{portfolioId}" : {
+      "get" : {
+        "summary" : "Allows to view the Security Movements of the Portfolio",
+        "description" : "Allows to view the Security Movements of the Portfolio which can be further filtered by referenceNumber/instrumentId",
+        "operationId" : "getSecurityMovementsByPortfolio",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "portfolioId",
+          "in" : "path",
+          "description" : "Id of the portfolio or security account",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "100271-1"
+        }, {
+          "name" : "referenceNumber",
+          "in" : "query",
+          "description" : "Reference Numbers",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "instrumentId",
+          "in" : "query",
+          "description" : "The identifier of the instrument",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "SecurityMovementsByPortfolioResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SecurityMovementsByPortfolioResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "apiKey" : {
+      "type" : "apiKey",
+      "name" : "Authorization",
+      "in" : "header"
+    }
+  },
+  "definitions" : {
+    "QueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "parse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records per page"
+        },
+        "page_start" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The record from which the response should be displayed"
+        },
+        "total_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records present"
+        },
+        "page_token" : {
+          "type" : "string",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request"
+        }
+      }
+    },
+    "SecurityMovementsByPortfolioResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/SecurityMovementsByPortfolioResponseBody"
+        }
+      },
+      "description" : "SecurityMovementsByPortfolioResponse"
+    },
+    "SecurityMovementsByPortfolioResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "instrumentId" : {
+            "type" : "string",
+            "description" : "The identifier of the instrument",
+            "maxLength" : 10
+          },
+          "instrumentName" : {
+            "type" : "string",
+            "description" : "The name that is displayed for the instrument, taken from the Security Master"
+          },
+          "CUSIP" : {
+            "type" : "string",
+            "description" : "Committee on Uniform Security Identification Procedures number for the Instrument"
+          },
+          "ISIN" : {
+            "type" : "string",
+            "description" : "The International Securities Identification Number of the instrument"
+          },
+          "tradeDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "Standard date field which records trade date of the account"
+          },
+          "valueDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "Shows the date on which the underlying accounting entry is to be given value (for interest purposes)."
+          },
+          "referenceNumber" : {
+            "type" : "string",
+            "description" : "Reference Numbers"
+          },
+          "currentStatus" : {
+            "type" : "string",
+            "description" : "Indicates the Status of the record,U - If it is Unauthorised,D - If it is Deleted,R - If it is Reversed",
+            "maxLength" : 1
+          },
+          "transactionName" : {
+            "type" : "string",
+            "description" : "The transaction description",
+            "maxLength" : 35
+          },
+          "tradeCurrency" : {
+            "type" : "string",
+            "description" : "The trade currency is the settlement currency for the trade",
+            "maxLength" : 3
+          },
+          "price" : {
+            "type" : "number",
+            "description" : "The Price at which the nominal amount of the Security is to be valued for the transaction."
+          },
+          "quantity" : {
+            "type" : "number",
+            "description" : "The nominal quantity"
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "parse_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,584 @@
+{
+    "swagger": "2.0",
+    "info":
+    {
+        "description": "API to update Open Banking directory notifications. This will also accept broadcast notification from PRETA system. The PRETA Open Banking Europe has been launched to support Payment Service Providers (PSPs) and Third Party Providers (TPPs) in meeting the Access to Account (XS2A) requirements of PSD2.",
+        "version": "v1.0.0",
+        "title": "PSD II Open banking directory services"
+    },
+    "host": "api.server.com",
+    "basePath": "/api/v1.0.0/",
+    "tags": [ ],
+    "schemes": [ "http", "https" ],
+    "security": [
+    {
+        "basicAuth": [ ]
+    },
+    {
+        "apiKey": [ ]
+    } ],
+    "paths":
+    {
+        "/reference/PSD2/OpenBankingDirectories":
+        {
+            "post":
+            {
+                "tags": [ ],
+                "summary": "Receives broadcast information",
+                "description": "API to accept broadcast notification from PRETA system.  This API shall be linked to 'updateOBDNotification' published API in accordance with the Open Banking standards to update the incoming notifications.",
+                "operationId": "getPRETAOBDNotification",
+                "produces": [ "application/json" ],
+                "parameters": [
+                {
+                    "in": "body",
+                    "name": "payload",
+                    "description": "body Payload",
+                    "required": true,
+                    "schema":
+                    {
+                        "$ref": "#/definitions/PRETAOBDNotification"
+                    }
+                },
+                {
+                    "name": "validate_only",
+                    "in": "query",
+                    "description": "The identifier to indicate if it is set to only validate or not.",
+                    "required": false,
+                    "type": "boolean"
+                },
+                {
+                    "name": "credentials",
+                    "in": "header",
+                    "description": "Username and password to authenticate the API against core-banking.",
+                    "required": false,
+                    "type": "string"
+                },
+                {
+                    "name": "companyId",
+                    "in": "header",
+                    "description": "The identifier of the underlying Entity/Company/Branch.",
+                    "required": false,
+                    "type": "string"
+                },
+                {
+                    "name": "deviceId",
+                    "in": "header",
+                    "description": "Identifies the device type",
+                    "required": false,
+                    "type": "string"
+                },
+                {
+                    "name": "userRole",
+                    "in": "header",
+                    "description": "User who initiated the transaction",
+                    "required": false,
+                    "type": "string"
+                } ],
+                "responses":
+                {
+                    "200":
+                    {
+                        "description": "PRETAOBDNotificationResponse",
+                        "schema":
+                        {
+                            "$ref": "#/definitions/PRETAOBDNotificationResponse"
+                        }
+                    },
+                    "default":
+                    {
+                        "description": "ScreenErrorResponse",
+                        "schema":
+                        {
+                            "$ref": "#/definitions/ScreenErrorResponse"
+                        }
+                    },
+                    "400":
+                    {
+                        "description": "BusinessScreenErrorResponse",
+                        "schema":
+                        {
+                            "$ref": "#/definitions/BusinessScreenErrorResponse"
+                        }
+                    },
+                    "500":
+                    {
+                        "description": "SystemScreenErrorResponse",
+                        "schema":
+                        {
+                            "$ref": "#/definitions/SystemScreenErrorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "securityDefinitions":
+    {
+        "basicAuth":
+        {
+            "type": "basic"
+        },
+        "apiKey":
+        {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    },
+    "definitions":
+    {
+        "PayloadHeader":
+        {
+            "properties":
+            {
+                "override":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "overrideDetails":
+                        {
+                            "type": "array",
+                            "items":
+                            {
+                                "type": "object",
+                                "properties":
+                                {
+                                    "id":
+                                    {
+                                        "type": "string",
+                                        "description": "The identifier of the override."
+                                    },
+                                    "description":
+                                    {
+                                        "type": "string",
+                                        "description": "The actual override message."
+                                    },
+                                    "code":
+                                    {
+                                        "type": "string",
+                                        "description": "The code related to override message."
+                                    },
+                                    "responseCode":
+                                    {
+                                        "type": "string",
+                                        "description": "The user input to accept/reject the override."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "audit":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "versionNumber":
+                        {
+                            "type": "string",
+                            "description": "The CURR.NO. of the record"
+                        }
+                    }
+                }
+            }
+        },
+        "PRETAOBDNotification":
+        {
+            "properties":
+            {
+                "header":
+                {
+                    "$ref": "#/definitions/PayloadHeader"
+                },
+                "body":
+                {
+                    "$ref": "#/definitions/PRETAOBDNotificationBody"
+                }
+            },
+            "description": "PRETAOBDNotification"
+        },
+        "PRETAOBDNotificationBody":
+        {
+            "type": "object",
+            "properties":
+            {
+                "key":
+                {
+                    "type": "string",
+                    "description": "Contains the Unique reference number made up of the home country code, the NCA(National Competent Authorities) and the reference number at the NCA(National Competent Authorities). For example GB-FCA-100008, where GB denotes home country code, FCA(Financial Conduct Authority) is the NCA(National Competent Authority) and 100008 denotes the reference number at the NCA. This functionality is used to link the record to the incoming API feed.",
+                    "minLength": 0,
+                    "maxLength": 35
+                },
+                "number":
+                {
+                    "type": "string",
+                    "description": "Contains the version number of the open banking directory notification record. The version of open banking directory notification will increment each time and a new version of open banking directory notification will be published which refers to the version number in the NCA(National competent authorities) of open banking directory. This number may be part of a regular download (daily) or based on a real time update when the source data of open banking directory changes.",
+                    "minLength": 0,
+                    "maxLength": 34
+                }
+            }
+        },
+        "ScreenHeader":
+        {
+            "properties":
+            {
+                "id":
+                {
+                    "type": "string",
+                    "description": "The Identifier of the record created"
+                },
+                "status":
+                {
+                    "type": "string",
+                    "description": "Status of the API(success/failed)"
+                },
+                "transactionStatus":
+                {
+                    "type": "string",
+                    "description": "The status of the transaction"
+                },
+                "uniqueIdentifier":
+                {
+                    "type": "string",
+                    "description": "The unique identifier/Message Reference of the record created."
+                },
+                "audit":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "T24_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to response by T24"
+                        },
+                        "versionNumber":
+                        {
+                            "type": "string",
+                            "description": "The CURR.NO. of the record"
+                        },
+                        "requestParse_time":
+                        {
+                            "type": "number",
+                            "description": "Time taken to parse the request by IRIS"
+                        },
+                        "responseParse_time":
+                        {
+                            "type": "number",
+                            "description": "Time taken to parse the response by IRIS"
+                        }
+                    }
+                }
+            }
+        },
+        "PRETAOBDNotificationResponse":
+        {
+            "properties":
+            {
+                "header":
+                {
+                    "$ref": "#/definitions/ScreenHeader"
+                },
+                "body":
+                {
+                    "$ref": "#/definitions/PRETAOBDNotificationResponseBody"
+                }
+            },
+            "description": "PRETAOBDNotificationResponse"
+        },
+        "PRETAOBDNotificationResponseBody":
+        {
+            "type": "object",
+            "properties":
+            {
+                "key":
+                {
+                    "type": "string",
+                    "description": "Contains the Unique reference number made up of the home country code, the NCA(National Competent Authorities) and the reference number at the NCA(National Competent Authorities). For example GB-FCA-100008, where GB denotes home country code, FCA(Financial Conduct Authority) is the NCA(National Competent Authority) and 100008 denotes the reference number at the NCA. This functionality is used to link the record to the incoming API feed.",
+                    "minLength": 0,
+                    "maxLength": 35
+                },
+                "number":
+                {
+                    "type": "string",
+                    "description": "Contains the version number of the open banking directory notification record. The version of open banking directory notification will increment each time and a new version of open banking directory notification will be published which refers to the version number in the NCA(National competent authorities) of open banking directory. This number may be part of a regular download (daily) or based on a real time update when the source data of open banking directory changes.",
+                    "minLength": 0,
+                    "maxLength": 34
+                }
+            }
+        },
+        "ErrorHeader":
+        {
+            "properties":
+            {
+                "id":
+                {
+                    "type": "string",
+                    "description": "The Identifier of the record created"
+                },
+                "status":
+                {
+                    "type": "string",
+                    "description": "Status of the API(success/failed)"
+                },
+                "transactionStatus":
+                {
+                    "type": "string",
+                    "description": "The status of the transaction"
+                },
+                "uniqueIdentifier":
+                {
+                    "type": "string",
+                    "description": "The unique identifier/Message Reference of the record created."
+                },
+                "audit":
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "T24_time":
+                        {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Time taken to response by T24"
+                        },
+                        "versionNumber":
+                        {
+                            "type": "string",
+                            "description": "The CURR.NO. of the record"
+                        },
+                        "requestParse_time":
+                        {
+                            "type": "number",
+                            "description": "Time taken to parse the request by IRIS"
+                        },
+                        "responseParse_time":
+                        {
+                            "type": "number",
+                            "description": "Time taken to parse the response by IRIS"
+                        }
+                    }
+                }
+            }
+        },
+        "overrideBody":
+        {
+            "properties":
+            {
+                "overrideDetails":
+                {
+                    "type": "array",
+                    "items":
+                    {
+                        "type": "object",
+                        "properties":
+                        {
+                            "id":
+                            {
+                                "type": "string",
+                                "description": "The identifier of the override."
+                            },
+                            "description":
+                            {
+                                "type": "string",
+                                "description": "The actual override message."
+                            },
+                            "code":
+                            {
+                                "type": "string",
+                                "description": "The code related to override message."
+                            },
+                            "options":
+                            {
+                                "type": "array",
+                                "description": "The usable options for the override.",
+                                "items":
+                                {
+                                    "type": "string"
+                                }
+                            },
+                            "type":
+                            {
+                                "type": "string",
+                                "description": "The type of the override."
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "ScreenErrorResponse":
+        {
+            "properties":
+            {
+                "header":
+                {
+                    "$ref": "#/definitions/ErrorHeader"
+                },
+                "error":
+                {
+                    "$ref": "#/definitions/ScreenErrorResponseBody"
+                },
+                "override":
+                {
+                    "$ref": "#/definitions/overrideBody"
+                }
+            },
+            "description": "ScreenErrorResponse"
+        },
+        "ScreenErrorResponseBody":
+        {
+            "type": "object",
+            "properties":
+            {
+                "errorDetails":
+                {
+                    "type": "array",
+                    "items":
+                    {
+                        "type": "object",
+                        "properties":
+                        {
+                            "fieldName":
+                            {
+                                "type": "string",
+                                "description": "The name of the field"
+                            },
+                            "code":
+                            {
+                                "type": "string",
+                                "description": "The identifier of the error message"
+                            },
+                            "message":
+                            {
+                                "type": "string",
+                                "description": "The actual t24 error message "
+                            }
+                        }
+                    }
+                },
+                "type":
+                {
+                    "type": "string",
+                    "description": "The identifier of error type: "
+                }
+            }
+        },
+        "BusinessScreenErrorResponse":
+        {
+            "properties":
+            {
+                "header":
+                {
+                    "$ref": "#/definitions/ErrorHeader"
+                },
+                "error":
+                {
+                    "$ref": "#/definitions/BusinessScreenErrorResponseBody"
+                },
+                "override":
+                {
+                    "$ref": "#/definitions/overrideBody"
+                }
+            },
+            "description": "BusinessScreenErrorResponse"
+        },
+        "BusinessScreenErrorResponseBody":
+        {
+            "type": "object",
+            "properties":
+            {
+                "errorDetails":
+                {
+                    "type": "array",
+                    "items":
+                    {
+                        "type": "object",
+                        "properties":
+                        {
+                            "fieldName":
+                            {
+                                "type": "string",
+                                "description": "The name of the field"
+                            },
+                            "code":
+                            {
+                                "type": "string",
+                                "description": "The identifier of the error message"
+                            },
+                            "message":
+                            {
+                                "type": "string",
+                                "description": "The actual t24 error message for bad requests"
+                            }
+                        }
+                    }
+                },
+                "type":
+                {
+                    "type": "string",
+                    "description": "The identifier of error type: Business"
+                }
+            }
+        },
+        "SystemScreenErrorResponse":
+        {
+            "properties":
+            {
+                "header":
+                {
+                    "$ref": "#/definitions/ErrorHeader"
+                },
+                "error":
+                {
+                    "$ref": "#/definitions/SystemScreenErrorResponseBody"
+                },
+                "override":
+                {
+                    "$ref": "#/definitions/overrideBody"
+                }
+            },
+            "description": "SystemScreenErrorResponse"
+        },
+        "SystemScreenErrorResponseBody":
+        {
+            "type": "object",
+            "properties":
+            {
+                "errorDetails":
+                {
+                    "type": "array",
+                    "items":
+                    {
+                        "type": "object",
+                        "properties":
+                        {
+                            "fieldName":
+                            {
+                                "type": "string",
+                                "description": "The name of the field"
+                            },
+                            "code":
+                            {
+                                "type": "string",
+                                "description": "The identifier of the error message"
+                            },
+                            "message":
+                            {
+                                "type": "string",
+                                "description": "The actual t24 error message caused by server"
+                            }
+                        }
+                    }
+                },
+                "type":
+                {
+                    "type": "string",
+                    "description": "The identifier of error type: System"
+                }
+            }
+        }
+    }
+}

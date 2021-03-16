@@ -1,0 +1,473 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "API to retrieve all the foreign exchange active deals as on today, classified as different deal types like Spot, Forward and Forex Swap along with the key transaction related information such as value date, exchange rates, counterparty details, currency amounts and nostro accounts through which the settlements are made for each transaction.",
+    "version" : "v1.0.0",
+    "title" : "Treasury forex outstanding deals"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "apiKey" : [ ]
+  } ],
+  "paths" : {
+    "/holdings/treasury/forex" : {
+      "get" : {
+        "summary" : "Retrieves all the foreign exchange active deals as on today",
+        "description" : "Retrieves the foreign exchange outstanding(active) deals as on today.",
+        "operationId" : "getOutstandingForexDealsToday",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "dealType",
+          "in" : "query",
+          "description" : "Foreign Exchange deal type. Allowed values: - SP(spot) - FW(forward) - SW(Swap)",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "counterparty",
+          "in" : "query",
+          "description" : "The counterparty ID  for the  deal.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "transactionReference",
+          "in" : "query",
+          "description" : "Transaction reference identifier.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "swapReference",
+          "in" : "query",
+          "description" : "As the near and far leg of the swap have separate reference number, the swap reference is the near leg reference in the far leg and far leg reference in the near leg of a FX swap deal.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "settlementDateSell",
+          "in" : "query",
+          "description" : "Settlement date for sell side.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "settlementDateBuy",
+          "in" : "query",
+          "description" : "Settlement date for buy side.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "buyCurrency",
+          "in" : "query",
+          "description" : "ISO Currency code for the bought currency.  ",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "buyAmount",
+          "in" : "query",
+          "description" : "Amount bought in the FX deal.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "sellCurrency",
+          "in" : "query",
+          "description" : "ISO Currency code for the sold currency.  ",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "sellAmount",
+          "in" : "query",
+          "description" : "Amount sold in the FX deal.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "dealDate",
+          "in" : "query",
+          "description" : "Date on which the deal was agreed. ",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "ourAccountPay",
+          "in" : "query",
+          "description" : "Account from which payment is  made.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "ourAccountRecieve",
+          "in" : "query",
+          "description" : "Account from which payment is received.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "dealerDesk",
+          "in" : "query",
+          "description" : "The dealer/desk responsible for monitoring and managing the currency positions.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "unevenSwap",
+          "in" : "query",
+          "description" : "Identifier for a FX uneven swap  (the swap base currency amount in near and far leg are not the same).",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "forwardForwardSwap",
+          "in" : "query",
+          "description" : "A FX swap where both the near and the far leg have a value date greater than spot value date.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OutstandingForexDealsTodayResponse",
+            "schema" : {
+              "$ref" : "#/definitions/OutstandingForexDealsTodayResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "apiKey" : {
+      "type" : "apiKey",
+      "name" : "Authorization",
+      "in" : "header"
+    }
+  },
+  "definitions" : {
+    "QueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records per page"
+        },
+        "page_start" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The record from which the response should be displayed"
+        },
+        "total_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records present"
+        },
+        "page_token" : {
+          "type" : "string",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request"
+        }
+      }
+    },
+    "OutstandingForexDealsTodayResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/OutstandingForexDealsTodayResponseBody"
+        }
+      },
+      "description" : "OutstandingForexDealsTodayResponse"
+    },
+    "OutstandingForexDealsTodayResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "ourAccountPay" : {
+            "type" : "array",
+            "description" : "Account from which payment is  made.",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "ourAccountPay" : {
+                  "type" : "string",
+                  "description" : "Account from which payment is  made.",
+                  "maxLength" : 36
+                }
+              }
+            }
+          },
+          "ourAccountRecieve" : {
+            "type" : "array",
+            "description" : "Account from which payment is received.",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "ourAccountRecieve" : {
+                  "type" : "string",
+                  "description" : "Account from which payment is received.",
+                  "maxLength" : 36
+                }
+              }
+            }
+          },
+          "transactionReference" : {
+            "type" : "string",
+            "description" : "Transaction reference identifier.",
+            "maxLength" : 16
+          },
+          "dealType" : {
+            "type" : "string",
+            "description" : "Foreign Exchange deal type. Allowed values: - SP(spot) - FW(forward) - SW(Swap)",
+            "maxLength" : 2
+          },
+          "counterparty" : {
+            "type" : "string",
+            "description" : "The counterparty ID  for the  deal.",
+            "maxLength" : 10
+          },
+          "counterpartyName" : {
+            "type" : "string",
+            "description" : "The counterparty name for the forex deal.",
+            "maxLength" : 35
+          },
+          "dealDate" : {
+            "type" : "string",
+            "description" : "Date on which the deal was agreed. ",
+            "maxLength" : 11
+          },
+          "buyCurrency" : {
+            "type" : "string",
+            "description" : "ISO Currency code for the bought currency.  ",
+            "maxLength" : 3
+          },
+          "buyAmount" : {
+            "type" : "string",
+            "description" : "Amount bought in the FX deal.",
+            "maxLength" : 19
+          },
+          "sellCurrency" : {
+            "type" : "string",
+            "description" : "ISO Currency code for the sold currency.  ",
+            "maxLength" : 3
+          },
+          "sellAmount" : {
+            "type" : "string",
+            "description" : "Amount sold in the FX deal.",
+            "maxLength" : 19
+          },
+          "valueDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "Indicates the value date on which the underlying accounting entry is to be given value (for interest purposes)"
+          },
+          "exchangeRate" : {
+            "type" : "string",
+            "description" : "Contains the exchange rate returned from the system. i.e. For entries over foreign currency accounts, this contains the rate which used to convert the currency amount to the local equivalent at the time of the originating transaction."
+          },
+          "unevenSwap" : {
+            "type" : "string",
+            "description" : "Identifier for a FX uneven swap  (the swap base currency amount in near and far leg are not the same).",
+            "maxLength" : 1
+          },
+          "swapReference" : {
+            "type" : "string",
+            "description" : "As the near and far leg of the swap have separate reference number, the swap reference is the near leg reference in the far leg and far leg reference in the near leg of a FX swap deal.",
+            "maxLength" : 16
+          },
+          "forwardForwardSwap" : {
+            "type" : "string",
+            "description" : "A FX swap where both the near and the far leg have a value date greater than spot value date.",
+            "maxLength" : 3
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessQueryErrorResponseBody"
+        }
+      },
+      "description" : "BusinessQueryErrorResponse"
+    },
+    "BusinessQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message for bad requests"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemQueryErrorResponseBody"
+        }
+      },
+      "description" : "SystemQueryErrorResponse"
+    },
+    "SystemQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message caused by server"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,5107 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "API to manage Credit Limit related information such as retrieving Limit Utilisation or Outstandings, Limit Cashflow, Overdrawn Limits, Limits Review & Expiry, SubLimit details and manage Limit Sharing Group details of Master and Sub Groups. ",
+    "version" : "v1.0.0",
+    "title" : "Limits service"
+  },
+  "host" : "api.temenos.com",
+  "basePath" : "/api/v1.0.0/",
+  "schemes" : [ "http", "https" ],
+  "security" : [ {
+    "apiKey" : [ ]
+  } ],
+  "paths" : {
+    "/holdings/limits/{arrangementId}/limitCashflow" : {
+      "get" : {
+        "summary" : "Retrieves Limit cashflow details of contract",
+        "description" : "Retrieves the facility cashflow against the Limit, commitment and drawing schedules utilized",
+        "operationId" : "getLimitCashflow",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "arrangementId",
+          "in" : "path",
+          "description" : "Indicates an unique identifier of an account",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "disablePagination",
+          "in" : "header",
+          "description" : "Indicates the pagination header attributes availability. If set to 'true', it fetches all the data",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "LimitCashflowResponse",
+            "schema" : {
+              "$ref" : "#/definitions/LimitCashflowResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/limits/customerGroupLimits" : {
+      "get" : {
+        "summary" : "Retrieves Limit details of Customer group",
+        "description" : "Retrieves all of the customer group limit exposures such as limit allocations, Outstanding, Product, Expiry along with details of related Customers in the Group, related Sub groups",
+        "operationId" : "getCustomerGroupLimits",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "customerLimitId",
+          "in" : "query",
+          "description" : "Limit reference of the customer",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "riskGroupId",
+          "in" : "query",
+          "description" : "Identifier of the CUSTOMER.GROUP that constitutes one or more related customers which would be used while arrivnig collective risk exposure of credit line liable to them either individually or shared among them.",
+          "required" : false,
+          "type" : "string",
+          "x-example" : "888"
+        }, {
+          "name" : "liabilityNumber",
+          "in" : "query",
+          "description" : "Identifier of the Liability Customer to the credit limit",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "limitId",
+          "in" : "query",
+          "description" : "The identifier of credit limit",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "creditLineNumber",
+          "in" : "query",
+          "description" : "Details of the top most parent credit line plus the limit product in the hierarchy. Eg : 300/LI1701101987 where 300 is the limit product of the topmost parent and second part is the respective creditline",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "recordParent",
+          "in" : "query",
+          "description" : "Identifier of the immediate parent limit",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "limitProduct",
+          "in" : "query",
+          "description" : "Identifier of the credit limit product",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "serialNumber",
+          "in" : "query",
+          "description" : "A sequence reference for the limit, which when used together with other fields such as Liability Number and/or Limit Reference, provides a unique identifier for a credit line",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "limitCurrency",
+          "in" : "query",
+          "description" : "Currency in which the credit limit is granted",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "buisnessUnit",
+          "in" : "query",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "expiryDate",
+          "in" : "query",
+          "description" : "The date an agreement such as an arrangement, product, credit facility or limit is due to expire",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "timeBandName",
+          "in" : "query",
+          "description" : "Description of the individual time code under a credit facility",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "internalAmount",
+          "in" : "query",
+          "description" : "Indicates the amount allocated to the Credit Limit by the Bank",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "advisedAmount",
+          "in" : "query",
+          "description" : "Indicates the amount advised to the Credit Limit by the bank",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "outstandingAmount",
+          "in" : "query",
+          "description" : "Contains the aggregate outstanding principal amount thereof after giving effect to any borrowings and prepayments or repayments of Committed Loans",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "availableAmount",
+          "in" : "query",
+          "description" : "The credit limit available to the customer for use",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "availableOrExcess",
+          "in" : "query",
+          "description" : "The available amount for the corresponding liability number and limit reference. This amount is always expressed in the currency of the limit. Calculated as the sum of the online limit, the available balance and any sub allocation taken, less any sub allocation given, any commission available, the total outstanding.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "totalCommitment",
+          "in" : "query",
+          "description" : "Specifies the total available commitment amounts  specific to a credit facility",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "totalCredit",
+          "in" : "query",
+          "description" : "Indicates the total credit balance of the customer's account",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "totalDebit",
+          "in" : "query",
+          "description" : "Indicates the total debit balance of the customer's account",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "requestedCurrency",
+          "in" : "query",
+          "description" : "The currency the amount is requested in.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "exchangeRate",
+          "in" : "query",
+          "description" : "Contains the exchange rate returned from the system. i.e. For entries over foreign currency accounts, this contains the rate which used to convert the currency amount to the local equivalent at the time of the originating transaction.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "idlType",
+          "in" : "query",
+          "description" : "The INTRA.DAY.LIMIT type that is applicable for a specific credit facility of the customer",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "idlApprovedAmount",
+          "in" : "query",
+          "description" : "The approved amount by the bank as INTRA.DAY.LIMIT on a credit facility within a specific period of the day",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "idlAdvisedAmount",
+          "in" : "query",
+          "description" : "The advised amount by the bank to the customer as INTRA.DAY.LIMIT on a credit facility within a specific period of the day",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "limitType",
+          "in" : "query",
+          "description" : "Defines the limit type for the trade",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "relatedCustomer",
+          "in" : "query",
+          "description" : "Indicates the related customers of multi customer and joint limits",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "sharedLimit",
+          "in" : "query",
+          "description" : "Indicates whether the credit line is of shared limit structure",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "adjustAvailableAmount",
+          "in" : "query",
+          "description" : "Indicates to adjust the available funds to respective time bands.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "rebuildData",
+          "in" : "query",
+          "description" : "Indicates to rebuild the customer exposure when enquired by user.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "aggregateCustomerId",
+          "in" : "query",
+          "description" : "List of customer/person entity that are aggregated under a main customer on risk exposure view",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "aggregateCustomerRelation",
+          "in" : "query",
+          "description" : "Relation code that exists between the main customer and the aggregated customers",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "limitNote",
+          "in" : "query",
+          "description" : "Relation code that exists between the main customer and the aggregated customers",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "sessionId",
+          "in" : "query",
+          "description" : "Id of the T24 session where the risk exposure view executed",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "subGroup",
+          "in" : "query",
+          "description" : "Identifier of the sub group within a CUSTOMER.GROUP that constitues one or more related customers which would be used while arrivnig collective risk exposure of credit line liable to them either individually or shared among them.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "originalInternalAmount",
+          "in" : "query",
+          "description" : "Specifies the orignal amount actually approved or authorised on a credit line by Management or the Credit Committee before any repayment made",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "originalAdvisedAmount",
+          "in" : "query",
+          "description" : "Specifies the original amount advised to the customer holding the credit facility before any repayment made",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "repaidAmount",
+          "in" : "query",
+          "description" : "Indicates the amount which was repaid from the customer",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "totalRepaidAmount",
+          "in" : "query",
+          "description" : "Total of the repaid amount under a credit facility",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "excessFlag",
+          "in" : "query",
+          "description" : "Flag to indicate the credit line has been over utilised",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "fixedOrVariable",
+          "in" : "query",
+          "description" : "Indicates the secured nature of limit that has been covered by a customer collateral. When 'FIXED' the limit amount sanctioned will not have impact on changing value of collateral whereas when 'VARIABLE' limit amount will change based on the collateral amount changes.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "securedAmount",
+          "in" : "query",
+          "description" : "The total amount that has been covered by the collateral underlying the credit facility",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "multiCustomerLimit",
+          "in" : "query",
+          "description" : "Specifies if a credit facility shall be used by multiple customers",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "groupClass",
+          "in" : "query",
+          "description" : "Classify the type of group, whether it is a CUSTOMER.GROUP or SUB.GROUP",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "isAggregationExists",
+          "in" : "query",
+          "description" : "Indicates if there exists aggregation of one or many customer exposure under a primary customer",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "mainGroupId",
+          "in" : "query",
+          "description" : "Identifier of the main group under which the sub group has been defined",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "creditLineProduct",
+          "in" : "query",
+          "description" : "Identifier of the limit product of the topmost credit facility in the hierarchy",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "gvIndicator",
+          "in" : "query",
+          "description" : "Indicator which specifies the graphical view of risk exposure report requested",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "onlineLimit",
+          "in" : "query",
+          "description" : "The Limit amount that is actually available for use.The system limit checks are performed against the online limit",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "amountInUnits",
+          "in" : "query",
+          "description" : "Indicates the Units of the Amounts",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "disablePagination",
+          "in" : "header",
+          "description" : "Indicates the pagination header attributes availability. If set to 'true', it fetches all the data",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "CustomerGroupLimitsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/CustomerGroupLimitsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/limits/relationships/{customerGroupId}" : {
+      "get" : {
+        "summary" : "Retrieves relations among customers",
+        "description" : "Retrieves all of the customer relation details such as party or customer id, type, name and aggregate customer details under a customer group.",
+        "operationId" : "getCustomerGroupRelations",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "customerGroupId",
+          "in" : "path",
+          "description" : "Identifier of the CUSTOMER.GROUP that constitues one or more related customers which would be used while arrivnig collective risk exposure of credit line liable to them either individually or shared among them",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "222"
+        }, {
+          "name" : "subGroup",
+          "in" : "query",
+          "description" : "Identifier of the sub group within a CUSTOMER.GROUP that constitues one or more related customers which would be used while arrivnig collective risk exposure of credit line liable to them either individually or shared among them.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "showReverseRelation",
+          "in" : "query",
+          "description" : "Indicates whether reverse relations among customer or entity are required",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "disablePagination",
+          "in" : "header",
+          "description" : "Indicates the pagination header attributes availability. If set to 'true', it fetches all the data",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "CustomerGroupRelationsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/CustomerGroupRelationsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/limits/{customerId}" : {
+      "get" : {
+        "summary" : "Retrieves Customer Credit Limits",
+        "description" : "Retrieves a list of credit lines that the institution has sanctioned to any specific customer.",
+        "operationId" : "getCustomerLimits",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "customerId",
+          "in" : "path",
+          "description" : "Identifier of the customer",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "190137"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "disablePagination",
+          "in" : "header",
+          "description" : "Indicates the pagination header attributes availability. If set to 'true', it fetches all the data",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "CustomerLimitsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/CustomerLimitsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/limits/expiringLimits" : {
+      "get" : {
+        "summary" : "Retrieves list of Credit Lines that are due for Expiry",
+        "description" : "Retrieves the list of Credit Lines with details such as the Available and the Outstanding Limit Balances that are due for Expiry for a specific date",
+        "operationId" : "getExpiringLimits",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "expiryDate",
+          "in" : "query",
+          "description" : "The date an agreement such as an arrangement, product, credit facility or limit is due to expire",
+          "required" : false,
+          "type" : "string",
+          "x-example" : "20200320"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "disablePagination",
+          "in" : "header",
+          "description" : "Indicates the pagination header attributes availability. If set to 'true', it fetches all the data",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "ExpiringLimitsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ExpiringLimitsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/treasury/forex/limits/{liabilityNumber}" : {
+      "get" : {
+        "summary" : "Retrieves summary of customer's Forex Liability",
+        "description" : "Retrieves the summary of Limit details such as Currency, Advised, Available and Utilised Limit Balance by Forex Contracts",
+        "operationId" : "getLimitsForexTradeSummary",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "liabilityNumber",
+          "in" : "path",
+          "description" : "Identifier of the Liability Customer to the credit limit",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "190137"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "disablePagination",
+          "in" : "header",
+          "description" : "Indicates the pagination header attributes availability. If set to 'true', it fetches all the data",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "LimitsForexTradeSummaryResponse",
+            "schema" : {
+              "$ref" : "#/definitions/LimitsForexTradeSummaryResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/limits/customers/groups" : {
+      "get" : {
+        "summary" : "Retrieves Limit Sharing group of the customer",
+        "description" : "Retrieves the list of Customer under a Limit Sharing group or list of groups the specified customer is part of.",
+        "operationId" : "getCustomerLimitGroups",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "groupId",
+          "in" : "query",
+          "description" : "Unique ID of the group",
+          "required" : false,
+          "type" : "string",
+          "x-example" : "M000000001"
+        }, {
+          "name" : "customerId",
+          "in" : "query",
+          "description" : "Identifier of the customer",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "disablePagination",
+          "in" : "header",
+          "description" : "Indicates the pagination header attributes availability. If set to 'true', it fetches all the data",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "CustomerLimitGroupsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/CustomerLimitGroupsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/limits/groups/{groupId}/allocations" : {
+      "get" : {
+        "summary" : "Retrieves Limit group alloction details",
+        "description" : "Retrieves the list of Limit group alloction details such as Group Limit Reference, Contract Reference, total commitment, Utilised & remaining commitment balance of the Limits under the Limit Sharing Group",
+        "operationId" : "getLimitGroupAllocations",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "groupId",
+          "in" : "path",
+          "description" : "Unique ID of the group",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "M000000013"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "disablePagination",
+          "in" : "header",
+          "description" : "Indicates the pagination header attributes availability. If set to 'true', it fetches all the data",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "LimitGroupAllocationsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/LimitGroupAllocationsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/limits/customers/masterGroups" : {
+      "get" : {
+        "summary" : "Retrieves Limit Sharing Master Group details",
+        "description" : "Retrieves the Limit Sharing Master Group details such as list of customer in the group &  the sharing priority defined for the Customers",
+        "operationId" : "getCustomerLimitMasterGroups",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "groupId",
+          "in" : "query",
+          "description" : "Unique ID of the group",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "disablePagination",
+          "in" : "header",
+          "description" : "Indicates the pagination header attributes availability. If set to 'true', it fetches all the data",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "CustomerLimitMasterGroupsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/CustomerLimitMasterGroupsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/limits/{limitId}/forexDeals" : {
+      "get" : {
+        "summary" : "Retrieves List of FOREX contract details available to the Limit",
+        "description" : "Retrieves the details of Forex Contract Reference, buy & sell Currency, Amount associated with the Limit",
+        "operationId" : "getLimitForexDeals",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "limitId",
+          "in" : "path",
+          "description" : "The identifier of credit limit",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "190089.0001090.01"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "disablePagination",
+          "in" : "header",
+          "description" : "Indicates the pagination header attributes availability. If set to 'true', it fetches all the data",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "LimitForexDealsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/LimitForexDealsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/limits/{limitId}/liabilities" : {
+      "get" : {
+        "summary" : "Retrieves risk Excess details of the Limits untilised by Forex contracts",
+        "description" : "Retrieves the risk excess details of Forex contracts associated to a limit along with the Contract amount and limit balance",
+        "operationId" : "getLimitForexLiabilities",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "limitId",
+          "in" : "path",
+          "description" : "The identifier of credit limit",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "190089.0001090.01"
+        }, {
+          "name" : "limitReferenceId",
+          "in" : "query",
+          "description" : "Limit reference identifier for the limit order.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "serialNumber",
+          "in" : "query",
+          "description" : "A sequence reference for the limit, which when used together with other fields such as Liability Number and/or Limit Reference, provides a unique identifier for a credit line",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "customerNumber",
+          "in" : "query",
+          "description" : "Identifier of the Customer Number",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "disablePagination",
+          "in" : "header",
+          "description" : "Indicates the pagination header attributes availability. If set to 'true', it fetches all the data",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "LimitForexLiabilitiesResponse",
+            "schema" : {
+              "$ref" : "#/definitions/LimitForexLiabilitiesResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/limits/sharedLimits" : {
+      "get" : {
+        "summary" : "Retrieves Limit Sharing group details",
+        "description" : "Retrieves the Master and Sub Group available in Limit Sharing Group details along with Limit Product and list of customer linked to the group",
+        "operationId" : "getSharedLimits",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "groupId",
+          "in" : "query",
+          "description" : "Unique ID of the group",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "disablePagination",
+          "in" : "header",
+          "description" : "Indicates the pagination header attributes availability. If set to 'true', it fetches all the data",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "SharedLimitsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SharedLimitsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/limits/customers/{customerId}/sharingPriorities" : {
+      "get" : {
+        "summary" : "Retrieves Limit sharing Priority",
+        "description" : "Retrieves the Limit sharing Priority of the Master group for the specified group or Customer",
+        "operationId" : "getCustomerLimitSharingPriorities",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "customerId",
+          "in" : "path",
+          "description" : "Identifier of the customer",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "disablePagination",
+          "in" : "header",
+          "description" : "Indicates the pagination header attributes availability. If set to 'true', it fetches all the data",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "CustomerLimitSharingPrioritiesResponse",
+            "schema" : {
+              "$ref" : "#/definitions/CustomerLimitSharingPrioritiesResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/limits/masterGroups/{masterGroupId}/subGroups" : {
+      "get" : {
+        "summary" : "Retrieves details of limit sub groups",
+        "description" : "Retrieves the list of Sub Groups available under a Master Group in Limit Sharing Group along with Limit Product & Customer linked to the Group",
+        "operationId" : "getLimitSubGroups",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "masterGroupId",
+          "in" : "path",
+          "description" : "Identifier of the Limit Sharing Master Group",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "M000000001"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "disablePagination",
+          "in" : "header",
+          "description" : "Indicates the pagination header attributes availability. If set to 'true', it fetches all the data",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "LimitSubGroupsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/LimitSubGroupsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/treasury/limits/{limitId}" : {
+      "get" : {
+        "summary" : "Retrieves summary of Customer outstanding details",
+        "description" : "Retrieves the Limit details such as Advised, Available & Utilised, Outstanding balances for a specific Customer",
+        "operationId" : "getLimitSummary",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "limitId",
+          "in" : "path",
+          "description" : "The identifier of credit limit",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "100310"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "disablePagination",
+          "in" : "header",
+          "description" : "Indicates the pagination header attributes availability. If set to 'true', it fetches all the data",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "LimitSummaryResponse",
+            "schema" : {
+              "$ref" : "#/definitions/LimitSummaryResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/limits/{liabilityNumber}/overdrawnLimits" : {
+      "get" : {
+        "summary" : "Retrieves list of overdrawn Credit Limits",
+        "description" : "Retrieves the list of credit Lines that are overdrawn or in excess of utilisation",
+        "operationId" : "getCustomerOverdrawnLimits",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "liabilityNumber",
+          "in" : "path",
+          "description" : "Identifier of the Liability Customer to the credit limit",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "190137"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "disablePagination",
+          "in" : "header",
+          "description" : "Indicates the pagination header attributes availability. If set to 'true', it fetches all the data",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "CustomerOverdrawnLimitsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/CustomerOverdrawnLimitsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/limits/reviewLimits" : {
+      "get" : {
+        "summary" : "Retrieves the Credit Lines that are due for review",
+        "description" : "Retrieves the list of Credit Limit details such as Advised, Available and the Outstanding Limit Balances that are due for Review for a specific date",
+        "operationId" : "getLimitsToReviewToday",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "liabilityNumber",
+          "in" : "query",
+          "description" : "Identifier of the Liability Customer to the credit limit",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "disablePagination",
+          "in" : "header",
+          "description" : "Indicates the pagination header attributes availability. If set to 'true', it fetches all the data",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "LimitsToReviewTodayResponse",
+            "schema" : {
+              "$ref" : "#/definitions/LimitsToReviewTodayResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/limits/{customerId}/subCategoryLimits/{customerGroupId}" : {
+      "get" : {
+        "summary" : "Retrieves Customer Sub Category Limits",
+        "description" : "Retrieves Category, SubCategory Limit Products and Timebands from the Credit Limit for the specified CustomerGroup and CustomerId Combination",
+        "operationId" : "getSubCategoryLimits",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "customerId",
+          "in" : "path",
+          "description" : "Identifier of the customer",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "190137"
+        }, {
+          "name" : "customerGroupId",
+          "in" : "path",
+          "description" : "Identifier of the CUSTOMER.GROUP that constitues one or more related customers which would be used while arrivnig collective risk exposure of credit line liable to them either individually or shared among them",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "888"
+        }, {
+          "name" : "subGroup",
+          "in" : "query",
+          "description" : "Identifier of the sub group within a CUSTOMER.GROUP that constitues one or more related customers which would be used while arrivnig collective risk exposure of credit line liable to them either individually or shared among them.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "disablePagination",
+          "in" : "header",
+          "description" : "Indicates the pagination header attributes availability. If set to 'true', it fetches all the data",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "SubCategoryLimitsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SubCategoryLimitsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/limits/{customerGroupId}/subGroups" : {
+      "get" : {
+        "summary" : "Retrieves list of Sub groups",
+        "description" : "Retrieves list of Sub Group details such as sub group name, list of related customers Ids, Party Type under specific customer group",
+        "operationId" : "getSubGroupList",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "customerGroupId",
+          "in" : "path",
+          "description" : "Identifier of the CUSTOMER.GROUP that constitues one or more related customers which would be used while arrivnig collective risk exposure of credit line liable to them either individually or shared among them",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "888"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "disablePagination",
+          "in" : "header",
+          "description" : "Indicates the pagination header attributes availability. If set to 'true', it fetches all the data",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "SubGroupListResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SubGroupListResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/limits/{limitId}/subLimits" : {
+      "get" : {
+        "summary" : "Retrieves list of sublimits applicable for a credit line.",
+        "description" : "Provides list of sub limits applicable for a credit line created based on risk elements of the contract.",
+        "operationId" : "getSubLimits",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "limitId",
+          "in" : "path",
+          "description" : "The identifier of credit limit",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "disablePagination",
+          "in" : "header",
+          "description" : "Indicates the pagination header attributes availability. If set to 'true', it fetches all the data",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "SubLimitsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SubLimitsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/limits/collaterals" : {
+      "get" : {
+        "summary" : "Retrieves list of secured credit limits",
+        "description" : "Retrieves all secured credit lines or one that has been sanctioned to a specific customer",
+        "operationId" : "getLimitCollaterals",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "liabilityNumber",
+          "in" : "query",
+          "description" : "Identifier of the Liability Customer to the credit limit",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "page_size",
+          "in" : "query",
+          "description" : "The total number of records per page",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_start",
+          "in" : "query",
+          "description" : "The record from which the response should be displayed",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "page_token",
+          "in" : "query",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "disablePagination",
+          "in" : "header",
+          "description" : "Indicates the pagination header attributes availability. If set to 'true', it fetches all the data",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "LimitCollateralsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/LimitCollateralsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessQueryErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemQueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemQueryErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "QueryErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/limits/creditLimits" : {
+      "post" : {
+        "summary" : "Creates a credit limit",
+        "description" : "Allows creation of credit limit for customer with information such as limit product, sanctioned amount, currency, expiry date and review frequency of limit",
+        "operationId" : "createCreditLimits",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/CreditLimits"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "CreditLimitsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/CreditLimitsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/limits/{limitId}/creditLimits" : {
+      "get" : {
+        "summary" : "Retrieves details of the limits",
+        "description" : "Retrieves the details such as currency,expiry date, limit amount, available marker & limit type for the requested limit id.",
+        "operationId" : "getLimitDetails",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "limitId",
+          "in" : "path",
+          "description" : "The identifier of credit limit",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "LimitDetailsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/LimitDetailsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Updates a credit limit",
+        "description" : "Allows update of credit limit for customer with information such as sanctioned amount, expiry date, review frequency of limit",
+        "operationId" : "updateCreditLimits",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "limitId",
+          "in" : "path",
+          "description" : "The identifier of credit limit",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/CreditLimits"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "CreditLimitsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/CreditLimitsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Deletes a credit limit",
+        "description" : "Allows deletion of credit limit that are either no more available for utilisation or not being utilized",
+        "operationId" : "deleteCreditLimits",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "limitId",
+          "in" : "path",
+          "description" : "The identifier of credit limit",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "body Payload",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/CreditLimitsDelete"
+          }
+        }, {
+          "name" : "validate_only",
+          "in" : "query",
+          "description" : "The identifier to indicate if it is set to only validate or not.",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "companyId",
+          "in" : "header",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "deviceId",
+          "in" : "header",
+          "description" : "Identifies the device type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "userRole",
+          "in" : "header",
+          "description" : "User who initiated the transaction",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "CreditLimitsResponse",
+            "schema" : {
+              "$ref" : "#/definitions/CreditLimitsResponse"
+            }
+          },
+          "400" : {
+            "description" : "BusinessScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/BusinessScreenErrorResponse"
+            }
+          },
+          "500" : {
+            "description" : "SystemScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/SystemScreenErrorResponse"
+            }
+          },
+          "default" : {
+            "description" : "ScreenErrorResponse",
+            "schema" : {
+              "$ref" : "#/definitions/ScreenErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "apiKey" : {
+      "type" : "apiKey",
+      "name" : "Authorization",
+      "in" : "header"
+    }
+  },
+  "definitions" : {
+    "QueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records per page"
+        },
+        "page_start" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The record from which the response should be displayed"
+        },
+        "total_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records present"
+        },
+        "page_token" : {
+          "type" : "string",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request"
+        }
+      }
+    },
+    "LimitCashflowResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/LimitCashflowResponseBody"
+        }
+      },
+      "description" : "LimitCashflowResponse"
+    },
+    "LimitCashflowResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "arrangementEffectiveDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "It is a date on/upon which an account is considered to take effect"
+          },
+          "limitSchedule" : {
+            "type" : "number",
+            "description" : "Contains the limit schedule amount of the given arrangement  upto the dates specified"
+          },
+          "consolDrawingsCashflow" : {
+            "type" : "number",
+            "description" : "Contains the consolidated drawings cashflow amount of the given arrangement with all respective drawings."
+          },
+          "consolLimitCashflow" : {
+            "type" : "number",
+            "description" : "Contains the consolidated limit cashflow amount of the given facility arrangement upto the dates specified"
+          }
+        }
+      }
+    },
+    "ErrorHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        }
+      }
+    },
+    "QueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description" : "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message "
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessQueryErrorResponseBody"
+        }
+      },
+      "description" : "BusinessQueryErrorResponse"
+    },
+    "BusinessQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message for bad requests"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemQueryErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemQueryErrorResponseBody"
+        }
+      },
+      "description" : "SystemQueryErrorResponse"
+    },
+    "SystemQueryErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "The identifier of the error message"
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "The actual t24 error message caused by server"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    },
+    "CustomerGroupLimitsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/CustomerGroupLimitsResponseBody"
+        }
+      },
+      "description" : "CustomerGroupLimitsResponse"
+    },
+    "CustomerGroupLimitsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "idlDetails" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "idlType" : {
+                  "type" : "string",
+                  "description" : "The INTRA.DAY.LIMIT type that is applicable for a specific credit facility of the customer",
+                  "maxLength" : 35
+                },
+                "idlApprovedAmount" : {
+                  "type" : "string",
+                  "description" : "The approved amount by the bank as INTRA.DAY.LIMIT on a credit facility within a specific period of the day",
+                  "maxLength" : 35
+                },
+                "idlAdvisedAmount" : {
+                  "type" : "string",
+                  "description" : "The advised amount by the bank to the customer as INTRA.DAY.LIMIT on a credit facility within a specific period of the day",
+                  "maxLength" : 35
+                }
+              }
+            }
+          },
+          "relatedCustomerDetails" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "relatedCustomer" : {
+                  "type" : "string",
+                  "description" : "Indicates the related customers of multi customer and joint limits",
+                  "maxLength" : 35
+                },
+                "aggregateCustomerId" : {
+                  "type" : "string",
+                  "description" : "List of customer/person entity that are aggregated under a main customer on risk exposure view",
+                  "maxLength" : 35
+                },
+                "aggregateCustomerRelation" : {
+                  "type" : "string",
+                  "description" : "Relation code that exists between the main customer and the aggregated customers",
+                  "maxLength" : 35
+                },
+                "relatedPartyName" : {
+                  "type" : "string",
+                  "description" : "Name of the Party related to the Customer"
+                }
+              }
+            }
+          },
+          "limitNotes" : {
+            "type" : "array",
+            "description" : "Relation code that exists between the main customer and the aggregated customers",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "limitNote" : {
+                  "type" : "string",
+                  "description" : "Relation code that exists between the main customer and the aggregated customers",
+                  "maxLength" : 35
+                }
+              }
+            }
+          },
+          "subGroups" : {
+            "type" : "array",
+            "description" : "Identifier of the sub group within a CUSTOMER.GROUP that constitues one or more related customers which would be used while arrivnig collective risk exposure of credit line liable to them either individually or shared among them.",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "subGroup" : {
+                  "type" : "string",
+                  "description" : "Identifier of the sub group within a CUSTOMER.GROUP that constitues one or more related customers which would be used while arrivnig collective risk exposure of credit line liable to them either individually or shared among them.",
+                  "maxLength" : 35
+                }
+              }
+            }
+          },
+          "customerLimitId" : {
+            "type" : "string",
+            "description" : "Limit reference of the customer",
+            "maxLength" : 100
+          },
+          "riskGroupId" : {
+            "type" : "number",
+            "description" : "Identifier of the CUSTOMER.GROUP that constitutes one or more related customers which would be used while arrivnig collective risk exposure of credit line liable to them either individually or shared among them.",
+            "maximum" : 35
+          },
+          "liabilityNumber" : {
+            "type" : "string",
+            "description" : "Identifier of the Liability Customer to the credit limit",
+            "maxLength" : 35
+          },
+          "limitId" : {
+            "type" : "string",
+            "description" : "The identifier of credit limit",
+            "maxLength" : 35
+          },
+          "creditLineNumber" : {
+            "type" : "string",
+            "description" : "Details of the top most parent credit line plus the limit product in the hierarchy. Eg : 300/LI1701101987 where 300 is the limit product of the topmost parent and second part is the respective creditline",
+            "maxLength" : 35
+          },
+          "recordParent" : {
+            "type" : "string",
+            "description" : "Identifier of the immediate parent limit",
+            "maxLength" : 35
+          },
+          "limitProduct" : {
+            "type" : "string",
+            "description" : "Identifier of the credit limit product",
+            "maxLength" : 35
+          },
+          "limitReferenceDisplayName" : {
+            "type" : "string",
+            "description" : "Display Name of Limit product"
+          },
+          "limitProductName" : {
+            "type" : "string",
+            "description" : "Display Short Name of Limit product"
+          },
+          "serialNumber" : {
+            "type" : "number",
+            "description" : "A sequence reference for the limit, which when used together with other fields such as Liability Number and/or Limit Reference, provides a unique identifier for a credit line",
+            "maximum" : 35
+          },
+          "limitCurrency" : {
+            "type" : "string",
+            "description" : "Currency in which the credit limit is granted",
+            "maxLength" : 35
+          },
+          "businessUnit" : {
+            "type" : "string",
+            "description" : "The identifier of the underlying Entity/Company/Branch.",
+            "maxLength" : 35
+          },
+          "expiryDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "The date an agreement such as an arrangement, product, credit facility or limit is due to expire"
+          },
+          "timeBandName" : {
+            "type" : "string",
+            "description" : "Description of the individual time code under a credit facility",
+            "maxLength" : 35
+          },
+          "internalAmount" : {
+            "type" : "string",
+            "description" : "Indicates the amount allocated to the Credit Limit by the Bank",
+            "maxLength" : 35
+          },
+          "advisedAmount" : {
+            "type" : "string",
+            "description" : "Indicates the amount advised to the Credit Limit by the bank",
+            "maxLength" : 35
+          },
+          "outstandingAmount" : {
+            "type" : "string",
+            "description" : "Contains the aggregate outstanding principal amount thereof after giving effect to any borrowings and prepayments or repayments of Committed Loans",
+            "maxLength" : 35
+          },
+          "availableAmount" : {
+            "type" : "string",
+            "description" : "The credit limit available to the customer for use",
+            "maxLength" : 35
+          },
+          "availableOrExcess" : {
+            "type" : "string",
+            "description" : "The available amount for the corresponding liability number and limit reference. This amount is always expressed in the currency of the limit. Calculated as the sum of the online limit, the available balance and any sub allocation taken, less any sub allocation given, any commission available, the total outstanding.",
+            "maxLength" : 35
+          },
+          "totalCommitment" : {
+            "type" : "string",
+            "description" : "Specifies the total available commitment amounts  specific to a credit facility",
+            "maxLength" : 35
+          },
+          "totalCredit" : {
+            "type" : "string",
+            "description" : "Indicates the total credit balance of the customer's account",
+            "maxLength" : 35
+          },
+          "totalDebit" : {
+            "type" : "string",
+            "description" : "Indicates the total debit balance of the customer's account",
+            "maxLength" : 35
+          },
+          "requestedCurrency" : {
+            "type" : "string",
+            "description" : "The currency the amount is requested in.",
+            "maxLength" : 35
+          },
+          "exchangeRate" : {
+            "type" : "string",
+            "description" : "Contains the exchange rate returned from the system. i.e. For entries over foreign currency accounts, this contains the rate which used to convert the currency amount to the local equivalent at the time of the originating transaction.",
+            "maxLength" : 35
+          },
+          "limitType" : {
+            "type" : "string",
+            "description" : "Defines the limit type for the trade",
+            "maxLength" : 35
+          },
+          "jointLiability" : {
+            "type" : "string",
+            "description" : "Identifies if there is a joint liability on the limit record Allowed values: -YES -NO  ",
+            "maxLength" : 35
+          },
+          "sharedLimit" : {
+            "type" : "string",
+            "description" : "Indicates whether the credit line is of shared limit structure",
+            "maxLength" : 35
+          },
+          "adjustAvailableAmount" : {
+            "type" : "string",
+            "description" : "Indicates to adjust the available funds to respective time bands.",
+            "maxLength" : 3
+          },
+          "rebuildData" : {
+            "type" : "string",
+            "description" : "Indicates to rebuild the customer exposure when enquired by user.",
+            "maxLength" : 3
+          },
+          "sessionId" : {
+            "type" : "string",
+            "description" : "Id of the T24 session where the risk exposure view executed",
+            "maxLength" : 35
+          },
+          "originalInternalAmount" : {
+            "type" : "string",
+            "description" : "Specifies the orignal amount actually approved or authorised on a credit line by Management or the Credit Committee before any repayment made",
+            "maxLength" : 35
+          },
+          "originalAdvisedAmount" : {
+            "type" : "string",
+            "description" : "Specifies the original amount advised to the customer holding the credit facility before any repayment made",
+            "maxLength" : 35
+          },
+          "repaidAmount" : {
+            "type" : "string",
+            "description" : "Indicates the amount which was repaid from the customer",
+            "maxLength" : 35
+          },
+          "totalRepaidAmount" : {
+            "type" : "string",
+            "description" : "Total of the repaid amount under a credit facility",
+            "maxLength" : 35
+          },
+          "excessFlag" : {
+            "type" : "string",
+            "description" : "Flag to indicate the credit line has been over utilised",
+            "maxLength" : 3
+          },
+          "fixedOrVariable" : {
+            "type" : "string",
+            "description" : "Indicates the secured nature of limit that has been covered by a customer collateral. When 'FIXED' the limit amount sanctioned will not have impact on changing value of collateral whereas when 'VARIABLE' limit amount will change based on the collateral amount changes.",
+            "maxLength" : 35
+          },
+          "securedAmount" : {
+            "type" : "string",
+            "description" : "The total amount that has been covered by the collateral underlying the credit facility",
+            "maxLength" : 35
+          },
+          "multiCustomerLimit" : {
+            "type" : "boolean",
+            "description" : "Specifies if a credit facility shall be used by multiple customers"
+          },
+          "groupClass" : {
+            "type" : "string",
+            "description" : "Classify the type of group, whether it is a CUSTOMER.GROUP or SUB.GROUP",
+            "maxLength" : 10
+          },
+          "isAggregationExists" : {
+            "type" : "boolean",
+            "description" : "Indicates if there exists aggregation of one or many customer exposure under a primary customer"
+          },
+          "mainGroupId" : {
+            "type" : "string",
+            "description" : "Identifier of the main group under which the sub group has been defined",
+            "maxLength" : 35
+          },
+          "creditLineProduct" : {
+            "type" : "string",
+            "description" : "Identifier of the limit product of the topmost credit facility in the hierarchy",
+            "maxLength" : 35
+          },
+          "gvIndicator" : {
+            "type" : "string",
+            "description" : "Indicator which specifies the graphical view of risk exposure report requested",
+            "maxLength" : 35
+          },
+          "onlineLimit" : {
+            "type" : "string",
+            "description" : "The Limit amount that is actually available for use.The system limit checks are performed against the online limit",
+            "maxLength" : 35
+          },
+          "groupAccountOfficer" : {
+            "type" : "string",
+            "description" : "Account officer who is allocated the responsibility of maintaining the customer group",
+            "maxLength" : 35
+          },
+          "groupCompanyId" : {
+            "type" : "string",
+            "description" : "Identifier of the Company where the customer group resides",
+            "maxLength" : 35
+          },
+          "groupName" : {
+            "type" : "string",
+            "description" : "The name that is displayed for the group",
+            "maxLength" : 40
+          },
+          "customerName" : {
+            "type" : "string",
+            "description" : "Name of the customer"
+          },
+          "type" : {
+            "type" : "string",
+            "description" : "The product condition has an activity type associated that drives an action.",
+            "maxLength" : 15
+          },
+          "deposits" : {
+            "type" : "string",
+            "description" : "Total of the customer's account balance",
+            "maxLength" : 35
+          }
+        }
+      }
+    },
+    "CustomerGroupRelationsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/CustomerGroupRelationsResponseBody"
+        }
+      },
+      "description" : "CustomerGroupRelationsResponse"
+    },
+    "CustomerGroupRelationsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "relationshipDetails" : {
+            "type" : "array",
+            "description" : "Indicates the details of Relationship maintained by the Customer or Entity",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "partyType" : {
+                  "type" : "string",
+                  "description" : "Indicates the type of customer which is part of the relationship. It may be Customer, Person or Entity."
+                },
+                "partyId" : {
+                  "type" : "number",
+                  "description" : "Allows capturing of customers or person entities to be part of the relationship. If partyType is selected as Customer, then the system will allow only customer Ids to be captured into this field. If partyType is selected as Person or Entity, then system will allow only personEntity Ids to be captured into this field."
+                },
+                "partyName" : {
+                  "type" : "string",
+                  "description" : "Specifies the short name of the customer in CUSTOMER.GROUP"
+                },
+                "relationDisplayName" : {
+                  "type" : "string",
+                  "description" : "Specifies the description of the RELATION in CUSTOMER.GROUP"
+                },
+                "groupRelationDisplayName" : {
+                  "type" : "string",
+                  "description" : "Specifies the description of the GROUP.RELATION in CUSTOMER.GROUP"
+                },
+                "relatedAs" : {
+                  "type" : "string",
+                  "description" : "Entity Relationship with the partyType"
+                },
+                "relatedPartyType" : {
+                  "type" : "string",
+                  "description" : "Indicates the related party's customer type. It may be Customer, Person or Entity."
+                },
+                "relatedPartyId" : {
+                  "type" : "string",
+                  "description" : "Identifier of the Related Party"
+                },
+                "relatedPartyName" : {
+                  "type" : "string",
+                  "description" : "Name of the Party related to the Customer"
+                },
+                "owningPercent" : {
+                  "type" : "string",
+                  "description" : "Used to record the percentage of ownership in the relationship. For example an entity may be partially or wholly owned by another entity. This will only be allowed to be entered if the relation is indicated as a type allowing Ownership"
+                }
+              }
+            }
+          },
+          "customerGroupId" : {
+            "type" : "string",
+            "description" : "Identifier of the CUSTOMER.GROUP that constitues one or more related customers which would be used while arrivnig collective risk exposure of credit line liable to them either individually or shared among them",
+            "maxLength" : 35
+          }
+        }
+      }
+    },
+    "CustomerLimitsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/CustomerLimitsResponseBody"
+        }
+      },
+      "description" : "CustomerLimitsResponse"
+    },
+    "CustomerLimitsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "limitId" : {
+            "type" : "string",
+            "description" : "The identifier of credit limit",
+            "maxLength" : 32
+          },
+          "customerId" : {
+            "type" : "string",
+            "description" : "Identifier of the customer"
+          },
+          "customerName" : {
+            "type" : "string",
+            "description" : "Name of the customer"
+          },
+          "limitCurrency" : {
+            "type" : "string",
+            "description" : "Currency in which the credit limit is granted",
+            "maxLength" : 3
+          },
+          "limitReference" : {
+            "type" : "number",
+            "description" : "Identifies the credit limit reference for the underlying account.",
+            "maximum" : 7
+          },
+          "limitReferenceDisplayName" : {
+            "type" : "string",
+            "description" : "Display Name of Limit product",
+            "maxLength" : 7
+          },
+          "limitAmount" : {
+            "type" : "number",
+            "description" : "The Limit amount that is actually available for use. The system limit checks are preformed against the online limit"
+          },
+          "outstandingAmount" : {
+            "type" : "number",
+            "description" : "Contains the aggregate outstanding principal amount thereof after giving effect to any borrowings and prepayments or repayments of Committed Loans"
+          },
+          "availableOrExcess" : {
+            "type" : "number",
+            "description" : "The available amount for the corresponding liability number and limit reference. This amount is always expressed in the currency of the limit. Calculated as the sum of the online limit, the available balance and any sub allocation taken, less any sub allocation given, any commission available, the total outstanding."
+          },
+          "outstandingConditionAccount" : {
+            "type" : "string",
+            "description" : "This  account will be used to drive the overdrawn processing, when there are more than one account attached in limit.",
+            "maxLength" : 16
+          }
+        }
+      }
+    },
+    "ExpiringLimitsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/ExpiringLimitsResponseBody"
+        }
+      },
+      "description" : "ExpiringLimitsResponse"
+    },
+    "ExpiringLimitsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "expireLimitAmounts" : {
+            "type" : "array",
+            "description" : "Identifies the Usable or Available Amount in the expiring Credit Limit",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "onlineLimit" : {
+                  "type" : "number",
+                  "description" : "The Limit amount that is actually available for use.The system limit checks are performed against the online limit",
+                  "maximum" : 19
+                },
+                "availableAmount" : {
+                  "type" : "string",
+                  "description" : "The credit limit available to the customer for use",
+                  "maxLength" : 19
+                }
+              }
+            }
+          },
+          "limitReference" : {
+            "type" : "string",
+            "description" : "Identifies the credit limit reference for the underlying account.",
+            "maxLength" : 32
+          },
+          "liabilityNumber" : {
+            "type" : "string",
+            "description" : "Identifier of the Liability Customer to the credit limit",
+            "maxLength" : 10
+          },
+          "customerName" : {
+            "type" : "string",
+            "description" : "Name of the customer",
+            "maxLength" : 10
+          },
+          "limitCurrency" : {
+            "type" : "string",
+            "description" : "Currency in which the credit limit is granted",
+            "maxLength" : 3
+          },
+          "internalAmount" : {
+            "type" : "number",
+            "description" : "Indicates the amount allocated to the Credit Limit by the Bank",
+            "maximum" : 19
+          },
+          "expiryDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "The date an agreement such as an arrangement, product, credit facility or limit is due to expire"
+          }
+        }
+      }
+    },
+    "LimitsForexTradeSummaryResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/LimitsForexTradeSummaryResponseBody"
+        }
+      },
+      "description" : "LimitsForexTradeSummaryResponse"
+    },
+    "LimitsForexTradeSummaryResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "limitSubType" : {
+            "type" : "string",
+            "description" : "Display Name of Limit product"
+          },
+          "serialNumber" : {
+            "type" : "string",
+            "description" : "A sequence reference for the limit, which when used together with other fields such as Liability Number and/or Limit Reference, provides a unique identifier for a credit line",
+            "maxLength" : 32
+          },
+          "limitCurrency" : {
+            "type" : "string",
+            "description" : "Currency in which the credit limit is granted",
+            "maxLength" : 3
+          },
+          "limitAmount" : {
+            "type" : "number",
+            "description" : "The Limit amount that is actually available for use. The system limit checks are preformed against the online limit",
+            "maximum" : 20
+          },
+          "outstandingAmount" : {
+            "type" : "number",
+            "description" : "Contains the aggregate outstanding principal amount thereof after giving effect to any borrowings and prepayments or repayments of Committed Loans",
+            "maximum" : 20
+          },
+          "availableOrExcess" : {
+            "type" : "number",
+            "description" : "The available amount for the corresponding liability number and limit reference. This amount is always expressed in the currency of the limit. Calculated as the sum of the online limit, the available balance and any sub allocation taken, less any sub allocation given, any commission available, the total outstanding.",
+            "maximum" : 20
+          },
+          "expiryDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "The date an agreement such as an arrangement, product, credit facility or limit is due to expire"
+          }
+        }
+      }
+    },
+    "CustomerLimitGroupsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/CustomerLimitGroupsResponseBody"
+        }
+      },
+      "description" : "CustomerLimitGroupsResponse"
+    },
+    "CustomerLimitGroupsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "customerId" : {
+            "type" : "number",
+            "description" : "Identifier of the customer",
+            "maximum" : 10
+          },
+          "groupId" : {
+            "type" : "number",
+            "description" : "Unique ID of the group",
+            "maximum" : 7
+          }
+        }
+      }
+    },
+    "LimitGroupAllocationsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/LimitGroupAllocationsResponseBody"
+        }
+      },
+      "description" : "LimitGroupAllocationsResponse"
+    },
+    "LimitGroupAllocationsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "limitId" : {
+            "type" : "string",
+            "description" : "The identifier of credit limit",
+            "maxLength" : 21
+          },
+          "dealReference" : {
+            "type" : "string",
+            "description" : "Identifies the transaction reference of the Deal",
+            "maxLength" : 40
+          },
+          "dealCurrency" : {
+            "type" : "string",
+            "description" : "Identifies the transaction currency involved in the Deal",
+            "maxLength" : 3
+          },
+          "dealAmount" : {
+            "type" : "number",
+            "description" : "Identifies the transaction amount involved in the Deal",
+            "maximum" : 19
+          },
+          "overdrawnAmount" : {
+            "type" : "number",
+            "description" : "Indicates the current overdrawn amount associated to the account/limit",
+            "maximum" : 19
+          },
+          "limitKey" : {
+            "type" : "string",
+            "description" : "The identifier of credit limit",
+            "maxLength" : 32
+          },
+          "limitAmount" : {
+            "type" : "number",
+            "description" : "The Limit amount that is actually available for use. The system limit checks are preformed against the online limit",
+            "maximum" : 19
+          },
+          "groupId" : {
+            "type" : "string",
+            "description" : "Unique ID of the group",
+            "maxLength" : 10
+          },
+          "groupCurrency" : {
+            "type" : "string",
+            "description" : "Identifies the currency of the Limit under the Limit sharing group",
+            "maxLength" : 3
+          },
+          "totalAllocation" : {
+            "type" : "number",
+            "description" : "The total amount allocated for different deals under the limit",
+            "maximum" : 19
+          },
+          "commitOverdrawnAmount" : {
+            "type" : "number",
+            "description" : "Excess amount that are made as commitments under the Deal using the Group Limit",
+            "maximum" : 19
+          },
+          "commitAmountAlloc" : {
+            "type" : "number",
+            "description" : "Allocated Group limit amount for the commitments under the Deal",
+            "maximum" : 19
+          }
+        }
+      }
+    },
+    "CustomerLimitMasterGroupsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/CustomerLimitMasterGroupsResponseBody"
+        }
+      },
+      "description" : "CustomerLimitMasterGroupsResponse"
+    },
+    "CustomerLimitMasterGroupsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "masterGroupKeys" : {
+            "type" : "array",
+            "description" : "Automatically updated by system during authorization with the master group key in which the sharing group key is linked. It will be updated only for the Main group and not for the sub groups.",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "masterGroupKey" : {
+                  "type" : "string",
+                  "description" : "Automatically updated by system during authorization with the master group key in which the sharing group key is linked. It will be updated only for the Main group and not for the sub groups.",
+                  "maxLength" : 10
+                }
+              }
+            }
+          },
+          "allowedCustomers" : {
+            "type" : "array",
+            "description" : "Customers who are part of Limit sharing Group.",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "allowedCustomer" : {
+                  "type" : "string",
+                  "description" : "Customers who are part of Limit sharing Group.",
+                  "maxLength" : 10
+                }
+              }
+            }
+          },
+          "customerPriorities" : {
+            "type" : "array",
+            "description" : "Customer's Limit Sharing Priority to the Group",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "customerPriority" : {
+                  "type" : "string",
+                  "description" : "Customer's Limit Sharing Priority to the Group",
+                  "maxLength" : 3
+                }
+              }
+            }
+          },
+          "groupId" : {
+            "type" : "string",
+            "description" : "Unique ID of the group",
+            "maxLength" : 35
+          },
+          "isSingleCreditLine" : {
+            "type" : "string",
+            "description" : "whether the group sharing limit is single credit line or not",
+            "maxLength" : 3
+          }
+        }
+      }
+    },
+    "LimitForexDealsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/LimitForexDealsResponseBody"
+        }
+      },
+      "description" : "LimitForexDealsResponse"
+    },
+    "LimitForexDealsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "transactionReference" : {
+            "type" : "string",
+            "description" : "Transaction reference identifier."
+          },
+          "buyCurrency" : {
+            "type" : "string",
+            "description" : "ISO Currency code for the bought currency.  "
+          },
+          "buyAmount" : {
+            "type" : "string",
+            "description" : "Amount bought in the FX deal.",
+            "maxLength" : 18
+          },
+          "sellCurrency" : {
+            "type" : "string",
+            "description" : "ISO Currency code for the sold currency.  "
+          },
+          "sellAmount" : {
+            "type" : "string",
+            "description" : "Amount sold in the FX deal.",
+            "maxLength" : 18
+          },
+          "date" : {
+            "type" : "string",
+            "description" : "Indicates the date on which activity was performed",
+            "maxLength" : 44
+          }
+        }
+      }
+    },
+    "LimitForexLiabilitiesResponseQueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records per page"
+        },
+        "page_start" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The record from which the response should be displayed"
+        },
+        "total_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records present"
+        },
+        "page_token" : {
+          "type" : "string",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request"
+        },
+        "data" : {
+          "type" : "object",
+          "properties" : {
+            "limitProduct" : {
+              "type" : "string",
+              "description" : "Identifier of the credit limit product"
+            },
+            "liabilityNumber" : {
+              "type" : "string",
+              "description" : "Identifier of the Liability Customer to the credit limit"
+            },
+            "liabilityName" : {
+              "type" : "string",
+              "description" : "Display Name of the Liability Customer"
+            },
+            "customerName" : {
+              "type" : "string",
+              "description" : "Name of the customer"
+            },
+            "currency" : {
+              "type" : "string",
+              "description" : "Contains all details of each individual currency, for example, currency name, number of decimal places together with other information such as the buy and sell rates"
+            },
+            "limitAmount" : {
+              "type" : "string",
+              "description" : "The Limit amount that is actually available for use. The system limit checks are preformed against the online limit",
+              "maxLength" : 11
+            },
+            "cleanRisk" : {
+              "type" : "string",
+              "description" : "Clean risk or delivery risk, i.e. non-netted total value of forex trades maturing on any single day",
+              "maxLength" : 11
+            }
+          }
+        }
+      }
+    },
+    "LimitForexLiabilitiesResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/LimitForexLiabilitiesResponseQueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/LimitForexLiabilitiesResponseBody"
+        }
+      },
+      "description" : "LimitForexLiabilitiesResponse"
+    },
+    "LimitForexLiabilitiesResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "date" : {
+            "type" : "string",
+            "description" : "Indicates the date on which activity was performed",
+            "maxLength" : 19
+          },
+          "amount" : {
+            "type" : "string",
+            "description" : "This is the payment amount",
+            "maxLength" : 20
+          },
+          "totalAmount" : {
+            "type" : "string",
+            "description" : "Total amount",
+            "maxLength" : 20
+          },
+          "limitExcess" : {
+            "type" : "string",
+            "description" : "An indicator to show that a credit limit has been exceeded"
+          },
+          "riskExcess" : {
+            "type" : "string",
+            "description" : "Excess amount over and above the allowed limit."
+          }
+        }
+      }
+    },
+    "SharedLimitsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/SharedLimitsResponseBody"
+        }
+      },
+      "description" : "SharedLimitsResponse"
+    },
+    "SharedLimitsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "allowedCustomers" : {
+            "type" : "array",
+            "description" : "Customers who are part of Limit sharing Group.",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "allowedCustomer" : {
+                  "type" : "string",
+                  "description" : "Customers who are part of Limit sharing Group.",
+                  "maxLength" : 10
+                }
+              }
+            }
+          },
+          "allowedProducts" : {
+            "type" : "array",
+            "description" : "Product or products allowed to be used within the product bundle.",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "allowedProduct" : {
+                  "type" : "string",
+                  "description" : "Product or products allowed to be used within the product bundle.",
+                  "maxLength" : 7
+                }
+              }
+            }
+          },
+          "groupId" : {
+            "type" : "string",
+            "description" : "Unique ID of the group",
+            "maxLength" : 10
+          },
+          "groupIdDisplayName" : {
+            "type" : "string",
+            "description" : "Description of the Limit Sharing Group",
+            "maxLength" : 35
+          },
+          "limitProduct" : {
+            "type" : "string",
+            "description" : "Identifier of the credit limit product",
+            "maxLength" : 7
+          },
+          "parentGroup" : {
+            "type" : "string",
+            "description" : "Used for sub groups to create a hierarchy with main group. It is not required for Main groups and is mandatory for sub groups.",
+            "maxLength" : 10
+          },
+          "singleLineSerialNumber" : {
+            "type" : "string",
+            "description" : "Serial number of credit limit of the Single Line limit sharing group",
+            "maxLength" : 2
+          },
+          "masterGroupKey" : {
+            "type" : "string",
+            "description" : "Automatically updated by system during authorization with the master group key in which the sharing group key is linked. It will be updated only for the Main group and not for the sub groups.",
+            "maxLength" : 5
+          }
+        }
+      }
+    },
+    "CustomerLimitSharingPrioritiesResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/CustomerLimitSharingPrioritiesResponseBody"
+        }
+      },
+      "description" : "CustomerLimitSharingPrioritiesResponse"
+    },
+    "CustomerLimitSharingPrioritiesResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "customerId" : {
+            "type" : "string",
+            "description" : "Identifier of the customer",
+            "maxLength" : 10
+          },
+          "priority" : {
+            "type" : "string",
+            "description" : "Defines the Campaign priority",
+            "maxLength" : 10
+          },
+          "customerPriority" : {
+            "type" : "string",
+            "description" : "Customer's Limit Sharing Priority to the Group",
+            "maxLength" : 3
+          }
+        }
+      }
+    },
+    "LimitSubGroupsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/LimitSubGroupsResponseBody"
+        }
+      },
+      "description" : "LimitSubGroupsResponse"
+    },
+    "LimitSubGroupsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "allowedCustomerList" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "allowedCustomer" : {
+                  "type" : "array",
+                  "description" : "Customers who are part of Limit sharing Group.",
+                  "items" : {
+                    "type" : "string"
+                  }
+                }
+              }
+            }
+          },
+          "groupId" : {
+            "type" : "string",
+            "description" : "Unique ID of the group",
+            "maxLength" : 10
+          },
+          "subGroupId" : {
+            "type" : "string",
+            "description" : "Identifier of the Limit Sharing Sub Group",
+            "maxLength" : 10
+          },
+          "subGroupDisplayName" : {
+            "type" : "string",
+            "description" : "Indicates the title of the Limit Sharing Sub Group",
+            "maxLength" : 10
+          },
+          "limitProduct" : {
+            "type" : "string",
+            "description" : "Identifier of the credit limit product",
+            "maxLength" : 10
+          }
+        }
+      }
+    },
+    "LimitSummaryResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/LimitSummaryResponseBody"
+        }
+      },
+      "description" : "LimitSummaryResponse"
+    },
+    "LimitSummaryResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "limitName" : {
+            "type" : "string",
+            "description" : "Display Name of Limit product"
+          },
+          "serialNumber" : {
+            "type" : "string",
+            "description" : "A sequence reference for the limit, which when used together with other fields such as Liability Number and/or Limit Reference, provides a unique identifier for a credit line"
+          },
+          "limitCurrency" : {
+            "type" : "string",
+            "description" : "Currency in which the credit limit is granted",
+            "maxLength" : 3
+          },
+          "limitAmount" : {
+            "type" : "number",
+            "description" : "The Limit amount that is actually available for use. The system limit checks are preformed against the online limit"
+          },
+          "outstandingAmount" : {
+            "type" : "number",
+            "description" : "Contains the aggregate outstanding principal amount thereof after giving effect to any borrowings and prepayments or repayments of Committed Loans"
+          },
+          "availableOrExcess" : {
+            "type" : "number",
+            "description" : "The available amount for the corresponding liability number and limit reference. This amount is always expressed in the currency of the limit. Calculated as the sum of the online limit, the available balance and any sub allocation taken, less any sub allocation given, any commission available, the total outstanding."
+          },
+          "expiryDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "The date an agreement such as an arrangement, product, credit facility or limit is due to expire"
+          }
+        }
+      }
+    },
+    "CustomerOverdrawnLimitsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/CustomerOverdrawnLimitsResponseBody"
+        }
+      },
+      "description" : "CustomerOverdrawnLimitsResponse"
+    },
+    "CustomerOverdrawnLimitsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "limitId" : {
+            "type" : "string",
+            "description" : "The identifier of credit limit",
+            "maxLength" : 32
+          },
+          "customerName" : {
+            "type" : "string",
+            "description" : "Name of the customer",
+            "maxLength" : 10
+          },
+          "firstOverdrawnDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "Indicates the date on which the overdraw/excess first occurred"
+          },
+          "lastMvmtDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "Indicates the date on which last movement occurred in the overdrawn account/limit"
+          },
+          "previousOutstanding" : {
+            "type" : "number",
+            "description" : "Indicates the amount that was last moved in the overdrawn account/limit"
+          },
+          "currentOutstanding" : {
+            "type" : "number",
+            "description" : "Indicates the current outstanding amount of the bill",
+            "maximum" : 19
+          },
+          "limitExcess" : {
+            "type" : "number",
+            "description" : "An indicator to show that a credit limit has been exceeded",
+            "maximum" : 32
+          },
+          "excessNarrative" : {
+            "type" : "string",
+            "description" : "Indicates the action of the last movement occurred in the overdrawn account/Limit",
+            "maxLength" : 35
+          },
+          "movedNarrative" : {
+            "type" : "string",
+            "description" : "Indicates whether there is any change in the overdrawn status",
+            "maxLength" : 9
+          },
+          "currentOdStatus" : {
+            "type" : "string",
+            "description" : "Indicates the current overdraft status of the Account",
+            "maxLength" : 4
+          },
+          "previousOdStatus" : {
+            "type" : "string",
+            "description" : "Indicates the previous overdraft status of the Account",
+            "maxLength" : 4
+          },
+          "statusChangeOn" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "Indicates the date when the overdraft status is changed"
+          },
+          "currentOdStartDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "Indicates the date when the current Overdraft Status is started"
+          },
+          "currentOdDays" : {
+            "type" : "string",
+            "description" : "Indicates the number of days account is continuously in Overdraft",
+            "maxLength" : 35
+          },
+          "overdrawnAmount" : {
+            "type" : "number",
+            "description" : "Indicates the current overdrawn amount associated to the account/limit",
+            "maximum" : 19
+          },
+          "thresholdAmount" : {
+            "type" : "number",
+            "description" : "Indicates the threshold amount defined in account/limit beyond which is considered to overdraft/breach",
+            "maximum" : 11
+          }
+        }
+      }
+    },
+    "LimitsToReviewTodayResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/LimitsToReviewTodayResponseBody"
+        }
+      },
+      "description" : "LimitsToReviewTodayResponse"
+    },
+    "LimitsToReviewTodayResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "limitReference" : {
+            "type" : "string",
+            "description" : "Identifies the credit limit reference for the underlying account.",
+            "maxLength" : 32
+          },
+          "liabilityNumber" : {
+            "type" : "number",
+            "description" : "Identifier of the Liability Customer to the credit limit",
+            "maximum" : 10
+          },
+          "customerName" : {
+            "type" : "string",
+            "description" : "Name of the customer",
+            "maxLength" : 10
+          },
+          "limitCurrency" : {
+            "type" : "string",
+            "description" : "Currency in which the credit limit is granted",
+            "maxLength" : 3
+          },
+          "internalAmount" : {
+            "type" : "number",
+            "description" : "Indicates the amount allocated to the Credit Limit by the Bank",
+            "maximum" : 19
+          },
+          "advisedAmount" : {
+            "type" : "number",
+            "description" : "Indicates the amount advised to the Credit Limit by the bank",
+            "maximum" : 19
+          },
+          "limitReviewDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "Specifies the next date on which the limit is reviewed"
+          },
+          "expiryDate" : {
+            "type" : "string",
+            "format" : "date",
+            "description" : "The date an agreement such as an arrangement, product, credit facility or limit is due to expire"
+          }
+        }
+      }
+    },
+    "SubCategoryLimitsResponseQueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records per page"
+        },
+        "page_start" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The record from which the response should be displayed"
+        },
+        "total_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records present"
+        },
+        "page_token" : {
+          "type" : "string",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request"
+        },
+        "data" : {
+          "type" : "object",
+          "properties" : {
+            "ZERORECORDS" : {
+              "type" : "string"
+            }
+          }
+        }
+      }
+    },
+    "SubCategoryLimitsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/SubCategoryLimitsResponseQueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/SubCategoryLimitsResponseBody"
+        }
+      },
+      "description" : "SubCategoryLimitsResponse"
+    },
+    "SubCategoryLimitsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "totalUniqueRow" : {
+            "type" : "string",
+            "description" : "Indicates the unique combinations of Category limit , sub category limit and Tenor"
+          },
+          "uniqueFlag" : {
+            "type" : "string",
+            "description" : "Flag to indicate unique row"
+          },
+          "limitProduct" : {
+            "type" : "string",
+            "description" : "Identifier of the credit limit product"
+          },
+          "productDescription" : {
+            "type" : "string",
+            "description" : "Indicates the description of the Product"
+          },
+          "limitSubProduct" : {
+            "type" : "string",
+            "description" : "Specifies the sub category limit product"
+          },
+          "subProductDescription" : {
+            "type" : "string",
+            "description" : "Specifies the product description of the sub category limit"
+          },
+          "timeCode" : {
+            "type" : "string",
+            "description" : "Specifies time sub-divisions of a Limit, each of which is available for a different maturity period"
+          },
+          "timeBandName" : {
+            "type" : "string",
+            "description" : "Description of the individual time code under a credit facility"
+          }
+        }
+      }
+    },
+    "SubGroupListResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/SubGroupListResponseBody"
+        }
+      },
+      "description" : "SubGroupListResponse"
+    },
+    "SubGroupListResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "subGroupInfo" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "subGroup" : {
+                  "type" : "string",
+                  "description" : "Identifier of the sub group within a CUSTOMER.GROUP that constitues one or more related customers which would be used while arrivnig collective risk exposure of credit line liable to them either individually or shared among them.",
+                  "maxLength" : 15
+                },
+                "subGroupName" : {
+                  "type" : "string",
+                  "description" : "Specifies the SUB.GROUP name of the CUSTOMER.GROUP",
+                  "maxLength" : 35
+                },
+                "companyCode" : {
+                  "type" : "string",
+                  "description" : "The identifier of the underlying Entity/Company/Branch.",
+                  "maxLength" : 9
+                },
+                "accountOfficer" : {
+                  "type" : "string",
+                  "description" : "Identifier of Department Account Officer",
+                  "maxLength" : 6
+                },
+                "customerInfo" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object",
+                    "properties" : {
+                      "partyType" : {
+                        "type" : "string",
+                        "description" : "Indicates the type of customer which is part of the relationship. It may be Customer, Person or Entity.",
+                        "maxLength" : 13
+                      },
+                      "customerName" : {
+                        "type" : "string",
+                        "description" : "Name of the customer"
+                      },
+                      "customerId" : {
+                        "type" : "string",
+                        "description" : "Identifier of the customer",
+                        "maxLength" : 10
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "riskGroupId" : {
+            "type" : "string",
+            "description" : "Identifier of the CUSTOMER.GROUP that constitutes one or more related customers which would be used while arrivnig collective risk exposure of credit line liable to them either individually or shared among them.",
+            "maxLength" : 35
+          }
+        }
+      }
+    },
+    "SubLimitsResponseQueryHeader" : {
+      "properties" : {
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        },
+        "page_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records per page"
+        },
+        "page_start" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The record from which the response should be displayed"
+        },
+        "total_size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of records present"
+        },
+        "page_token" : {
+          "type" : "string",
+          "description" : "Unique id expected to get as part of response from t24 on every enquiry request"
+        },
+        "data" : {
+          "type" : "object",
+          "properties" : {
+            "ZERORECORDS" : {
+              "type" : "string"
+            }
+          }
+        }
+      }
+    },
+    "SubLimitsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/SubLimitsResponseQueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/SubLimitsResponseBody"
+        }
+      },
+      "description" : "SubLimitsResponse"
+    },
+    "SubLimitsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "subLimitInfo" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "currencyId" : {
+                  "type" : "string",
+                  "description" : "Identifier of the currency. This is the 3-letter ISO 4217 code of the currency."
+                },
+                "limitExpiryDate" : {
+                  "type" : "string",
+                  "format" : "date",
+                  "description" : "This field specifies the validity of the Limit, i.e. how long is it to remain in force"
+                },
+                "internalAmount" : {
+                  "type" : "string",
+                  "description" : "Indicates the amount allocated to the Credit Limit by the Bank"
+                },
+                "availableAmount" : {
+                  "type" : "string",
+                  "description" : "The credit limit available to the customer for use"
+                },
+                "criterionInfo" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object",
+                    "properties" : {
+                      "riskCriterionName" : {
+                        "type" : "string",
+                        "description" : "Indicates the risk criterion name based on which the risk elements of a contract is framed."
+                      },
+                      "riskCriterionValue" : {
+                        "type" : "string",
+                        "description" : "Indicates the risk criterion value for a risk criterion name"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "limitId" : {
+            "type" : "string",
+            "description" : "The identifier of credit limit"
+          }
+        }
+      }
+    },
+    "LimitCollateralsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/QueryHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/LimitCollateralsResponseBody"
+        }
+      },
+      "description" : "LimitCollateralsResponse"
+    },
+    "LimitCollateralsResponseBody" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "limitId" : {
+            "type" : "string",
+            "description" : "The identifier of credit limit",
+            "maxLength" : 50
+          },
+          "limitName" : {
+            "type" : "string",
+            "description" : "Display Name of Limit product",
+            "maxLength" : 30
+          },
+          "limitNumber" : {
+            "type" : "string",
+            "description" : "A sequence reference for the limit, which when used together with other fields such as Liability Number and/or Limit Reference, provides a unique identifier for a credit line",
+            "maxLength" : 2
+          },
+          "limitCurrency" : {
+            "type" : "string",
+            "description" : "Currency in which the credit limit is granted",
+            "maxLength" : 3
+          },
+          "onlineLimit" : {
+            "type" : "number",
+            "description" : "The Limit amount that is actually available for use.The system limit checks are performed against the online limit"
+          },
+          "fixedOrVariable" : {
+            "type" : "string",
+            "description" : "Indicates the secured nature of limit that has been covered by a customer collateral. When FIXED the limit amount sanctioned will not have impact on changing value of collateral whereas when VARIABLE limit amount will change based on the collateral amount changes",
+            "maxLength" : 10
+          },
+          "securedAmount" : {
+            "type" : "number",
+            "description" : "The total amount that has been covered by the collateral underlying the credit facility"
+          },
+          "outstandingAmount" : {
+            "type" : "number",
+            "description" : "Contains the aggregate outstanding principal amount thereof after giving effect to any borrowings and prepayments or repayments of Committed Loans"
+          },
+          "availableOrExcess" : {
+            "type" : "number",
+            "description" : "The available amount for the corresponding liability number and limit reference. This amount is always expressed in the currency of the limit. Calculated as the sum of the online limit, the available balance and any sub allocation taken, less any sub allocation given, any commission available, the total outstanding."
+          }
+        }
+      }
+    },
+    "PayloadHeader" : {
+      "properties" : {
+        "override" : {
+          "type" : "object",
+          "properties" : {
+            "overrideDetails" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "id" : {
+                    "type" : "string",
+                    "description" : "The identifier of the override."
+                  },
+                  "description" : {
+                    "type" : "string",
+                    "description" : "The actual override message."
+                  },
+                  "code" : {
+                    "type" : "string",
+                    "description" : "The code related to override message."
+                  },
+                  "responseCode" : {
+                    "type" : "string",
+                    "description" : "The user input to accept/reject the override."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            }
+          }
+        }
+      }
+    },
+    "CreditLimits" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/CreditLimitsBody"
+        }
+      },
+      "description" : "CreditLimits"
+    },
+    "CreditLimitsBody" : {
+      "type" : "object",
+      "properties" : {
+        "notes" : {
+          "type" : "array",
+          "description" : "Notes to facilitate the use of the Function.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "notes" : {
+                "type" : "string",
+                "description" : "Notes to facilitate the use of the Function.",
+                "minLength" : 0,
+                "maxLength" : 36
+              }
+            }
+          }
+        },
+        "limitDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "timeCode" : {
+                "type" : "string",
+                "description" : "Specifies time sub-divisions of a Limit, each of which is available for a different maturity period",
+                "minLength" : 0,
+                "maxLength" : 12
+              },
+              "onlineLimit" : {
+                "type" : "string",
+                "description" : "The Limit amount that is actually available for use.The system limit checks are performed against the online limit",
+                "minLength" : 0,
+                "maxLength" : 19
+              },
+              "outstandingAmount" : {
+                "type" : "string",
+                "description" : "Contains the aggregate outstanding principal amount thereof after giving effect to any borrowings and prepayments or repayments of Committed Loans",
+                "minLength" : 0,
+                "maxLength" : 19
+              },
+              "availableAmount" : {
+                "type" : "string",
+                "description" : "The credit limit available to the customer for use",
+                "minLength" : 0,
+                "maxLength" : 19
+              }
+            }
+          }
+        },
+        "customerIds" : {
+          "type" : "array",
+          "description" : "Identifier of the customer",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "customerId" : {
+                "type" : "string",
+                "description" : "Identifier of the customer",
+                "minLength" : 0,
+                "maxLength" : 10
+              }
+            }
+          }
+        },
+        "limitCurrency" : {
+          "type" : "string",
+          "description" : "Currency in which the credit limit is granted",
+          "minLength" : 0,
+          "maxLength" : 13
+        },
+        "approvalDate" : {
+          "type" : "string",
+          "description" : "Defines the date on which the credit Limit was last approved by the Credit Committee of the bank",
+          "minLength" : 0,
+          "maxLength" : 12
+        },
+        "offeredUntilDate" : {
+          "type" : "string",
+          "description" : "Specifies the date by which the customer must have accepted the credit limit",
+          "minLength" : 0,
+          "maxLength" : 16
+        },
+        "limitReviewDate" : {
+          "type" : "string",
+          "description" : "Specifies the next date on which the limit is reviewed",
+          "minLength" : 0,
+          "maxLength" : 17
+        },
+        "expiryDate" : {
+          "type" : "string",
+          "description" : "The date an agreement such as an arrangement, product, credit facility or limit is due to expire",
+          "minLength" : 0,
+          "maxLength" : 11
+        },
+        "onlineLimitDate" : {
+          "type" : "string",
+          "description" : "Date on which the limit available for use",
+          "minLength" : 0,
+          "maxLength" : 15
+        },
+        "lastDrawDate" : {
+          "type" : "string",
+          "description" : "Specifies the date until which the transaction can utilize the credit limit",
+          "minLength" : 0,
+          "maxLength" : 12
+        },
+        "internalAmount" : {
+          "type" : "string",
+          "description" : "Indicates the amount allocated to the Credit Limit by the Bank",
+          "minLength" : 0,
+          "maxLength" : 19
+        },
+        "advisedAmount" : {
+          "type" : "string",
+          "description" : "Indicates the amount advised to the Credit Limit by the bank",
+          "minLength" : 0,
+          "maxLength" : 19
+        },
+        "availableMarker" : {
+          "type" : "string",
+          "description" : "Whether the limit available for use or not",
+          "minLength" : 0,
+          "maxLength" : 15
+        },
+        "extensionDate" : {
+          "type" : "string",
+          "description" : "Specifies the Administrative Extension date until which the credit limit expiry could be extended and be utilized",
+          "minLength" : 0,
+          "maxLength" : 13
+        },
+        "onlineUpdate" : {
+          "type" : "string",
+          "description" : "Specifies whether the maximum limit amount sanctioned has to be updated online when there is a change in linked collateral value of the limit",
+          "minLength" : 0,
+          "maxLength" : 12
+        },
+        "limitProduct" : {
+          "type" : "string",
+          "description" : "Identifier of the credit limit product",
+          "minLength" : 0,
+          "maxLength" : 13
+        },
+        "liabilityNumber" : {
+          "type" : "string",
+          "description" : "Identifier of the Liability Customer to the credit limit",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "recordParent" : {
+          "type" : "string",
+          "description" : "Identifier of the immediate parent limit",
+          "minLength" : 0,
+          "maxLength" : 32
+        },
+        "checkLimit" : {
+          "type" : "string",
+          "description" : "Defines whether overrides should appear when default LIMIT records are used or defaulted",
+          "minLength" : 0,
+          "maxLength" : 10
+        },
+        "allowNetting" : {
+          "type" : "string",
+          "description" : "Whether the customer for this liability can allow netting of both credit and debit accounts",
+          "minLength" : 0,
+          "maxLength" : 12
+        },
+        "limitType" : {
+          "type" : "string",
+          "description" : "Defines the limit type for the trade",
+          "minLength" : 0,
+          "maxLength" : 9
+        },
+        "serialNumber" : {
+          "type" : "string",
+          "description" : "A sequence reference for the limit, which when used together with other fields such as Liability Number and/or Limit Reference, provides a unique identifier for a credit line",
+          "minLength" : 0,
+          "maxLength" : 12
+        },
+        "singleTimeBand" : {
+          "type" : "string",
+          "description" : "Specifies whether this is a long-term limit with one time band where all arrangements/contracts under this limit are considered long term, regardless of arrangement/contract's maturity date",
+          "minLength" : 0,
+          "maxLength" : 14
+        },
+        "jointLiability" : {
+          "type" : "string",
+          "description" : "Identifies if there is a joint liability on the limit record Allowed values: -YES -NO  ",
+          "minLength" : 0,
+          "maxLength" : 14
+        }
+      }
+    },
+    "ScreenHeader" : {
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The Identifier of the record created"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API(success/failed)"
+        },
+        "transactionStatus" : {
+          "type" : "string",
+          "description" : "The status of the transaction"
+        },
+        "uniqueIdentifier" : {
+          "type" : "string",
+          "description" : "The unique identifier/Message Reference of the record created."
+        },
+        "audit" : {
+          "type" : "object",
+          "properties" : {
+            "T24_time" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "Time taken to response by T24"
+            },
+            "versionNumber" : {
+              "type" : "string",
+              "description" : "The CURR.NO. of the record"
+            },
+            "requestParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the request by IRIS"
+            },
+            "responseParse_time" : {
+              "type" : "number",
+              "description" : "Time taken to parse the response by IRIS"
+            }
+          }
+        }
+      }
+    },
+    "CreditLimitsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/CreditLimitsResponseBody"
+        }
+      },
+      "description" : "CreditLimitsResponse"
+    },
+    "CreditLimitsResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "notes" : {
+          "type" : "array",
+          "description" : "Notes to facilitate the use of the Function.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "notes" : {
+                "type" : "string",
+                "description" : "Notes to facilitate the use of the Function.",
+                "minLength" : 0,
+                "maxLength" : 36
+              }
+            }
+          }
+        },
+        "limitDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "timeCode" : {
+                "type" : "string",
+                "description" : "Specifies time sub-divisions of a Limit, each of which is available for a different maturity period",
+                "minLength" : 0,
+                "maxLength" : 12
+              },
+              "onlineLimit" : {
+                "type" : "string",
+                "description" : "The Limit amount that is actually available for use.The system limit checks are performed against the online limit",
+                "minLength" : 0,
+                "maxLength" : 19
+              },
+              "outstandingAmount" : {
+                "type" : "string",
+                "description" : "Contains the aggregate outstanding principal amount thereof after giving effect to any borrowings and prepayments or repayments of Committed Loans",
+                "minLength" : 0,
+                "maxLength" : 19
+              },
+              "availableAmount" : {
+                "type" : "string",
+                "description" : "The credit limit available to the customer for use",
+                "minLength" : 0,
+                "maxLength" : 19
+              }
+            }
+          }
+        },
+        "customerIds" : {
+          "type" : "array",
+          "description" : "Identifier of the customer",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "customerId" : {
+                "type" : "string",
+                "description" : "Identifier of the customer",
+                "minLength" : 0,
+                "maxLength" : 10
+              }
+            }
+          }
+        },
+        "limitCurrency" : {
+          "type" : "string",
+          "description" : "Currency in which the credit limit is granted",
+          "minLength" : 0,
+          "maxLength" : 13
+        },
+        "approvalDate" : {
+          "type" : "string",
+          "description" : "Defines the date on which the credit Limit was last approved by the Credit Committee of the bank",
+          "minLength" : 0,
+          "maxLength" : 12
+        },
+        "offeredUntilDate" : {
+          "type" : "string",
+          "description" : "Specifies the date by which the customer must have accepted the credit limit",
+          "minLength" : 0,
+          "maxLength" : 16
+        },
+        "limitReviewDate" : {
+          "type" : "string",
+          "description" : "Specifies the next date on which the limit is reviewed",
+          "minLength" : 0,
+          "maxLength" : 17
+        },
+        "expiryDate" : {
+          "type" : "string",
+          "description" : "The date an agreement such as an arrangement, product, credit facility or limit is due to expire",
+          "minLength" : 0,
+          "maxLength" : 11
+        },
+        "onlineLimitDate" : {
+          "type" : "string",
+          "description" : "Date on which the limit available for use",
+          "minLength" : 0,
+          "maxLength" : 15
+        },
+        "lastDrawDate" : {
+          "type" : "string",
+          "description" : "Specifies the date until which the transaction can utilize the credit limit",
+          "minLength" : 0,
+          "maxLength" : 12
+        },
+        "internalAmount" : {
+          "type" : "string",
+          "description" : "Indicates the amount allocated to the Credit Limit by the Bank",
+          "minLength" : 0,
+          "maxLength" : 19
+        },
+        "advisedAmount" : {
+          "type" : "string",
+          "description" : "Indicates the amount advised to the Credit Limit by the bank",
+          "minLength" : 0,
+          "maxLength" : 19
+        },
+        "availableMarker" : {
+          "type" : "string",
+          "description" : "Whether the limit available for use or not",
+          "minLength" : 0,
+          "maxLength" : 15
+        },
+        "extensionDate" : {
+          "type" : "string",
+          "description" : "Specifies the Administrative Extension date until which the credit limit expiry could be extended and be utilized",
+          "minLength" : 0,
+          "maxLength" : 13
+        },
+        "onlineUpdate" : {
+          "type" : "string",
+          "description" : "Specifies whether the maximum limit amount sanctioned has to be updated online when there is a change in linked collateral value of the limit",
+          "minLength" : 0,
+          "maxLength" : 12
+        },
+        "limitProduct" : {
+          "type" : "string",
+          "description" : "Identifier of the credit limit product",
+          "minLength" : 0,
+          "maxLength" : 13
+        },
+        "liabilityNumber" : {
+          "type" : "string",
+          "description" : "Identifier of the Liability Customer to the credit limit",
+          "minLength" : 0,
+          "maxLength" : 35
+        },
+        "recordParent" : {
+          "type" : "string",
+          "description" : "Identifier of the immediate parent limit",
+          "minLength" : 0,
+          "maxLength" : 32
+        },
+        "checkLimit" : {
+          "type" : "string",
+          "description" : "Defines whether overrides should appear when default LIMIT records are used or defaulted",
+          "minLength" : 0,
+          "maxLength" : 10
+        },
+        "allowNetting" : {
+          "type" : "string",
+          "description" : "Whether the customer for this liability can allow netting of both credit and debit accounts",
+          "minLength" : 0,
+          "maxLength" : 12
+        },
+        "limitType" : {
+          "type" : "string",
+          "description" : "Defines the limit type for the trade",
+          "minLength" : 0,
+          "maxLength" : 9
+        },
+        "serialNumber" : {
+          "type" : "string",
+          "description" : "A sequence reference for the limit, which when used together with other fields such as Liability Number and/or Limit Reference, provides a unique identifier for a credit line",
+          "minLength" : 0,
+          "maxLength" : 12
+        },
+        "singleTimeBand" : {
+          "type" : "string",
+          "description" : "Specifies whether this is a long-term limit with one time band where all arrangements/contracts under this limit are considered long term, regardless of arrangement/contract's maturity date",
+          "minLength" : 0,
+          "maxLength" : 14
+        },
+        "jointLiability" : {
+          "type" : "string",
+          "description" : "Identifies if there is a joint liability on the limit record Allowed values: -YES -NO  ",
+          "minLength" : 0,
+          "maxLength" : 14
+        }
+      }
+    },
+    "overrideBody" : {
+      "properties" : {
+        "overrideDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "string",
+                "description" : "The identifier of the override."
+              },
+              "description" : {
+                "type" : "string",
+                "description" : "The actual override message."
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The code related to override message."
+              },
+              "options" : {
+                "type" : "array",
+                "description" : "The usable options for the override.",
+                "items" : {
+                  "type" : "string"
+                }
+              },
+              "type" : {
+                "type" : "string",
+                "description" : "The type of the override."
+              }
+            }
+          }
+        }
+      }
+    },
+    "ScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/ScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "ScreenErrorResponse"
+    },
+    "ScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message "
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: "
+        }
+      }
+    },
+    "BusinessScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/BusinessScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "BusinessScreenErrorResponse"
+    },
+    "BusinessScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message for bad requests"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: Business"
+        }
+      }
+    },
+    "SystemScreenErrorResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ErrorHeader"
+        },
+        "error" : {
+          "$ref" : "#/definitions/SystemScreenErrorResponseBody"
+        },
+        "override" : {
+          "$ref" : "#/definitions/overrideBody"
+        }
+      },
+      "description" : "SystemScreenErrorResponse"
+    },
+    "SystemScreenErrorResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "errorDetails" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "fieldName" : {
+                "type" : "string",
+                "description" : "The name of the field"
+              },
+              "code" : {
+                "type" : "string",
+                "description" : "The identifier of the error message"
+              },
+              "message" : {
+                "type" : "string",
+                "description" : "The actual t24 error message caused by server"
+              }
+            }
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The identifier of error type: System"
+        }
+      }
+    },
+    "CreditLimitsDelete" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/PayloadHeader"
+        }
+      },
+      "description" : "CreditLimitsDelete"
+    },
+    "LimitDetailsResponse" : {
+      "properties" : {
+        "header" : {
+          "$ref" : "#/definitions/ScreenHeader"
+        },
+        "body" : {
+          "$ref" : "#/definitions/LimitDetailsResponseBody"
+        }
+      },
+      "description" : "LimitDetailsResponse"
+    },
+    "LimitDetailsResponseBody" : {
+      "type" : "object",
+      "properties" : {
+        "limitAmounts" : {
+          "type" : "array",
+          "description" : "The Limit amount that is actually available for use. The system limit checks are preformed against the online limit",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "limitAmount" : {
+                "type" : "string",
+                "description" : "The Limit amount that is actually available for use. The system limit checks are preformed against the online limit",
+                "minLength" : 0,
+                "maxLength" : 11
+              }
+            }
+          }
+        },
+        "customerIds" : {
+          "type" : "array",
+          "description" : "Identifier of the customer",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "customerId" : {
+                "type" : "string",
+                "description" : "Identifier of the customer",
+                "minLength" : 0,
+                "maxLength" : 10
+              }
+            }
+          }
+        },
+        "limitProductId" : {
+          "type" : "string",
+          "description" : "Identifier of the Limit Products",
+          "minLength" : 0,
+          "maxLength" : 14
+        },
+        "serialNumber" : {
+          "type" : "string",
+          "description" : "A sequence reference for the limit, which when used together with other fields such as Liability Number and/or Limit Reference, provides a unique identifier for a credit line",
+          "minLength" : 0,
+          "maxLength" : 12
+        },
+        "limitCurrency" : {
+          "type" : "string",
+          "description" : "Currency in which the credit limit is granted",
+          "minLength" : 0,
+          "maxLength" : 13
+        },
+        "availableMarker" : {
+          "type" : "string",
+          "description" : "Whether the limit available for use or not",
+          "minLength" : 0,
+          "maxLength" : 15
+        },
+        "availableFromDate" : {
+          "type" : "string",
+          "description" : "The date the product is available in the catalogue for sale to customers",
+          "minLength" : 0,
+          "maxLength" : 17
+        },
+        "expiryDate" : {
+          "type" : "string",
+          "description" : "The date an agreement such as an arrangement, product, credit facility or limit is due to expire",
+          "minLength" : 0,
+          "maxLength" : 10
+        },
+        "revolving" : {
+          "type" : "string",
+          "description" : "Indicates if commitment is revolving or non revolving in nature",
+          "minLength" : 0,
+          "maxLength" : 13
+        },
+        "recordParent" : {
+          "type" : "string",
+          "description" : "Identifier of the immediate parent limit",
+          "minLength" : 0,
+          "maxLength" : 13
+        },
+        "jointLiability" : {
+          "type" : "string",
+          "description" : "Identifies if there is a joint liability on the limit record Allowed values: -YES -NO  ",
+          "minLength" : 0,
+          "maxLength" : 14
+        },
+        "securedLimit" : {
+          "type" : "string",
+          "description" : "Flag to indicate whether credit line is secured by an underlying collateral",
+          "minLength" : 0,
+          "maxLength" : 12
+        },
+        "riskGroupId" : {
+          "type" : "string",
+          "description" : "Identifier of the CUSTOMER.GROUP that constitutes one or more related customers which would be used while arrivnig collective risk exposure of credit line liable to them either individually or shared among them.",
+          "minLength" : 0,
+          "maxLength" : 11
+        },
+        "businessUnit" : {
+          "type" : "string",
+          "description" : "The identifier of the underlying Entity/Company/Branch.",
+          "minLength" : 0,
+          "maxLength" : 12
+        },
+        "limitType" : {
+          "type" : "string",
+          "description" : "Defines the limit type for the trade",
+          "minLength" : 0,
+          "maxLength" : 9
+        }
+      }
+    }
+  }
+}
