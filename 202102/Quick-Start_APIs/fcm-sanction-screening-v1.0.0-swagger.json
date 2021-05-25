@@ -1,0 +1,1196 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Sanction Screening (FCM API)",
+    "description": "Using sophisticated algorithms, smart contextual whitelists, and robotic processes automation dramatically reduces overheads and costs by reducing “false positive” alerts. Screen protects your business by screening your customers and all types of transactions against watch lists (including sanctions). Its versatile, risk-based approach integrates lists from various sources; public, commercial or private applying geographical and business rules. \n\nSophisticated algorithms and highly effective scanning methods deliver the lowest rate of “false positive” alerts in the industry without compromising your detection accuracy. Screen’s flexible workflow framework allows you to define roles/access rights, context-based validation and 2, 3 or any number of review steps (including 4-eye) with the objective of operator productivity and accuracy. Screen provides additional complementary features such as sophisticated wizards to further reduce false positives; a comprehensive solution for all your screening needs. \n\nThis is a snapshot of the swagger document. The complete document is provided as part of a FCM release via the [FCM Team](https://www.temenos.com/contact-us/#contact).\n\nTo learn more about Temenos FCM visit [temenos.com](https://www.temenos.com/products/financial-crime-mitigation/)",
+    "license": {
+      "name": "Temenos API License 2.0"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://51.124.151.39/vrisk/web-services",
+      "description": "Generated server url"
+    }
+  ],
+  "paths": {
+    "/api/v1/resource/screen/alerts/customers": {
+      "get": {
+        "tags": [
+          "Customer Sanction Alert"
+        ],
+        "summary": "Get the list of customer screened alerts",
+        "description": "Provides information on list of all customer screened alerts. ",
+        "operationId": "getAllCustomersSanctionAlerts",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "The no.of pages to display",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            },
+            "example": 1
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "Total no. of alerts in a single page",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 25
+            },
+            "example": 10
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/JsonResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Customer screening alerts cannot be found "
+          }
+        }
+      }
+    },
+    "/api/v1/resource/screen/alerts/customers/{customerId}": {
+      "get": {
+        "tags": [
+          "Customer Sanction Alert"
+        ],
+        "summary": "Get the Customer alert for a customer Id",
+        "description": "Provides customer screening alerts for the provided customer Id. ",
+        "operationId": "getCustomerSanctionAlerts",
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "The no.of pages to display",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            },
+            "example": 1
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "Total no. of alerts in a single page",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 25
+            },
+            "example": 10
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/JsonResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Customer alert for the provided Customer id cannot be found"
+          }
+        }
+      }
+    },
+    "/api/v1/computations/screen/scan": {
+      "post": {
+        "tags": [
+          "Transaction Message Scan"
+        ],
+        "summary": "To scan a transaction message",
+        "description": "To scan a transaction message with payload. Alerts are stored for evaluation in FCM.",
+        "operationId": "post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/scan_request"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/scan_request"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "API success response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScanResponse"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScanResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Some of the Mandatory parameters missing from the request body."
+          },
+          "403": {
+            "description": "The authenticated user is not authorized to make the scan."
+          },
+          "500": {
+            "description": "Something doesn't go well while communicating with the scan engine."
+          }
+        },
+        "deprecated": true
+      }
+    },
+    "/api/v1/computations/screen/scan/json": {
+      "post": {
+        "tags": [
+          "Transaction Message Scan"
+        ],
+        "summary": "To scan a transaction message (JSON)",
+        "description": "To scan a transaction message with payload. Alerts are stored for evaluation in FCM.",
+        "operationId": "postjson",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScanRequestJsonSchemaWrapper"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScanResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Some of the Mandatory parameters missing from the request body."
+          },
+          "403": {
+            "description": "The authenticated user is not authorized to make the scan."
+          },
+          "500": {
+            "description": "Something doesn't go well while communicating with the scan engine."
+          }
+        }
+      }
+    },
+    "/api/v1/computations/screen/scan/xml": {
+      "post": {
+        "tags": [
+          "Transaction Message Scan"
+        ],
+        "summary": "To scan a transaction message (XML)",
+        "description": "To scan a transaction message with payload. Alerts are stored for evaluation in FCM.",
+        "operationId": "postxml",
+        "requestBody": {
+          "content": {
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/scan_request"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success response.",
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScanResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Some of the Mandatory parameters missing from the request body."
+          },
+          "403": {
+            "description": "The authenticated user is not authorized to make the scan."
+          },
+          "500": {
+            "description": "Something doesn't go well while communicating with the scan engine."
+          }
+        }
+      }
+    },
+    "/api/v1/computations/screen/onboard/scan/xml": {
+      "post": {
+        "tags": [
+          "Onboarding Customer Scan"
+        ],
+        "summary": "To scan a customer in a onboarding process (XML)",
+        "description": "To scan a individual/company customer in a onboarding process with minimal details of the customer to determine if found in sanction lists. <br/><br/><i>Note:</i> entity_type in the request can be either individual or company. <br /><ul><li>If entity_type is individual, individual_info element must be filled for successful response. In case both individual_info & company_info details present in the request, company_info details will be ignored and response will have a warning message on the same. </li><li>If entity_type is company, company_info element must be filled for successful response. In case both company_info & individual_info details present in the request, individual_info details will be ignored and response will have a warning message on the same. </li></ul>",
+        "operationId": "onboardScanXml",
+        "requestBody": {
+          "content": {
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/onboarding_scan_request"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "API success response.",
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScanResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request has been provided."
+          },
+          "403": {
+            "description": "The authenticated user is not authorized to make the onboarding scan."
+          },
+          "500": {
+            "description": "Connection error while communicating with the scan engine or Internal server error."
+          }
+        }
+      }
+    },
+    "/api/v1/computations/screen/onboard/scan/json": {
+      "post": {
+        "tags": [
+          "Onboarding Customer Scan"
+        ],
+        "summary": "To scan a customer in a onboarding process (JSON)",
+        "description": "To scan a individual/company customer in a onboarding process with minimal details of the customer to determine if found in sanction lists. <br/><br/><i>Note:</i> entity_type in the request can be either individual or company. <br /><ul><li>If entity_type is individual, individual_info element must be filled for successful response. In case both individual_info & company_info details present in the request, company_info details will be ignored and response will have a warning message on the same. </li><li>If entity_type is company, company_info element must be filled for successful response. In case both company_info & individual_info details present in the request, individual_info details will be ignored and response will have a warning message on the same. </li></ul>",
+        "operationId": "onboardScanJson",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OnboardScanRequestSchemaWrapper"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "API success response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScanResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request has been provided."
+          },
+          "403": {
+            "description": "The authenticated user is not authorized to make the onboarding scan."
+          },
+          "500": {
+            "description": "Connection error while communicating with the scan engine or Internal server error."
+          }
+        }
+      }
+    },
+    "/api/v1/computations/screen/onboarding/scan": {
+      "post": {
+        "tags": [
+          "Onboarding Customer Scan"
+        ],
+        "summary": "To scan a customer in a onboarding process",
+        "description": "To scan a individual/company customer in a onboarding process with minimal details of the customer to determine if found in sanction lists. <br/><br/><i>Note:</i> entity_type in the request can be either individual or company. <br /><ul><li>If entity_type is individual, individual_info element must be filled for successful response. In case both individual_info & company_info details present in the request, company_info details will be ignored and response will have a warning message on the same. </li><li>If entity_type is company, company_info element must be filled for successful response. In case both company_info & individual_info details present in the request, individual_info details will be ignored and response will have a warning message on the same. </li></ul>",
+        "operationId": "create",
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/xml": {
+              "schema": {
+                "type": "string"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "API success response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScanResponse"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScanResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request has been provided."
+          },
+          "403": {
+            "description": "The authenticated user is not authorized to make the onboarding scan."
+          },
+          "500": {
+            "description": "Connection error while communicating with the scan engine or Internal server error."
+          }
+        },
+        "deprecated": true
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "JsonResponse": {
+        "type": "object"
+      },
+      "AlertInfo": {
+        "type": "object",
+        "properties": {
+          "record_id": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "Reference entry record id",
+            "example": "0a2001657531127081753192bf5d0057"
+          },
+          "source_ids": {
+            "maxLength": 100,
+            "type": "string",
+            "description": "Watch list name",
+            "example": "EU"
+          }
+        }
+      },
+      "RiskInformation": {
+        "type": "object",
+        "properties": {
+          "hit_count": {
+            "type": "integer",
+            "description": "Total number of hits found",
+            "format": "int32",
+            "example": 2
+          },
+          "hits": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AlertInfo"
+            }
+          },
+          "pep_hit_count": {
+            "type": "integer",
+            "description": "Total number of pep hits found",
+            "format": "int32",
+            "example": 1
+          },
+          "risk": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "Name of the risk type",
+            "example": "ALERT.CIF.COFI"
+          },
+          "skip_count": {
+            "type": "integer",
+            "description": "Total number of hits skipped",
+            "format": "int32",
+            "example": 0
+          }
+        }
+      },
+      "ScanResponse": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RiskInformation"
+            }
+          },
+          "error_code": {
+            "maxLength": 16,
+            "type": "string",
+            "description": "Error code of scan response"
+          },
+          "error_description": {
+            "maxLength": 1024,
+            "type": "string",
+            "description": "Description of the error"
+          },
+          "gateway": {
+            "maxLength": 16,
+            "type": "string",
+            "description": "Gateway of the transaction",
+            "example": "CUSTOMER"
+          },
+          "giexp_timestamp": {
+            "type": "string",
+            "description": "Giexp time stamp",
+            "format": "YYYY-MM-DD HH:mm:ss",
+            "example": "2020-02-04 11:25:52"
+          },
+          "instance_name": {
+            "type": "string",
+            "description": "Name of the scan server instance"
+          },
+          "kb_timestamp": {
+            "type": "string",
+            "description": "KB time stamp",
+            "format": "YYYY-MM-DD HH:mm:ss",
+            "example": "2020-02-04 11:25:52"
+          },
+          "message_id": {
+            "type": "string",
+            "description": "Id of the message",
+            "example": "a8653255-5ee0-401a-92d0"
+          },
+          "non_blocking_flag": {
+            "type": "string",
+            "description": "Status of Non blocking flag ",
+            "example": "NO_HITS",
+            "enum": [
+              "NO_HITS",
+              "BLOCKING_HITS_ONLY",
+              "NON_BLOCKING_HITS_ONLY",
+              "MIXED_HITS"
+            ]
+          },
+          "server_port": {
+            "type": "string",
+            "description": "Server port number",
+            "example": "5123"
+          },
+          "status": {
+            "maxLength": 5,
+            "type": "string",
+            "description": "Status of scan response",
+            "example": "OK"
+          },
+          "version": {
+            "type": "string",
+            "description": "Scan response version",
+            "example": "1.2"
+          }
+        }
+      },
+      "CustomerData": {
+        "type": "object",
+        "properties": {
+          "address": {
+            "maxLength": 254,
+            "type": "string",
+            "description": "Address1 of the customer",
+            "example": "2"
+          },
+          "address2": {
+            "maxLength": 254,
+            "type": "string",
+            "description": "Address2 of the customer",
+            "example": "Gloucester UK"
+          },
+          "birthCity": {
+            "maxLength": 254,
+            "type": "string",
+            "description": "Birth city of the customer",
+            "example": "Dubai"
+          },
+          "birthCountry": {
+            "maxLength": 3,
+            "type": "string",
+            "description": "Birth country of the customer",
+            "example": "IR"
+          },
+          "birthDate": {
+            "type": "string",
+            "description": "Birth date of the customer",
+            "format": "date-time"
+          },
+          "city": {
+            "maxLength": 254,
+            "type": "string",
+            "description": "City of the customer",
+            "example": "Dubai"
+          },
+          "classification": {
+            "maxLength": 10,
+            "type": "string",
+            "description": "Classification of of the customer",
+            "example": "VIP"
+          },
+          "country": {
+            "maxLength": 3,
+            "type": "string",
+            "description": "Country of the customer",
+            "example": "IR"
+          },
+          "dynamicFields": {
+            "$ref": "#/components/schemas/DynamicCifFields"
+          },
+          "givenNames": {
+            "maxLength": 254,
+            "type": "string",
+            "description": "Given names"
+          },
+          "id": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "Id of the customer",
+            "example": "239076"
+          },
+          "industry": {
+            "maxLength": 10,
+            "type": "string",
+            "description": "Industry code",
+            "example": "6402"
+          },
+          "mandator": {
+            "maxLength": 10,
+            "type": "string",
+            "description": "Mandator of the customer",
+            "example": "GB0010001"
+          },
+          "name": {
+            "maxLength": 254,
+            "type": "string",
+            "description": "Name of the customer",
+            "example": "Nicky"
+          },
+          "nationalId": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "National id of the customer",
+            "example": "123401"
+          },
+          "nationality": {
+            "maxLength": 64,
+            "type": "string",
+            "description": "Nationality of the customer",
+            "example": "IR"
+          },
+          "onBoardingDate": {
+            "type": "string",
+            "description": "Onboarded date of the customer",
+            "format": "date-time"
+          },
+          "operator": {
+            "type": "string",
+            "description": "Operator"
+          },
+          "passportNumber": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "Passport of the customer",
+            "example": "990038044"
+          },
+          "residence": {
+            "maxLength": 64,
+            "type": "string",
+            "description": "Residence of the customer"
+          },
+          "sector": {
+            "maxLength": 5,
+            "type": "string",
+            "description": "Customer sector",
+            "example": "1499"
+          },
+          "sector2": {
+            "maxLength": 5,
+            "type": "string",
+            "description": "Customer sector2",
+            "example": "1500"
+          },
+          "socialSecurityCountry": {
+            "maxLength": 3,
+            "type": "string",
+            "description": "Social security country"
+          },
+          "socialSecurityNumber": {
+            "maxLength": 64,
+            "type": "string",
+            "description": "Social security number"
+          },
+          "state": {
+            "maxLength": 3,
+            "type": "string",
+            "description": "State of the customer",
+            "example": "UK"
+          },
+          "telephoneNumberFix": {
+            "maxLength": 16,
+            "type": "string",
+            "description": "Telephone number fix of the customer",
+            "example": "0218888888"
+          },
+          "telephoneNumberMobile": {
+            "maxLength": 16,
+            "type": "string",
+            "description": "Mobile number of the customer",
+            "example": "527-8044"
+          },
+          "title": {
+            "maxLength": 3,
+            "type": "string",
+            "description": "Name title",
+            "example": "MR"
+          },
+          "zipCode": {
+            "maxLength": 10,
+            "type": "string",
+            "description": "Zip code of the customer city",
+            "example": "GL541"
+          }
+        },
+        "description": "Customer Data"
+      },
+      "DynamicCifField": {
+        "type": "object",
+        "properties": {
+          "fieldName": {
+            "maxLength": 64,
+            "type": "string",
+            "description": "Name of the dynamic field",
+            "example": "age"
+          },
+          "fieldType": {
+            "maxLength": 15,
+            "type": "string",
+            "description": "Type of the Dynamic field",
+            "example": "Number",
+            "enum": [
+              "Json_Text",
+              "Text",
+              "DateTime",
+              "Number",
+              "Decimal",
+              "Country"
+            ]
+          },
+          "fieldValue": {
+            "maxLength": 256,
+            "type": "string",
+            "description": "Dynamic field value",
+            "example": "99"
+          },
+          "format": {
+            "type": "string",
+            "description": "Format for DateTime type dynamic field",
+            "format": "dd/MM/yyyy HH:mm:ss"
+          },
+          "mandator": {
+            "maxLength": 10,
+            "type": "string",
+            "description": "Mandator of the dynamic field",
+            "example": "GB0010001"
+          }
+        }
+      },
+      "DynamicCifFields": {
+        "type": "object",
+        "properties": {
+          "dynamicCifFields": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DynamicCifField"
+            }
+          }
+        },
+        "description": "Dynamic fields of the customer"
+      },
+      "EngineOptions": {
+        "type": "object",
+        "properties": {
+          "almost_hits_threshold": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "auto_skip_CSF": {
+            "type": "boolean"
+          }
+        },
+        "description": "Engine options"
+      },
+      "scan_request": {
+        "type": "object",
+        "properties": {
+          "additional_checks": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "amount": {
+            "type": "number",
+            "description": "Amount of the transaction",
+            "example": 985
+          },
+          "application_id": {
+            "maxLength": 3,
+            "type": "string",
+            "description": "Application id",
+            "example": "FT"
+          },
+          "area_code": {
+            "maxLength": 4,
+            "type": "string",
+            "description": "Area code",
+            "example": "IT"
+          },
+          "beneficiary_customer_id": {
+            "maxLength": 64,
+            "type": "string",
+            "description": "Beneficiary customer id",
+            "example": "123456"
+          },
+          "broker_id": {
+            "maxLength": 3,
+            "type": "string",
+            "description": "Broker id",
+            "example": "BKR"
+          },
+          "broker_message_id": {
+            "maxLength": 64,
+            "type": "string",
+            "description": "Broker message id"
+          },
+          "cost_center": {
+            "maxLength": 10,
+            "type": "string",
+            "description": "Cost center",
+            "example": "COST"
+          },
+          "currency": {
+            "maxLength": 3,
+            "type": "string",
+            "description": "Currency",
+            "example": "USD"
+          },
+          "customerData": {
+            "$ref": "#/components/schemas/CustomerData"
+          },
+          "direction": {
+            "maxLength": 1,
+            "type": "string",
+            "description": "Direction",
+            "example": "I",
+            "enum": [
+              "I",
+              "O"
+            ]
+          },
+          "engineOptions": {
+            "$ref": "#/components/schemas/EngineOptions"
+          },
+          "external_unique_id": {
+            "maxLength": 36,
+            "type": "string",
+            "description": "External unique id of the transaction"
+          },
+          "filter_switches": {
+            "maxLength": 16,
+            "type": "string",
+            "description": "Filter switches"
+          },
+          "gateway": {
+            "maxLength": 12,
+            "type": "string",
+            "description": "Gateway",
+            "example": "SWF"
+          },
+          "id": {
+            "type": "string",
+            "example": "SH10000000002"
+          },
+          "mandator": {
+            "maxLength": 10,
+            "type": "string",
+            "description": "Mandator",
+            "example": "GB0010001"
+          },
+          "message_format": {
+            "maxLength": 12,
+            "type": "string",
+            "description": "Message format",
+            "example": "SWIFT"
+          },
+          "message_sub_type": {
+            "type": "string",
+            "description": "Message sub type",
+            "example": "XXX"
+          },
+          "message_type": {
+            "maxLength": 6,
+            "type": "string",
+            "description": "Message type",
+            "example": "103"
+          },
+          "ordering_customer_id": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "Ordering customer id"
+          },
+          "original_header": {
+            "type": "string",
+            "description": "Original header"
+          },
+          "payload": {
+            "type": "string",
+            "description": "payload",
+            "example": "<![CDATA[{1:F01ABAAKHPPAXXX3077566737}{2:O1031654181220SCBLUS33BXXX09228610971812210800N}{3:{108:1812200221351-05}{111:001\n}{121:1075faaa-96ae-40d7-908c-b11b3bbef2bb}}{4:\n:20:2018122000221351\n:23B:CRED\n:32A:181220USD985,\n:33B:USD1000,\n:50K:/111021960\nANTONIO JOSE LOPEZ DE HARO RAMIREZ\nCALLE NUNEZ DE BALBOA 54 3-A\n28001 MADRID ES\n:52D:BANCO SANTANDER INTERNATIONAL\n:59:/000268635\nANTONIO JOSE LOPEZ DE HARO RAMIREZ\n:71A:SHA\n:71F:USD15,\n:72:/INS/FW066010597\n/IMAD/1220MMQFMPOL000123 DIN FULAYYIH-}{5:{MAC:00000000}{CHK:7704EC736A92}{DLM:}}{S:{SAC:}{COP:S}}]]"
+          },
+          "persist_workflow": {
+            "type": "boolean",
+            "description": "Persist workflow"
+          },
+          "persistence_disabled": {
+            "type": "boolean",
+            "description": "Persistence disabled"
+          },
+          "priority": {
+            "type": "string",
+            "description": "Priority"
+          },
+          "receiver": {
+            "maxLength": 20,
+            "type": "string",
+            "description": "Receiver",
+            "example": "ABA BANK"
+          },
+          "receiver_country": {
+            "maxLength": 3,
+            "type": "string",
+            "description": "Receiver country",
+            "example": "UK"
+          },
+          "request_date": {
+            "type": "string",
+            "description": "Request date",
+            "format": "date-time",
+            "example": "2019-09-19T12:26:34.996+07:00"
+          },
+          "risk_types": {
+            "maxLength": 16,
+            "type": "array",
+            "description": "Risk type",
+            "example": "COFI",
+            "items": {
+              "maxLength": 16,
+              "type": "string",
+              "description": "Risk type",
+              "example": "COFI"
+            }
+          },
+          "sender": {
+            "maxLength": 20,
+            "type": "string",
+            "description": "Sender",
+            "example": "SCBLUS33BXXX"
+          },
+          "sender_country": {
+            "maxLength": 3,
+            "type": "string",
+            "description": "Sender country",
+            "example": "US"
+          },
+          "simulate_results": {
+            "type": "string",
+            "description": "Simulate results"
+          },
+          "split_amount": {
+            "type": "number",
+            "description": "Split amount"
+          },
+          "split_transaction_number": {
+            "type": "string",
+            "description": "Split transaction number"
+          },
+          "transaction_number": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "Transaction number",
+            "example": "2018122000221351_1"
+          },
+          "value_date": {
+            "type": "string",
+            "description": "Value date",
+            "example": "20190919"
+          },
+          "version": {
+            "type": "string",
+            "description": "Scan request version",
+            "example": "1.0"
+          },
+          "zone_id": {
+            "maxLength": 10,
+            "type": "string",
+            "description": "Zone id",
+            "example": "SEC"
+          }
+        },
+        "description": "The request body"
+      },
+      "ScanRequestJsonSchemaWrapper": {
+        "type": "object",
+        "properties": {
+          "scan_request": {
+            "$ref": "#/components/schemas/scan_request"
+          }
+        },
+        "description": "The request body"
+      },
+      "EntityNames": {
+        "type": "object",
+        "properties": {
+          "original_name": {
+            "$ref": "#/components/schemas/OnboardingName"
+          },
+          "transcribed_name": {
+            "$ref": "#/components/schemas/OnboardingName"
+          }
+        }
+      },
+      "OnboardingCompanyInfo": {
+        "type": "object",
+        "properties": {
+          "actual_controllers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OnboardingEntity"
+            }
+          },
+          "incorporation_country": {
+            "maxLength": 3,
+            "type": "string",
+            "description": "Incorporation country code",
+            "example": "US"
+          },
+          "organization_code": {
+            "maxLength": 3,
+            "type": "string",
+            "description": "Organization code",
+            "example": "AG"
+          },
+          "shareholders": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OnboardingEntity"
+            }
+          },
+          "tax_registration_code": {
+            "maxLength": 16,
+            "type": "string",
+            "description": "Company tax registration code",
+            "example": "123456"
+          }
+        }
+      },
+      "OnboardingEntity": {
+        "type": "object",
+        "properties": {
+          "company_info": {
+            "$ref": "#/components/schemas/OnboardingCompanyInfo"
+          },
+          "entity_type": {
+            "type": "string",
+            "enum": [
+              "individual",
+              "company"
+            ]
+          },
+          "individual_info": {
+            "$ref": "#/components/schemas/OnboardingIndividualInfo"
+          },
+          "names": {
+            "$ref": "#/components/schemas/EntityNames"
+          },
+          "related_entities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OnboardingEntity"
+            }
+          },
+          "relation_type": {
+            "type": "string"
+          }
+        }
+      },
+      "OnboardingIdentifier": {
+        "type": "object",
+        "properties": {
+          "country": {
+            "maxLength": 3,
+            "type": "string",
+            "description": "Country name",
+            "example": "US"
+          },
+          "type": {
+            "maxLength": 10,
+            "type": "string",
+            "description": "Type"
+          },
+          "value": {
+            "type": "string",
+            "description": "Value"
+          }
+        }
+      },
+      "OnboardingIndividualInfo": {
+        "type": "object",
+        "properties": {
+          "birth_date": {
+            "type": "string",
+            "description": "Birth date of requester",
+            "format": "date",
+            "example": "1970-10-12"
+          },
+          "identifiers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OnboardingIdentifier"
+            }
+          }
+        }
+      },
+      "OnboardingName": {
+        "type": "object",
+        "properties": {
+          "first_name": {
+            "maxLength": 64,
+            "type": "string",
+            "description": "First name of customer",
+            "example": "Jack"
+          },
+          "full_name": {
+            "maxLength": 64,
+            "type": "string",
+            "description": "Full name of customer",
+            "example": "Jack Nicholson"
+          },
+          "language": {
+            "maxLength": 3,
+            "type": "string",
+            "description": "ISO standard language code of the customer",
+            "example": "en"
+          },
+          "last_name": {
+            "maxLength": 64,
+            "type": "string",
+            "description": "Last name of customer",
+            "example": "Nicholson"
+          }
+        }
+      },
+      "onboarding_scan_request": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "$ref": "#/components/schemas/OnboardingEntity"
+          },
+          "gateway": {
+            "maxLength": 13,
+            "type": "string",
+            "description": "Gateway of the message",
+            "example": "ONBOARDING"
+          },
+          "mandator": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "Name of the company",
+            "example": "NA001"
+          },
+          "requester": {
+            "maxLength": 64,
+            "type": "string",
+            "description": "Name of the requester",
+            "example": "CUSTOMER"
+          },
+          "version": {
+            "type": "string",
+            "description": "Version of scan request",
+            "example": "1.0",
+            "xml": {
+              "attribute": true
+            }
+          }
+        }
+      },
+      "OnboardScanRequestSchemaWrapper": {
+        "type": "object",
+        "properties": {
+          "onboarding_scan_request": {
+            "$ref": "#/components/schemas/onboarding_scan_request"
+          }
+        },
+        "description": "The request body"
+      }
+    },
+    "securitySchemes": {
+      "basicScheme": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  }
+}
