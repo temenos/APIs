@@ -1,179 +1,125 @@
-{
-  "swagger" : "2.0",
-  "info" : {
-    "version" : "v1.0.0",
-    "title" : "Customer Profitability",
-    "description" : "Our Customer Profitability API provides access to the calculation output of our Customer Profitability module of Temenos Analytics. This module calculates profitability using a Funds Transfer Pricing mechanism to assign a transfer rate to all products and ultimately calculate profitably at the Account, Product and Customer level. This API supplies the aggregated customer level of detail and is primarily used to give bank users, analysts, and developers access to customer profitability data for reporting, analysis and data visualization. 
-    <br/>
-    The output can be combined with other Analytics APIs such as Customer Segmentation to further enhance the analysis.
-    <br/>
-    For more information on Temenos Analytics, the Customer Profitability module, or our Analytics Data Store (ADS) please visit [temenos.com/products/data-and-analytics](https://www.temenos.com/products/data-and-analytics/)."
-  },
-  "host" : "api.temenos.com",
-  "basePath" : "/api/v1.0.0/",
-  "schemes" : [ "http", "https" ],
-  "security" : [ {
-    "basicAuth" : [ ]
-  } ],
-  "paths" : {
-    "/holdings/customers/metrics/profitability" : {
-      "get" : {
-        "summary" : "Retrieve Customer Profitability Data",
-        "description": "The Customer Profitability API endpoint is based on our Analytics Data Store (ADS) and as such is optimized for time series analysis.",
-        "operationId" : "getAllCustomerProfitabilityMetrics",
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "businessDate",
-          "in" : "query",
-          "description" : "Business snapshot date of the source data",
-          "required" : false,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Customer ProfitabilityResponse",
-            "schema" : {
-              "$ref" : "#/definitions/getAllCustomerProfitabilityMetricsResponse"
-            }
-          },
-          "default" : {
-            "description" : "QueryErrorResponse",
-            "schema" : {
-              "$ref" : "#/definitions/QueryErrorResponse"
-            }
-          }
-        }
-      }
-    }
-  },
-  "securityDefinitions" : {
-    "basicAuth" : {
-      "type" : "basic"
-    }
-  },
-  "definitions" : {
-    "getAllCustomerProfitabilityMetricsResponse" : {
-      "properties" : {
-        "data" : {
-          "$ref" : "#/definitions/getAllCustomerProfitabilityMetricsResponseBody"
-        }
-      },
-      "description" : "getAllCustomerProfitabilityMetricsResponse"
-    },
-    "getAllCustomerProfitabilityMetricsResponseBody" : {
-      "type" : "object",
-      "properties" : {
-        "customer" : {
-          "type" : "array",
-          "items" : {
-            "type" : "object",
-            "properties" : {
-              "businessDate" : {
-                "type" : "string",
-                "description" : "Business snapshot date of the source data"
-              },
-              "customerBranchName" : {
-                "type" : "string",
-                "description" : "Branch Name where Contract was created"
-              },
-              "maritalStatus" : {
-                "type" : "string",
-                "description" : "Marital status of the customer such as single; married; divorced; separated"
-              },
-              "customerMonthlyNetIncome" : {
-                "type" : "string",
-                "description" : "This value is the sum of the MonthlyNetIncome for all accounts for this customer.  Account MonthlyNetIncome is calculated in the InsightPricing module and rolled up to the customer level."
-              },
-              "customerMonthlySpreadIncome" : {
-                "type" : "string",
-                "description" : "SpreadRate * Balance.  SpreadRate is calculated in InsightPricing as the difference between the effective rate and the Funds Transfer Rate.  The account values are rolled up to the customer level"
-              },
-              "customerMonthlyCosts" : {
-                "type" : "string",
-                "description" : "Monthly costs per customer.  This is calculated in InsightPricing from period cost values and transactions costs."
-              },
-              "customerMonthlyFeeIncome" : {
-                "type" : "string",
-                "description" : "Monthly service fee income from the customer.  This is calculated in InsightPricing from service fees and charges for each account and rolled up to the customer level."
-              },
-              "accounts" : {
-                "type" : "string",
-                "description" : "The total number of accounts the customer has"
-              },
-              "products" : {
-                "type" : "string",
-                "description" : "The total number of products the customer has.  Each unique classification counts as one product.  Eg. 2 Savings accounts and 2 loan accounts would be 2 products.   Sometimes products such as Membership or Overdrafts are excluded from the count."
-              },
-              "ageGroup" : {
-                "type" : "string",
-                "description" : "Age Group"
-              },
-              "customerNumber" : {
-                "type" : "string",
-                "description" : "The customer number or customer identification number"
-              }
-            }
-          }
-        }
-      }
-    },
-    "ErrorHeader" : {
-      "properties" : {
-        "audit" : {
-          "type" : "object",
-          "properties" : {
-            "T24_time" : {
-              "type" : "integer",
-              "format" : "int32",
-              "description" : "Time taken to response by T24"
-            },
-            "versionNumber" : {
-              "type" : "string",
-              "description" : "The CURR.NO. of the record"
-            },
-            "requestParse_time" : {
-              "type" : "number",
-              "description" : "Time taken to parse the request by IRIS"
-            },
-            "responseParse_time" : {
-              "type" : "number",
-              "description" : "Time taken to parse the response by IRIS"
-            }
-          }
-        },
-        "status" : {
-          "type" : "string",
-          "description" : "Status of the API(success/failed)"
-        }
-      }
-    },
-    "QueryErrorResponse" : {
-      "properties" : {
-        "header" : {
-          "$ref" : "#/definitions/ErrorHeader"
-        },
-        "error" : {
-          "$ref" : "#/definitions/QueryErrorResponseBody"
-        }
-      },
-      "description" : "QueryErrorResponse"
-    },
-    "QueryErrorResponseBody" : {
-      "type" : "object",
-      "properties" : {
-        "code" : {
-          "type" : "string",
-          "description" : "The identifier of the error message"
-        },
-        "message" : {
-          "type" : "string",
-          "description" : "The actual t24 error message "
-        },
-        "type" : {
-          "type" : "string",
-          "description" : "The identifier of error type: "
-        }
-      }
-    }
-  }
-}
+swagger: '2.0'
+info:
+  version: v1.0.0
+  title: Customer Profitability
+  description: 'Our Customer Profitability API provides access to the calculation output of our Customer Profitability module of Temenos Analytics. This module calculates profitability using a Funds Transfer Pricing mechanism to assign a transfer rate to all products and ultimately calculate profitably at the Account, Product and Customer level.<br><br>This API supplies the aggregated customer level of detail and is primarily used to give bank users, analysts, and developers access to customer profitability data for reporting, analysis and data visualization.<br><br>The output can be combined with other Analytics APIs such as Customer Segmentation to further enhance the analysis. <br><br>For more information on Temenos Analytics, the Customer Profitability module, or our Analytics Data Store (ADS) please visit [temenos.com/products/data-and-analytics](https://www.temenos.com/products/data-and-analytics/).'
+host: api.temenos.com
+basePath: /api/v1.0.0/
+schemes:
+  - http
+  - https
+security:
+  - basicAuth: []
+paths:
+  /holdings/customers/metrics/profitability:
+    get:
+      summary: Retrieve Customer Profitability Data
+      description: The Customer Profitability API endpoint is based on our Analytics Data Store (ADS) and as such is optimized for time series analysis.
+      operationId: getAllCustomerProfitabilityMetrics
+      produces:
+        - application/json
+      parameters:
+        - name: businessDate
+          in: query
+          description: Business snapshot date of the source data
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Customer ProfitabilityResponse
+          schema:
+            $ref: '#/definitions/getAllCustomerProfitabilityMetricsResponse'
+        default:
+          description: QueryErrorResponse
+          schema:
+            $ref: '#/definitions/QueryErrorResponse'
+securityDefinitions:
+  basicAuth:
+    type: basic
+definitions:
+  getAllCustomerProfitabilityMetricsResponse:
+    properties:
+      data:
+        $ref: '#/definitions/getAllCustomerProfitabilityMetricsResponseBody'
+    description: getAllCustomerProfitabilityMetricsResponse
+  getAllCustomerProfitabilityMetricsResponseBody:
+    type: object
+    properties:
+      customer:
+        type: array
+        items:
+          type: object
+          properties:
+            businessDate:
+              type: string
+              description: Business snapshot date of the source data
+            customerBranchName:
+              type: string
+              description: Branch Name where Contract was created
+            maritalStatus:
+              type: string
+              description: Marital status of the customer such as single; married; divorced; separated
+            customerMonthlyNetIncome:
+              type: string
+              description: This value is the sum of the MonthlyNetIncome for all accounts for this customer.  Account MonthlyNetIncome is calculated in the InsightPricing module and rolled up to the customer level.
+            customerMonthlySpreadIncome:
+              type: string
+              description: SpreadRate * Balance.  SpreadRate is calculated in InsightPricing as the difference between the effective rate and the Funds Transfer Rate.  The account values are rolled up to the customer level
+            customerMonthlyCosts:
+              type: string
+              description: Monthly costs per customer.  This is calculated in InsightPricing from period cost values and transactions costs.
+            customerMonthlyFeeIncome:
+              type: string
+              description: Monthly service fee income from the customer.  This is calculated in InsightPricing from service fees and charges for each account and rolled up to the customer level.
+            accounts:
+              type: string
+              description: The total number of accounts the customer has
+            products:
+              type: string
+              description: The total number of products the customer has.  Each unique classification counts as one product.  Eg. 2 Savings accounts and 2 loan accounts would be 2 products.   Sometimes products such as Membership or Overdrafts are excluded from the count.
+            ageGroup:
+              type: string
+              description: Age Group
+            customerNumber:
+              type: string
+              description: The customer number or customer identification number
+  ErrorHeader:
+    properties:
+      audit:
+        type: object
+        properties:
+          T24_time:
+            type: integer
+            format: int32
+            description: Time taken to response by T24
+          versionNumber:
+            type: string
+            description: The CURR.NO. of the record
+          requestParse_time:
+            type: number
+            description: Time taken to parse the request by IRIS
+          responseParse_time:
+            type: number
+            description: Time taken to parse the response by IRIS
+      status:
+        type: string
+        description: Status of the API(success/failed)
+  QueryErrorResponse:
+    properties:
+      header:
+        $ref: '#/definitions/ErrorHeader'
+      error:
+        $ref: '#/definitions/QueryErrorResponseBody'
+    description: QueryErrorResponse
+  QueryErrorResponseBody:
+    type: object
+    properties:
+      code:
+        type: string
+        description: The identifier of the error message
+      message:
+        type: string
+        description: 'The actual t24 error message '
+      type:
+        type: string
+        description: 'The identifier of error type: '
