@@ -1,0 +1,4962 @@
+swagger: '2.0'
+info:
+  description: |-
+    This is version 2.0 of our API for creating and managing accounts in Arrangement Architecture, a Temenos Transact framework. Banks can use this API to create and manage a wide range of accounts, from current, savings, and corporate accounts to Islamic (mudaraba), non-resident and minor accounts.
+
+     Our Arrangement Architecture framework is a centralised product designer, enabling banks to create and manage a range of financial products, including loans, deposits and accounts. Its modular, business component-based architecture means banks can build banking products and servicing functinality from readymade components, and reuse those components across multiple different products. This gives banks the infrastructure they neeed to innovate quickly and remain agile against competition.
+
+    This API enables you to create and set up a:
+     - Current account
+     - Corporate current account
+     - Mudaraba savings account
+     - Savings account
+     - Minor savings account
+     - Non-resident savings account
+
+    It also enables you to:
+
+    - Reverse or delete a current account (deprecated) 
+    - Retrieve the details of an account (deprecated)
+
+    >> **Note:** To use this API, request an API key from the Temenos [Base Camp community](https://basecamp.temenos.com/). Create an account with the community to get started.
+  version: v2.0.0 | 05 MAY 21
+  title: Account Arrangements
+host: api.temenos.com
+basePath: /api/v2.0.0/
+tags: []
+schemes:
+  - http
+  - https
+security:
+  - basicAuth: []
+  - apiKey: []
+paths:
+  /holdings/accounts/currentAccounts:
+    post:
+      tags: []
+      summary: Create a current account
+      description: 'This is used to create a current account. Remember to include a customer identifier, the customer role, the account currency and other characteristics of a current account in the payload.'
+      produces:
+        - application/json
+      parameters:
+        - name: validate_only
+          in: query
+          description: This identifier indicates if the account details should be validated or not.
+          required: false
+          type: boolean
+        - in: body
+          name: payload
+          required: true
+          schema:
+            $ref: '#/definitions/CurrentAccounts'
+        - name: credentials
+          in: header
+          description: This is the username and password that authenticates the API against core banking (Transact).
+          required: false
+          type: string
+        - name: companyId
+          in: header
+          description: 'This identifier is needed for customer data protection. It identifies the lead company - the entity, company or bank branch - that''s behind a particular customer contract. Example: US0010001.'
+          required: false
+          type: string
+        - name: deviceId
+          in: header
+          description: This field identifies the device type that was used to make the transaction.
+          required: false
+          type: string
+        - name: userRole
+          in: header
+          description: This field identifies the user role that initiated the transaction.
+          required: false
+          type: string
+      responses:
+        '200':
+          description: createCurrentAccountsResponse
+          schema:
+            $ref: '#/definitions/CurrentAccountsResponse'
+        '400':
+          description: BusinessArrangementErrorResponse
+          schema:
+            $ref: '#/definitions/BusinessArrangementErrorResponse'
+        '500':
+          description: SystemArrangementErrorResponse
+          schema:
+            $ref: '#/definitions/SystemArrangementErrorResponse'
+        default:
+          description: ArrangementErrorResponse
+          schema:
+            $ref: '#/definitions/ArrangementErrorResponse'
+  /holdings/accounts/corporateAccounts:
+    post:
+      tags: []
+      summary: Create a corporate current account
+      description: 'This is used to create a corporate current account. Remember to include a customer identifier, the customer role, the account currency and other characteristics of a corporate current account in the payload. The customer needs to be a valid corporate customer.'
+      operationId: createCorporateAccount
+      produces:
+        - application/json
+      parameters:
+        - name: validate_only
+          in: query
+          description: This identifier indicates if the account details should be validated or not.
+          required: false
+          type: boolean
+        - in: body
+          name: payload
+          required: true
+          schema:
+            $ref: '#/definitions/CorporateAccount'
+        - name: credentials
+          in: header
+          description: This is the username and password that authenticates the API against core banking (Transact).
+          required: false
+          type: string
+        - name: companyId
+          in: header
+          description: 'This identifier is needed for customer data protection. It identifies the lead company - the entity, company or bank branch - that''s behind a particular customer contract. Example: US0010001.'
+          required: false
+          type: string
+        - name: deviceId
+          in: header
+          description: This field identifies the device type that was used to make the transaction.
+          required: false
+          type: string
+        - name: userRole
+          in: header
+          description: This field identifies the user role that initiated the transaction.
+          required: false
+          type: string
+      responses:
+        '200':
+          description: createCorporateAccountResponse
+          schema:
+            $ref: '#/definitions/CorporateAccountResponse'
+        '400':
+          description: BusinessArrangementErrorResponse
+          schema:
+            $ref: '#/definitions/BusinessArrangementErrorResponse'
+        '500':
+          description: SystemArrangementErrorResponse
+          schema:
+            $ref: '#/definitions/SystemArrangementErrorResponse'
+        default:
+          description: ArrangementErrorResponse
+          schema:
+            $ref: '#/definitions/ArrangementErrorResponse'
+  /holdings/accounts/mudarabaSavingAccount:
+    post:
+      tags: []
+      summary: Create a mudaraba savings account
+      description: 'This is used to create a mudaraba savings account. Mudaraba is an Islamic finance technique that establishes a profit-sharing partnership between the customer and the financial organisation. Remember to include a customer identifier, the customer role, the account currency and other characteristics of a mudaraba savings account in the payload.'
+      operationId: createMudarabaSavingAccount
+      produces:
+        - application/json
+      parameters:
+        - name: validate_only
+          in: query
+          description: This identifier indicates if the account details should be validated or not.
+          required: false
+          type: boolean
+        - in: body
+          name: payload
+          required: true
+          schema:
+            $ref: '#/definitions/MudarabaSavingAccount'
+        - name: credentials
+          in: header
+          description: This is the username and password that authenticates the API against core banking (Transact).
+          required: false
+          type: string
+        - name: companyId
+          in: header
+          description: 'This identifier is needed for customer data protection. It identifies the lead company - the entity, company or bank branch - that''s behind a particular customer contract. Example: US0010001.'
+          required: false
+          type: string
+        - name: deviceId
+          in: header
+          description: This field identifies the device type that was used to make the transaction.
+          required: false
+          type: string
+        - name: userRole
+          in: header
+          description: This field identifies the user role that initiated the transaction.
+          required: false
+          type: string
+      responses:
+        '200':
+          description: createMudarabaSavingAccountResponse
+          schema:
+            $ref: '#/definitions/MudarabaSavingAccountResponse'
+        '400':
+          description: BusinessArrangementErrorResponse
+          schema:
+            $ref: '#/definitions/BusinessArrangementErrorResponse'
+        '500':
+          description: SystemArrangementErrorResponse
+          schema:
+            $ref: '#/definitions/SystemArrangementErrorResponse'
+        default:
+          description: ArrangementErrorResponse
+          schema:
+            $ref: '#/definitions/ArrangementErrorResponse'
+  /holdings/accounts/savingsAccounts:
+    post:
+      tags: []
+      summary: Create a savings account
+      description: 'This is used to create a savings account. Remember to include a customer identifier, the customer role, the account currency and other characteristics of a savings account in the payload.'
+      produces:
+        - application/json
+      parameters:
+        - name: validate_only
+          in: query
+          description: This identifier indicates if the account details should be validated or not.
+          required: false
+          type: boolean
+        - in: body
+          name: payload
+          required: true
+          schema:
+            $ref: '#/definitions/SavingAccount'
+        - name: credentials
+          in: header
+          description: This is the username and password that authenticates the API against core banking (Transact).
+          required: false
+          type: string
+        - name: companyId
+          in: header
+          description: 'This identifier is needed for customer data protection. It identifies the lead company - the entity, company or bank branch - that''s behind a particular customer contract. Example: US0010001.'
+          required: false
+          type: string
+        - name: deviceId
+          in: header
+          description: This field identifies the device type that was used to make the transaction.
+          required: false
+          type: string
+        - name: userRole
+          in: header
+          description: This field identifies the user role that initiated the transaction.
+          required: false
+          type: string
+      responses:
+        '200':
+          description: createSavingAccountResponse
+          schema:
+            $ref: '#/definitions/SavingAccountResponse'
+        '400':
+          description: BusinessArrangementErrorResponse
+          schema:
+            $ref: '#/definitions/BusinessArrangementErrorResponse'
+        '500':
+          description: SystemArrangementErrorResponse
+          schema:
+            $ref: '#/definitions/SystemArrangementErrorResponse'
+        default:
+          description: ArrangementErrorResponse
+          schema:
+            $ref: '#/definitions/ArrangementErrorResponse'
+  /holdings/accounts/minorAccounts:
+    post:
+      tags: []
+      summary: Create a minor savings account
+      description: 'This can be used to create a minor savings account (an account for someone under 18 years of age). Remember to include a customer identifier, the customer role, the account currency and other characteristics of a minor savings account in the payload.'
+      operationId: createMinorAccount
+      produces:
+        - application/json
+      parameters:
+        - name: validate_only
+          in: query
+          description: This identifier indicates if the account details should be validated or not.
+          required: false
+          type: boolean
+        - in: body
+          name: payload
+          required: true
+          schema:
+            $ref: '#/definitions/SavingAccount'
+        - name: credentials
+          in: header
+          description: This is the username and password that authenticates the API against core banking (Transact).
+          required: false
+          type: string
+        - name: companyId
+          in: header
+          description: 'This identifier is needed for customer data protection. It identifies the lead company - the entity, company or bank branch - that''s behind a particular customer contract. Example: US0010001.'
+          required: false
+          type: string
+        - name: deviceId
+          in: header
+          description: This field identifies the device type that was used to make the transaction.
+          required: false
+          type: string
+        - name: userRole
+          in: header
+          description: This field identifies the user role that initiated the transaction.
+          required: false
+          type: string
+      responses:
+        '200':
+          description: createMinorAccountResponse
+          schema:
+            $ref: '#/definitions/SavingAccountResponse'
+        '400':
+          description: BusinessArrangementErrorResponse
+          schema:
+            $ref: '#/definitions/BusinessArrangementErrorResponse'
+        '500':
+          description: SystemArrangementErrorResponse
+          schema:
+            $ref: '#/definitions/SystemArrangementErrorResponse'
+        default:
+          description: ArrangementErrorResponse
+          schema:
+            $ref: '#/definitions/ArrangementErrorResponse'
+  /holdings/accounts/nonResidentAccounts:
+    post:
+      tags: []
+      summary: Create a non-resident savings account
+      description: 'This can be used to create a non-resident savings account. Remember to include a customer identifier, the customer role, the account currency and other characteristics of a non-resident savings account in the payload.'
+      operationId: createNonResidentAccount
+      produces:
+        - application/json
+      parameters:
+        - name: validate_only
+          in: query
+          description: This identifier indicates if the account details should be validated or not.
+          required: false
+          type: boolean
+        - in: body
+          name: payload
+          required: true
+          schema:
+            $ref: '#/definitions/SavingAccount'
+        - name: credentials
+          in: header
+          description: This is the username and password that authenticates the API against core banking (Transact).
+          required: false
+          type: string
+        - name: companyId
+          in: header
+          description: 'This identifier is needed for customer data protection. It identifies the lead company - the entity, company or bank branch - that''s behind a particular customer contract. Example: US0010001.'
+          required: false
+          type: string
+        - name: deviceId
+          in: header
+          description: This field identifies the device type that was used to make the transaction.
+          required: false
+          type: string
+        - name: userRole
+          in: header
+          description: This field identifies the user role that initiated the transaction.
+          required: false
+          type: string
+      responses:
+        '200':
+          description: createNonResidentAccountResponse
+          schema:
+            $ref: '#/definitions/SavingAccountResponse'
+        '400':
+          description: BusinessArrangementErrorResponse
+          schema:
+            $ref: '#/definitions/BusinessArrangementErrorResponse'
+        '500':
+          description: SystemArrangementErrorResponse
+          schema:
+            $ref: '#/definitions/SystemArrangementErrorResponse'
+        default:
+          description: ArrangementErrorResponse
+          schema:
+            $ref: '#/definitions/ArrangementErrorResponse'
+  '/holdings/accounts/{activityId}/reverseAccounts':
+    delete:
+      tags: []
+      summary: Reverse or delete a current account
+      description: '**This API is deprecated** Used to reverse or delete a current account. Because this API is deprecated, you need to use the following URL going forward: URL:/holdings/arrangementActivityId/{activityId}'
+      operationId: reverseAccounts
+      produces:
+        - application/json
+      parameters:
+        - name: validate_only
+          in: query
+          description: This identifier indicates if the account details should be validated or not.
+          required: false
+          type: boolean
+        - name: credentials
+          in: header
+          description: This is the username and password that authenticates the API against core banking (Transact).
+          required: false
+          type: string
+        - name: companyId
+          in: header
+          description: 'This identifier is needed for customer data protection. It identifies the lead company - the entity, company or bank branch - that''s behind a particular customer contract. Example: US0010001.'
+          required: false
+          type: string
+        - name: deviceId
+          in: header
+          description: This field identifies the device type that was used to make the transaction.
+          required: false
+          type: string
+        - name: userRole
+          in: header
+          description: This field identifies the user role that initiated the transaction.
+          required: false
+          type: string
+      responses:
+        '200':
+          description: reverseAccountsResponse
+          schema:
+            $ref: '#/definitions/CorporateAccountResponse'
+        '400':
+          description: BusinessArrangementErrorResponse
+          schema:
+            $ref: '#/definitions/BusinessArrangementErrorResponse'
+        '500':
+          description: SystemArrangementErrorResponse
+          schema:
+            $ref: '#/definitions/SystemArrangementErrorResponse'
+        default:
+          description: ArrangementErrorResponse
+          schema:
+            $ref: '#/definitions/ArrangementErrorResponse'
+      deprecated: true
+    parameters:
+      - name: activityId
+        in: path
+        required: true
+        type: string
+  '/holdings/accounts/{arrangementId}/accountDetails':
+    get:
+      tags: []
+      summary: Retrieve the details of an account
+      description: '**This API is deprecated** Retrieves the details of an account. Because this API is deprecated, you need to use the following URL going forward: URL:/holdings/arrangements/{arrangementId}'
+      operationId: getArrangementDetails
+      produces:
+        - application/json
+      parameters:
+        - name: arrangementId
+          in: path
+          description: Indicates an unique identifier of an account
+          required: true
+          type: string
+        - name: page_size
+          in: query
+          description: The total number of records per page
+          required: false
+          type: integer
+          format: int32
+        - name: page_start
+          in: query
+          description: The record from which the response should be displayed
+          required: false
+          type: integer
+          format: int32
+        - name: page_token
+          in: query
+          description: Unique id expected to get as part of response from Transact on every enquiry request.
+          required: false
+          type: string
+        - name: credentials
+          in: header
+          description: Username and password to authenticate the API against core-banking.
+          required: false
+          type: string
+        - name: companyId
+          in: header
+          description: 'This identifier is needed for customer data protection. It identifies the lead company - the entity, company or bank branch - that''s behind a particular customer contract. Example: US0010001.'
+          required: false
+          type: string
+        - name: deviceId
+          in: header
+          description: Identifies the device type
+          required: false
+          type: string
+        - name: userRole
+          in: header
+          description: User who initiated the transaction
+          required: false
+          type: string
+        - name: disablePagination
+          in: header
+          description: 'Indicates the pagination header attributes availability. If set to ''true'', it fetches all the data'
+          required: false
+          type: boolean
+      responses:
+        '200':
+          description: ArrangementDetailsResponse
+          schema:
+            $ref: '#/definitions/ArrangementDetailsResponse'
+        '400':
+          description: BusinessQueryErrorResponse
+          schema:
+            $ref: '#/definitions/BusinessQueryErrorResponse'
+        '500':
+          description: SystemQueryErrorResponse
+          schema:
+            $ref: '#/definitions/SystemQueryErrorResponse'
+        default:
+          description: QueryErrorResponse
+          schema:
+            $ref: '#/definitions/QueryErrorResponse'
+      deprecated: true
+securityDefinitions:
+  basicAuth:
+    type: basic
+  apiKey:
+    type: apiKey
+    name: Authorization
+    in: header
+definitions:
+  PayloadHeader:
+    properties:
+      override:
+        type: object
+        properties:
+          overrideDetails:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: The identifier of the override.
+                description:
+                  type: string
+                  description: The actual override message.
+                code:
+                  type: string
+                  description: The code related to override message.
+                responseCode:
+                  type: string
+                  description: The user input to accept/reject the override.
+      audit:
+        type: object
+        properties:
+          versionNumber:
+            type: string
+            description: The CURR.NO. of the record
+  CurrentAccounts:
+    properties:
+      header:
+        $ref: '#/definitions/PayloadHeader'
+      body:
+        $ref: '#/definitions/CurrentAccountsBody'
+    description: CurrentAccounts
+    example:
+      body:
+        parties:
+          - partyId: '111612'
+            partyRole: OWNER
+        effectiveDate: '20210520'
+        productId: CURRENT.ACCOUNT
+        currencyId: USD
+        accountName: ABC Global
+  CurrentAccountsBody:
+    type: object
+    properties:
+      parties:
+        type: array
+        description: Identifier of individuals in terms of Customers or Person or Entities with reference to the bank
+        items:
+          type: object
+          properties:
+            partyId:
+              type: string
+              description: 'Allows capturing of customers or person entities to be part of the relationship. If partyType is selected as Customer, then the system will allow only customer Ids to be captured into this field. If partyType is selected as Person or Entity, then system will allow only personEntity Ids to be captured into this field.'
+              minLength: 0
+            partyRole:
+              type: string
+              description: Contains the identifier used for the role played by the party or customer in the contract or account
+              minLength: 0
+      activityId:
+        type: string
+        description: 'Id of the activity, e.g. ACCOUNTS-CAPITALISE-ACCHARGE*CARDISSUEFEE'
+        minLength: 0
+      effectiveDate:
+        type: string
+        description: Contains the identifier for the transaction date. Dates are expected in ‘YYYYMMDD’ format
+        minLength: 0
+      productId:
+        type: string
+        description: 'Contains the unique identifier of the product, e.g. the product id of the arrangement account.'
+        minLength: 0
+      currencyId:
+        type: string
+        description: Identifier of the currency. This is the 3-letter ISO 4217 code of the currency.
+        minLength: 0
+      simulationId:
+        type: string
+        description: Indicates the Id generated during the simulation of an activity
+        minLength: 0
+      balance:
+        type: object
+        properties:
+          alternateIds:
+            type: array
+            items:
+              type: object
+              properties:
+                alternateIdType:
+                  type: string
+                  description: Contains the alternate account system identifier used for defining the alternate account Id
+                  minLength: 0
+                  maxLength: 15
+                alternateId:
+                  type: string
+                  description: An Alternate Identification for the Deal. This can be used to retrieve the Deal for amendment.
+                  minLength: 0
+                  maxLength: 11
+          accountType:
+            type: string
+            description: 'Groups the products based on their type, eg, Checking, Savings, CD etc,.'
+            minLength: 0
+            maxLength: 11
+          accountName:
+            type: string
+            description: Display name or short name of the account specified.
+            minLength: 0
+            maxLength: 11
+          accountId:
+            type: string
+            description: 'Identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId. Accepts both IBAN & BBAN'
+            minLength: 0
+            maxLength: 9
+          portfolioId:
+            type: string
+            description: Id of the portfolio or security account
+            minLength: 0
+            maxLength: 11
+          anniversary:
+            type: string
+            description: The start or end period defined in MMDD format to indicate the period when charge rules has to be applied
+            minLength: 0
+            maxLength: 11
+          customerReference:
+            type: string
+            description: The reference which is provided to the beneficiary/ creditor by the originator of payment
+            minLength: 0
+            maxLength: 17
+  ArrangementHeader:
+    properties:
+      transactionStatus:
+        type: string
+        description: The status of the transaction
+      aaaId:
+        type: string
+        description: The Identifier of the aa record created
+      id:
+        type: string
+        description: The Identifier of the record created
+      status:
+        type: string
+        description: Status of the API(success/failed)
+      uniqueIdentifier:
+        type: string
+        description: The unique identifier/Message Reference of the record created.
+      audit:
+        type: object
+        properties:
+          T24_time:
+            type: integer
+            format: int32
+            description: Time taken to response by Transact
+          versionNumber:
+            type: string
+            description: The CURR.NO. of the record
+          requestParse_time:
+            type: number
+            description: Time taken to parse the request by IRIS
+          responseParse_time:
+            type: number
+            description: Time taken to parse the response by IRIS
+  CurrentAccountsResponse:
+    properties:
+      header:
+        $ref: '#/definitions/ArrangementHeader'
+      body:
+        $ref: '#/definitions/CurrentAccountsResponseBody'
+    description: CurrentAccountsResponse
+  CurrentAccountsResponseBody:
+    type: object
+    properties:
+      arrangementActivity:
+        type: object
+        properties:
+          parties:
+            type: array
+            description: Identifier of individuals in terms of Customers or Person or Entities with reference to the bank
+            items:
+              type: object
+              properties:
+                partyId:
+                  type: string
+                  description: 'Allows capturing of customers or person entities to be part of the relationship. If partyType is selected as Customer, then the system will allow only customer Ids to be captured into this field. If partyType is selected as Person or Entity, then system will allow only personEntity Ids to be captured into this field.'
+                  minLength: 0
+                partyRole:
+                  type: string
+                  description: Contains the identifier used for the role played by the party or customer in the contract or account
+                  minLength: 0
+          arrangementId:
+            type: string
+            description: Indicates an unique identifier of an account
+            minLength: 0
+          activityId:
+            type: string
+            description: 'Id of the activity, e.g. ACCOUNTS-CAPITALISE-ACCHARGE*CARDISSUEFEE'
+            minLength: 0
+          effectiveDate:
+            type: string
+            description: Contains the identifier for the transaction date. Dates are expected in ‘YYYYMMDD’ format
+            minLength: 0
+          productId:
+            type: string
+            description: 'Contains the unique identifier of the product, e.g. the product id of the arrangement account.'
+            minLength: 0
+          currencyId:
+            type: string
+            description: Identifier of the currency. This is the 3-letter ISO 4217 code of the currency.
+            minLength: 0
+          simulationId:
+            type: string
+            description: Indicates the Id generated during the simulation of an activity
+            minLength: 0
+      activities:
+        type: object
+        properties:
+          '{activityName}':
+            type: object
+            properties:
+              activity:
+                type: string
+              transactionStatus:
+                type: string
+                description: The status of the transaction
+              id:
+                type: string
+                description: The Identifier of the record created
+      properties:
+        type: object
+        properties:
+          balance:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                    description: The status of the transaction
+                  audit:
+                    type: object
+                    properties:
+                      T24_time:
+                        type: integer
+                        format: int32
+                        description: Time taken to response by Transact
+                      versionNumber:
+                        type: string
+                        description: Current number of the record
+                      requestParse_time:
+                        type: number
+                        description: Time taken to parse the request by IRIS
+                      responseParse_time:
+                        type: number
+                        description: Time taken to parse the response by IRIS
+                  id:
+                    type: string
+                    description: The Identifier of the record created
+                  status:
+                    type: string
+                    description: The status of the record
+              body:
+                type: object
+                properties:
+                  alternateIds:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        alternateIdType:
+                          type: string
+                          description: Contains the alternate account system identifier used for defining the alternate account Id
+                          minLength: 0
+                          maxLength: 15
+                        alternateId:
+                          type: string
+                          description: An Alternate Identification for the Deal. This can be used to retrieve the Deal for amendment.
+                          minLength: 0
+                          maxLength: 11
+                  accountType:
+                    type: string
+                    description: 'Groups the products based on their type, eg, Checking, Savings, CD etc,.'
+                    minLength: 0
+                    maxLength: 11
+                  accountName:
+                    type: string
+                    description: Display name or short name of the account specified.
+                    minLength: 0
+                    maxLength: 11
+                  accountId:
+                    type: string
+                    description: 'Identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId. Accepts both IBAN & BBAN'
+                    minLength: 0
+                    maxLength: 9
+                  portfolioId:
+                    type: string
+                    description: Id of the portfolio or security account
+                    minLength: 0
+                    maxLength: 11
+                  anniversary:
+                    type: string
+                    description: The start or end period defined in MMDD format to indicate the period when charge rules has to be applied
+                    minLength: 0
+                    maxLength: 11
+                  customerReference:
+                    type: string
+                    description: The reference which is provided to the beneficiary/ creditor by the originator of payment
+                    minLength: 0
+                    maxLength: 17
+          messaging:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          activityCharges:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          agentCommission:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          rewardsPoints:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          alerts:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          highestdebit:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          chequewd:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          minbalfee:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          noofcredits:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          noofdebits:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          turnovercredit:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          turnoverdebit:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          bonus:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          investcredit:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          achcreditfee:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          achdebitfee:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          atmdebitfee:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          atmposfee:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          wirefee:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          overdraft:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          odnotification:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          withdrawalfee:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          packagefee:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          closurefee:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          accharge:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          dormancyfee:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          mgmtfee:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          cardissuefee:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          commitmentfee:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          setupfee:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          subscriptionfee:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          inhcommitment:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          limitfees:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          payfees:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          returnfees:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          nsfreversalfees:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          cashback:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          adminfee:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          servicefee:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          dorcloseadvfee:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          periodiccharges:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          customer:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          crinterest:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          drinterest:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          penalint:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          bundleinterest:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          infcrinterest:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          infdrinterest:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          inhcrinterest:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          inhdrinterest:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          inhpenalint:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          utllimitfees:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          ovdlimitfees:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          bundlecrinterst:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          bundledrinterst:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          internalintdr:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          internalintdr2:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          internalintcr:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          internalintcr2:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          limit:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          officers:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          schedule:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          inhSchedule:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          arrangementRules:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          productQualifierRules:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          closure:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          balanceMaintenance:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          renewal:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          tax:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          balanceAvailability:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          accountsPaymentRules:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          prAccountsCommitmentfee:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          prAccountsDrinterest:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          prAccountsPenaltyInt:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          accountsPayout:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          poAccountsCrinterest:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          settlement:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          payoff:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          dormancy:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          facility:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          statement:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          inheritanceSource:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          inheritanceTarget:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          constraint:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          prefpricing:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+  overrideBody:
+    properties:
+      overrideDetails:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: string
+              description: The identifier of the override.
+            description:
+              type: string
+              description: The actual override message.
+            code:
+              type: string
+              description: The code related to override message.
+            options:
+              type: array
+              description: The usable options for the override.
+              items:
+                type: string
+            type:
+              type: string
+              description: The type of the override.
+  ArrangementErrorResponse:
+    properties:
+      header:
+        $ref: '#/definitions/ArrangementHeader'
+      error:
+        $ref: '#/definitions/ArrangementErrorResponseBody'
+      override:
+        $ref: '#/definitions/overrideBody'
+    description: ArrangementErrorResponse
+  ArrangementErrorResponseBody:
+    type: object
+    properties:
+      errorDetails:
+        type: array
+        items:
+          type: object
+          properties:
+            fieldName:
+              type: string
+              description: The name of the field
+            code:
+              type: string
+              description: The identifier of the error message
+            message:
+              type: string
+              description: 'The actual Transact error message '
+            property:
+              type: string
+              description: Id of the product property
+      type:
+        type: string
+        description: 'The identifier of error type: '
+  BusinessArrangementErrorResponse:
+    properties:
+      header:
+        $ref: '#/definitions/ArrangementHeader'
+      error:
+        $ref: '#/definitions/BusinessArrangementErrorResponseBody'
+      override:
+        $ref: '#/definitions/overrideBody'
+    description: BusinessArrangementErrorResponse
+  BusinessArrangementErrorResponseBody:
+    type: object
+    properties:
+      errorDetails:
+        type: array
+        items:
+          type: object
+          properties:
+            fieldName:
+              type: string
+              description: The name of the field
+            code:
+              type: string
+              description: The identifier of the error message
+            message:
+              type: string
+              description: The actual Transact error message for bad requests
+            property:
+              type: string
+              description: Id of the product property
+      type:
+        type: string
+        description: 'The identifier of error type: Business'
+  SystemArrangementErrorResponse:
+    properties:
+      header:
+        $ref: '#/definitions/ArrangementHeader'
+      error:
+        $ref: '#/definitions/SystemArrangementErrorResponseBody'
+      override:
+        $ref: '#/definitions/overrideBody'
+    description: SystemArrangementErrorResponse
+  SystemArrangementErrorResponseBody:
+    type: object
+    properties:
+      errorDetails:
+        type: array
+        items:
+          type: object
+          properties:
+            fieldName:
+              type: string
+              description: The name of the field
+            code:
+              type: string
+              description: The identifier of the error message
+            message:
+              type: string
+              description: The actual Transact error message caused by server
+            property:
+              type: string
+              description: Id of the product property
+      type:
+        type: string
+        description: 'The identifier of error type: System'
+  CorporateAccount:
+    properties:
+      header:
+        $ref: '#/definitions/PayloadHeader'
+      body:
+        $ref: '#/definitions/CorporateAccountBody'
+    description: CorporateAccount
+    example:
+      body:
+        partyIds:
+          - partyId: '190094'
+        currency: USD
+        accountName: General Trading Co
+  CorporateAccountBody:
+    type: object
+    properties:
+      partyIds:
+        type: array
+        description: 'Allows capturing of customers or person entities to be part of the relationship. If partyType is selected as Customer, then the system will allow only customer Ids to be captured into this field. If partyType is selected as Person or Entity, then system will allow only personEntity Ids to be captured into this field.'
+        items:
+          type: object
+          properties:
+            partyId:
+              type: string
+              description: 'Allows capturing of customers or person entities to be part of the relationship. If partyType is selected as Customer, then the system will allow only customer Ids to be captured into this field. If partyType is selected as Person or Entity, then system will allow only personEntity Ids to be captured into this field.'
+              minLength: 0
+              maxLength: 45
+      partyRoles:
+        type: array
+        description: Contains the identifier used for the role played by the party or customer in the contract or account
+        items:
+          type: object
+          properties:
+            partyRole:
+              type: string
+              description: Contains the identifier used for the role played by the party or customer in the contract or account
+              minLength: 0
+              maxLength: 45
+      agentCustomerIds:
+        type: array
+        description: The id of the 3rd party who sold the product on behalf of the institution.
+        items:
+          type: object
+          properties:
+            agentCustomerId:
+              type: string
+              description: The id of the 3rd party who sold the product on behalf of the institution.
+              minLength: 0
+              maxLength: 45
+      agentArrangementIds:
+        type: array
+        description: The id of the arrangement with the 3rd party that has sold the product on behalf of the institution
+        items:
+          type: object
+          properties:
+            agentArrangementId:
+              type: string
+              description: The id of the arrangement with the 3rd party that has sold the product on behalf of the institution
+              minLength: 0
+              maxLength: 45
+      agentRoles:
+        type: array
+        description: 'The role of the 3rd party, select from standard list'
+        items:
+          type: object
+          properties:
+            agentRole:
+              type: string
+              description: 'The role of the 3rd party, select from standard list'
+              minLength: 0
+              maxLength: 45
+      arrangmentId:
+        type: string
+        description: Indicates an unique identifier of an account
+        minLength: 0
+        maxLength: 45
+      productId:
+        type: string
+        description: 'Contains the unique identifier of the product, e.g. the product id of the arrangement account.'
+        minLength: 0
+        maxLength: 45
+      activityId:
+        type: string
+        description: 'Id of the activity, e.g. ACCOUNTS-CAPITALISE-ACCHARGE*CARDISSUEFEE'
+        minLength: 0
+        maxLength: 45
+      currency:
+        type: string
+        description: 'Identifies the currency. E.g. USD, GBP etc'
+        minLength: 0
+        maxLength: 45
+      productVariation:
+        type: string
+        description: 'It defines the type of a customer based on criteria defined by Bank, Eg: Gold Customer, Mobile Banking Customer'
+        minLength: 0
+        maxLength: 45
+      pricingSelection:
+        type: string
+        description: 'If the account has an associated pricing arrangement, the way the pricing is applied is indicated from standard set of values - automatic, manual or No Pricing.'
+        minLength: 0
+        maxLength: 45
+      pricingPlan:
+        type: string
+        description: 'Indicates the Pricing Plan of an account, it gives preferential interest rate/charge schedule based on customer segment'
+        minLength: 0
+        maxLength: 45
+      rewardsArrangementId:
+        type: string
+        description: 'Indicates the Rewards account id assigned to a financial account(Loans,Deposits)'
+        minLength: 0
+        maxLength: 45
+      tradeDate:
+        type: string
+        description: Standard date field which records trade date of the account
+        minLength: 0
+        maxLength: 45
+      arrangementEffectiveDate:
+        type: string
+        description: It is a date on/upon which an account is considered to take effect
+        minLength: 0
+        maxLength: 45
+      reason:
+        type: string
+        description: Contains the reason for performing the current activity
+        minLength: 0
+        maxLength: 45
+      balance:
+        type: object
+        properties:
+          postingRestriction:
+            type: string
+            description: Identifies any restrictions for posting entries that are to be imposed on the Account
+            minLength: 0
+            maxLength: 18
+          restrictionReason:
+            type: string
+            description: 'Sets restrictions on the actions that can be performed on an account. Allowed values can be retrieved through method getEbLookup, virtualTableName BLOCK.REASON.CODES. '
+            minLength: 0
+            maxLength: 20
+          restrictionText:
+            type: string
+            description: Free text information to capture the reason for restriction applied on an account
+            minLength: 0
+            maxLength: 25
+          startDate:
+            type: string
+            format: date
+            description: Contains the date on which the transaction or payment gets initiated.
+          expiryDate:
+            type: string
+            format: date
+            description: 'The date an agreement such as an arrangement, product, credit facility or limit is due to expire'
+          unrestrictionReason:
+            type: string
+            description: 'Captures the code that removes the restriction set on an account.  Allowed values can be retrieved through method getEbLookup, virtualTableName UNBLOCK.REASON.CODES.'
+            minLength: 0
+            maxLength: 19
+          unrestrictionText:
+            type: string
+            description: Reason for unblocking the restriction set on an account
+            minLength: 0
+            maxLength: 25
+  CorporateAccountResponse:
+    properties:
+      header:
+        $ref: '#/definitions/ArrangementHeader'
+      body:
+        $ref: '#/definitions/CorporateAccountResponseBody'
+    description: CorporateAccountResponse
+  CorporateAccountResponseBody:
+    type: object
+    properties:
+      arrangementActivity:
+        type: object
+        properties:
+          partyIds:
+            type: array
+            description: 'Allows capturing of customers or person entities to be part of the relationship. If partyType is selected as Customer, then the system will allow only customer Ids to be captured into this field. If partyType is selected as Person or Entity, then system will allow only personEntity Ids to be captured into this field.'
+            items:
+              type: object
+              properties:
+                partyId:
+                  type: string
+                  description: 'Allows capturing of customers or person entities to be part of the relationship. If partyType is selected as Customer, then the system will allow only customer Ids to be captured into this field. If partyType is selected as Person or Entity, then system will allow only personEntity Ids to be captured into this field.'
+                  minLength: 0
+                  maxLength: 45
+          partyRoles:
+            type: array
+            description: Contains the identifier used for the role played by the party or customer in the contract or account
+            items:
+              type: object
+              properties:
+                partyRole:
+                  type: string
+                  description: Contains the identifier used for the role played by the party or customer in the contract or account
+                  minLength: 0
+                  maxLength: 45
+          agentCustomerIds:
+            type: array
+            description: The id of the 3rd party who sold the product on behalf of the institution.
+            items:
+              type: object
+              properties:
+                agentCustomerId:
+                  type: string
+                  description: The id of the 3rd party who sold the product on behalf of the institution.
+                  minLength: 0
+                  maxLength: 45
+          agentArrangementIds:
+            type: array
+            description: The id of the arrangement with the 3rd party that has sold the product on behalf of the institution
+            items:
+              type: object
+              properties:
+                agentArrangementId:
+                  type: string
+                  description: The id of the arrangement with the 3rd party that has sold the product on behalf of the institution
+                  minLength: 0
+                  maxLength: 45
+          agentRoles:
+            type: array
+            description: 'The role of the 3rd party, select from standard list'
+            items:
+              type: object
+              properties:
+                agentRole:
+                  type: string
+                  description: 'The role of the 3rd party, select from standard list'
+                  minLength: 0
+                  maxLength: 45
+          arrangmentId:
+            type: string
+            description: Indicates an unique identifier of an account
+            minLength: 0
+            maxLength: 45
+          productId:
+            type: string
+            description: 'Contains the unique identifier of the product, e.g. the product id of the arrangement account.'
+            minLength: 0
+            maxLength: 45
+          activityId:
+            type: string
+            description: 'Id of the activity, e.g. ACCOUNTS-CAPITALISE-ACCHARGE*CARDISSUEFEE'
+            minLength: 0
+            maxLength: 45
+          currency:
+            type: string
+            description: 'Identifies the currency. E.g. USD, GBP etc'
+            minLength: 0
+            maxLength: 45
+          productVariation:
+            type: string
+            description: 'It defines the type of a customer based on criteria defined by Bank, Eg: Gold Customer, Mobile Banking Customer'
+            minLength: 0
+            maxLength: 45
+          pricingSelection:
+            type: string
+            description: 'If the account has an associated pricing arrangement, the way the pricing is applied is indicated from standard set of values - automatic, manual or No Pricing.'
+            minLength: 0
+            maxLength: 45
+          pricingPlan:
+            type: string
+            description: 'Indicates the Pricing Plan of an account, it gives preferential interest rate/charge schedule based on customer segment'
+            minLength: 0
+            maxLength: 45
+          rewardsArrangementId:
+            type: string
+            description: 'Indicates the Rewards account id assigned to a financial account(Loans,Deposits)'
+            minLength: 0
+            maxLength: 45
+          tradeDate:
+            type: string
+            description: Standard date field which records trade date of the account
+            minLength: 0
+            maxLength: 45
+          arrangementEffectiveDate:
+            type: string
+            description: It is a date on/upon which an account is considered to take effect
+            minLength: 0
+            maxLength: 45
+          reason:
+            type: string
+            description: Contains the reason for performing the current activity
+            minLength: 0
+            maxLength: 45
+      activities:
+        type: object
+        properties:
+          '{activityName}':
+            type: object
+            properties:
+              activity:
+                type: string
+              transactionStatus:
+                type: string
+                description: The status of the transaction
+              id:
+                type: string
+                description: The Identifier of the record created
+      properties:
+        type: object
+        properties:
+          balance:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                    description: The status of the transaction
+                  audit:
+                    type: object
+                    properties:
+                      T24_time:
+                        type: integer
+                        format: int32
+                        description: Time taken to response by Transact
+                      versionNumber:
+                        type: string
+                        description: Current number of the record
+                      requestParse_time:
+                        type: number
+                        description: Time taken to parse the request by IRIS
+                      responseParse_time:
+                        type: number
+                        description: Time taken to parse the response by IRIS
+                  id:
+                    type: string
+                    description: The Identifier of the record created
+                  status:
+                    type: string
+                    description: The status of the record
+              body:
+                type: object
+                properties:
+                  postingRestriction:
+                    type: string
+                    description: Identifies any restrictions for posting entries that are to be imposed on the Account
+                    minLength: 0
+                    maxLength: 18
+                  restrictionReason:
+                    type: string
+                    description: 'Sets restrictions on the actions that can be performed on an account. Allowed values can be retrieved through method getEbLookup, virtualTableName BLOCK.REASON.CODES. '
+                    minLength: 0
+                    maxLength: 20
+                  restrictionText:
+                    type: string
+                    description: Free text information to capture the reason for restriction applied on an account
+                    minLength: 0
+                    maxLength: 25
+                  startDate:
+                    type: string
+                    format: date
+                    description: Contains the date on which the transaction or payment gets initiated.
+                  expiryDate:
+                    type: string
+                    format: date
+                    description: 'The date an agreement such as an arrangement, product, credit facility or limit is due to expire'
+                  unrestrictionReason:
+                    type: string
+                    description: 'Captures the code that removes the restriction set on an account.  Allowed values can be retrieved through method getEbLookup, virtualTableName UNBLOCK.REASON.CODES.'
+                    minLength: 0
+                    maxLength: 19
+                  unrestrictionText:
+                    type: string
+                    description: Reason for unblocking the restriction set on an account
+                    minLength: 0
+                    maxLength: 25
+          messaging:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          activityCharges:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          agentCommission:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          rewardsPoints:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          alerts:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          highestdebit:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          chequewd:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          minbalfee:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          noofcredits:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          noofdebits:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          turnovercredit:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          turnoverdebit:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          bonus:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          investcredit:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          achcreditfee:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          achdebitfee:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          atmdebitfee:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          atmposfee:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          wirefee:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          overdraft:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          odnotification:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          withdrawalfee:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          packagefee:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          closurefee:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          accharge:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          dormancyfee:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          mgmtfee:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          cardissuefee:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          commitmentfee:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          setupfee:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          subscriptionfee:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          inhcommitment:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          limitfees:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          payfees:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          returnfees:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          nsfreversalfees:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          cashback:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          adminfee:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          servicefee:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          dorcloseadvfee:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          periodiccharges:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          customer:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          crinterest:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          drinterest:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          penalint:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          bundleinterest:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          infcrinterest:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          infdrinterest:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          inhcrinterest:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          inhdrinterest:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          inhpenalint:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          utllimitfees:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          ovdlimitfees:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          bundlecrinterst:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          bundledrinterst:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          internalintdr:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          internalintdr2:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          internalintcr:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          internalintcr2:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          limit:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          officers:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          schedule:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          inhSchedule:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          arrangementRules:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          productQualifierRules:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          closure:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          balanceMaintenance:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          renewal:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          tax:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          balanceAvailability:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          accountsPaymentRules:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          prAccountsCommitmentfee:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          prAccountsDrinterest:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          prAccountsPenaltyInt:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          accountsPayout:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          poAccountsCrinterest:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          settlement:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          payoff:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          dormancy:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          facility:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          statement:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          inheritanceSource:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          inheritanceTarget:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          constraint:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          prefpricing:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+  MudarabaSavingAccount:
+    properties:
+      header:
+        $ref: '#/definitions/PayloadHeader'
+      body:
+        $ref: '#/definitions/MudarabaSavingAccountBody'
+    description: MudarabaSavingAccount
+    example:
+      body:
+        partyIds:
+          - partyId: '100400'
+        partyRoles:
+          - partyRole: OWNER
+        currency: USD
+        accountName: Robert Bosch
+  MudarabaSavingAccountBody:
+    type: object
+    properties:
+      partyIds:
+        type: array
+        description: 'Allows capturing of customers or person entities to be part of the relationship. If partyType is selected as Customer, then the system will allow only customer Ids to be captured into this field. If partyType is selected as Person or Entity, then system will allow only personEntity Ids to be captured into this field.'
+        items:
+          type: object
+          properties:
+            partyId:
+              type: string
+              description: 'Allows capturing of customers or person entities to be part of the relationship. If partyType is selected as Customer, then the system will allow only customer Ids to be captured into this field. If partyType is selected as Person or Entity, then system will allow only personEntity Ids to be captured into this field.'
+              minLength: 0
+              maxLength: 45
+      partyRoles:
+        type: array
+        description: Contains the identifier used for the role played by the party or customer in the contract or account
+        items:
+          type: object
+          properties:
+            partyRole:
+              type: string
+              description: Contains the identifier used for the role played by the party or customer in the contract or account
+              minLength: 0
+              maxLength: 45
+      agentCustomerIds:
+        type: array
+        description: The id of the 3rd party who sold the product on behalf of the institution.
+        items:
+          type: object
+          properties:
+            agentCustomerId:
+              type: string
+              description: The id of the 3rd party who sold the product on behalf of the institution.
+              minLength: 0
+              maxLength: 45
+      agentArrangementIds:
+        type: array
+        description: The id of the arrangement with the 3rd party that has sold the product on behalf of the institution
+        items:
+          type: object
+          properties:
+            agentArrangementId:
+              type: string
+              description: The id of the arrangement with the 3rd party that has sold the product on behalf of the institution
+              minLength: 0
+              maxLength: 45
+      agentRoles:
+        type: array
+        description: 'The role of the 3rd party, select from standard list'
+        items:
+          type: object
+          properties:
+            agentRole:
+              type: string
+              description: 'The role of the 3rd party, select from standard list'
+              minLength: 0
+              maxLength: 45
+      arrangmentId:
+        type: string
+        description: Indicates an unique identifier of an account
+        minLength: 0
+        maxLength: 45
+      productId:
+        type: string
+        description: 'Contains the unique identifier of the product, e.g. the product id of the arrangement account.'
+        minLength: 0
+        maxLength: 45
+      activityId:
+        type: string
+        description: 'Id of the activity, e.g. ACCOUNTS-CAPITALISE-ACCHARGE*CARDISSUEFEE'
+        minLength: 0
+        maxLength: 45
+      currency:
+        type: string
+        description: 'Identifies the currency. E.g. USD, GBP etc'
+        minLength: 0
+        maxLength: 45
+      productVariation:
+        type: string
+        description: 'It defines the type of a customer based on criteria defined by Bank, Eg: Gold Customer, Mobile Banking Customer'
+        minLength: 0
+        maxLength: 45
+      pricingSelection:
+        type: string
+        description: 'If the account has an associated pricing arrangement, the way the pricing is applied is indicated from standard set of values - automatic, manual or No Pricing.'
+        minLength: 0
+        maxLength: 45
+      pricingPlan:
+        type: string
+        description: 'Indicates the Pricing Plan of an account, it gives preferential interest rate/charge schedule based on customer segment'
+        minLength: 0
+        maxLength: 45
+      rewardsArrangementId:
+        type: string
+        description: 'Indicates the Rewards account id assigned to a financial account(Loans,Deposits)'
+        minLength: 0
+        maxLength: 45
+      tradeDate:
+        type: string
+        description: Standard date field which records trade date of the account
+        minLength: 0
+        maxLength: 45
+      arrangementEffectiveDate:
+        type: string
+        description: It is a date on/upon which an account is considered to take effect
+        minLength: 0
+        maxLength: 45
+      reason:
+        type: string
+        description: Contains the reason for performing the current activity
+        minLength: 0
+        maxLength: 45
+      balance:
+        type: object
+        properties:
+          postingRestriction:
+            type: string
+            description: Identifies any restrictions for posting entries that are to be imposed on the Account
+            minLength: 0
+            maxLength: 18
+          restrictionReason:
+            type: string
+            description: 'Sets restrictions on the actions that can be performed on an account. Allowed values can be retrieved through method getEbLookup, virtualTableName BLOCK.REASON.CODES. '
+            minLength: 0
+            maxLength: 20
+          restrictionText:
+            type: string
+            description: Free text information to capture the reason for restriction applied on an account
+            minLength: 0
+            maxLength: 25
+          startDate:
+            type: string
+            format: date
+            description: Contains the date on which the transaction or payment gets initiated.
+          expiryDate:
+            type: string
+            format: date
+            description: 'The date an agreement such as an arrangement, product, credit facility or limit is due to expire'
+          unrestrictionReason:
+            type: string
+            description: 'Captures the code that removes the restriction set on an account.  Allowed values can be retrieved through method getEbLookup, virtualTableName UNBLOCK.REASON.CODES.'
+            minLength: 0
+            maxLength: 19
+          unrestrictionText:
+            type: string
+            description: Reason for unblocking the restriction set on an account
+            minLength: 0
+            maxLength: 25
+  MudarabaSavingAccountResponse:
+    properties:
+      header:
+        $ref: '#/definitions/ArrangementHeader'
+      body:
+        $ref: '#/definitions/MudarabaSavingAccountResponseBody'
+    description: MudarabaSavingAccountResponse
+  MudarabaSavingAccountResponseBody:
+    type: object
+    properties:
+      arrangementActivity:
+        type: object
+        properties:
+          partyIds:
+            type: array
+            description: 'Allows capturing of customers or person entities to be part of the relationship. If partyType is selected as Customer, then the system will allow only customer Ids to be captured into this field. If partyType is selected as Person or Entity, then system will allow only personEntity Ids to be captured into this field.'
+            items:
+              type: object
+              properties:
+                partyId:
+                  type: string
+                  description: 'Allows capturing of customers or person entities to be part of the relationship. If partyType is selected as Customer, then the system will allow only customer Ids to be captured into this field. If partyType is selected as Person or Entity, then system will allow only personEntity Ids to be captured into this field.'
+                  minLength: 0
+                  maxLength: 45
+          partyRoles:
+            type: array
+            description: Contains the identifier used for the role played by the party or customer in the contract or account
+            items:
+              type: object
+              properties:
+                partyRole:
+                  type: string
+                  description: Contains the identifier used for the role played by the party or customer in the contract or account
+                  minLength: 0
+                  maxLength: 45
+          agentCustomerIds:
+            type: array
+            description: The id of the 3rd party who sold the product on behalf of the institution.
+            items:
+              type: object
+              properties:
+                agentCustomerId:
+                  type: string
+                  description: The id of the 3rd party who sold the product on behalf of the institution.
+                  minLength: 0
+                  maxLength: 45
+          agentArrangementIds:
+            type: array
+            description: The id of the arrangement with the 3rd party that has sold the product on behalf of the institution
+            items:
+              type: object
+              properties:
+                agentArrangementId:
+                  type: string
+                  description: The id of the arrangement with the 3rd party that has sold the product on behalf of the institution
+                  minLength: 0
+                  maxLength: 45
+          agentRoles:
+            type: array
+            description: 'The role of the 3rd party, select from standard list'
+            items:
+              type: object
+              properties:
+                agentRole:
+                  type: string
+                  description: 'The role of the 3rd party, select from standard list'
+                  minLength: 0
+                  maxLength: 45
+          arrangmentId:
+            type: string
+            description: Indicates an unique identifier of an account
+            minLength: 0
+            maxLength: 45
+          productId:
+            type: string
+            description: 'Contains the unique identifier of the product, e.g. the product id of the arrangement account.'
+            minLength: 0
+            maxLength: 45
+          activityId:
+            type: string
+            description: 'Id of the activity, e.g. ACCOUNTS-CAPITALISE-ACCHARGE*CARDISSUEFEE'
+            minLength: 0
+            maxLength: 45
+          currency:
+            type: string
+            description: 'Identifies the currency. E.g. USD, GBP etc'
+            minLength: 0
+            maxLength: 45
+          productVariation:
+            type: string
+            description: 'It defines the type of a customer based on criteria defined by Bank, Eg: Gold Customer, Mobile Banking Customer'
+            minLength: 0
+            maxLength: 45
+          pricingSelection:
+            type: string
+            description: 'If the account has an associated pricing arrangement, the way the pricing is applied is indicated from standard set of values - automatic, manual or No Pricing.'
+            minLength: 0
+            maxLength: 45
+          pricingPlan:
+            type: string
+            description: 'Indicates the Pricing Plan of an account, it gives preferential interest rate/charge schedule based on customer segment'
+            minLength: 0
+            maxLength: 45
+          rewardsArrangementId:
+            type: string
+            description: 'Indicates the Rewards account id assigned to a financial account(Loans,Deposits)'
+            minLength: 0
+            maxLength: 45
+          tradeDate:
+            type: string
+            description: Standard date field which records trade date of the account
+            minLength: 0
+            maxLength: 45
+          arrangementEffectiveDate:
+            type: string
+            description: It is a date on/upon which an account is considered to take effect
+            minLength: 0
+            maxLength: 45
+          reason:
+            type: string
+            description: Contains the reason for performing the current activity
+            minLength: 0
+            maxLength: 45
+      activities:
+        type: object
+        properties:
+          '{activityName}':
+            type: object
+            properties:
+              activity:
+                type: string
+              transactionStatus:
+                type: string
+                description: The status of the transaction
+              id:
+                type: string
+                description: The Identifier of the record created
+      properties:
+        type: object
+        properties:
+          balance:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                    description: The status of the transaction
+                  audit:
+                    type: object
+                    properties:
+                      T24_time:
+                        type: integer
+                        format: int32
+                        description: Time taken to response by Transact
+                      versionNumber:
+                        type: string
+                        description: Current number of the record
+                      requestParse_time:
+                        type: number
+                        description: Time taken to parse the request by IRIS
+                      responseParse_time:
+                        type: number
+                        description: Time taken to parse the response by IRIS
+                  id:
+                    type: string
+                    description: The Identifier of the record created
+                  status:
+                    type: string
+                    description: The status of the record
+              body:
+                type: object
+                properties:
+                  postingRestriction:
+                    type: string
+                    description: Identifies any restrictions for posting entries that are to be imposed on the Account
+                    minLength: 0
+                    maxLength: 18
+                  restrictionReason:
+                    type: string
+                    description: 'Sets restrictions on the actions that can be performed on an account. Allowed values can be retrieved through method getEbLookup, virtualTableName BLOCK.REASON.CODES. '
+                    minLength: 0
+                    maxLength: 20
+                  restrictionText:
+                    type: string
+                    description: Free text information to capture the reason for restriction applied on an account
+                    minLength: 0
+                    maxLength: 25
+                  startDate:
+                    type: string
+                    format: date
+                    description: Contains the date on which the transaction or payment gets initiated.
+                  expiryDate:
+                    type: string
+                    format: date
+                    description: 'The date an agreement such as an arrangement, product, credit facility or limit is due to expire'
+                  unrestrictionReason:
+                    type: string
+                    description: 'Captures the code that removes the restriction set on an account.  Allowed values can be retrieved through method getEbLookup, virtualTableName UNBLOCK.REASON.CODES.'
+                    minLength: 0
+                    maxLength: 19
+                  unrestrictionText:
+                    type: string
+                    description: Reason for unblocking the restriction set on an account
+                    minLength: 0
+                    maxLength: 25
+          activityCharges:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          messaging:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          arrangementRules:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          balanceAvailability:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          balanceMaintenance:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          renewal:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          closurefee:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          dormancyfee:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          closure:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          customer:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          crprofit:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          officers:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          schedule:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          accountsPaymentRules:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          accountsPayout:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          settlement:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          tax:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          payoff:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          dormancy:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          facility:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          poolId:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+  SavingAccount:
+    properties:
+      header:
+        $ref: '#/definitions/PayloadHeader'
+      body:
+        $ref: '#/definitions/SavingAccountBody'
+    description: SavingAccount
+    example:
+      body:
+        partyIds:
+          - partyId: '100400'
+          - partyId: '100210'
+        partyRoles:
+          - partyRole: APPLICANT
+          - partyRole: GUARDIAN
+        currency: USD
+        accountName: Alex A Price
+  SavingAccountBody:
+    type: object
+    properties:
+      partyIds:
+        type: array
+        description: 'Allows capturing of customers or person entities to be part of the relationship. If partyType is selected as Customer, then the system will allow only customer Ids to be captured into this field. If partyType is selected as Person or Entity, then system will allow only personEntity Ids to be captured into this field.'
+        items:
+          type: object
+          properties:
+            partyId:
+              type: string
+              description: 'Allows capturing of customers or person entities to be part of the relationship. If partyType is selected as Customer, then the system will allow only customer Ids to be captured into this field. If partyType is selected as Person or Entity, then system will allow only personEntity Ids to be captured into this field.'
+              minLength: 0
+              maxLength: 45
+      partyRoles:
+        type: array
+        description: Contains the identifier used for the role played by the party or customer in the contract or account
+        items:
+          type: object
+          properties:
+            partyRole:
+              type: string
+              description: Contains the identifier used for the role played by the party or customer in the contract or account
+              minLength: 0
+              maxLength: 45
+      agentCustomerIds:
+        type: array
+        description: The id of the 3rd party who sold the product on behalf of the institution.
+        items:
+          type: object
+          properties:
+            agentCustomerId:
+              type: string
+              description: The id of the 3rd party who sold the product on behalf of the institution.
+              minLength: 0
+              maxLength: 45
+      agentArrangementIds:
+        type: array
+        description: The id of the arrangement with the 3rd party that has sold the product on behalf of the institution
+        items:
+          type: object
+          properties:
+            agentArrangementId:
+              type: string
+              description: The id of the arrangement with the 3rd party that has sold the product on behalf of the institution
+              minLength: 0
+              maxLength: 45
+      agentRoles:
+        type: array
+        description: 'The role of the 3rd party, select from standard list'
+        items:
+          type: object
+          properties:
+            agentRole:
+              type: string
+              description: 'The role of the 3rd party, select from standard list'
+              minLength: 0
+              maxLength: 45
+      arrangmentId:
+        type: string
+        description: Indicates an unique identifier of an account
+        minLength: 0
+        maxLength: 45
+      productId:
+        type: string
+        description: 'Contains the unique identifier of the product, e.g. the product id of the arrangement account.'
+        minLength: 0
+        maxLength: 45
+      activityId:
+        type: string
+        description: 'Id of the activity, e.g. ACCOUNTS-CAPITALISE-ACCHARGE*CARDISSUEFEE'
+        minLength: 0
+        maxLength: 45
+      currency:
+        type: string
+        description: 'Identifies the currency. E.g. USD, GBP etc'
+        minLength: 0
+        maxLength: 45
+      productVariation:
+        type: string
+        description: 'It defines the type of a customer based on criteria defined by Bank, Eg: Gold Customer, Mobile Banking Customer'
+        minLength: 0
+        maxLength: 45
+      pricingSelection:
+        type: string
+        description: 'If the account has an associated pricing arrangement, the way the pricing is applied is indicated from standard set of values - automatic, manual or No Pricing.'
+        minLength: 0
+        maxLength: 45
+      pricingPlan:
+        type: string
+        description: 'Indicates the Pricing Plan of an account, it gives preferential interest rate/charge schedule based on customer segment'
+        minLength: 0
+        maxLength: 45
+      rewardsArrangementId:
+        type: string
+        description: 'Indicates the Rewards account id assigned to a financial account(Loans,Deposits)'
+        minLength: 0
+        maxLength: 45
+      tradeDate:
+        type: string
+        description: Standard date field which records trade date of the account
+        minLength: 0
+        maxLength: 45
+      arrangementEffectiveDate:
+        type: string
+        description: It is a date on/upon which an account is considered to take effect
+        minLength: 0
+        maxLength: 45
+      reason:
+        type: string
+        description: Contains the reason for performing the current activity
+        minLength: 0
+        maxLength: 45
+      balance:
+        type: object
+        properties:
+          postingRestriction:
+            type: string
+            description: Identifies any restrictions for posting entries that are to be imposed on the Account
+            minLength: 0
+            maxLength: 18
+          restrictionReason:
+            type: string
+            description: 'Sets restrictions on the actions that can be performed on an account. Allowed values can be retrieved through method getEbLookup, virtualTableName BLOCK.REASON.CODES. '
+            minLength: 0
+            maxLength: 20
+          restrictionText:
+            type: string
+            description: Free text information to capture the reason for restriction applied on an account
+            minLength: 0
+            maxLength: 25
+          startDate:
+            type: string
+            format: date
+            description: Contains the date on which the transaction or payment gets initiated.
+          expiryDate:
+            type: string
+            format: date
+            description: 'The date an agreement such as an arrangement, product, credit facility or limit is due to expire'
+          unrestrictionReason:
+            type: string
+            description: 'Captures the code that removes the restriction set on an account.  Allowed values can be retrieved through method getEbLookup, virtualTableName UNBLOCK.REASON.CODES.'
+            minLength: 0
+            maxLength: 19
+          unrestrictionText:
+            type: string
+            description: Reason for unblocking the restriction set on an account
+            minLength: 0
+            maxLength: 25
+  SavingAccountResponse:
+    properties:
+      header:
+        $ref: '#/definitions/ArrangementHeader'
+      body:
+        $ref: '#/definitions/SavingAccountResponseBody'
+    description: SavingAccountResponse
+  SavingAccountResponseBody:
+    type: object
+    properties:
+      arrangementActivity:
+        type: object
+        properties:
+          partyIds:
+            type: array
+            description: 'Allows capturing of customers or person entities to be part of the relationship. If partyType is selected as Customer, then the system will allow only customer Ids to be captured into this field. If partyType is selected as Person or Entity, then system will allow only personEntity Ids to be captured into this field.'
+            items:
+              type: object
+              properties:
+                partyId:
+                  type: string
+                  description: 'Allows capturing of customers or person entities to be part of the relationship. If partyType is selected as Customer, then the system will allow only customer Ids to be captured into this field. If partyType is selected as Person or Entity, then system will allow only personEntity Ids to be captured into this field.'
+                  minLength: 0
+                  maxLength: 45
+          partyRoles:
+            type: array
+            description: Contains the identifier used for the role played by the party or customer in the contract or account
+            items:
+              type: object
+              properties:
+                partyRole:
+                  type: string
+                  description: Contains the identifier used for the role played by the party or customer in the contract or account
+                  minLength: 0
+                  maxLength: 45
+          agentCustomerIds:
+            type: array
+            description: The id of the 3rd party who sold the product on behalf of the institution.
+            items:
+              type: object
+              properties:
+                agentCustomerId:
+                  type: string
+                  description: The id of the 3rd party who sold the product on behalf of the institution.
+                  minLength: 0
+                  maxLength: 45
+          agentArrangementIds:
+            type: array
+            description: The id of the arrangement with the 3rd party that has sold the product on behalf of the institution
+            items:
+              type: object
+              properties:
+                agentArrangementId:
+                  type: string
+                  description: The id of the arrangement with the 3rd party that has sold the product on behalf of the institution
+                  minLength: 0
+                  maxLength: 45
+          agentRoles:
+            type: array
+            description: 'The role of the 3rd party, select from standard list'
+            items:
+              type: object
+              properties:
+                agentRole:
+                  type: string
+                  description: 'The role of the 3rd party, select from standard list'
+                  minLength: 0
+                  maxLength: 45
+          arrangmentId:
+            type: string
+            description: Indicates an unique identifier of an account
+            minLength: 0
+            maxLength: 45
+          productId:
+            type: string
+            description: 'Contains the unique identifier of the product, e.g. the product id of the arrangement account.'
+            minLength: 0
+            maxLength: 45
+          activityId:
+            type: string
+            description: 'Id of the activity, e.g. ACCOUNTS-CAPITALISE-ACCHARGE*CARDISSUEFEE'
+            minLength: 0
+            maxLength: 45
+          currency:
+            type: string
+            description: 'Identifies the currency. E.g. USD, GBP etc'
+            minLength: 0
+            maxLength: 45
+          productVariation:
+            type: string
+            description: 'It defines the type of a customer based on criteria defined by Bank, Eg: Gold Customer, Mobile Banking Customer'
+            minLength: 0
+            maxLength: 45
+          pricingSelection:
+            type: string
+            description: 'If the account has an associated pricing arrangement, the way the pricing is applied is indicated from standard set of values - automatic, manual or No Pricing.'
+            minLength: 0
+            maxLength: 45
+          pricingPlan:
+            type: string
+            description: 'Indicates the Pricing Plan of an account, it gives preferential interest rate/charge schedule based on customer segment'
+            minLength: 0
+            maxLength: 45
+          rewardsArrangementId:
+            type: string
+            description: 'Indicates the Rewards account id assigned to a financial account(Loans,Deposits)'
+            minLength: 0
+            maxLength: 45
+          tradeDate:
+            type: string
+            description: Standard date field which records trade date of the account
+            minLength: 0
+            maxLength: 45
+          arrangementEffectiveDate:
+            type: string
+            description: It is a date on/upon which an account is considered to take effect
+            minLength: 0
+            maxLength: 45
+          reason:
+            type: string
+            description: Contains the reason for performing the current activity
+            minLength: 0
+            maxLength: 45
+      activities:
+        type: object
+        properties:
+          '{activityName}':
+            type: object
+            properties:
+              activity:
+                type: string
+              transactionStatus:
+                type: string
+                description: The status of the transaction
+              id:
+                type: string
+                description: The Identifier of the record created
+      properties:
+        type: object
+        properties:
+          balance:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                    description: The status of the transaction
+                  audit:
+                    type: object
+                    properties:
+                      T24_time:
+                        type: integer
+                        format: int32
+                        description: Time taken to response by Transact
+                      versionNumber:
+                        type: string
+                        description: Current number of the record
+                      requestParse_time:
+                        type: number
+                        description: Time taken to parse the request by IRIS
+                      responseParse_time:
+                        type: number
+                        description: Time taken to parse the response by IRIS
+                  id:
+                    type: string
+                    description: The Identifier of the record created
+                  status:
+                    type: string
+                    description: The status of the record
+              body:
+                type: object
+                properties:
+                  postingRestriction:
+                    type: string
+                    description: Identifies any restrictions for posting entries that are to be imposed on the Account
+                    minLength: 0
+                    maxLength: 18
+                  restrictionReason:
+                    type: string
+                    description: 'Sets restrictions on the actions that can be performed on an account. Allowed values can be retrieved through method getEbLookup, virtualTableName BLOCK.REASON.CODES. '
+                    minLength: 0
+                    maxLength: 20
+                  restrictionText:
+                    type: string
+                    description: Free text information to capture the reason for restriction applied on an account
+                    minLength: 0
+                    maxLength: 25
+                  startDate:
+                    type: string
+                    format: date
+                    description: Contains the date on which the transaction or payment gets initiated.
+                  expiryDate:
+                    type: string
+                    format: date
+                    description: 'The date an agreement such as an arrangement, product, credit facility or limit is due to expire'
+                  unrestrictionReason:
+                    type: string
+                    description: 'Captures the code that removes the restriction set on an account.  Allowed values can be retrieved through method getEbLookup, virtualTableName UNBLOCK.REASON.CODES.'
+                    minLength: 0
+                    maxLength: 19
+                  unrestrictionText:
+                    type: string
+                    description: Reason for unblocking the restriction set on an account
+                    minLength: 0
+                    maxLength: 25
+          activityCharges:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          messaging:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          arrangementRules:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          productQualifierRules:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          agentCommission:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          rewardsPoints:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          alerts:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          balanceAvailability:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          balanceMaintenance:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          renewal:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          txnfee:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          minbalfee:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          bonus:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          closurefee:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          dormancyfee:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          mgmtfee:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          cardissuefee:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          limitfees:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          payfees:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          returnfees:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          nsfreversalfees:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          dorcloseadvfee:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          closure:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          customer:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          crinterest:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          officers:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          schedule:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          accountsPaymentRules:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          accountsPayout:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          periodiccharges:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          prefpricing:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          settlement:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          tax:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          payoff:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          dormancy:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          facility:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          statement:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          constraint:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+          accreporting:
+            type: object
+            properties:
+              header:
+                type: object
+                properties:
+                  transactionStatus:
+                    type: string
+                  id:
+                    type: string
+                  status:
+                    type: string
+  QueryHeader:
+    properties:
+      audit:
+        type: object
+        properties:
+          T24_time:
+            type: integer
+            format: int32
+            description: Time taken to response by Transact
+          versionNumber:
+            type: string
+            description: The CURR.NO. of the record
+          requestParse_time:
+            type: number
+            description: Time taken to parse the request by IRIS
+          responseParse_time:
+            type: number
+            description: Time taken to parse the response by IRIS
+      status:
+        type: string
+        description: Status of the API(success/failed)
+      page_size:
+        type: integer
+        format: int32
+        description: The total number of records per page
+      page_start:
+        type: integer
+        format: int32
+        description: The record from which the response should be displayed
+      total_size:
+        type: integer
+        format: int32
+        description: The total number of records present
+      page_token:
+        type: string
+        description: Unique id expected to get as part of response from Transact on every enquiry request
+  ArrangementDetailsResponse:
+    properties:
+      header:
+        $ref: '#/definitions/QueryHeader'
+      body:
+        $ref: '#/definitions/ArrangementDetailsResponseBody'
+    description: ArrangementDetailsResponse
+  ArrangementDetailsResponseBody:
+    type: array
+    items:
+      type: object
+      properties:
+        arrangementId:
+          type: string
+          description: Indicates an unique identifier of an account
+        accountId:
+          type: string
+          description: 'Identifier of the account. Often referred to as the account number, yet for consistency this is always referred to as accountId. Accepts both IBAN & BBAN'
+        customerId:
+          type: string
+          description: Identifier of the customer
+          maxLength: 17
+        beneficialOwner:
+          type: string
+          description: Indicates the customer who is the legal owner of the arrangement and is the responsible customer of the contract with bank.
+          maxLength: 35
+        productDescription:
+          type: string
+          description: Indicates the description of the Product
+        arrangementStartDate:
+          type: string
+          description: Indicates the date on which the arrangement was created
+        originalContractDate:
+          type: string
+          description: Indicates the original contract date of the arrangement which was migrated from the legacy system.
+          maxLength: 11
+        arrangementStatus:
+          type: string
+          description: 'Status of the arrangement. E.g. AUTH, CLOSE, UNAUTH etc.'
+          maxLength: 15
+  ErrorHeader:
+    properties:
+      audit:
+        type: object
+        properties:
+          T24_time:
+            type: integer
+            format: int32
+            description: Time taken to response by Transact
+          versionNumber:
+            type: string
+            description: The CURR.NO. of the record
+          requestParse_time:
+            type: number
+            description: Time taken to parse the request by IRIS
+          responseParse_time:
+            type: number
+            description: Time taken to parse the response by IRIS
+      status:
+        type: string
+        description: Status of the API(success/failed)
+  QueryErrorResponse:
+    properties:
+      header:
+        $ref: '#/definitions/ErrorHeader'
+      error:
+        $ref: '#/definitions/QueryErrorResponseBody'
+    description: QueryErrorResponse
+  QueryErrorResponseBody:
+    type: object
+    properties:
+      code:
+        type: string
+        description: The identifier of the error message
+      message:
+        type: string
+        description: 'The actual Transact error message '
+      type:
+        type: string
+        description: 'The identifier of error type: '
+  BusinessQueryErrorResponse:
+    properties:
+      header:
+        $ref: '#/definitions/ErrorHeader'
+      error:
+        $ref: '#/definitions/BusinessQueryErrorResponseBody'
+    description: BusinessQueryErrorResponse
+  BusinessQueryErrorResponseBody:
+    type: object
+    properties:
+      code:
+        type: string
+        description: The identifier of the error message
+      message:
+        type: string
+        description: The actual Transact error message for bad requests
+      type:
+        type: string
+        description: 'The identifier of error type: Business'
+  SystemQueryErrorResponse:
+    properties:
+      header:
+        $ref: '#/definitions/ErrorHeader'
+      error:
+        $ref: '#/definitions/SystemQueryErrorResponseBody'
+    description: SystemQueryErrorResponse
+  SystemQueryErrorResponseBody:
+    type: object
+    properties:
+      code:
+        type: string
+        description: The identifier of the error message
+      message:
+        type: string
+        description: The actual Transact error message caused by server
+      type:
+        type: string
+        description: 'The identifier of error type: System'

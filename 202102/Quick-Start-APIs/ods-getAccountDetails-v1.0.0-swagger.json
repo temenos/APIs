@@ -1,0 +1,537 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This is version 1.0 of our Operational Data Store API for retrieving account details, such as customer details and account nicknames. The Operational Data Store functionality captures the LIVE records in Temenos Transact and replicates them into a target data store (ODS) as parent and child tables. This provides a relational copy of enabled Temenos Transact tables maintained in near real time.\n\n\nOperational Data Store functionality:\n\n\n\n- Inherits key capabilities of relational replication\n- Integrates to DES and Transact Schema with TDE Design tooling.\n- Supports local references and tables.\n- Provides change management support through schema versions.\n- Supports multi-language and all types of multi-values.\n- Provides auto-promotion of local references.\n- Provides event de-duplication, sequencing and delta-detection through checksums.\n- Provides delete aware updates.\n- Is fully integrated into [Data Lake](https://www.temenos.com/products/data-and-analytics/data-lake/) data management.\n\n\n\n\nThe following API enables you to retrieve:\n\n\n\n - The account list.\n - The nicknames for the account.\n - The customer information associated with the account. \n - The payment order details for a\ndebit account.\n - The payment order details for a credit account.\n\n\n\n\n>> **Note:** To use this API, request an API key from the Temenos [Base Camp community](https://basecamp.temenos.com/). Create an account with the community to get started.",
+    "version": "v1.0.0 | 01 JUNE 2021",
+    "title": "Account Details"
+  },
+  "host": "api.temenos.com",
+  "basePath": "/api/v1.0.0/",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "paths": {
+    "/holdings/accounts": {
+      "get": {
+        "summary": "Retrieves the account list.",
+        "operationId": "getAccountList",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "recordId",
+            "in": "query",
+            "description": "The unique identifier of an entity.",
+            "required": false,
+            "type": "string",
+            "x-example": "10995"
+          },
+          {
+            "name": "customerId",
+            "in": "query",
+            "description": "The identifier of the customer.",
+            "required": false,
+            "type": "string",
+            "x-example": "100282"
+          },
+          {
+            "name": "currency",
+            "in": "query",
+            "description": "The currency type for the contract. Typically, this is the standard ISO 3 character [country code](https://unstats.un.org/unsd/tradekb/Knowledgebase/50347/Country-Code). For example, CAD, USD or EUR.",
+            "required": false,
+            "type": "string",
+            "x-example": "USD"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "getAccountListResponse",
+            "schema": {
+              "$ref": "#/definitions/getAccountListResponse"
+            }
+          },
+          "default": {
+            "description": "QueryErrorResponse",
+            "schema": {
+              "$ref": "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/accounts/nicknames": {
+      "get": {
+        "summary": "Retrieves the nicknames for the account.",
+        "operationId": "getAccountNickName",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "recordId",
+            "in": "query",
+            "description": "The unique identifier of an entity.",
+            "required": false,
+            "type": "string",
+            "x-example": "10995"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "getAccountNickNameResponse",
+            "schema": {
+              "$ref": "#/definitions/getAccountNickNameResponse"
+            }
+          },
+          "default": {
+            "description": "QueryErrorResponse",
+            "schema": {
+              "$ref": "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/accounts/customers": {
+      "get": {
+        "summary": "Retrieves the customer information for the account.",
+        "operationId": "getAccountCustomerInfo",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "recordId",
+            "in": "query",
+            "description": "The unique identifier of an entity.",
+            "required": false,
+            "type": "string",
+            "x-example": "10995"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "getAccountCustomerInfoResponse",
+            "schema": {
+              "$ref": "#/definitions/getAccountCustomerInfoResponse"
+            }
+          },
+          "default": {
+            "description": "QueryErrorResponse",
+            "schema": {
+              "$ref": "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/accounts/{accountId}/paymentOrders/debits": {
+      "get": {
+        "summary": "Retrieves the payment order details for a debit account.",
+        "operationId": "getPaymentOrderPayments",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "The identifier of the account. This is often referred to as the account number, yet for consistency we always refer to his identifier as accountId. The accountId accepts both [IBAN and BBAN](https://www.iban.com/glossary#:~:text=BBAN%20is%20short%20for%20Basic,depending%20on%20its%20own%20standards.).",
+            "required": true,
+            "type": "string",
+            "x-example": "106127"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "getPaymentOrderPaymentsResponse",
+            "schema": {
+              "$ref": "#/definitions/getPaymentOrderPaymentsResponse"
+            }
+          },
+          "default": {
+            "description": "QueryErrorResponse",
+            "schema": {
+              "$ref": "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/holdings/accounts/{accountId}/paymentOrders/credits": {
+      "get": {
+        "summary": "Retrieves the payment order details for a credit account",
+        "operationId": "getPaymentOrderReciepts",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "IThe identifier of the account. This is often referred to as the account number, yet for consistency we always refer to his identifier as accountId. The accountId accepts both [IBAN and BBAN](https://www.iban.com/glossary#:~:text=BBAN%20is%20short%20for%20Basic,depending%20on%20its%20own%20standards.).",
+            "required": true,
+            "type": "string",
+            "x-example": "105988"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "getPaymentOrderRecieptsResponse",
+            "schema": {
+              "$ref": "#/definitions/getPaymentOrderRecieptsResponse"
+            }
+          },
+          "default": {
+            "description": "QueryErrorResponse",
+            "schema": {
+              "$ref": "#/definitions/QueryErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "basicAuth": {
+      "type": "basic"
+    }
+  },
+  "definitions": {
+    "getAccountListResponse": {
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/getAccountListResponseBody"
+        }
+      },
+      "description": "getAccountListResponse"
+    },
+    "getAccountListResponseBody": {
+      "type": "object",
+      "properties": {
+        "accountDetail": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "recordId": {
+                "type": "string",
+                "description": "The unique identifier of an entity.",
+                "maxLength": 19,
+                "example": "10995"
+              },
+              "currency": {
+                "type": "string",
+                "description": "This identifies the currency. For example, USD, GBP, and so on.",
+                "maxLength": 3,
+                "example": "USD"
+              }
+            }
+          }
+        },
+        "customerId": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "recordId": {
+                "type": "string",
+                "description": "Unique identifier of an entity.",
+                "maxLength": 10,
+                "example": "100282"
+              },
+              "customerMnemonic": {
+                "type": "string",
+                "description": "Specifies an alternative, easy means of referencing the customer.",
+                "maxLength": 10,
+                "example": "COCACOLA"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ErrorHeader": {
+      "properties": {
+        "audit": {
+          "type": "object",
+          "properties": {
+            "T24_time": {
+              "type": "integer",
+              "format": "int32",
+              "description": "The time taken to send a response by Transact."
+            },
+            "versionNumber": {
+              "type": "string",
+              "description": "The CURR.NO. of the record."
+            },
+            "requestParse_time": {
+              "type": "number",
+              "description": "The time taken to parse the request by IRIS (Interaction, Reporting and Information Services), the Temenos interaction framework."
+            },
+            "responseParse_time": {
+              "type": "number",
+              "description": "The time taken to parse the response by IRIS."
+            }
+          }
+        },
+        "status": {
+          "type": "string",
+          "description": "The status of the API(success/failed)."
+        }
+      }
+    },
+    "QueryErrorResponse": {
+      "properties": {
+        "header": {
+          "$ref": "#/definitions/ErrorHeader"
+        },
+        "error": {
+          "$ref": "#/definitions/QueryErrorResponseBody"
+        }
+      },
+      "description": "QueryErrorResponse"
+    },
+    "QueryErrorResponseBody": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "The identifier of the error message."
+        },
+        "message": {
+          "type": "string",
+          "description": "The actual Transact error message."
+        },
+        "type": {
+          "type": "string",
+          "description": "Identifies the error type."
+        }
+      }
+    },
+    "getAccountNickNameResponse": {
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/getAccountNickNameResponseBody"
+        }
+      },
+      "description": "getAccountNickNameResponse"
+    },
+    "getAccountNickNameResponseBody": {
+      "type": "object",
+      "properties": {
+        "accountDetail": {
+          "type": "array",
+          "description": "Information for the accounts.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "recordId": {
+                "type": "string",
+                "description": "Unique identifier of an entity.",
+                "maxLength": 19,
+                "example": "10995"
+              },
+              "currency": {
+                "type": "string",
+                "description": "Identifies the currency. For example, USD, GBP and so on.",
+                "maxLength": 3,
+                "example": "USD"
+              },
+              "language": {
+                "type": "object",
+                "description": "The language that the contents of the field are displayed in.",
+                "properties": {
+                  "accountName": {
+                    "type": "string",
+                    "description": "The display name or the short name of the specified account.",
+                    "maxLength": 50,
+                    "example": "COCA-COLA"
+                  },
+                  "accountTitle": {
+                    "type": "string",
+                    "description": "The short title of an account.",
+                    "maxLength": 50,
+                    "example": "COCA-COLA"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "getAccountCustomerInfoResponse": {
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/getAccountCustomerInfoResponseBody"
+        }
+      },
+      "description": "getAccountCustomerInfoResponse"
+    },
+    "getAccountCustomerInfoResponseBody": {
+      "type": "object",
+      "properties": {
+        "accountDetail": {
+          "type": "array",
+          "description": "Information for the accounts.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "recordId": {
+                "type": "string",
+                "description": "The unique identifier of an entity.",
+                "maxLength": 19,
+                "example": "10995"
+              }
+            }
+          }
+        },
+        "customerId": {
+          "type": "array",
+          "description": "Identifier for the customer.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "recordId": {
+                "type": "string",
+                "description": "The unique identifier of an entity.",
+                "maxLength": 10,
+                "example": "100282"
+              },
+              "language": {
+                "type": "object",
+                "description": "The language that the contents of the field are displayed in.",
+                "properties": {
+                  "address": {
+                    "type": "string",
+                    "description": "Communication Address of the Customer",
+                    "maxLength": 35,
+                    "example": "Suite 2200"
+                  },
+                  "street": {
+                    "type": "string",
+                    "description": "This contains the first line of the customer's base address, for example, the building number, the street name and so on.",
+                    "maxLength": 70,
+                    "example": "1000 - 2nd Ave"
+                  },
+                  "postCode": {
+                    "type": "string",
+                    "description": "Identifies the address postal code for the customer.",
+                    "maxLength": 35,
+                    "example": "98104-1049"
+                  },
+                  "addressCity": {
+                    "type": "string",
+                    "description": "The town and/or city component of the base address of a customer.",
+                    "maxLength": 35,
+                    "example": "Seattle"
+                  }
+                }
+              },
+              "residenceId": {
+                "type": "string",
+                "description": "The identifier for the customer's country of residence.",
+                "maxLength": 2,
+                "example": "US"
+              },
+              "target": {
+                "type": "string",
+                "description": "Specifies how the customer is catorgorised by the bank and how they fit in with the Account Officer's overall marketing strategy.",
+                "maxLength": 4,
+                "example": "4"
+              }
+            }
+          }
+        }
+      }
+    },
+    "getPaymentOrderPaymentsResponse": {
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/getPaymentOrderPaymentsResponseBody"
+        }
+      },
+      "description": "getPaymentOrderPaymentsResponse"
+    },
+    "getPaymentOrderPaymentsResponseBody": {
+      "type": "object",
+      "properties": {
+        "paymentOrder": {
+          "type": "array",
+          "description": "Payment related information based on the payment product.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "recordId": {
+                "type": "string",
+                "description": "The unique identifier of an entity.",
+                "maxLength": 35,
+                "example": "PI200840M0QYJNXJ"
+              },
+              "amount": {
+                "type": "string",
+                "description": "This is the payment amount",
+                "maxLength": 19,
+                "example": "1000.0000000000"
+              }
+            }
+          }
+        },
+        "valueDate": {
+          "type": "string",
+          "description": "This indicates the value date on which the underlying accounting entry is to be given value (for interest purposes).",
+          "maxLength": 11,
+          "example": "2020-03-30"
+        }
+      }
+    },
+    "getPaymentOrderRecieptsResponse": {
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/getPaymentOrderRecieptsResponseBody"
+        }
+      },
+      "description": "getPaymentOrderRecieptsResponse"
+    },
+    "getPaymentOrderRecieptsResponseBody": {
+      "type": "object",
+      "properties": {
+        "paymentOrder": {
+          "type": "array",
+          "description": "Payment related information based on the payment product.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "recordId": {
+                "type": "string",
+                "description": "The unique identifier of an entity.",
+                "maxLength": 35,
+                "example": "PI2008402HXYNBXY"
+              },
+              "amount": {
+                "type": "string",
+                "description": "This is the payment amount.",
+                "maxLength": 19,
+                "example": "999.0000000000"
+              }
+            }
+          }
+        },
+        "valueDate": {
+          "type": "string",
+          "description": "Indicates the value date on which the underlying accounting entry is to be given value (for interest purposes).",
+          "maxLength": 11,
+          "example": "2020-03-28"
+        }
+      }
+    }
+  }
+}
